@@ -3,15 +3,20 @@ import mongoose from 'mongoose';
 import debug from 'debug';
 import config from 'config';
 
-const app = express();
+import users from './routes/users.routes';
+
 const logDb = debug('db');
+
+const app = express();
+app.use(express.json({ limit: '5mb' }));
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req: Request, res: Response) => {
   res.json({ message: 'Here we go!' });
 });
+app.use('/users/', users);
 
 const port = config.get('port');
-
 mongoose
   .connect(config.get('db.url'))
   .then(() => {
