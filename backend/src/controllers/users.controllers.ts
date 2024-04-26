@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import { Request, Response } from 'express';
-import { User, validateCreateUser, validateUserLogin } from '../models/User';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { User, validateCreateUser, validateUserLogin } from '../models/User';
+import { AppRequest, AppResponse } from '../types';
 
-export const registerUser = async (req: Request, res: Response) => {
+export const registerUser = async (req: AppRequest, res: AppResponse) => {
   const { error } = validateCreateUser(req.body);
   if (error)
     return res.status(422).json({
@@ -36,7 +36,7 @@ export const registerUser = async (req: Request, res: Response) => {
   });
 };
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: AppRequest, res: AppResponse) => {
   const { error } = validateUserLogin(req.body);
   if (error)
     return res.status(422).json({
@@ -66,8 +66,12 @@ export const login = async (req: Request, res: Response) => {
   });
 };
 
-const getUserInfo = async (req: Request, res: Response) => {};
+export const getUserInfo = async (req: AppRequest, res: AppResponse) => {
+  res.json({
+    data: req.user,
+  });
+};
 
-const updateUser = async (req: Request, res: Response) => {};
+const updateUser = async (req: AppRequest, res: AppResponse) => {};
 
-const deleteAccount = async (req: Request, res: Response) => {};
+const deleteAccount = async (req: AppRequest, res: AppResponse) => {};
