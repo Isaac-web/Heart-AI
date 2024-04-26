@@ -51,7 +51,7 @@ To set up and run the HeartAI Frontend on your local machine, follow these steps
 1. Clone the repository from [GitHub]([https://github.com](https://github.com/dzeble/Heart-Disease-Prediction-Group-2.git)) or download the project files.
 2. Install dependencies by running `npm install` or `yarn install`.
 3. Start the development server using `npm run dev` or `yarn dev`.
-4. Access the application in your web browser at `[[http://localhost:3000](http://127.0.0.1:5173/)](http://127.0.0.1:5173/)`.
+4. Access the application in your web browser at `[http://127.0.0.1:5173](http://127.0.0.1:5173)`.
 
 ## Contributors
 Emeralda Yeboah, Abdul Razak Abubakari, Faddal Ibrahim, Isaac kanyiti Takyi, Jeffrey Ofori Kwakye, Abdul Razak Abubakar 
