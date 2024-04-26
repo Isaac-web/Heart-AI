@@ -355,7 +355,7 @@ In summary, based on the visual representation:
 - Usage
 - ![12](https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/59400730/33ed35bf-2edc-4a20-bd6a-0ac6ce2bb3b8)
 
-#### BEst Model Performace 
+#### Best Model Performace 
 - A summary of the performance metrics achieved by the Support Vector Classifier (SVC) model for heart disease detection.
 
 ##### Model Performance Metrics
