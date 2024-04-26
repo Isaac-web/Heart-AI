@@ -1,19 +1,10 @@
-# heart_u
+# HeartAi mobile app
 
 A flutter mobile app for predicting heart diseases using Machine learning and AI for chatBot.
 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 
 ## Set Up
 
@@ -32,12 +23,12 @@ Run the following commands from your terminal:
 
 ## Key Features
 1. Chatbot
-   Users can interact with the chatbot to learn more about their health results. The         chatbot provides personalized insights and guidance based on the report.
+   Users can interact with the chatbot to learn more about their health results.      The chatbot provides personalized insights and guidance based on the report.
    
-3. Predective Model
-4. Nice UI
-5. etailed report
-     View detailed reports generated based on the health data provided by users. These         reports contain comprehensive information about the user's heart health status and         potential risk factors.
+2. Predective Model
+3. UI
+4. Detailed report
+   View detailed reports generated based on the health data provided by users.       These reports contain comprehensive information about the user's heart health       status and potential risk factors.
 
 ## Screens
 1. login
