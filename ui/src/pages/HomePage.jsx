@@ -5,13 +5,16 @@ import Hero from "../components/Hero"
 
 const HomePage = () => {
     return (
-        <>
-            <Header/>
-            <Hero/>
-            <Features/>
-            <Footer/>
-        </>
+        <div className="flex flex-col min-h-screen">
+            <div className="flex-grow">
+                <Header />
+                <Hero />
+                <Features />
+            </div>
+            <Footer />
+        </div>
     )
 }
+
 
 export default HomePage
