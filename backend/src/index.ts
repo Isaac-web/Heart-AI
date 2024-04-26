@@ -6,6 +6,7 @@ import config from "config";
 import users from "./routes/users.routes";
 import medicalReports from "./routes/medical-reports.routes";
 import chatSessions from "./routes/chat-session.routes";
+import chatMessages from "./routes/chatMessage.routes";
 
 const logDb = debug("db");
 
@@ -16,8 +17,8 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Here we go!" });
 });
-
 app.use("/users/", users);
+app.use("/chat-messages", chatMessages);
 app.use("/medical-reports/", medicalReports);
 app.use("/chat-sessions/", chatSessions);
 

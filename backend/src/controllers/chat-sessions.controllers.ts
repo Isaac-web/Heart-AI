@@ -31,7 +31,7 @@ export const getMyChatSessions = async (req: AppRequest, res: AppResponse) => {
         .json({ successful: false, error: "Error getting forms" });
     }
 
-    res.status(200).json({ successful: true, data: [] });
+    res.status(200).json({ successful: true, data: chatSessions });
   } catch (error) {}
 };
 
@@ -53,16 +53,55 @@ export const createChatSession = async (req: AppRequest, res: AppResponse) => {
   });
 };
 
-export const deleteChatSession = async (req: Request, res: Response) => {
-  return res.json({
-    successful: true,
-    message: "deleted chat session",
-  });
+export const deleteChatSession = async (req: AppRequest, res: AppResponse) => {
+  if (!req.user)
+    return res.status(404).json({
+      successful: false,
+      message: "user not found",
+    });
+
+  if (!req.params.id) {
+    return res
+      .status(400)
+      .json({ successful: false, error: "Error deleting form" });
+  }
+
+  try {
+    const deletedChatSession = await ChatSession.findByIdAndDelete(
+      req.params.id
+    );
+    return res.status(200).json({ successful: true, data: deletedChatSession });
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ successful: false, error: "Error deleting chat session" });
+  }
 };
 
-export const renameChatSession = async (req: Request, res: Response) => {
-  return res.json({
-    successful: true,
-    message: "renamed chat session",
-  });
+export const renameChatSession = async (req: AppRequest, res: AppResponse) => {
+  if (!req.user)
+    return res.status(404).json({
+      successful: false,
+      message: "user not found",
+    });
+
+  if (!req.params.id) {
+    return res
+      .status(400)
+      .json({ successful: false, error: "Error renaming chat session" });
+  }
+
+  try {
+    const renamedChatSession = await ChatSession.findByIdAndUpdate(
+      req.params.id,
+      { title: req.body.title },
+      { new: true }
+    );
+
+    return res.status(200).json({ successful: true, data: renamedChatSession });
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ successful: false, error: "Error renaming chat session" });
+  }
 };
