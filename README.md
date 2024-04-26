@@ -1,4 +1,4 @@
-# HeartAI: Predictive Healthcare System Documentation
+# HeartAI: Heart Disease Prediction App 
 
 Welcome to the HeartAI Documentation, your comprehensive guide to understanding and utilizing our predictive healthcare system. From heart disease prediction to real-time communication with healthcare professionals, this documentation covers every aspect of the system's features, installation, and usage.
 
