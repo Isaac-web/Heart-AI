@@ -365,3 +365,6 @@ In summary, based on the visual representation:
 
 #### Interpretation
 The SVC model demonstrates exceptional performance in accurately classifying instances of heart disease. With an accuracy of 0.99, it correctly predicts heart disease presence or absence in 99% of cases. The precision of 1.00 indicates that all positive predictions made by the model are indeed true positives, with no false positives. Similarly, the recall of 0.98 indicates that the model correctly identifies 98% of all true positive cases. The F1 score of 0.99 further confirms the model's balanced performance in terms of precision and recall.
+
+#### Model Saving 
+The trained SVC model was saved using the Joblib library, which efficiently serializes Python objects to disk.
