@@ -11,6 +11,8 @@ export default {
   plugins: [],
 };
 
+<<<<<<< HEAD
+=======
 
 //  {
 //    features.map((feature) => {
@@ -24,3 +26,4 @@ export default {
 //      );
 //    });
 //  }
+>>>>>>> c8471501fc1a1477372d4c263b0bbb57a98c6941

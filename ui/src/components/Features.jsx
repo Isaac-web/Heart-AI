@@ -39,4 +39,24 @@ const Features = () => {
   );
 };
 
+<<<<<<< HEAD
+            <div className="grid md:grid-cols-3 mb-5 lg:mx-48 lg:mb-11">
+                {features.map((feature) => (
+                    <div className="bg-[#F3F4FF] rounded-lg mx-5 mt-4">
+                        <div className="py-11 pl-5 md:px-4">
+                            <h3 className="text-dark-blue font-semibold md:text-center">{feature.title}</h3>
+                            <p className="text-[#83869A] md:text-center">{feature.description}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+
+        </>
+    )
+}
+
+export default Features
+=======
 export default Features;
+>>>>>>> c8471501fc1a1477372d4c263b0bbb57a98c6941
