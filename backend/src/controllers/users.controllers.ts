@@ -1,7 +1,12 @@
 import _ from 'lodash';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { User, validateCreateUser, validateUserLogin } from '../models/User';
+import {
+  User,
+  validateCreateUser,
+  validateUpdateUser,
+  validateUserLogin,
+} from '../models/User';
 import { AppRequest, AppResponse } from '../types';
 
 export const registerUser = async (req: AppRequest, res: AppResponse) => {
@@ -72,6 +77,35 @@ export const getUserInfo = async (req: AppRequest, res: AppResponse) => {
   });
 };
 
-const updateUser = async (req: AppRequest, res: AppResponse) => {};
+export const updateUser = async (req: AppRequest, res: AppResponse) => {
+  const { error } = validateUpdateUser(req.body);
+  if (error)
+    return res.status(422).json({
+      message: error.details[0].message,
+    });
 
-const deleteAccount = async (req: AppRequest, res: AppResponse) => {};
+  const authUser = req.user;
+  if (!authUser)
+    return res.status(404).json({
+      message: 'Could not find user with the given id.',
+    });
+
+  const user = await User.findByIdAndUpdate(
+    authUser._id,
+    {
+      $set: _.pick(req.body, ['name', 'imageUrl']),
+    },
+    { new: true }
+  );
+
+  if (!user)
+    return res
+      .status(404)
+      .json({ message: 'Could not find user with the given id.' });
+
+  res.json({
+    data: user,
+  });
+};
+
+export const deleteAccount = async (req: AppRequest, res: AppResponse) => {};
