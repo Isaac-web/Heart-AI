@@ -1,5 +1,6 @@
 import { AppRequest, AppResponse } from '../types';
 import { ChatMessage, validateCreateChatMessage } from '../models/ChatMessage';
+import ChatSession from '../models/ChatSession';
 import { User } from '../models/User';
 
 export const sendMessage = async (req: AppRequest, res: AppResponse) => {
@@ -19,6 +20,11 @@ export const sendMessage = async (req: AppRequest, res: AppResponse) => {
     });
 
   //check if chat session exists
+  const chatSession = await ChatSession.findById(req.body.chatSessionId);
+  if (!chatSession)
+    return res.status(404).json({
+      message: 'Could not find chat session with the given id.',
+    });
 
   const chatMessage = await ChatMessage.create({
     user: req.user._id,
