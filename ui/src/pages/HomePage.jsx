@@ -5,12 +5,12 @@ import Hero from "../components/Hero"
 
 const HomePage = () => {
     return (
-        <>
+        <div className="">
             <Header/>
             <Hero/>
             <Features/>
             <Footer/>
-        </>
+        </div>
     )
 }
 
