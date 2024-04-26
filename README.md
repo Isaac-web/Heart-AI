@@ -1,59 +1,74 @@
-# HeartAi - Frontend
+# HeartAI: Predictive Healthcare System Documentation
 
-Welcome to the HeartAI Frontend! This application is designed to help users understand their heart health by estimating the risk of heart disease. Below is a brief overview of the features and functionality of this user interface (UI).
-Comprising a mobile application and a web interface, this system grants users convenient access to heart disease prediction tools and seamless interaction with medical professionals.
+Welcome to the HeartAI Documentation, your comprehensive guide to understanding and utilizing our predictive healthcare system. From heart disease prediction to real-time communication with healthcare professionals, this documentation covers every aspect of the system's features, installation, and usage.
+
+## Introduction
+
+HeartAI is a revolutionary healthcare system designed to empower individuals to proactively manage their heart health. Leveraging cutting-edge technologies such as artificial intelligence (AI) and machine learning (ML), HeartAI provides accurate predictions of heart disease risk while facilitating seamless communication between users and healthcare professionals.
 
 ## Features
 
-1. **Chatbot Integration**
-   - Users can interact with the chatbot to learn more about their health results. The chatbot provides personalized insights and guidance based on the report.
+### Heart Disease Prediction
+- Utilizes advanced ML algorithms to forecast heart disease risk based on user input and medical records.
+- Provides detailed reports outlining potential risk factors and actionable insights for improving heart health.
 
-2. **Detailed Reports**
-   - View detailed reports generated based on the health data provided by users. These reports contain comprehensive information about the user's heart health status and potential risk factors.
+### Real-time Communication
+- Enables users to engage in live chat sessions with certified healthcare professionals for inquiries, advice, and consultations.
+- Facilitates secure and confidential communication to address user concerns and provide personalized guidance.
 
-3. **Certified Doctor Reports**
-   - Receive certified reports from expert doctors directly through the application. Users can access reports prepared by medical professionals, providing additional insights and recommendations for managing heart health.
+### Medical Report Management
+- Empowers users to upload, store, and manage their medical reports within the system for precise prediction and communication.
+- Ensures data privacy and compliance with healthcare regulations through robust security measures.
 
-## Components
+### Data and Chatbot Integration
+- HeartAI integrates a vast repository of anonymized medical data to enhance the accuracy of its predictive models.
+- The chatbot interface utilizes natural language processing (NLP) and AI to provide responsive and contextually relevant interactions with users.
 
-### Header
-- Displays the HeartAI logo and a "Get Started" button for easy navigation.
+### Scalable and Extendable
+- Built on modern web technologies such as Express.js and MongoDB, offering high scalability and ease of extension with additional features.
+- Adheres to best practices in software development to deliver a robust and reliable healthcare solution for users worldwide.
 
-### Hero Section
-- Welcomes users to the application and provides a brief overview of its purpose. Users can also initiate the signup process by clicking the "Get Started" button.
+## Installation
 
-### Authentication Page
-- Allows users to sign in as either a patient or a doctor. Users are prompted to enter their username and password to access their accounts.
+### Prerequisites
+- Node.js and npm installed on your system
+- MongoDB database instance for storing user data and medical records
 
-### Features Section
-- Showcases the key features of the HeartAI application, including chatbot integration, detailed reports, and certified doctor reports.
+### Steps
+1. Clone the repository: `git clone https://github.com/your/repository.git`
+2. Navigate to the project directory: `cd heart-ai`
+3. Install dependencies: `npm install`
+4. Configure environment variables:
+   - Create a `.env` file based on the `.env.example` template.
+   - Specify the required environment variables (e.g., MongoDB connection URI, JWT secret).
+5. Launch the server: `npm start`
 
-### Footer
-- Displays the HeartAI logo and a "Get Started" button, providing quick access to the signup process.
+## Usage
 
-## How to Use
+1. Access the web interface by visiting `http://localhost:PORT` in your web browser.
+2. Register an account or log in if you already have one.
+3. Explore the heart disease prediction tools, upload medical reports, and engage in chat sessions with healthcare professionals.
 
-1. **Signup/Login**: Users can sign up for a new account or log in using their existing credentials.
-2. **Navigation**: Use the header navigation to explore different sections of the application.
-3. **Interact with Chatbot**: Engage with the AI chatbot to receive personalized health insights.
-4. **View Reports**: Access detailed reports and certified doctor reports to gain deeper insights into heart health.
+## API Endpoints
+
+- `/users`: Handles user management tasks such as registration, login, and profile management.
+- `/chat-messages`: Manages endpoints for chat message interactions.
+- `/medical-reports`: Facilitates management of medical reports.
+- `/chat-sessions`: Manages chat session endpoints.
+- `/predictions`: Handles heart disease prediction endpoints.
 
 ## Technologies Used
 
-- React.js: A popular JavaScript library for building user interfaces.
-- React Router: Provides navigation and routing functionality within the React application.
-- Vite: A fast build tool for modern web development, used for bundling and serving the application.
+- Express.js: Web application framework for Node.js
+- MongoDB: NoSQL database for storing user data, medical reports, and chat messages
+- bcrypt: Library for secure password hashing
+- Joi: Schema validation library for user input validation
+- JSON Web Tokens (JWT): Secure authentication mechanism
+- Other libraries and dependencies specified in `package.json`
 
-## Getting Started
+## Conclusion
 
-To set up and run the HeartAI Frontend on your local machine, follow these steps:
+HeartAI represents a paradigm shift in predictive healthcare, empowering individuals to take control of their heart health through data-driven insights and expert guidance. With its user-friendly interface, robust architecture, and emphasis on privacy and security, HeartAI is poised to revolutionize the way we approach preventive healthcare in the digital age.
 
-1. Clone the repository from [GitHub]([https://github.com](https://github.com/dzeble/Heart-Disease-Prediction-Group-2.git)) or download the project files.
-2. Install dependencies by running `npm install` or `yarn install`.
-3. Start the development server using `npm run dev` or `yarn dev`.
-4. Access the application in your web browser at `[http://127.0.0.1:5173](http://127.0.0.1:5173)`.
-
-## Contributors
-Emeralda Yeboah, Abdul Razak Abubakari, Faddal Ibrahim, Isaac kanyiti Takyi, Jeffrey Ofori Kwakye, Abdul Razak Abubakar 
-
-
+# Contributors
+Samuel Berchie Opoku, Sven Dzeble, Moro Njie, Emeralda Kusi Yeboah, Faddal Ibrahim, Isaac kanyiti Takyi, Jeffrey Ofori Kwakye, Manu Adam Onyina, Isaac Asiamah, Abdul Razak Abubakari.
