@@ -101,7 +101,7 @@ The following packages are imported and used within the script:
 
 9 columns (sex, cp, fbs, restecg, exang, slope, ca, thal, and target) are numerical in terms of data type, but categorical in terms of their semantics. These features will be converted to string (object) data type for proper analysis
 
-##########
+![Capture1](https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/59400730/283f4b81-ecd1-4591-aa4d-9481bd83e855)
 
 ### Summary Statistics for Numerical Variables
 #### Numerical Features:
@@ -179,7 +179,8 @@ The following packages are imported and used within the script:
 
 ### Numerical Variables Univariate Analysis
 
-### Inferences:
+![Capture2](https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/59400730/d6406684-9894-48f1-8389-f5dcdb9adb17)
+
 
 #### Age (age):
 - The distribution is somewhat uniform, but there's a peak around the late 50s.
@@ -208,7 +209,7 @@ The following packages are imported and used within the script:
 
 ### Categorical Variables Univariate Analysis
 
-### Inferences:
+![Capture3](https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/59400730/2daacf26-150c-4e8c-970e-7feae3e14d8f)
 
 #### Gender (sex):
 - The dataset is predominantly female, constituting a significant majority.
@@ -240,7 +241,7 @@ The following packages are imported and used within the script:
 
 ### Biviriate Analysis
 #### Numerical Features vs Target Variables
-### Inferences:
+![Capture4](https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/59400730/68d19a69-a4c8-422b-81d0-50ea786f3a81)
 
 ##### Age (age):
 - The distributions show a slight shift with patients having heart disease being a bit younger on average than those without. The mean age for patients without heart disease is higher.
@@ -259,7 +260,7 @@ The following packages are imported and used within the script:
 
 
 #### Categorical vs Target
-### Inferences:
+![Capture5](https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/59400730/32e4a93d-d81a-4fc4-b063-9277ffc43b7c)
 
 ##### Number of Major Vessels (ca):
 - The majority of patients with heart disease have fewer major vessels colored by fluoroscopy. As the number of colored vessels increases, the proportion of patients with heart disease tends to decrease. Especially, patients with 0 vessels colored have a higher proportion of heart disease presence.
@@ -293,13 +294,15 @@ In summary, based on the visual representation:
 
 ## Data Preprocessing
 ### Removing outliers
-
+-![5](https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/59400730/84d78b4f-4ed0-425b-8037-d2f91b297b2a)
 ### Categorical Encoding using pd.get_dummies()
-
+-![6](https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/59400730/d359d5bb-8514-4bc9-ae63-8bc18ec70737)
 
 ## Model Evaluation
 - Data was splitted into training and testing sets using train_test_split() function from scikit-learn library.
 - 80% of the data was used for training and 20% for testing.
+- ![7](https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/59400730/6a79708e-058d-48e8-9b49-c1512024b651)
+
 
 ### Model used 
 #### Logistic Regression
@@ -310,6 +313,7 @@ In summary, based on the visual representation:
 - **C**: Inverse of regularization strength.
 
 - Usage
+- ![8](https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/59400730/d0ab870d-79b7-4f83-9839-8aa51dd39d42)
 
 #### Decision Tree Classifier
 - Purpose: Decision Trees are non-linear models used for classification tasks.
@@ -319,6 +323,7 @@ In summary, based on the visual representation:
 - **max_depth**: Maximum depth of the tree.
 
 - Usage
+- ![9](https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/59400730/17108cd2-5643-4bb1-b475-027973c8f737)
 
 #### Random Forest Classifier
 - Purpose: Random Forests are ensemble models combining multiple decision trees for improved performance.
@@ -328,6 +333,7 @@ In summary, based on the visual representation:
 - **max_depth**: Maximum depth of the trees.
 
 - Usage
+- ![10](https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/59400730/8b9cfc3a-8c21-4fc3-84aa-41483d275c34)
 
 #### K-Nearest Neighbors Classifier
 - Purpose: K-Nearest Neighbors is a non-parametric method used for classification tasks.
@@ -337,6 +343,7 @@ In summary, based on the visual representation:
 - **weights**: Weight function used in prediction.
 
 - Usage
+- ![11](https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/59400730/9cf98c2c-5aaa-42df-9937-c1ce085819cc)
 
 #### Support Vector Classifier (SVC)
 - Purpose: Support Vector Classifier is a linear model used for binary classification tasks.
@@ -346,7 +353,7 @@ In summary, based on the visual representation:
 - **C**: Regularization parameter.
 
 - Usage
-
+- ![12](https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/59400730/33ed35bf-2edc-4a20-bd6a-0ac6ce2bb3b8)
 
 - A summary of the performance metrics achieved by the Support Vector Classifier (SVC) model for heart disease detection.
 
