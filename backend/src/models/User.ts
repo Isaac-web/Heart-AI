@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Joi from 'joi';
 
 export const User = mongoose.model(
   'User',
@@ -33,3 +34,15 @@ export const User = mongoose.model(
     },
   })
 );
+
+export const validateCreateUser = (user: unknown) => {
+  const schema = Joi.object({
+    name: Joi.string().min(3).max(256).required(),
+    email: Joi.string().email().max(256).required(),
+    password: Joi.string().min(256).max(256).required(),
+    imageUrl: Joi.string().min(256).max(256).required(),
+    userType: Joi.string().min(3).max(10).required(),
+  });
+
+  return schema.validate(user);
+};
