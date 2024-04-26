@@ -30,3 +30,30 @@ export const sendMessage = async (req: AppRequest, res: AppResponse) => {
     data: chatMessage,
   });
 };
+
+export const fetchChatSessionMessages = async (
+  req: AppRequest,
+  res: AppResponse
+) => {
+  const chatMessages = await ChatMessage.find({
+    chatSession: req.params.chatSessionId,
+  });
+
+  res.json({
+    data: chatMessages,
+  });
+};
+
+export const deleteChatMessage = async (req: AppRequest, res: AppResponse) => {
+  const chatMessage = await ChatMessage.findByIdAndDelete(req.params.id);
+
+  if (!chatMessage)
+    return res
+      .status(404)
+      .json({ message: 'Could not find chat message with the given id.' });
+
+  res.json({
+    message: '1 chat message was deleted.',
+    data: chatMessage,
+  });
+};
