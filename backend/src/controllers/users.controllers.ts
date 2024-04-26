@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import { Request, Response } from 'express';
-import { User, validateCreateUser } from '../models/User';
+import { User, validateCreateUser, validateUserLogin } from '../models/User';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 export const registerUser = async (req: Request, res: Response) => {
   const { error } = validateCreateUser(req.body);
@@ -35,7 +36,35 @@ export const registerUser = async (req: Request, res: Response) => {
   });
 };
 
-const login = async (req: Request, res: Response) => {};
+export const login = async (req: Request, res: Response) => {
+  const { error } = validateUserLogin(req.body);
+  if (error)
+    return res.status(422).json({
+      message: error.details[0].message,
+    });
+
+  const user = await User.findOne({ email: req.body.email });
+  if (!user)
+    return res.status(404).json({
+      message: 'Invalid username or password.',
+    });
+
+  const passwordIsValid = await bcrypt.compare(
+    req.body.password,
+    user.password
+  );
+  if (!passwordIsValid)
+    return res.status(400).json({
+      message: 'Invalid username or password.',
+    });
+
+  const token = jwt.sign({ _id: user._id }, `${process.env.JWT_SECRET}`);
+
+  res.json({
+    message: 'You are logged in.',
+    token: token,
+  });
+};
 
 const getUserInfo = async (req: Request, res: Response) => {};
 

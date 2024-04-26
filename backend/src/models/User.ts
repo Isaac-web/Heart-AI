@@ -46,3 +46,12 @@ export const validateCreateUser = (user: unknown) => {
 
   return schema.validate(user);
 };
+
+export const validateUserLogin = (credentials: unknown) => {
+  const schema = Joi.object({
+    email: Joi.string().email().max(256).required(),
+    password: Joi.string().min(7).max(256).required(),
+  });
+
+  return schema.validate(credentials);
+};
