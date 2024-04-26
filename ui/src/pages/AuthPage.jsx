@@ -1,6 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const AuthPage = () => {
+
+    const navigate = useNavigate()
+
+    const handleSignIn = () => {
+        navigate('/dashboard')
+    }
     return (
         <>
 
@@ -17,7 +23,7 @@ const AuthPage = () => {
                                 name="username"
                                 type="text"
                                 autoComplete="username"
-                                required
+                                // required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2  bg-gray-50 border border-gray-100/45 placeholder-gray-400 text-gray-900 rounded-t-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 focus:z-10 sm:text-md"
                                 placeholder="Enter Username"
                             />
@@ -29,7 +35,7 @@ const AuthPage = () => {
                                 name="password"
                                 type="password"
                                 autoComplete="current-password"
-                                required
+                                // required
                                 placeholder="Enter Password"
                                 className="mt-1 p-2  placeholder-gray-400 block w-full  bg-gray-50 border border-gray-100/45 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-b-md "
                             />
@@ -37,6 +43,7 @@ const AuthPage = () => {
                         <div>
                             <button
                                 type="submit"
+                                onClick={handleSignIn}
                                 className="mt-4 w-full p-3 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-500 focus:outline-none focus:bg-blue-600"
                             >
                                 Sign in as Patient
