@@ -1,22 +1,22 @@
-from fastapi import FastAPI,Form,Response,Request
+from fastapi import FastAPI
 from pydantic import BaseModel
 from chatbot import get_response
-from model import model 
-import pandas as pd
 from dotenv import load_dotenv
 import os
 from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 app = FastAPI()
-# Add CORS middleware
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5501"], # Allow requests from your frontend's origin
+    allow_origins=["http://127.0.0.1:5501"], # Allow requests from frontend's origin
     allow_credentials=True,
     allow_methods=["*"], # Allow all methods
     allow_headers=["*"], # Allow all headers
 )
+
+
 class Message(BaseModel):
     text: str
     context: str
