@@ -4,6 +4,7 @@ import debug from 'debug';
 import config from 'config';
 
 import users from './routes/users.routes';
+import chatMessages from './routes/chatMessage.routes';
 
 const logDb = debug('db');
 
@@ -15,6 +16,7 @@ app.get('/', (req: Request, res: Response) => {
   res.json({ message: 'Here we go!' });
 });
 app.use('/users/', users);
+app.use('/chat-messages', chatMessages);
 
 const port = config.get('port');
 mongoose

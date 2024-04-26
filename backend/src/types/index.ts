@@ -13,6 +13,10 @@ export interface AppRequest extends Request {
   user?: User;
 }
 
+export interface AuthAppRequest extends Request {
+  user: User;
+}
+
 export interface AppResponse extends Response {}
 
 export interface AppNextFunction extends NextFunction {}
