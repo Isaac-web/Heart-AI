@@ -355,15 +355,16 @@ In summary, based on the visual representation:
 - Usage
 - ![12](https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/59400730/33ed35bf-2edc-4a20-bd6a-0ac6ce2bb3b8)
 
+#### BEst Model Performace 
 - A summary of the performance metrics achieved by the Support Vector Classifier (SVC) model for heart disease detection.
 
-#### Model Performance Metrics
+##### Model Performance Metrics
 - Accuracy: 0.99
 - Precision: 1.00
 - Recall: 0.98
 - F1 Score: 0.99
 
-#### Interpretation
+##### Interpretation
 The SVC model demonstrates exceptional performance in accurately classifying instances of heart disease. With an accuracy of 0.99, it correctly predicts heart disease presence or absence in 99% of cases. The precision of 1.00 indicates that all positive predictions made by the model are indeed true positives, with no false positives. Similarly, the recall of 0.98 indicates that the model correctly identifies 98% of all true positive cases. The F1 score of 0.99 further confirms the model's balanced performance in terms of precision and recall.
 
 #### Model Saving 
