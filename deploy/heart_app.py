@@ -22,36 +22,69 @@ def get_name(name: str):
 
 @app.post('/predict')
 def predict_disease(data:HeartParameter):
-    age = data.age        
+    age = data.age       
     sex = data.sex
-    trestbps = data.trestbps  
-    chol  = data.chol 
-    fbs = data.fbs
-    thalach = data.thalach  
-    exang   = data.exang
-    oldpeak  = data.oldpeak
+    resting_blood_pressure = data.trestbps  
+    serum_cholesterol  = data.chol 
+    fasting_blood_sugar_level = data.fbs
+    maximum_heart_rate = data.thalach  
+    exercise_induced_agina   = data.exang
+    st_depression  = data.oldpeak
     slope  =  data.slope 
-    ca   = data.ca 
-    cp_1  = data.cp_1
-    cp_2  = data.cp_2
-    cp_3  = data.cp_3
-    restecg_1 = data.restecg_1 
-    restecg_2 = data.restecg_2 
-    thal_1  = data.thal_1
-    thal_2  = data.thal_2
-    thal_3 = data.thal_3
+    number_of_major_vessels   = data.ca 
+    chest_pain_type_1  = data.cp_1
+    chest_pain_type_2  = data.cp_2
+    chest_pain_type_3  = data.cp_3
+    rest_ecg_results_1 = data.restecg_1 
+    rest_ecg_results_2 = data.restecg_2 
+    thallium_stress_results_1  = data.thal_1
+    thallium_stress_results_2  = data.thal_2
+    thallium_stress_results_3 = data.thal_3
 
 
 
-    features = np.array([[age,sex,trestbps,chol,fbs,thalach,exang,oldpeak,slope,ca,
-    cp_1, cp_2 ,cp_3,restecg_1, restecg_2, thal_1, thal_2,thal_3]])
+    features = np.array([[age,sex,resting_blood_pressure,serum_cholesterol,fasting_blood_sugar_level,maximum_heart_rate,exercise_induced_agina,st_depression,slope,number_of_major_vessels,
+    chest_pain_type_1, chest_pain_type_2 ,chest_pain_type_3,rest_ecg_results_1, rest_ecg_results_2, thallium_stress_results_1,thallium_stress_results_2, thallium_stress_results_3]])
 
     prediction = classifier.predict(features)
 
     prediction = prediction[0].item()
 
+    result = ''
+
+    details = {
+        "age":age,     
+        "sex": sex, 
+        "resting blood pressure" : resting_blood_pressure, 
+        "serum cholesterol": serum_cholesterol,
+        "fasting blood sugar level": fasting_blood_sugar_level,
+        "maximum heart rate" : maximum_heart_rate,
+        "exercise induced agina" : exercise_induced_agina,
+        "st_depression" : st_depression,
+        "slope" : slope,
+        "number of major vessels" : number_of_major_vessels,
+        "chest pain type_1"  : chest_pain_type_1,
+        "chest pain type_2"  :  chest_pain_type_2,
+        "chest pain type_3"  : chest_pain_type_3,
+        "resting electrocardiographoc results_1" : rest_ecg_results_1,
+        "resting electrocardiographoc results_2" : rest_ecg_results_2,
+        "thallium stress test_results_1" : thallium_stress_results_1,
+        "thallium stress test_results_2" : thallium_stress_results_2,
+        "thallium stress_test_results_3" : thallium_stress_results_3
+    }
+
+
+
+
+
+    if prediction == 1:
+        result = f'Unfortunately, you have heart disease'
+    else:
+        result = f'Your heart is fine, you do not have heart disease'
+
     return {
-        'prediction': prediction
+        'prediction': result,
+        'details': details
     }
 
 #    Will run on http://127.0.0.1:8000
