@@ -1,6 +1,9 @@
-import { AppRequest, AppResponse } from '../types';
+import { AppRequest, AppResponse, LLMRespnse } from '../types';
 import { ChatMessage, validateCreateChatMessage } from '../models/ChatMessage';
+import ChatSession from '../models/ChatSession';
 import { User } from '../models/User';
+import axios, { AxiosError } from 'axios';
+import { readBuilderProgram } from 'typescript';
 
 export const sendMessage = async (req: AppRequest, res: AppResponse) => {
   const { error } = validateCreateChatMessage(req.body);
@@ -19,6 +22,11 @@ export const sendMessage = async (req: AppRequest, res: AppResponse) => {
     });
 
   //check if chat session exists
+  const chatSession = await ChatSession.findById(req.body.chatSessionId);
+  if (!chatSession)
+    return res.status(404).json({
+      message: 'Could not find chat session with the given id.',
+    });
 
   const chatMessage = await ChatMessage.create({
     user: req.user._id,
@@ -26,9 +34,33 @@ export const sendMessage = async (req: AppRequest, res: AppResponse) => {
     text: req.body.text,
   });
 
-  res.json({
-    data: chatMessage,
-  });
+  try {
+    const { data: llmChat } = await axios.request<LLMRespnse>({
+      method: 'POST',
+      url: 'https://8b35-154-161-157-151.ngrok-free.app/chat',
+      data: {
+        text: req.body.text,
+        session_id: req.body.chatSessionId,
+        context: req.body.context,
+      },
+    });
+
+    await ChatMessage.create({
+      chatSession: req.body.chatSessionId,
+      text: llmChat.response,
+    });
+
+    res.json({
+      data: {
+        userMessage: chatMessage,
+        systemMessage: llmChat.response,
+      },
+    });
+  } catch (err: any) {
+    return res.status(500).json({
+      message: 'Something went wrong.',
+    });
+  }
 };
 
 export const fetchChatSessionMessages = async (
