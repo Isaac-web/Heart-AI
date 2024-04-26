@@ -14,6 +14,10 @@ export const auth = async (
   next: AppNextFunction
 ) => {
   const authHeader = req.headers['authorization'] as string;
+  if (!authHeader)
+    return res.status(401).json({
+      message: 'Access deined. No token provided.',
+    });
 
   const [_, token] = authHeader.split(' ');
   try {

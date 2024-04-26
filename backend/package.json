@@ -30,6 +30,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/debug": "^4.1.12",
-    "@types/jsonwebtoken": "^9.0.6"
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/lodash": "^4.17.0"
   }
 }
