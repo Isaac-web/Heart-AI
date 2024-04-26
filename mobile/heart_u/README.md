@@ -32,5 +32,18 @@ Run the following commands from your terminal:
 
 ## Key Features
 1. Chatbot
-2. Predective Model
-3. Nice UI
+   Users can interact with the chatbot to learn more about their health results. The         chatbot provides personalized insights and guidance based on the report.
+   
+3. Predective Model
+4. Nice UI
+5. etailed report
+     View detailed reports generated based on the health data provided by users. These         reports contain comprehensive information about the user's heart health status and         potential risk factors.
+
+## Screens
+1. login
+2. Patient Dashboard
+3. Doctor Dashboard
+4. Landing Page
+5. chatbot HomePage
+6. chatbot chatScreen
+7. report generation view 
