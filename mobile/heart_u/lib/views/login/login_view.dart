@@ -27,7 +27,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         body: Form(
           key: _formKey,
           child: SizedBox(
@@ -38,7 +37,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Container(
-                      margin: EdgeInsets.only(bottom: 399.v),
                       padding: EdgeInsets.symmetric(horizontal: 12.h),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,8 +52,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           
-                          const Image(
-                              image: AssetImage("assets/images/Frame5.png")
+                          Bounce(
+                            duration: const Duration(milliseconds: 1000),
+                            child: const Image(
+                                image: AssetImage("assets/images/Frame5.png")
+                            ),
                           ),
                           
                           SizedBox(height: 11.v),
@@ -74,10 +75,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               child: _buildSigninas(context)
                           ),
                           SizedBox(height: 10.v),
-                          FadeInLeft(
-                              duration: const Duration(milliseconds: 1000),
-                              child: _buildSigninas1(context)
-                          )
+                          // FadeInLeft(
+                          //     duration: const Duration(milliseconds: 1000),
+                          //     child: _buildSigninas1(context)
+                          // )
                         ],
                       ),
                     ),
@@ -142,39 +143,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
         }
         },
       height: 43.v,
-      text: "Sign in as patient",
+      text: "Sign in",
       buttonStyle: CustomButtonStyles.fillPinkA,
     );
   }
 
   /// Section Widget
-  Widget _buildSigninas1(BuildContext context) {
-    return CustomElevatedButton(
-      onPressed: (){
-        String password = passwordController.text;
-        String username = userNameController.text;
-        if (password.isEmpty && username.isEmpty){
-
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.warning,
-            headerAnimationLoop: true,
-            animType: AnimType.bottomSlide,
-            title: 'Enter credentials',
-            desc: 'User credentials cant be empty',
-            buttonsTextStyle: const TextStyle(color: Colors.black),
-            showCloseIcon: true,
-            btnOkOnPress: () {},
-          ).show();
-
-        } else {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-              AppRoutes.doctorDashboardScreen, (route) => false);
-        }
-      },
-      height: 43.v,
-      text: "Sign in as doctor",
-      buttonStyle: CustomButtonStyles.fillPrimaryTL10,
-    );
-  }
+  // Widget _buildSigninas1(BuildContext context) {
+  //   return CustomElevatedButton(
+  //     onPressed: (){
+  //       String password = passwordController.text;
+  //       String username = userNameController.text;
+  //       if (password.isEmpty && username.isEmpty){
+  //
+  //         AwesomeDialog(
+  //           context: context,
+  //           dialogType: DialogType.warning,
+  //           headerAnimationLoop: true,
+  //           animType: AnimType.bottomSlide,
+  //           title: 'Enter credentials',
+  //           desc: 'User credentials cant be empty',
+  //           buttonsTextStyle: const TextStyle(color: Colors.black),
+  //           showCloseIcon: true,
+  //           btnOkOnPress: () {},
+  //         ).show();
+  //
+  //       } else {
+  //         Navigator.of(context).pushNamedAndRemoveUntil(
+  //             AppRoutes.doctorDashboardScreen, (route) => false);
+  //       }
+  //     },
+  //     height: 43.v,
+  //     text: "Sign in as doctor",
+  //     buttonStyle: CustomButtonStyles.fillPrimaryTL10,
+  //   );
+  // }
 }
