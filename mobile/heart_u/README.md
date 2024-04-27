@@ -18,16 +18,16 @@ Run the following commands from your terminal:
 1. cupertino_icons: ^1.0.6
 2. animate_do: ^3.3.4
 3. cached_network_image: ^3.3.1
-4. persistent_bottom_nav_bar: ^5.0.2
+4. gsform: ^0.3.5
 5. chatview: ^1.3.1
 
 ## Key Features
-1. Chatbot
+1. Chatbot :
    Users can interact with the chatbot to learn more about their health results.      The chatbot provides personalized insights and guidance based on the report.
    
 2. Predective Model
 3. UI
-4. Detailed report
+4. Detailed report :
    View detailed reports generated based on the health data provided by users.       These reports contain comprehensive information about the user's heart health       status and potential risk factors.
 
 ## Screens
