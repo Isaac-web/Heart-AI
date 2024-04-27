@@ -1,8 +1,8 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:heart_u/core/app_export.dart';
-import '../../../../core/utils/image_constant.dart';
-import '../../../../widgets/custom_image_view.dart';
 
 class RecentchatlistItemWidget extends StatelessWidget {
   const RecentchatlistItemWidget({Key? key})
@@ -48,7 +48,24 @@ class RecentchatlistItemWidget extends StatelessWidget {
                 )
               ],
             ),
-          )
+          ),
+          GestureDetector(
+            onTap: (){
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.warning,
+                dismissOnTouchOutside: true,
+                dismissOnBackKeyPress: false,
+                headerAnimationLoop: true,
+                animType: AnimType.leftSlide,
+                title: 'Confirm',
+                desc: 'Do you want to delete this chat ?',
+                showCloseIcon: true,
+                btnCancelOnPress: () {},
+                btnOkOnPress: () {},
+              ).show();
+            },
+              child: const Icon(Icons.more_vert))
         ],
       ),
     );
