@@ -40,6 +40,7 @@ dependencies:
   chatview: ^1.3.1
   gsform: ^0.3.5
   awesome_dialog: ^3.2.0
+  flutter_container_new: ^0.0.4
 
 dev_dependencies:
   flutter_test:

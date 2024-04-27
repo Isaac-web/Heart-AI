@@ -84,17 +84,20 @@ class BotHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  height: 15.adaptSize,
-                  width: 15.adaptSize,
-                  margin: EdgeInsets.only(
-                    left: 7.h,
-                    bottom: 75.v,
-                  ),
-                  decoration: BoxDecoration(
-                    color: appTheme.lightGreenA700E5,
-                    borderRadius: BorderRadius.circular(
-                      7.h,
+                FadeIn(
+                  delay: const Duration(seconds: 1),
+                  child: Container(
+                    height: 15.adaptSize,
+                    width: 15.adaptSize,
+                    margin: EdgeInsets.only(
+                      left: 7.h,
+                      bottom: 75.v,
+                    ),
+                    decoration: BoxDecoration(
+                      color: appTheme.lightGreenA700E5,
+                      borderRadius: BorderRadius.circular(
+                        7.h,
+                      ),
                     ),
                   ),
                 )

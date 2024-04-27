@@ -29,42 +29,51 @@ class _PatientDashboardState extends State<PatientDashboard> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: _buildAppBar(context),
-        body: Container(
-          width: double.maxFinite,
-          padding: EdgeInsets.symmetric(
-            horizontal: 32.h,
-            vertical: 12.v,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // CustomSearchView(
-              //   controller: searchController,
-              //   hintText: "Search",
-              // ),
-              SizedBox(height: 15.v),
-              Text(
-                "Reports",
-                style: theme.textTheme.titleLarge,
-              ),
-              SizedBox(height: 16.v),
-              _buildCourseIntroductList(context),
-              FadeInRight(
-                duration: const Duration(milliseconds: 1000),
-                child: FloatingActionButton.extended(
-                    backgroundColor: const Color.fromRGBO(82, 170, 94, 1.0),
-                    onPressed: (){
-                      Navigator.of(context).pushNamed(AppRoutes.chatScreen);
-                    },
-                    label: const Text("Chat with bot"),
-                    icon: const Icon(Icons.messenger, color: Colors.white, size: 25,)
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // CustomSearchView(
+            //   controller: searchController,
+            //   hintText: "Search",
+            // ),
+            SizedBox(height: 15.v),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    "Reports",
+                    style: theme.textTheme.titleLarge,
+                  ),
                 ),
-              )
-            ],
-          ),
+                FadeInRight(
+                  duration: const Duration(milliseconds: 1000),
+                  child:
+                  FloatingActionButton(
+                      backgroundColor: appTheme.pinkA20001,
+                      onPressed: (){
+                        Navigator.of(context).pushNamed(AppRoutes.chatScreen);
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(28),
+                      ),
+                      elevation: 50.0,
+                      child: Bounce(
+                        infinite: true,
+                          delay: const Duration(seconds: 1),
+                          child: const ImageIcon(
+                            color: Color(0xFF13183F),
+                              AssetImage("assets/images/Frame2.png"))),
+                  )
+                )
+              ],
+            ),
+            SizedBox(height: 16.v),
+            _buildCourseIntroductList(context),
+          ],
         ),
       ),
     );
@@ -165,14 +174,14 @@ class _PatientDashboardState extends State<PatientDashboard> {
   Widget _buildCourseIntroductList(BuildContext context) {
     return Expanded(
       child: ListView.separated(
-        physics: BouncingScrollPhysics(),
-        shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
+        shrinkWrap: false,
         separatorBuilder: (context, index) {
           return SizedBox(
             height: 16.v,
           );
         },
-        itemCount: 4,
+        itemCount: 8,
         itemBuilder: (context, index) {
           return const CourseintroductlistItemWidget();
         },

@@ -238,6 +238,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.2"
+  flutter_container_new:
+    dependency: "direct main"
+    description:
+      name: flutter_container_new
+      sha256: "67f827cd0518d458c162415beb38c01f3e05652cd559206ea97efe6fdc5f4d5f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   flutter_linkify:
     dependency: transitive
     description:
