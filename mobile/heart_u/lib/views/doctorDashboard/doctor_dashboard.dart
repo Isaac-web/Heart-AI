@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:heart_u/core/app_export.dart';
@@ -95,6 +96,65 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
           margin: EdgeInsets.fromLTRB(31.h, 18.v, 12.h, 6.v),
         ),
         AppbarTrailingCircleimage(
+          onTap: (){
+            AwesomeDialog(
+              context: context,
+              animType: AnimType.topSlide,
+              dialogType: DialogType.info,
+              title: "Doctor Info",
+              showCloseIcon: true,
+              body: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Doctor Details',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 15,),
+
+                    Text(
+                      'Dr. Abdul Razak',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(height: 10,),
+
+                    Text(
+                      'Male',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(height: 10,),
+
+                    Text(
+                      '0550000000',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(height: 10,),
+
+                    Text(
+                      '...',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+
+                    const SizedBox(height: 10,),
+
+                    AnimatedButton(
+                      isFixedHeight: false,
+                      text: 'Log Out',
+                      pressEvent: () {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            AppRoutes.registerScreen,
+                                (route) => false);
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ).show();
+          },
           imagePath: ImageConstant.imgEllipse1,
           margin: EdgeInsets.only(
             left: 8.h,

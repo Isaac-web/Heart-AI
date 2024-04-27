@@ -4,6 +4,7 @@ import '../../core/app_export.dart';
 import '../../theme/custom_button_style.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_feild.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({Key? key})
@@ -119,8 +120,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildSigninas(BuildContext context) {
     return CustomElevatedButton(
       onPressed: (){
-        Navigator.of(context).pushNamed(AppRoutes.patientDashboardScreen);
-      },
+        String password = passwordController.text;
+        String username = userNameController.text;
+        if (password.isEmpty && username.isEmpty){
+
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.warning,
+            headerAnimationLoop: true,
+            animType: AnimType.bottomSlide,
+            title: 'Enter credentials',
+            desc: 'Enter your details to access HeartAi',
+            buttonsTextStyle: const TextStyle(color: Colors.black),
+            showCloseIcon: true,
+            btnOkOnPress: () {},
+          ).show();
+
+        } else {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              AppRoutes.patientDashboardScreen, (route) => false);
+        }
+        },
       height: 43.v,
       text: "Sign in as patient",
       buttonStyle: CustomButtonStyles.fillPinkA,
@@ -131,7 +151,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildSigninas1(BuildContext context) {
     return CustomElevatedButton(
       onPressed: (){
-        Navigator.of(context).pushNamed(AppRoutes.doctorDashboardScreen);
+        String password = passwordController.text;
+        String username = userNameController.text;
+        if (password.isEmpty && username.isEmpty){
+
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.warning,
+            headerAnimationLoop: true,
+            animType: AnimType.bottomSlide,
+            title: 'Enter credentials',
+            desc: 'User credentials cant be empty',
+            buttonsTextStyle: const TextStyle(color: Colors.black),
+            showCloseIcon: true,
+            btnOkOnPress: () {},
+          ).show();
+
+        } else {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              AppRoutes.doctorDashboardScreen, (route) => false);
+        }
       },
       height: 43.v,
       text: "Sign in as doctor",

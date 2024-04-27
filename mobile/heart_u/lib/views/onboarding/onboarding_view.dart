@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heart_u/core/app_export.dart';
 import 'package:heart_u/views/onboarding/widget/column_item_widget.dart';
-import '../../core/utils/size_utils.dart';
-import '../../theme/app_decoration.dart';
 import '../../theme/custom_button_style.dart';
-import '../../theme/custom_text_style.dart';
-import '../../theme/theme_helper.dart';
 import '../../widgets/custom_elevated_button.dart';
 import 'package:animate_do/animate_do.dart';
 
@@ -144,7 +140,7 @@ class OnboardingScreen extends StatelessWidget {
         ),
         padding: EdgeInsets.symmetric(
           horizontal: 114.h,
-          vertical: 43.v,
+          vertical: 23.v,
         ),
         decoration: AppDecoration.gradientOnPrimaryToPinkA.copyWith(
           borderRadius: BorderRadiusStyle.roundedBorder10,

@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:heart_u/core/app_export.dart';
 import 'package:heart_u/views/patientDashboard/widget/courseintroductlist_item_widget.dart';
@@ -89,6 +90,65 @@ class _PatientDashboardState extends State<PatientDashboard> {
           margin: EdgeInsets.fromLTRB(31.h, 18.v, 12.h, 6.v),
         ),
         AppbarTrailingCircleimage(
+          onTap: (){
+            AwesomeDialog(
+              context: context,
+              animType: AnimType.topSlide,
+              dialogType: DialogType.info,
+              title: "Patient Info",
+              showCloseIcon: true,
+              body: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Patient Details',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 15,),
+
+                    Text(
+                      'Abdul Razak',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(height: 10,),
+
+                    Text(
+                      'Male',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(height: 10,),
+
+                    Text(
+                      '0550000000',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(height: 10,),
+
+                    Text(
+                      '...',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+
+                    const SizedBox(height: 10,),
+
+                    AnimatedButton(
+                      isFixedHeight: false,
+                      text: 'Log Out',
+                      pressEvent: () {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            AppRoutes.registerScreen,
+                                (route) => false);
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ).show();
+          },
           imagePath: ImageConstant.imgEllipse1,
           margin: EdgeInsets.only(
             left: 8.h,
