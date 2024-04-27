@@ -118,7 +118,7 @@ class _DoctorFormState extends State<DoctorForm> {
                         tag: 'mobile',
                         title: 'Phone number',
                         maxLength: 10,
-                        helpMessage: '9357814747',
+                        helpMessage: '0550000000',
                         weight: 6,
                         required: false,
                         errorMessage: 'some error',
