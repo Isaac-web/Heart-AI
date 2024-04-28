@@ -46,7 +46,7 @@ flutter run
 
 ## Screenshots
 
-<img src="https://github.com/RasZarky/Mediboard/assets/83512618/75b66348-b4df-4f93-9d44-045a30667b82" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/4dcf47fb-8b27-45db-954b-2fb3b1ff9a1b" width="100" heigth="200">
 
 
 ## Conclusion
