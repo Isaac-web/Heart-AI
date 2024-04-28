@@ -4,7 +4,6 @@ import { AppBar, Toolbar, Grid } from '@mui/material';
 const Header = () => {
   const theme = useTheme();
 
-  console.log(theme.mixins.toolbar);
   return (
     <>
       <AppBar

@@ -26,3 +26,9 @@ export interface APIRequestError {
   status: number;
   message: string;
 }
+
+export interface MedicalReport {
+  patientId: User;
+  doctorId: User;
+  status: 0 | 1;
+}
