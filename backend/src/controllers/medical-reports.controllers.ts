@@ -2,25 +2,48 @@ import _ from 'lodash';
 import { Request, Response } from 'express';
 import MedicalReport, {
   validateCreateMedicalReport,
+  validateUpdateMedicalReport,
 } from '../models/MedicalReport';
 import { User } from '../models/User';
+import { AppRequest } from '../types';
 
 export const getMedicalReport = async (req: Request, res: Response) => {
+  const medicalReport = await MedicalReport.findById(req.params.id);
+  if (!medicalReport)
+    return res.status(404).json({
+      message: 'Could not find medical report with the given id.',
+    });
+
   return res.json({
     successful: true,
     message: 'returning a single medical report to you of a user',
   });
 };
 
-export const getMedicalReports = async (req: Request, res: Response) => {
+export const getMedicalReports = async (req: AppRequest, res: Response) => {
+  const medicalReports = await MedicalReport.find({
+    doctorId: req.query.doctorId,
+  });
+
   return res.json({
-    successful: true,
     message: 'returning multiple medical report to you of a user',
+    data: medicalReports,
   });
 };
 
-export const getMyMedicalReport = async (req: Request, res: Response) => {
-  return res.json({});
+export const getMyMedicalReport = async (req: AppRequest, res: Response) => {
+  const user = req.user;
+  if (!user)
+    return res.status(401).json({
+      message: 'User is not defined.',
+    });
+
+  const medicalReports = await MedicalReport.find({ patientId: user._id });
+
+  return res.json({
+    message: 'returning multiple medical report to you of a user',
+    data: medicalReports,
+  });
 };
 
 export const createMedicalReport = async (req: Request, res: Response) => {
@@ -84,7 +107,49 @@ export const createMedicalReport = async (req: Request, res: Response) => {
 };
 
 export const updateMedicalReport = async (req: Request, res: Response) => {
-  return res.json({});
+  const { error } = validateUpdateMedicalReport(req.body);
+  if (error)
+    return res.status(422).json({
+      message: error.details[0].message,
+    });
+
+  const medicalReport = await MedicalReport.findByIdAndUpdate(
+    req.params.id,
+    {
+      $set: _.pick(req.body, [
+        'age',
+        'sex',
+        'cp_1',
+        'cp_2',
+        'cp_3',
+        'trestbps',
+        'chol',
+        'fbs',
+        'thalach',
+        'exang',
+        'oldpeak',
+        'slope',
+        'ca',
+        'thal_1',
+        'thal_2',
+        'thal_3',
+        'restecg_1',
+        'restecg_2',
+        'restecg_3',
+      ]),
+    },
+    { new: true }
+  );
+
+  if (!medicalReport)
+    return res.status(404).json({
+      message: 'Could not find medical record wih the given id.',
+    });
+
+  return res.json({
+    message: '1 medical record was updated.',
+    data: medicalReport,
+  });
 };
 
 export const deleteMedicalReport = async (req: Request, res: Response) => {

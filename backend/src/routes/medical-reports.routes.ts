@@ -3,10 +3,10 @@ import * as MedicalReportControllers from '../controllers/medical-reports.contro
 
 const router = Router();
 
+router.post('/', MedicalReportControllers.createMedicalReport);
+router.get('/me', MedicalReportControllers.getMyMedicalReport);
 router.get('/:id', MedicalReportControllers.getMedicalReport);
 router.get('/', MedicalReportControllers.getMedicalReports);
-router.get('/me', MedicalReportControllers.getMyMedicalReport);
-router.post('/', MedicalReportControllers.createMedicalReport);
 router.patch('/:id', MedicalReportControllers.updateMedicalReport);
 router.delete('/:id', MedicalReportControllers.deleteMedicalReport);
 

@@ -100,6 +100,12 @@ const MedicalReportSchema: Schema = new Schema({
     min: 0,
     required: true,
   },
+  cardioStatus: {
+    type: Number,
+    min: 0,
+    max: 1,
+    default: 0,
+  },
 });
 
 export const validateCreateMedicalReport = (data: unknown) => {
