@@ -2,8 +2,8 @@ import { AppRequest, AppResponse, LLMRespnse } from '../types';
 import { ChatMessage, validateCreateChatMessage } from '../models/ChatMessage';
 import ChatSession from '../models/ChatSession';
 import { User } from '../models/User';
-import axios, { AxiosError } from 'axios';
-import { readBuilderProgram } from 'typescript';
+import axios from 'axios';
+import config from 'config';
 
 export const sendMessage = async (req: AppRequest, res: AppResponse) => {
   const { error } = validateCreateChatMessage(req.body);
@@ -37,7 +37,7 @@ export const sendMessage = async (req: AppRequest, res: AppResponse) => {
   try {
     const { data: llmChat } = await axios.request<LLMRespnse>({
       method: 'POST',
-      url: 'https://8b35-154-161-157-151.ngrok-free.app/chat',
+      url: config.get('LLMUrl'),
       data: {
         text: req.body.text,
         session_id: req.body.chatSessionId,
@@ -50,9 +50,11 @@ export const sendMessage = async (req: AppRequest, res: AppResponse) => {
       text: llmChat.response,
     });
 
+    user.password = '';
+
     res.json({
       data: {
-        userMessage: chatMessage,
+        userMessage: { ...chatMessage.toObject(), user },
         systemMessage: llmChat.response,
       },
     });
@@ -69,7 +71,7 @@ export const fetchChatSessionMessages = async (
 ) => {
   const chatMessages = await ChatMessage.find({
     chatSession: req.params.chatSessionId,
-  });
+  }).populate('user', '-password');
 
   res.json({
     data: chatMessages,

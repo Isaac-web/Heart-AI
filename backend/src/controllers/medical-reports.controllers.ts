@@ -6,6 +6,8 @@ import MedicalReport, {
 } from '../models/MedicalReport';
 import { User } from '../models/User';
 import { AppRequest } from '../types';
+import axios from 'axios';
+import config from 'config';
 
 export const getMedicalReport = async (req: Request, res: Response) => {
   const medicalReport = await MedicalReport.findById(req.params.id);
@@ -74,6 +76,40 @@ export const createMedicalReport = async (req: Request, res: Response) => {
       message: 'Medical report already exists from this doctor.',
     });
 
+  try {
+    const { data } = await axios.post(
+      config.get('predictionModelUrl'),
+      _.pick(req.body, [
+        'age',
+        'sex',
+        'cp_1',
+        'cp_2',
+        'cp_3',
+        'trestbps',
+        'chol',
+        'fbs',
+        'thalach',
+        'exang',
+        'oldpeak',
+        'slope',
+        'ca',
+        'thal_1',
+        'thal_2',
+        'thal_3',
+        'restecg_1',
+        'restecg_2',
+        'restecg_3',
+      ])
+    );
+
+    if (data.prediction !== 'Your heart is fine, you do not have heart disease')
+      req.body.cardioStatus = 1;
+  } catch (err) {
+    res.status(500).json({
+      message: 'Something went wrong.',
+    });
+  }
+
   const medicalReport = await MedicalReport.create(
     _.pick(req.body, [
       'patientId',
@@ -97,6 +133,7 @@ export const createMedicalReport = async (req: Request, res: Response) => {
       'restecg_1',
       'restecg_2',
       'restecg_3',
+      'cardioStatus',
     ])
   );
 

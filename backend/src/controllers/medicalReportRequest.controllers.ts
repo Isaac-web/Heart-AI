@@ -43,9 +43,16 @@ export const createMedicalReportRequest = async (
     _.pick(req.body, ['patientId', 'doctorId'])
   );
 
+  patient.password = '';
+  doctor.password = '';
+
   res.json({
     message: 'Medical Report Request Sent.',
-    data: medicalReportRequest,
+    data: {
+      ...medicalReportRequest.toObject(),
+      patientId: patient,
+      doctorId: doctor,
+    },
   });
 };
 
@@ -59,7 +66,9 @@ export const fetchMedicalReportRequest = async (
       message: 'doctorId is required in the query string.',
     });
 
-  const reportRequests = await MedicalReportRequest.find({ doctorId });
+  const reportRequests = await MedicalReportRequest.find({ doctorId })
+    .populate('doctorId', '-password')
+    .populate('patientId', '-password');
 
   res.json({
     data: reportRequests,
