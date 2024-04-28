@@ -4,12 +4,13 @@ import {
   deleteMedicalReportRequest,
   fetchMedicalReportRequest,
 } from '../controllers/medicalReportRequest.controllers';
+import { auth } from '../middleware/auth';
 
 const router = Router();
 
-router.post('/', createMedicalReportRequest);
-router.get('/me', async (req, res) => {});
-router.get('/', fetchMedicalReportRequest);
+router.post('/', auth, createMedicalReportRequest);
+router.get('/me', auth, async (req, res) => {});
+router.get('/', auth, fetchMedicalReportRequest);
 router.delete('/:id', deleteMedicalReportRequest);
 
 export default router;
