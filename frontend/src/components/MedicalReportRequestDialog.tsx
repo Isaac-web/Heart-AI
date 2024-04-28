@@ -1,3 +1,4 @@
+import { useAppStore } from '@/hooks/store';
 import { User } from '@/types';
 import {
   Dialog,
@@ -15,46 +16,7 @@ import {
   useTheme,
   Chip,
 } from '@mui/material';
-import { useState } from 'react';
-
-const users: User[] = [
-  {
-    _id: '1',
-    name: 'John Doe',
-    email: 'johndoe@gmail.com',
-    userType: 'admin',
-  },
-  {
-    _id: '2',
-    name: 'Jane Smith',
-    email: 'janesmith@yahoo.com',
-    userType: 'user',
-  },
-  {
-    _id: '3',
-    name: 'Michael Johnson',
-    email: 'michaeljohnson@hotmail.com',
-    userType: 'user',
-  },
-  {
-    _id: '4',
-    name: 'Emily Brown',
-    email: 'emilybrown@example.com',
-    userType: 'admin',
-  },
-  {
-    _id: '5',
-    name: 'David Wilson',
-    email: 'davidwilson@gmail.com',
-    userType: 'user',
-  },
-  {
-    _id: '6',
-    name: 'David Wilson1',
-    email: 'davidwilson@gmail.com',
-    userType: 'user',
-  },
-];
+import { useEffect, useState } from 'react';
 
 interface MedicalReportRequestDialogProps {
   open: boolean;
@@ -67,6 +29,7 @@ const MedicalReportRequestDialog = ({
 }: MedicalReportRequestDialogProps) => {
   const [user, setUser] = useState<User | null>(null);
   const theme = useTheme();
+  const store = useAppStore();
 
   const requestMedicalHistory = () => {
     console.log('Requesting medical history');
@@ -76,6 +39,10 @@ const MedicalReportRequestDialog = ({
     setUser(null);
     onClose();
   };
+
+  useEffect(() => {
+    store.fetchUsers({ userType: 'doctor' });
+  }, []);
 
   return (
     <Dialog open={open} fullWidth maxWidth="xs" onClose={onClose}>
@@ -92,7 +59,7 @@ const MedicalReportRequestDialog = ({
         <Box>Search...</Box>
         <Box sx={{ mb: theme.spacing(2) }}>
           <List sx={{ maxHeight: '18em', overflow: 'auto' }}>
-            {users.map((user) => (
+            {store.users.map((user) => (
               <DoctorListItem
                 key={user.name}
                 name={user.name}

@@ -10,6 +10,10 @@ export interface User {
   userType: string;
 }
 
+export interface UsersSearchParams {
+  userType?: string;
+}
+
 export interface RegistrationFormData {
   name: string;
   email: string;

@@ -1,4 +1,9 @@
-import { LoginFormData, RegistrationFormData } from '@/types';
+import {
+  LoginFormData,
+  RegistrationFormData,
+  User,
+  UsersSearchParams,
+} from '@/types';
 
 interface RequestError {
   callingFunction: string;
@@ -17,4 +22,9 @@ export interface AuthSlice {
   register(data: RegistrationFormData): Promise<void>;
 }
 
-export type StoreState = RequestErrorState & AuthSlice;
+export interface UsersSlice {
+  users: User[];
+  fetchUsers(params?: UsersSearchParams): Promise<void>;
+}
+
+export type StoreState = RequestErrorState & AuthSlice & UsersSlice;
