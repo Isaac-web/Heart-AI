@@ -14,6 +14,10 @@ Run the following commands from your terminal:
 1. https://github.com/dzeble/Heart-Disease-Prediction-Group-2.git to clone this repo
 2. 'flutter pub get' in the project root directory to install all the required dependencies.
 
+## Usage
+
+Run the following commands from your terminal t run app:
+flutter run
 
 ## Dependancies
 1. cupertino_icons: ^1.0.6
@@ -39,6 +43,10 @@ Run the following commands from your terminal:
 4. Landing Page (reports page)
 5. chatbot HomePage
 6. chatbot chatScreen
+
+## Screenshots
+
+<img src="https://github.com/RasZarky/Mediboard/assets/83512618/75b66348-b4df-4f93-9d44-045a30667b82" width="100" heigth="200">
 
 
 ## Conclusion
