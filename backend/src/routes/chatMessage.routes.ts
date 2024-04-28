@@ -8,6 +8,6 @@ import { auth } from '../middleware/auth';
 const router = Router();
 
 router.post('/', auth, sendMessage);
-router.get('/', auth, fetchChatSessionMessages);
+router.get('/:chatSessionId', auth, fetchChatSessionMessages);
 
 export default router;

@@ -77,6 +77,19 @@ export const getUserInfo = async (req: AppRequest, res: AppResponse) => {
   });
 };
 
+export const fetchUsers = async (req: AppRequest, res: AppResponse) => {
+  const filter: { [key: string]: string } = {};
+
+  const userType = req.query.userType || '';
+  if (userType) filter.userType = userType as string;
+
+  const users = await User.find(filter).select('-password');
+
+  res.json({
+    data: users,
+  });
+};
+
 export const updateUser = async (req: AppRequest, res: AppResponse) => {
   const { error } = validateUpdateUser(req.body);
   if (error)
