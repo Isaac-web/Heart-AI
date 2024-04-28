@@ -23,9 +23,9 @@ const theme = createTheme({
         root: {
           borderRadius: 10,
         },
-        elevation: {
-          boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-        },
+        // elevation: {
+        //   boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+        // },
       },
     },
     MuiTextField: {
