@@ -1,7 +1,9 @@
+import { register } from '@/api/auth';
 import Form from '@/components/form/Form';
 import FormSubmitButton from '@/components/form/FormSubmitButton';
 import FormTextfield from '@/components/form/FormTextfield';
-import { Button, Grid, Paper, Typography, useTheme } from '@mui/material';
+import { RegistrationFormData } from '@/types';
+import { Grid, Paper, Typography, useTheme } from '@mui/material';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
@@ -13,14 +15,15 @@ const validationSchema = Yup.object().shape({
 const Register = () => {
   const theme = useTheme();
   return (
-    <Form
+    <Form<RegistrationFormData>
       initialValues={{
         name: '',
         email: '',
         password: '',
-        usertype: '',
+        userType: 'patient',
       }}
       validationSchema={validationSchema}
+      onSubmit={(data) => register(data)}
     >
       <Grid
         container

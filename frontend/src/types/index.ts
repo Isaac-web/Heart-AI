@@ -7,5 +7,5 @@ export interface RegistrationFormData {
   name: string;
   email: string;
   password: string;
-  useType: string;
+  userType: string;
 }

@@ -4,6 +4,7 @@ import Form from '@/components/form/Form';
 import FormSubmitButton from '@/components/form/FormSubmitButton';
 import FormTextfield from '@/components/form/FormTextfield';
 import { LoginFormData } from '@/types';
+import { login } from '@/api/auth';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required().label('Email'),
@@ -17,6 +18,7 @@ const Login = () => {
     <Form<LoginFormData>
       initialValues={{ email: '', password: '' }}
       validationSchema={validationSchema}
+      onSubmit={(data) => login(data)}
     >
       <Grid
         container
