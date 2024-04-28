@@ -29,19 +29,17 @@ class OnboardingScreen extends StatelessWidget {
                   FadeInLeft(
                     duration: const Duration(milliseconds: 1000),
                     child: Container(
+                      width: 229.h,
                       margin: EdgeInsets.only(left: 16.h),
-                      child: const Text(
-                        "Healthcare, at your call.",
-                        maxLines: 1,
+                      child: Text(
+                        "Healthcare,\nat your call.",
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold
-                        ),
+                        style: theme.textTheme.displayMedium,
                       ),
                     ),
                   ),
-                  SizedBox(height: 15.v),
+                  SizedBox(height: 19.v),
                   FadeIn(
                     duration: const Duration(milliseconds: 1000),
                     child: Container(
@@ -67,8 +65,8 @@ class OnboardingScreen extends StatelessWidget {
                       onPressed: (){
                         Navigator.of(context).pushNamed(AppRoutes.registerScreen);
                       },
-                      height: 40.v,
-                      width: 130.h,
+                      height: 56.v,
+                      width: 167.h,
                       text: "Get Started",
                       margin: EdgeInsets.only(left: 16.h),
                       buttonStyle: CustomButtonStyles.none,
@@ -76,7 +74,7 @@ class OnboardingScreen extends StatelessWidget {
                       CustomButtonStyles.gradientOnPrimaryToPinkADecoration,
                     ),
                   ),
-                  SizedBox(height: 40.v),
+                  SizedBox(height: 73.v),
                   FadeInUp(
                       duration: const Duration(milliseconds: 1000),
                       child: _buildColumncheckouto(context)
@@ -179,13 +177,11 @@ class OnboardingScreen extends StatelessWidget {
             height: 24.v,
           );
         },
-        itemCount: cards.length,
+        itemCount: 3,
         itemBuilder: (context, index) {
           return FadeInUp(
               duration: const Duration(milliseconds: 1000),
-              child: ColumnItemWidget(
-                title: cards[index].title,
-                content: cards[index].content,)
+              child: const ColumnItemWidget()
           );
         },
       ),
