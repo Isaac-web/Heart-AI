@@ -4,6 +4,34 @@ import ChatThread from "./ChatThread";
 
 const Chatbot = () => {
   const [chatSession, toggleChatSession] = useState(false);
+  const [chatMessages, setChatMessages] = useState([]);
+
+  function handleChatSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const message = e.currentTarget.message.value;
+    alert(message);
+    // createChatSession(message);
+    e.currentTarget.reset();
+  }
+
+  async function createChatSession(message: string) {
+    try {
+      const res = await fetch("/chat-sessions/me", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("auth-token")}`,
+        },
+        body: JSON.stringify({
+          message,
+        }),
+      });
+
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="flex bg-[#111] w-screen h-screen">
@@ -40,16 +68,25 @@ const Chatbot = () => {
             </div>
           )}
         </div>
-        <div className="w-fullp-10 flex justify-center p-4 w-[70%]">
+        <form
+          className="w-fullp-10 flex justify-center p-4 w-[70%]"
+          onSubmit={handleChatSubmit}
+        >
           <div className="border border-[rgba(178,178,238,0.1)] px-8 py-6 rounded-lg w-[80%] flex justify-between">
             <input
               type="text"
               className="bg-transparent outline-0 border-0 text-white"
               placeholder="type..."
+              name="message"
             />
-            <button className="text-blue-300">send</button>
+            <button
+              className="text-blue-300"
+              onClick={() => createChatSession("hello")}
+            >
+              send
+            </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
