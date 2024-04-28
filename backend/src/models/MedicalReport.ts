@@ -1,5 +1,5 @@
-import { Schema, model, Document } from "mongoose";
-import { Types } from "mongoose";
+import { Schema, model, Document } from 'mongoose';
+import { Types } from 'mongoose';
 
 export interface IMedicalReport extends Document {
   id: Types.ObjectId;
@@ -15,4 +15,4 @@ const MedicalReportSchema: Schema = new Schema<IMedicalReport>({
   createdAt: [{ type: Date, required: true }],
 });
 
-export default model<IMedicalReport>("MedicalReport", MedicalReportSchema);
+export default model<IMedicalReport>('MedicalReport', MedicalReportSchema);
