@@ -3,21 +3,18 @@ import { Grid, Paper, Typography, useTheme } from '@mui/material';
 import Form from '@/components/form/Form';
 import FormSubmitButton from '@/components/form/FormSubmitButton';
 import FormTextfield from '@/components/form/FormTextfield';
+import { LoginFormData } from '@/types';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required().label('Email'),
   password: Yup.string().min(7).max(256).required().label('Password'),
 });
 
-interface LoginInputs {
-  email: string;
-  password: string;
-}
-
 const Login = () => {
   const theme = useTheme();
+
   return (
-    <Form<LoginInputs>
+    <Form<LoginFormData>
       initialValues={{ email: '', password: '' }}
       validationSchema={validationSchema}
     >

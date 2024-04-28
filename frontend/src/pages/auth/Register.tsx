@@ -1,62 +1,73 @@
-import {
-  Button,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import Form from '@/components/form/Form';
+import FormSubmitButton from '@/components/form/FormSubmitButton';
+import FormTextfield from '@/components/form/FormTextfield';
+import { Button, Grid, Paper, Typography, useTheme } from '@mui/material';
+import * as Yup from 'yup';
 
-const Login = () => {
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required().label('Name'),
+  email: Yup.string().email().required().label('Email'),
+  password: Yup.string().required().label('Password'),
+});
+
+const Register = () => {
   const theme = useTheme();
   return (
-    <Grid
-      container
-      justifyContent={'center'}
-      alignContent={'center'}
-      sx={{
-        height: '100vh',
-        width: '100%',
-        pl: theme.spacing(2),
-        pr: theme.spacing(2),
+    <Form
+      initialValues={{
+        name: '',
+        email: '',
+        password: '',
+        usertype: '',
       }}
+      validationSchema={validationSchema}
     >
-      <Grid item xs={12} md={8} xl={4}>
-        <Paper
-          sx={{
-            pt: theme.spacing(4),
-            pb: theme.spacing(4),
-            pl: theme.spacing(5),
-            pr: theme.spacing(5),
-          }}
-        >
-          <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <Grid container justifyContent={'center'} alignItems={'center'}>
-                <Typography variant="h5">Register</Typography>
-              </Grid>
-            </Grid>
-            <Grid item>
-              <TextField label="Name" />
-            </Grid>
-            <Grid item>
-              <TextField label="Email" />
-            </Grid>
-            <Grid item>
+      <Grid
+        container
+        justifyContent={'center'}
+        alignContent={'center'}
+        sx={{
+          height: '100vh',
+          width: '100%',
+          pl: theme.spacing(2),
+          pr: theme.spacing(2),
+        }}
+      >
+        <Grid item xs={12} md={8} xl={4}>
+          <Paper
+            sx={{
+              pt: theme.spacing(4),
+              pb: theme.spacing(4),
+              pl: theme.spacing(5),
+              pr: theme.spacing(5),
+            }}
+          >
+            <Grid container direction="column" spacing={2}>
               <Grid item>
-                <TextField label="Password" />
+                <Grid container justifyContent={'center'} alignItems={'center'}>
+                  <Typography variant="h5">Register</Typography>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <FormTextfield label="Name" name="name" />
+              </Grid>
+              <Grid item>
+                <FormTextfield label="Email" name="email" />
+              </Grid>
+              <Grid item>
+                <Grid item>
+                  <FormTextfield label="Password" name="password" />
+                </Grid>
+              </Grid>
+              <Grid item>
+                <FormSubmitButton>Register</FormSubmitButton>
               </Grid>
             </Grid>
-            <Grid item>
-              <Button size="large" variant="contained">
-                Register
-              </Button>
-            </Grid>
-          </Grid>
-        </Paper>
+          </Paper>
+        </Grid>
       </Grid>
-    </Grid>
+    </Form>
   );
 };
 
-export default Login;
+export default Register;

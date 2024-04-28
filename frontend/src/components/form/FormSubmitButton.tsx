@@ -16,7 +16,7 @@ const FormSubmitButton = ({ children }: FormSubmitButtonProps) => {
       type="submit"
       onClick={() => handleSubmit()}
     >
-      Login
+      {children}
     </Button>
   );
 };
