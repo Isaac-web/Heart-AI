@@ -1,31 +1,17 @@
-import { useTheme } from '@mui/material';
-import { AppBar, Toolbar, Grid } from '@mui/material';
+import { Link } from "react-router-dom";
 
 const Header = () => {
-  const theme = useTheme();
-
   return (
     <>
-      <AppBar
-        position="fixed"
-        sx={{
-          backgroundColor: 'white',
-          color: 'black',
-          boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-        }}
-      >
-        <Toolbar>
-          <Grid
-            container
-            justifyContent={'space-between'}
-            alignItems={'center'}
-          >
-            <Grid item>Logo</Grid>
-            <Grid item>Account</Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      <div style={{ ...theme.mixins.toolbar }} />
+      <section className="flex justify-between mt-8 px-5">
+        <h1 className="text-dark-blue font-bold text-xl mt-2">HeartAI</h1>
+        <Link
+          className="bg-[#13183F] rounded-full text-white px-4 py-2 font-light"
+          to="/auth"
+        >
+          Get Started
+        </Link>
+      </section>
     </>
   );
 };
