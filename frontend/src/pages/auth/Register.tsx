@@ -1,9 +1,10 @@
-import { register } from '@/api/auth';
 import Form from '@/components/form/Form';
 import FormSubmitButton from '@/components/form/FormSubmitButton';
 import FormTextfield from '@/components/form/FormTextfield';
+import { useAppStore } from '@/hooks/store';
 import { RegistrationFormData } from '@/types';
-import { Grid, Paper, Typography, useTheme } from '@mui/material';
+import { Alert, Grid, Paper, Typography, useTheme } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
@@ -14,6 +15,10 @@ const validationSchema = Yup.object().shape({
 
 const Register = () => {
   const theme = useTheme();
+  const store = useAppStore();
+
+  const errorOccured = () => store.getError(store.register.name);
+
   return (
     <Form<RegistrationFormData>
       initialValues={{
@@ -23,7 +28,10 @@ const Register = () => {
         userType: 'patient',
       }}
       validationSchema={validationSchema}
-      onSubmit={(data) => register(data)}
+      onSubmit={async (data) => {
+        await store.register(data);
+        if (!errorOccured()) enqueueSnackbar('User was registered.');
+      }}
     >
       <Grid
         container
@@ -51,6 +59,11 @@ const Register = () => {
                   <Typography variant="h5">Register</Typography>
                 </Grid>
               </Grid>
+              {errorOccured() && (
+                <Grid item sx={{ mb: theme.spacing(2) }}>
+                  <Alert severity="error">{errorOccured()?.message}</Alert>
+                </Grid>
+              )}
               <Grid item>
                 <FormTextfield label="Name" name="name" />
               </Grid>

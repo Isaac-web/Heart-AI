@@ -1,25 +1,7 @@
 import { StateCreator } from 'zustand';
 import { AuthSlice, StoreState } from './types';
-import { login } from '@/api/auth';
-import { AxiosError } from 'axios';
-
-const getErrorMessage = (
-  error: AxiosError<{ message?: string }>
-): string | null => {
-  if (!error) return null;
-
-  if (!error.response) return error.message;
-
-  return error.response.data.message || null;
-};
-
-const handleError = (err: Error): string => {
-  if (err instanceof AxiosError) {
-    const message = getErrorMessage(err);
-    if (message) return message;
-  }
-  return 'Something went wrong.';
-};
+import { login, register } from '@/api/auth';
+import { handleError } from '@/utils/errorHandler';
 
 export const createAuthSlice: StateCreator<StoreState, [], [], AuthSlice> = (
   _,
@@ -32,6 +14,15 @@ export const createAuthSlice: StateCreator<StoreState, [], [], AuthSlice> = (
     } catch (err) {
       const message = handleError(err as Error);
       get().addError({ callingFunction: login.name, message });
+    }
+  },
+  register: async (data) => {
+    try {
+      get().removeError(register.name);
+      await register(data);
+    } catch (err) {
+      const message = handleError(err as Error);
+      get().addError({ callingFunction: register.name, message });
     }
   },
 });

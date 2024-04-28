@@ -5,6 +5,7 @@ import FormSubmitButton from '@/components/form/FormSubmitButton';
 import FormTextfield from '@/components/form/FormTextfield';
 import { LoginFormData } from '@/types';
 import { useAppStore } from '@/hooks/store';
+import { useSnackbar } from 'notistack';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required().label('Email'),
@@ -14,8 +15,9 @@ const validationSchema = Yup.object().shape({
 const Login = () => {
   const theme = useTheme();
   const store = useAppStore();
+  const { enqueueSnackbar } = useSnackbar();
 
-  const error = store.getError(store.login.name);
+  const errorOccured = () => store.getError(store.login.name);
 
   return (
     <Form<LoginFormData>
@@ -23,7 +25,7 @@ const Login = () => {
       validationSchema={validationSchema}
       onSubmit={async (data) => {
         await store.login(data);
-        if (!error) console.log('Was Succesful');
+        if (!errorOccured()) enqueueSnackbar('I love snacks');
       }}
     >
       <Grid
@@ -52,11 +54,12 @@ const Login = () => {
                   <Typography variant="h5">Login</Typography>
                 </Grid>
               </Grid>
-              {error && (
+              {errorOccured() && (
                 <Grid item sx={{ mb: theme.spacing(2) }}>
-                  <Alert severity="error">{error.message}</Alert>
+                  <Alert severity="error">{errorOccured()?.message}</Alert>
                 </Grid>
               )}
+
               <Grid item>
                 <FormTextfield name="email" label="Email" />
               </Grid>

@@ -4,11 +4,14 @@ import App from './App.tsx';
 import { ThemeProvider } from '@mui/material';
 import './index.css';
 import theme from './theme.ts';
+import { SnackbarProvider } from 'notistack';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
+      <SnackbarProvider>
+        <App />
+      </SnackbarProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
