@@ -6,6 +6,7 @@ import FormTextfield from '@/components/form/FormTextfield';
 import { LoginFormData } from '@/types';
 import { useAppStore } from '@/hooks/store';
 import { useSnackbar } from 'notistack';
+import { useNavigate } from 'react-router-dom';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required().label('Email'),
@@ -16,6 +17,7 @@ const Login = () => {
   const theme = useTheme();
   const store = useAppStore();
   const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
 
   const errorOccured = () => store.getError(store.login.name);
 
@@ -25,7 +27,10 @@ const Login = () => {
       validationSchema={validationSchema}
       onSubmit={async (data) => {
         await store.login(data);
-        if (!errorOccured()) enqueueSnackbar('I love snacks');
+        if (!errorOccured()) {
+          enqueueSnackbar('You are logged in.');
+          navigate('/patient');
+        }
       }}
     >
       <Grid

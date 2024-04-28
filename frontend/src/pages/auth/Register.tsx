@@ -5,6 +5,7 @@ import { useAppStore } from '@/hooks/store';
 import { RegistrationFormData } from '@/types';
 import { Alert, Grid, Paper, Typography, useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
@@ -16,6 +17,7 @@ const validationSchema = Yup.object().shape({
 const Register = () => {
   const theme = useTheme();
   const store = useAppStore();
+  const navigate = useNavigate();
 
   const errorOccured = () => store.getError(store.register.name);
 
@@ -30,7 +32,12 @@ const Register = () => {
       validationSchema={validationSchema}
       onSubmit={async (data) => {
         await store.register(data);
-        if (!errorOccured()) enqueueSnackbar('User was registered.');
+        if (!errorOccured()) {
+          enqueueSnackbar('Account registered successfully.', {
+            variant: 'success',
+          });
+          navigate('/login');
+        }
       }}
     >
       <Grid
