@@ -1,4 +1,4 @@
-import { Schema, model, Document, Types } from 'mongoose';
+import { Schema, model, Document, Types } from "mongoose";
 
 export interface IChatSession extends Document {
   title: string;
@@ -13,6 +13,6 @@ const ChatSessionSchema: Schema = new Schema<IChatSession>(
   { timestamps: true }
 );
 
-const ChatSession = model<IChatSession>('ChatSession', ChatSessionSchema);
+const ChatSession = model<IChatSession>("ChatSession", ChatSessionSchema);
 
 export default ChatSession;
