@@ -17,8 +17,6 @@ export const createMedicalReportRequest = async (
       message: error.details[0].message,
     });
 
-  console.log(req.body.patientId);
-
   const [patient, doctor, existingRequest] = await Promise.all([
     User.findOne({ _id: req.body.patientId, userType: 'patient' }),
     User.findOne({ _id: req.body.doctorId, userType: 'doctor' }),
