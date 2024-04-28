@@ -29,17 +29,18 @@ class OnboardingScreen extends StatelessWidget {
                   FadeInLeft(
                     duration: const Duration(milliseconds: 1000),
                     child: Container(
-                      width: 229.h,
                       margin: EdgeInsets.only(left: 16.h),
-                      child: Text(
-                        "Healthcare,\nat your call.",
-                        maxLines: 2,
+                      child: const Text(
+                        "Healthcare, at your call.",
                         overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.displayMedium,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 19.v),
+                  SizedBox(height: 15.v),
                   FadeIn(
                     duration: const Duration(milliseconds: 1000),
                     child: Container(
@@ -65,8 +66,8 @@ class OnboardingScreen extends StatelessWidget {
                       onPressed: (){
                         Navigator.of(context).pushNamed(AppRoutes.registerScreen);
                       },
-                      height: 56.v,
-                      width: 167.h,
+                      height: 46.v,
+                      width: 150.h,
                       text: "Get Started",
                       margin: EdgeInsets.only(left: 16.h),
                       buttonStyle: CustomButtonStyles.none,
@@ -74,7 +75,7 @@ class OnboardingScreen extends StatelessWidget {
                       CustomButtonStyles.gradientOnPrimaryToPinkADecoration,
                     ),
                   ),
-                  SizedBox(height: 73.v),
+                  SizedBox(height: 43.v),
                   FadeInUp(
                       duration: const Duration(milliseconds: 1000),
                       child: _buildColumncheckouto(context)
@@ -140,7 +141,7 @@ class OnboardingScreen extends StatelessWidget {
         ),
         padding: EdgeInsets.symmetric(
           horizontal: 114.h,
-          vertical: 23.v,
+          vertical: 13.v,
         ),
         decoration: AppDecoration.gradientOnPrimaryToPinkA.copyWith(
           borderRadius: BorderRadiusStyle.roundedBorder10,
@@ -177,50 +178,17 @@ class OnboardingScreen extends StatelessWidget {
             height: 24.v,
           );
         },
-        itemCount: 3,
+        itemCount: cards.length,
         itemBuilder: (context, index) {
           return FadeInUp(
               duration: const Duration(milliseconds: 1000),
-              child: const ColumnItemWidget()
+              child: ColumnItemWidget(
+                title: cards[index].title,
+                content: cards[index].content,)
           );
         },
       ),
     );
   }
 
-  /// Section Widget
-  Widget _buildRowskilledone(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        left: 16.h,
-        right: 16.h,
-        bottom: 36.v,
-      ),
-      decoration: AppDecoration.fillPrimary,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(
-              top: 7.v,
-              bottom: 4.v,
-            ),
-            child: Text(
-              "HeartAI",
-              style: CustomTextStyles.headlineMediumWhiteA700,
-            ),
-          ),
-          CustomElevatedButton(
-            onPressed: (){
-              Navigator.of(context).pushNamed(AppRoutes.registerScreen);
-            },
-            width: 140.h,
-            text: "Get Started",
-            buttonStyle: CustomButtonStyles.none,
-            decoration: CustomButtonStyles.gradientIndigoAToPinkADecoration,
-          )
-        ],
-      ),
-    );
-  }
 }
