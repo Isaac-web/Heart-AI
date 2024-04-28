@@ -40,13 +40,25 @@ flutter run
 1. splash screen
 2. login
 3. Patient Dashboard
-4. Landing Page (reports page)
+4. Landing Page
 5. chatbot HomePage
 6. chatbot chatScreen
 
 ## Screenshots
 
 <img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/4dcf47fb-8b27-45db-954b-2fb3b1ff9a1b" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/2bd5a1e9-1fd5-4f1c-9e3d-113fb99adaf4" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/46f69f06-ea1f-4458-adbf-b08290d17a43" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/c3dbeb1e-b604-4f33-93a3-1a0547ebf00c" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/39b76901-558e-4728-8646-2c23f7912c61" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/06fb1b4b-eff4-4f18-9e28-63da8609f75d" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/37e68684-458e-43ac-be86-5088441221b7" width="100" heigth="200">
 
 
 ## Conclusion
