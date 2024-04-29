@@ -36,3 +36,61 @@ Response:
 Using cURL:
 `curl -X POST "http://localhost:9000/chat" -H "Content-Type: application/json" -d '{"text": "Hello, how can I help you?", "context": "heart_disease", "session_id": "unique_session_id"}'
 `
+
+# Chatbot
+
+Loads the environmental variable and creates a  create_chain function that takes in the model and prompt and returns a chain
+```python
+  load_dotenv()
+  def create_chain():
+      model =  ChatOpenAI(
+              api_key= os.getenv("OPENAI_API_KEY"),
+              temperature=0.2,
+              model='gpt-3.5-turbo-1106'
+          )
+
+      prompt = ChatPromptTemplate.from_messages(
+          [
+              (
+                  "system",
+                  """You are Heartty, a cardiologist, provide accurate answers based on the {context} provided. 
+                  If you don't know the answer to any question truthfully say so and do not hallucinate.""",
+              ),
+              MessagesPlaceholder(variable_name="chathistory"),
+              ("human", "{input}"),
+          ]
+      )
+      chain = prompt | model
+      return chain
+```
+
+chain = create_chain calls the create_chain function and we create a dictionary named store. We then create a function that retrieves or creates a session_id.
+```python 
+  chain = create_chain()
+  store = {}
+
+
+  def get_session_history(session_id: str) -> BaseChatMessageHistory:
+      if session_id not in store:
+          store[session_id] = ChatMessageHistory()
+      return store[session_id]
+```
+
+
+We run the chain with the RunnableWithMessageHistory 
+```python
+    conversation = RunnableWithMessageHistory(
+        chain,
+        get_session_history,
+        input_messages_key="input",
+        history_messages_key="chathistory",
+      
+    )
+    def get_response(context, message, session_id):
+        response = conversation.invoke(
+            {"context": context, "input": message},
+            config={"configurable": {"session_id": session_id}},
+        )
+
+        return response.content
+```        
