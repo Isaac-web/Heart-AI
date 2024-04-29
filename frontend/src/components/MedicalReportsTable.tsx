@@ -3,7 +3,6 @@ import { getUserId } from '@/utils/auth';
 import {
   Button,
   Chip,
-  CircularProgress,
   Table,
   TableBody,
   TableCell,
