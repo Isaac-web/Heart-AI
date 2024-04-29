@@ -252,8 +252,9 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: (){
-
-                Navigator.pushNamed(context, AppRoutes.chatScreen);
+                prefs.setString("sessionId", dataList[index]["_id"]);
+                prefs.setString("patientId", dataList[index]["patientId"]);
+                Navigator.pushNamed(context, AppRoutes.chatList);
               },
               child: RecentchatlistItemWidget(
                 date: dataList[index]["createdAt"],
