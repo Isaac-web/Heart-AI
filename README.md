@@ -1,81 +1,132 @@
 # HeartAI: Heart Disease Prediction App 
 
-Welcome to the HeartAI Documentation, your comprehensive guide to understanding and utilizing our predictive healthcare system. From heart disease prediction to real-time communication with healthcare professionals, this documentation covers every aspect of the system's features, installation, and usage.
+Welcome to the HeartAI Documentation, your comprehensive guide to understanding and utilizing our predictive healthcare system. This document provides a comprehensive overview of the HeartAI system, including its frontend interface, backend architecture, AI model integration, and mobile application.
 
-## Introduction
+## Purpose
 
-HeartAI is a revolutionary healthcare system designed to empower individuals to proactively manage their heart health. Leveraging cutting-edge technologies such as artificial intelligence (AI) and machine learning (ML), HeartAI provides accurate predictions of heart disease risk while facilitating seamless communication between users and healthcare professionals.
+The HeartAI system is designed to inform users of their heart health, effectively encouraging them to take proper care of their hearts. By leveraging artificial intelligence (AI) models, users are sensitised on their risk of heart disease and also, receive personalized insights and guidance. In addition, the system facilitates seamless communication between users and the chatbot interface.
 
-## Features
+# App Components
 
-### Heart Disease Prediction
-- Utilizes advanced ML algorithms to forecast heart disease risk based on user input and medical records.
-- Provides detailed reports outlining potential risk factors and actionable insights for improving heart health.
+## HeartAi Frontend
+The HeartAI Frontend is a user-friendly web application interface that allows users to interact with the HeartAI system. Below is an overview of its features, components, and technologies used. The doctor and the patients are the users in this case.
 
-### Real-time Communication
-- Enables users to engage in live chat sessions with certified healthcare professionals for inquiries, advice, and consultations.
-- Facilitates secure and confidential communication to address user concerns and provide personalized guidance.
+### Features
+- **Certified Doctor Reports**: Medical reports are generated directly through the application, providing additional insights and recommendations from healthcare professionals.
+- **Chatbot Integration**: Users can interact with an AI chatbot to receive personalized insights and guidance based on predictions from their health data.
+- **Detailed Reports**: Users can view detailed reports generated from their health data, providing comprehensive information about their heart health status and potential risk factors.
 
-### Medical Report Management
-- Empowers users to upload, store, and manage their medical reports within the system for precise prediction and communication.
-- Ensures data privacy and compliance with healthcare regulations through robust security measures.
+## HeartAi Backend
+The HeartAI Backend serves as the core infrastructure of the HeartAI system, handling data analysis, machine learning, user authentication, and communication between users and healthcare professionals..
 
-### Data and Chatbot Integration
-- HeartAI integrates a vast repository of anonymized medical data to enhance the accuracy of its predictive models.
-- The chatbot interface utilizes natural language processing (NLP) and AI to provide responsive and contextually relevant interactions with users.
+### Features
+- **Heart Disease Prediction**: Predicts heart disease risk based on user input and medical records using advanced ML algorithms.
+- **User Authentication**: Ensures secure user authentication via bcrypt and JSON Web Tokens (JWT).
+- **Medical Report Management**: Allows users to upload and manage medical reports for precise prediction and communication.
+- **Scalability**: Built on Express.js and MongoDB for high scalability and ease of extension.
 
-### Scalable and Extendable
-- Built on modern web technologies such as Express.js and MongoDB, offering high scalability and ease of extension with additional features.
-- Adheres to best practices in software development to deliver a robust and reliable healthcare solution for users worldwide.
+### API Endpoints
+- `/users`: Handles user management tasks.
+- `/chat-messages` : Manages chat message interactions.
+- `/medical-reports `: Facilitates management of medical reports.
+- `/chat-sessions` : Manages chat session endpoints.
+- `/predictions` : Handles heart disease prediction endpoints.
 
-## Mobile app
-- A mobile app for patients to request for prediction results and ask follow up questions.
-
-### Prerequisites
-- Node.js and npm installed on your system
-- MongoDB database instance for storing user data and medical records
-
-### Steps
-1. Clone the repository: `git clone https://github.com/your/repository.git`
-2. Navigate to the project directory: `cd heart-ai`
-3. Install dependencies: `npm install`
-4. Configure environment variables:
-   - Create a `.env` file based on the `.env.example` template.
-   - Specify the required environment variables (e.g., MongoDB connection URI, JWT secret).
-5. Launch the server: `npm start`
-
-## Usage
-
-1. Access the web interface by visiting `http://localhost:PORT` in your web browser.
-2. Register an account or log in if you already have one.
-3. Explore the heart disease prediction tools, upload medical reports, and engage in chat sessions with healthcare professionals.
-
-## API Endpoints
-
-- `/users`: Handles user management tasks such as registration, login, and profile management.
-- `/chat-messages`: Manages endpoints for chat message interactions.
-- `/medical-reports`: Facilitates management of medical reports.
-- `/chat-sessions`: Manages chat session endpoints.
-- `/predictions`: Handles heart disease prediction endpoints.
-
-## Technologies Used
-
+### Technologies Used
 - Express.js: Web application framework for Node.js
 - MongoDB: NoSQL database for storing user data, medical reports, and chat messages
-- bcrypt: Library for secure password hashing
-- Joi: Schema validation library for user input validation
-- JSON Web Tokens (JWT): Secure authentication mechanism
+- bcrypt: Password hashing library for secure user authentication.
+- Joi: Data validation library for API input validation.
+- JSON Web Tokens (JWT): Authentication mechanism for API requests.
 - Other libraries and dependencies specified in `package.json`
 
-## Conclusion
+### Installation
+- Clone the repository: [https://github.com/dzeble/Heart-Disease-Prediction-Group-2.git](https://github.com/dzeble/Heart-Disease-Prediction-Group-2.git)
+- Navigate to the project directory: `cd heart-disease-system`.
+- Install dependencies: `npm install`.
+- Configure environment variables in a `.env` file.
+- Launch the server: `npm run dev`
 
+
+# Web app
+ A web app for Doctors to send reports and prediction results to patients.
+
+### Compomemts
+-  **Header**: Displays the HeartAI logo and a "Login" button for access.
+- **Hero Section** : Welcomes users to the application and provides an overview of its purpose.
+- **Authentication Page** : Allows doctors to sign in after verification.
+- **Features Section**: Showcases key features of the HeartAI application.
+- **Footer**: Displays the HeartAI logo and a "Get Started" button for quick access to the signup process.
+
+### Technologies used
+- **React.js**: JavaScript library for building user interfaces.
+- **React Router**: Library for routing in React applications.
+- **Material UI**: React component library implementing Google's Material Design.
+- **Tailwind CSS**: Utility-first CSS framework for rapidly building custom designs.
+
+### Getting Started
+To set up and run the HeartAI Frontend on your local machine:
+- Clone the repository or download the project files from [https://github.com/dzeble/Heart-Disease-Prediction-Group-2.git](https://github.com/dzeble/Heart-Disease-Prediction-Group-2.git) .
+- Install dependencies using `npm install` or `yarn install`.
+- Start the development server with `npm run dev` or `yarn dev`.
+- Access the application in your web browser at [http://127.0.0.1:5173/](http://127.0.0.1:5173/)
+
+## UI snippets
+
+
+
+
+# HeartAi Mobile Application
+The HeartAI Mobile Application allows users to have access to heart disease predictions,  and heart health management  information through interactions with the system bot.
+
+## Features
+- **Mobile Chatbot**: ntegration of the AI chatbot into a mobile-friendly interface for seamless interaction.
+- **Dashboard**: Visual representation of user health data and heart disease risk predictions.
+- **Notification System**: Reminders for medication, appointments, and health check-ups to promote proactive health management.
+- **Secure Access**: Biometric authentication and encrypted data transmission ensure secure access to sensitive health information.
+
+### Technologies used
+- **React Native**: JavaScript framework for building native mobile applications.
+- **Expo**: Development platform for building React Native applications.
+- **Firebase**: Backend services for mobile and web applications, including authentication and real-time database.
+- **Redux**: State management library for JavaScript applications.
+- **Axios**: Promise-based HTTP client for making requests from the mobile app to the server.
+
+### Getting Started
+Run the following commands from your terminal:
+1. https://github.com/dzeble/Heart-Disease-Prediction-Group-2.git to clone this repo
+2. 'flutter pub get' in the project root directory to install all the required dependencies.
+3. From your terminal, run `flutter run`.
+`
+ ### Testing
+  - Compatible with iOS and Android devices.
+  - Testing performed on various screen sizes and resolutions to ensure responsiveness.
+
+ ## Ui Snippets
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/4dcf47fb-8b27-45db-954b-2fb3b1ff9a1b" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/04fc01e4-40ec-4d99-b8ae-45c6e10d5727" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/2bd5a1e9-1fd5-4f1c-9e3d-113fb99adaf4" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/46f69f06-ea1f-4458-adbf-b08290d17a43" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/c3dbeb1e-b604-4f33-93a3-1a0547ebf00c" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/39b76901-558e-4728-8646-2c23f7912c61" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/06fb1b4b-eff4-4f18-9e28-63da8609f75d" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/37e68684-458e-43ac-be86-5088441221b7" width="100" heigth="200">
+    
+## Conclusion
 HeartAI represents a paradigm shift in predictive healthcare, empowering individuals to take control of their heart health through data-driven insights and expert guidance. With its user-friendly interface, robust architecture, and emphasis on privacy and security, HeartAI is poised to revolutionize the way we approach preventive healthcare in the digital age.
 
 # Contributors
 Samuel Berchie Opoku, Sven Dzeble, Moro Njie, Emeralda Kusi Yeboah, Faddal Ibrahim, Isaac kanyiti Takyi, Jeffrey Ofori Kwakye, Manu Adam Onyina, Isaac Asiamah, Abdul Razak Abubakari.
 
 # Additional Information
-Please read through our documentation 
+You can have a different view of our app through our text documenation
 [https://reallygreattech.atlassian.net/l/ce/zLU7a72u](https://reallygreattech.atlassian.net/l/ce/zLU7a72u)
 Or  look up our presentation for a graphic view of the project 
 [https://docs.google.com/presentation/d/1kKyBZ7KIlsZSamtCHpwalDawTKrAagyB_vK7t5eTMzA/edit?pli=1#slide=id.g106ddb05087_0_625](https://docs.google.com/presentation/d/1kKyBZ7KIlsZSamtCHpwalDawTKrAagyB_vK7t5eTMzA/edit?pli=1#slide=id.g106ddb05087_0_625)
