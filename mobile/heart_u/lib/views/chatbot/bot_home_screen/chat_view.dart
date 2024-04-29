@@ -1,7 +1,9 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:chatview/chatview.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:heart_u/dio/dio_client.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../core/utils/constants.dart';
 import '../data.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -14,6 +16,8 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   AppTheme theme = DarkTheme();
   bool isDarkTheme = false;
+
+  final Dio dio = Dio();
 
   final currentUser = ChatUser(
     id: '1',
@@ -238,6 +242,9 @@ class _ChatScreenState extends State<ChatScreen> {
   void _onSendTap(String message, ReplyMessage replyMessage,
       MessageType messageType,
       ) async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     final id = int.parse(Data.messageList.last.id) + 1;
     _chatController.addMessage(
       Message(
@@ -257,26 +264,88 @@ class _ChatScreenState extends State<ChatScreen> {
       _chatController.initialMessageList.last.setStatus = MessageStatus.read;
     });
 
+    String? token = prefs.getString('token');
 
-    final Dio dio = Dio();
+    String? sessionId = prefs.getString('sessionId');
 
-    const baseUrl = 'https://heart-disease-predictor-8.onrender.com/chat';
+    print(token);
+
+    String _baseUrl = baseUrl;
 
     print("dio initialised");
 
     try {
+      _chatController.setTypingIndicator = true;
+
+
+      print("chat initialised");
       Response response = await dio.post(
-        baseUrl,
+        "${_baseUrl}api/chat-messages",
         data: {
-          "context": "results = 'Status: You have heart disease" ,
-          "message" : message,
-          "session_id": "testzakid1",
+          "text" : message,
+          "chatSessionId": sessionId,
+          "context": "heart diseases",
         },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token!}"
+          },
+          validateStatus: (_) => true,
+        ),
       );
 
-      print('Bot said: ${response.data}');
+      print('Response: ${response.data}');
+
+      if (response.statusCode == 200){
+
+        _chatController.setTypingIndicator = false;
+
+        final jsonData = response.data;
+        final systemMessage = jsonData['data']['systemMessage'];
+
+        _chatController.addMessage(
+          Message(
+            id: id.toString(),
+            createdAt: DateTime.now(),
+            message: systemMessage,
+            sendBy: "2",
+            replyMessage: replyMessage,
+            messageType: messageType,
+          ),
+        );
+
+      }else {
+        _chatController.setTypingIndicator = false;
+
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          animType: AnimType.rightSlide,
+          headerAnimationLoop: true,
+          title: 'Error',
+          desc:
+          'An Error occurred please try again later',
+          btnOkOnPress: () {},
+          btnOkIcon: Icons.cancel,
+          btnOkColor: Colors.red,
+        ).show();
+      }
 
     } catch (e) {
+      _chatController.setTypingIndicator = false;
+
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.rightSlide,
+        headerAnimationLoop: true,
+        title: 'Error',
+        desc:
+        "An error occurred please try again later",
+        btnOkOnPress: () {},
+        btnOkIcon: Icons.cancel,
+        btnOkColor: Colors.red,
+      ).show();
       print('Error sending message: $e');
     }
 

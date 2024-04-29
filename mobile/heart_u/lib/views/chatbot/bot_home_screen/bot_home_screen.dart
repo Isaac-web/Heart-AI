@@ -1,15 +1,30 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:heart_u/core/app_export.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:widget_loading/widget_loading.dart';
+import '../../../core/utils/constants.dart';
 import '../../../theme/custom_button_style.dart';
 import '../../../widgets/custom_elevated_button.dart';
 import 'widgets/recentchatlist_item_widget.dart';
 
-class BotHomeScreen extends StatelessWidget {
+class BotHomeScreen extends StatefulWidget {
   const BotHomeScreen({Key? key})
       : super(
           key: key,
         );
+
+  @override
+  State<BotHomeScreen> createState() => _BotHomeScreenState();
+}
+
+class _BotHomeScreenState extends State<BotHomeScreen> {
+
+  final Dio dio = Dio();
+
+  var loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +50,6 @@ class BotHomeScreen extends StatelessWidget {
       ),
     );
   }
-
 
   /// Section Widget
   Widget _buildRecentChatColumn(BuildContext context) {
@@ -145,19 +159,104 @@ class BotHomeScreen extends StatelessWidget {
   Widget _buildStartNewButton(BuildContext context) {
     return BounceInDown(
       duration: const Duration(milliseconds: 1000),
-      child: CustomElevatedButton(
-        onPressed: (){
-          Navigator.of(context).pushNamed(AppRoutes.chatList);
-        },
-        height: 45.v,
-        text: "Start new conversation",
-        margin: EdgeInsets.only(
-          left: 52.h,
-          right: 53.h,
-          bottom: 47.v,
+      child: CircularWidgetLoading(
+        loading: loading,
+        child: CustomElevatedButton(
+          onPressed: () async {
+
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+
+            String? token = prefs.getString('token');
+
+            String _baseUrl = baseUrl;
+
+            print("dio initialised");
+
+            try {
+
+              setState(() {
+                loading = true;
+              });
+
+              print("session creation initialised");
+              Response response = await dio.post(
+                "${_baseUrl}api/chat-sessions/me",
+                data: {
+                  "title" : "Another session",
+                },
+                options: Options(
+                  headers: {
+                    "Authorization": "Bearer ${token!}"
+                  },
+                  validateStatus: (_) => true,
+                ),
+              );
+
+              print('Response: ${response.data}');
+
+              if (response.statusCode == 200){
+
+                setState(() {
+                  loading = false;
+                });
+
+                final jsonData = response.data;
+                final sessionId = jsonData['data']['_id'];
+                final patientId = jsonData['data']['patientId'];
+
+                prefs.setString('sessionId', sessionId);
+                prefs.setString('patientId', patientId);
+
+                Navigator.of(context).pushNamed(AppRoutes.chatList);
+
+              }else {
+                setState(() {
+                  loading = false;
+                });
+                AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.error,
+                  animType: AnimType.rightSlide,
+                  headerAnimationLoop: true,
+                  title: 'Error',
+                  desc:
+                  'Please try again later',
+                  btnOkOnPress: () {},
+                  btnOkIcon: Icons.cancel,
+                  btnOkColor: Colors.red,
+                ).show();
+              }
+
+            } catch (e) {
+              setState(() {
+                loading = false;
+              });
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.error,
+                animType: AnimType.rightSlide,
+                headerAnimationLoop: true,
+                title: 'Error',
+                desc:
+                "Please try again later",
+                btnOkOnPress: () {},
+                btnOkIcon: Icons.cancel,
+                btnOkColor: Colors.red,
+              ).show();
+              print('Error sending message: $e');
+            }
+
+          },
+          height: 45.v,
+          text: "Start new conversation",
+          margin: EdgeInsets.only(
+            left: 52.h,
+            right: 53.h,
+            bottom: 47.v,
+          ),
+          buttonStyle: CustomButtonStyles.none,
+          decoration: CustomButtonStyles.gradientLightGreenToPrimaryDecoration,
         ),
-        buttonStyle: CustomButtonStyles.none,
-        decoration: CustomButtonStyles.gradientLightGreenToPrimaryDecoration,
       ),
     );
   }

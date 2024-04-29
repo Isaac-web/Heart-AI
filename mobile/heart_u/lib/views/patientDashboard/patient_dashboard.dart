@@ -82,14 +82,75 @@ class _PatientDashboardState extends State<PatientDashboard> {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
-      title: const Padding(
-        padding: EdgeInsets.only(left: 10.0),
-        child: Text(
-          "HeartAI",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 28,
-            fontWeight: FontWeight.w700,
+      title: GestureDetector(
+        onTap: (){
+          AwesomeDialog(
+            context: context,
+            animType: AnimType.topSlide,
+            dialogType: DialogType.info,
+            title: "Patient Info",
+            showCloseIcon: true,
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Patient Details',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 15,),
+
+                  Text(
+                    'Abdul Razak',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 10,),
+
+                  Text(
+                    'Male',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 10,),
+
+                  Text(
+                    '0550000000',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 10,),
+
+                  Text(
+                    '...',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+
+                  const SizedBox(height: 10,),
+
+                  AnimatedButton(
+                    isFixedHeight: false,
+                    text: 'Log Out',
+                    pressEvent: () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          AppRoutes.login,
+                              (route) => false);
+                    },
+                  )
+                ],
+              ),
+            ),
+          ).show();
+        },
+        child: const Padding(
+          padding: EdgeInsets.only(left: 10.0),
+          child: Text(
+            "HeartAI",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 28,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
       ),

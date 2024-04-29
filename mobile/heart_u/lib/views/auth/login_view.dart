@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:widget_loading/widget_loading.dart';
 import '../../core/app_export.dart';
 import '../../core/utils/constants.dart';
@@ -30,6 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final Dio dio = Dio();
 
   var loading = false;
+
+  var jsonList;
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +146,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildSigninas(BuildContext context) {
     return CustomElevatedButton(
       onPressed: () async {
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
         String password = passwordController.text;
         String username = userNameController.text;
         if (password.isEmpty || username.isEmpty){
@@ -193,6 +200,14 @@ class _LoginScreenState extends State<LoginScreen> {
             );
 
             print('Response: ${response.data}');
+
+            final jsonData = response.data;
+            final token = jsonData['token'];
+
+            print("Message is $token");
+
+            prefs.setString('token', token);
+            prefs.setString('email', username);
 
             if (response.statusCode == 200){
 

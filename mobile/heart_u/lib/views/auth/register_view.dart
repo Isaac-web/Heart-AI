@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:heart_u/core/utils/constants.dart';
 import 'package:widget_loading/widget_loading.dart';
 import '../../core/app_export.dart';
@@ -259,14 +258,6 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
               setState(() {
                 loading = false;
               });
-              Fluttertoast.showToast(
-                  msg: "This is a Toast message",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.CENTER,
-                  timeInSecForIosWeb: 1,
-                  textColor: Colors.white,
-                  fontSize: 16.0
-              );
 
               Navigator.of(context).pushNamedAndRemoveUntil(
                   AppRoutes.login, (route) => false);
