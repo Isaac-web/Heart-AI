@@ -33,6 +33,13 @@ const theme = createTheme({
         fullWidth: true,
       },
     },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+        },
+      },
+    },
   },
   palette: {},
 });

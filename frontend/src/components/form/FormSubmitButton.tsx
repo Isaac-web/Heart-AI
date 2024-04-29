@@ -1,13 +1,15 @@
-import { Button } from '@mui/material';
+import { Button, CircularProgress, useTheme } from '@mui/material';
 import { useFormikContext } from 'formik';
 import { ReactNode } from 'react';
 
 interface FormSubmitButtonProps {
+  loading?: boolean;
   children: ReactNode;
 }
 
-const FormSubmitButton = ({ children }: FormSubmitButtonProps) => {
+const FormSubmitButton = ({ children, loading }: FormSubmitButtonProps) => {
   const { handleSubmit } = useFormikContext();
+  const theme = useTheme();
 
   return (
     <Button
@@ -16,7 +18,14 @@ const FormSubmitButton = ({ children }: FormSubmitButtonProps) => {
       type="submit"
       onClick={() => handleSubmit()}
     >
-      {children}
+      {!loading ? (
+        children
+      ) : (
+        <CircularProgress
+          sx={{ color: theme.palette.common.white }}
+          size="1.8em"
+        />
+      )}
     </Button>
   );
 };

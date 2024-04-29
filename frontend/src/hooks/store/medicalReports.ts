@@ -1,22 +1,28 @@
 import { StateCreator } from 'zustand';
-import { StoreState, UsersSlice } from './types';
-import { fetchUsers } from '@/api/users';
+import { MedicalReportSlice, StoreState } from './types';
 import { handleError } from '@/utils/errorHandler';
+import { fetchMedicalReports } from '@/api/medicalReports';
 
-export const createMedicalReportSlice: StateCreator<
+export const createMedicalReportsSlice: StateCreator<
   StoreState,
   [],
   [],
-  UsersSlice
-> = (set) => ({
-  users: [],
-  fetchUsers: async (params = {}) => {
-    try {
-      const usersData = await fetchUsers(params);
+  MedicalReportSlice
+> = (set, get) => ({
+  medicalReports: [],
+  loadingMedicalReports: false,
+  async fetchMedicalReports(params = {}) {
+    set({ loadingMedicalReports: true });
 
-      set({ users: usersData });
+    try {
+      const data = await fetchMedicalReports(params);
+      get().removeError(fetchMedicalReports.name);
+      set({ medicalReports: data });
     } catch (err) {
-      handleError(err as Error);
+      const message = handleError(err as Error);
+      get().addError({ callingFunction: fetchMedicalReports.name, message });
+    } finally {
+      set({ loadingMedicalReports: false });
     }
   },
 });

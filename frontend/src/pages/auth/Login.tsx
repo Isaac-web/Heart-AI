@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { Alert, Grid, Paper, Typography, useTheme } from '@mui/material';
+import { Alert, Box, Grid, Typography, useTheme } from '@mui/material';
 import Form from '@/components/form/Form';
 import FormSubmitButton from '@/components/form/FormSubmitButton';
 import FormTextfield from '@/components/form/FormTextfield';
@@ -7,6 +7,7 @@ import { LoginFormData } from '@/types';
 import { useAppStore } from '@/hooks/store';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
+import AppPaper from '@/components/AppPaper';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required().label('Email'),
@@ -29,7 +30,7 @@ const Login = () => {
         await store.login(data);
         if (!errorOccured()) {
           enqueueSnackbar('You are logged in.');
-          navigate('/patient');
+          navigate('/doctor');
         }
       }}
     >
@@ -45,44 +46,52 @@ const Login = () => {
         }}
       >
         <Grid item xs={12} md={8} xl={4}>
-          <Paper
-            sx={{
-              pt: theme.spacing(4),
-              pb: theme.spacing(4),
-              pl: theme.spacing(5),
-              pr: theme.spacing(5),
-            }}
-          >
-            <Grid container direction="column" spacing={2}>
-              <Grid item>
-                <Grid container justifyContent={'center'} alignItems={'center'}>
-                  <Typography variant="h5">Login</Typography>
-                </Grid>
-              </Grid>
-              {errorOccured() && (
-                <Grid item sx={{ mb: theme.spacing(2) }}>
-                  <Alert severity="error">{errorOccured()?.message}</Alert>
-                </Grid>
-              )}
-
-              <Grid item>
-                <FormTextfield name="email" label="Email" />
-              </Grid>
-              <Grid item>
+          <AppPaper>
+            <Box
+              sx={{
+                pt: theme.spacing(4),
+                pb: theme.spacing(4),
+                pl: theme.spacing(5),
+                pr: theme.spacing(5),
+              }}
+            >
+              <Grid container direction="column" spacing={2}>
                 <Grid item>
-                  <FormTextfield
-                    type="password"
-                    name="password"
-                    label="Password"
-                  />
+                  <Grid
+                    container
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                  >
+                    <Typography variant="h5">Login</Typography>
+                  </Grid>
+                </Grid>
+                {errorOccured() && (
+                  <Grid item sx={{ mb: theme.spacing(2) }}>
+                    <Alert severity="error">{errorOccured()?.message}</Alert>
+                  </Grid>
+                )}
+
+                <Grid item>
+                  <FormTextfield name="email" label="Email" />
+                </Grid>
+                <Grid item>
+                  <Grid item>
+                    <FormTextfield
+                      type="password"
+                      name="password"
+                      label="Password"
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid item>
+                  <FormSubmitButton loading={store.authPending}>
+                    Login
+                  </FormSubmitButton>
                 </Grid>
               </Grid>
-
-              <Grid item>
-                <FormSubmitButton>Login</FormSubmitButton>
-              </Grid>
-            </Grid>
-          </Paper>
+            </Box>
+          </AppPaper>
         </Grid>
       </Grid>
     </Form>
