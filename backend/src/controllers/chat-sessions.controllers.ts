@@ -9,21 +9,10 @@ export const getMyChatSessions = async (req: AppRequest, res: AppResponse) => {
       message: 'user not found',
     });
 
-  let { page, pageSize } = req.query;
-  if (!page || !pageSize || !Number(page) || !Number(pageSize)) {
-    return res
-      .status(400)
-      .json({ successful: false, error: 'invalid query parameters' });
-  }
-
   try {
-    let skip_ = (Number(page) - 1) * Number(pageSize);
-    let limit_: number = Number(pageSize);
-
-    const chatSessions = await ChatSession.find({ patientId: req.user._id })
-      .sort({ createdAt: -1 })
-      .skip(skip_)
-      .limit(limit_);
+    const chatSessions = await ChatSession.find({
+      patientId: req.user._id,
+    }).sort({ createdAt: -1 });
 
     if (!chatSessions) {
       return res
@@ -31,8 +20,10 @@ export const getMyChatSessions = async (req: AppRequest, res: AppResponse) => {
         .json({ successful: false, error: 'Error getting forms' });
     }
 
-    res.status(200).json({ successful: true, data: chatSessions });
-  } catch (error) {}
+    res.status(200).json({ data: chatSessions });
+  } catch (error) {
+    return res.status(400).json({ message: 'Something went wrong.' });
+  }
 };
 
 export const createChatSession = async (req: AppRequest, res: AppResponse) => {
