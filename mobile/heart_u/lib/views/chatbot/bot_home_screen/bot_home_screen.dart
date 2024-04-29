@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
@@ -91,7 +93,7 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
                   child: Column(
                     children: [
                       Text(
-                        "Bot is online and ready to chat",
+                        "Hearty is online and ready to chat",
                         style: theme.textTheme.titleSmall,
                       ),
                       SizedBox(height: 12.v),
@@ -178,11 +180,13 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
                 loading = true;
               });
 
+              num randomNumber = Random().nextInt(1000000 - 1) + 1;
+
               print("session creation initialised");
               Response response = await dio.post(
                 "${_baseUrl}api/chat-sessions/me",
                 data: {
-                  "title" : "Another session",
+                  "title" : randomNumber.toString(),
                 },
                 options: Options(
                   headers: {

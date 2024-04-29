@@ -248,7 +248,7 @@ class _LoginScreenState extends State<LoginScreen> {
               headerAnimationLoop: true,
               title: 'Error',
               desc:
-              "Incorrect Credentials",
+              "An error occurred, please try again later",
               btnOkOnPress: () {},
               btnOkIcon: Icons.cancel,
               btnOkColor: Colors.red,

@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:heart_u/core/app_export.dart';
 import 'package:heart_u/views/patientDashboard/widget/courseintroductlist_item_widget.dart';
@@ -11,6 +12,7 @@ import '../../core/utils/image_constant.dart';
 import '../../widgets/appbar_title.dart';
 import '../../widgets/appbar_trailing_circleimage.dart';
 import '../../widgets/custom_app_bar.dart';
+import '../../widgets/custom_text_form_feild.dart';
 
 
 class PatientDashboard extends StatefulWidget {
@@ -29,9 +31,14 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
   TextEditingController searchController = TextEditingController();
 
+  TextEditingController userNameController = TextEditingController();
+
+
   final Dio dio = Dio();
 
   var loading = false;
+  var isLoading = false;
+  var show = false;
 
   late SharedPreferences prefs;
   Future<void> getData()async {
@@ -224,15 +231,156 @@ class _PatientDashboardState extends State<PatientDashboard> {
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
 
-                    const SizedBox(height: 10,),
+                    const SizedBox(height: 20,),
 
                     AnimatedButton(
                       isFixedHeight: false,
                       text: 'Update details',
                       pressEvent: () {
+                          AwesomeDialog(
+                          context: context,
+                          animType: AnimType.scale,
+                          headerAnimationLoop: true,
+                          dialogType: DialogType.question,
+                          keyboardAware: true,
+                          body: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: <Widget>[
+                                Visibility(
+                                  visible: show,
+                                  child: const Text(
+                                    'Error: Please try again later',
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red
+                                    ),
+                                  ),
+                                ),
+
+                                const SizedBox(height: 10,),
+
+                                Text(
+                                  'Enter name',
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Material(
+                                  elevation: 0,
+                                  color: Colors.blueGrey.withAlpha(40),
+                                  child: CustomTextFormField(
+                                    controller: userNameController,
+                                    hintText: "Enter Your update name",
+                                    textInputAction: TextInputAction.done,
+                                    textInputType: TextInputType.text,
+                                    obscureText: false,
+                                    textStyle:TextStyle(
+                                        color: Colors.grey[700]
+                                    ),
+                                  )
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                  CircularWidgetLoading(
+                                   loading: isLoading,
+                                     child: const Text(".")),
+
+                                 const SizedBox()  ,
+
+                                AnimatedButton(
+                                   isFixedHeight: false,
+                                   text: 'Update',
+                                   pressEvent: () async {
+
+                                     String _baseUrl = baseUrl;
+
+                                     print("dio initialised");
+
+                                     var token = prefs.getString("token");
+
+                                     try {
+
+                                       setState(() {
+                                         isLoading = false;
+                                       });
+
+                                       print("session creation initialised");
+                                       Response response = await dio.patch(
+                                         "${_baseUrl}api/users/me",
+                                         data: {
+                                           "name" : userNameController.text,
+                                         },
+                                         options: Options(
+                                           headers: {
+                                             "Authorization": "Bearer ${token!}"
+                                           },
+                                           validateStatus: (_) => true,
+                                         ),
+                                       );
+
+                                       print('Response: ${response.data}');
+
+                                       if (response.statusCode == 200){
+
+                                         prefs.setString("name",
+                                             userNameController.text);
+
+                                         setState(() {
+                                           isLoading = false;
+                                         });
+
+                                         // final jsonData = response.data;
+                                         // final sessionId = jsonData['data']['_id'];
+                                         // final patientId = jsonData['data']['patientId'];
+                                         //
+                                         // prefs.setString('sessionId', sessionId);
+                                         // prefs.setString('patientId', patientId);
+
+
+                                       }else {
+                                         setState(() {
+                                           isLoading = false;
+                                         });
+
+                                         setState(() {
+                                           show = true;
+                                         });
+                                       }
+
+                                     } catch (e) {
+                                       setState(() {
+                                         isLoading = false;
+                                       });
+                                       setState(() {
+                                         show = true;
+                                       });
+                                       print('Error sending message: $e');
+                                     }
+
+                                   },
+                                 ),
+                              ],
+                            ),
+                          ),
+                        ).show();
+                      },
+                    ),
+
+                    const SizedBox(height: 10,),
+
+                    AnimatedButton(
+                      isFixedHeight: false,
+                      text: 'Request report',
+                      pressEvent: () {
 
                       },
                     ),
+
+                    const SizedBox(height: 10,),
 
                     AnimatedButton(
                       isFixedHeight: false,
@@ -252,65 +400,6 @@ class _PatientDashboardState extends State<PatientDashboard> {
           margin: EdgeInsets.fromLTRB(31.h, 18.v, 12.h, 6.v),
         ),
         AppbarTrailingCircleimage(
-          onTap: (){
-            AwesomeDialog(
-              context: context,
-              animType: AnimType.topSlide,
-              dialogType: DialogType.info,
-              title: "Patient Info",
-              showCloseIcon: true,
-              body: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Patient Details',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    const SizedBox(height: 15,),
-
-                    Text(
-                      'Abdul Razak',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    const SizedBox(height: 10,),
-
-                    Text(
-                      'Male',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    const SizedBox(height: 10,),
-
-                    Text(
-                      '0550000000',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    const SizedBox(height: 10,),
-
-                    Text(
-                      '...',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-
-                    const SizedBox(height: 10,),
-
-                    AnimatedButton(
-                      isFixedHeight: false,
-                      text: 'Log Out',
-                      pressEvent: () {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            AppRoutes.login,
-                                (route) => false);
-                      },
-                    )
-                  ],
-                ),
-              ),
-            ).show();
-          },
           imagePath: ImageConstant.imgEllipse1,
           margin: EdgeInsets.only(
             left: 8.h,
@@ -318,165 +407,6 @@ class _PatientDashboardState extends State<PatientDashboard> {
             right: 43.h,
           ),
         ),
-        // PopupMenuButton<int>(
-        //   itemBuilder: (context) => [
-        //     // PopupMenuItem 1
-        //     const PopupMenuItem(
-        //       value: 1,
-        //       // row with 2 children
-        //       child: Row(
-        //         children: [
-        //           Icon(Icons.star),
-        //           SizedBox(
-        //             width: 10,
-        //           ),
-        //           Text("Get The App")
-        //         ],
-        //       ),
-        //     ),
-        //     // PopupMenuItem 2
-        //     const PopupMenuItem(
-        //       value: 2,
-        //       // row with two children
-        //       child: Row(
-        //         children: [
-        //           Icon(Icons.chrome_reader_mode),
-        //           SizedBox(
-        //             width: 10,
-        //           ),
-        //           Text("About")
-        //         ],
-        //       ),
-        //     ),
-        //   ],
-        //   offset: Offset(0, 100),
-        //   color: Colors.grey,
-        //   elevation: 2,
-        //   // on selected we show the dialog box
-        //   onSelected: (value) {
-        //     // if value 1 show dialog
-        //     if (value == 1) {
-        //       AwesomeDialog(
-        //         context: context,
-        //         animType: AnimType.topSlide,
-        //         dialogType: DialogType.info,
-        //         title: "Patient Info",
-        //         showCloseIcon: true,
-        //         body: Padding(
-        //           padding: const EdgeInsets.all(8.0),
-        //           child: Column(
-        //             children: <Widget>[
-        //               const SizedBox(
-        //                 height: 10,
-        //               ),
-        //               Text(
-        //                 'Patient Details',
-        //                 style: Theme.of(context).textTheme.titleLarge,
-        //               ),
-        //               const SizedBox(height: 15,),
-        //
-        //               Text(
-        //                 'Abdul Razak',
-        //                 style: Theme.of(context).textTheme.bodyMedium,
-        //               ),
-        //               const SizedBox(height: 10,),
-        //
-        //               Text(
-        //                 'Male',
-        //                 style: Theme.of(context).textTheme.bodyMedium,
-        //               ),
-        //               const SizedBox(height: 10,),
-        //
-        //               Text(
-        //                 '0550000000',
-        //                 style: Theme.of(context).textTheme.bodyMedium,
-        //               ),
-        //               const SizedBox(height: 10,),
-        //
-        //               Text(
-        //                 '...',
-        //                 style: Theme.of(context).textTheme.bodyMedium,
-        //               ),
-        //
-        //               const SizedBox(height: 10,),
-        //
-        //               AnimatedButton(
-        //                 isFixedHeight: false,
-        //                 text: 'Log Out',
-        //                 pressEvent: () {
-        //                   Navigator.of(context).pushNamedAndRemoveUntil(
-        //                       AppRoutes.login,
-        //                           (route) => false);
-        //                 },
-        //               )
-        //             ],
-        //           ),
-        //         ),
-        //       ).show();
-        //
-        //       // if value 2 show dialog
-        //     } else if (value == 2) {
-        //       AwesomeDialog(
-        //         context: context,
-        //         animType: AnimType.topSlide,
-        //         dialogType: DialogType.info,
-        //         title: "Patient Info",
-        //         showCloseIcon: true,
-        //         body: Padding(
-        //           padding: const EdgeInsets.all(8.0),
-        //           child: Column(
-        //             children: <Widget>[
-        //               const SizedBox(
-        //                 height: 10,
-        //               ),
-        //               Text(
-        //                 'Patient Details',
-        //                 style: Theme.of(context).textTheme.titleLarge,
-        //               ),
-        //               const SizedBox(height: 15,),
-        //
-        //               Text(
-        //                 'Abdul Razak',
-        //                 style: Theme.of(context).textTheme.bodyMedium,
-        //               ),
-        //               const SizedBox(height: 10,),
-        //
-        //               Text(
-        //                 'Male',
-        //                 style: Theme.of(context).textTheme.bodyMedium,
-        //               ),
-        //               const SizedBox(height: 10,),
-        //
-        //               Text(
-        //                 '0550000000',
-        //                 style: Theme.of(context).textTheme.bodyMedium,
-        //               ),
-        //               const SizedBox(height: 10,),
-        //
-        //               Text(
-        //                 '...',
-        //                 style: Theme.of(context).textTheme.bodyMedium,
-        //               ),
-        //
-        //               const SizedBox(height: 10,),
-        //
-        //               AnimatedButton(
-        //                 isFixedHeight: false,
-        //                 text: 'Log Out',
-        //                 pressEvent: () {
-        //                   Navigator.of(context).pushNamedAndRemoveUntil(
-        //                       AppRoutes.login,
-        //                           (route) => false);
-        //                 },
-        //               )
-        //             ],
-        //           ),
-        //         ),
-        //       ).show();
-        //
-        //     }
-        //   },
-        // ),
       ],
     );
   }
