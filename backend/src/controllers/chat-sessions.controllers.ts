@@ -42,6 +42,17 @@ export const createChatSession = async (req: AppRequest, res: AppResponse) => {
       message: 'user not found',
     });
 
+  const existingChat = await ChatSession.findOne({
+    patientId: req.user._id,
+    title: req.body.title,
+  });
+
+  if (existingChat)
+    return res.status(400).json({
+      message:
+        'A session already exists with the given title. Trying using another title.',
+    });
+
   const createdChatSession = await ChatSession.create({
     patientId: req.user._id,
     title: req.body.title,
