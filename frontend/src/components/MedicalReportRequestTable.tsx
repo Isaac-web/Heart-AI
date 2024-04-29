@@ -1,6 +1,7 @@
 import { useAppStore } from '@/hooks/store';
 import {
   Button,
+  Chip,
   CircularProgress,
   Table,
   TableBody,
@@ -23,12 +24,13 @@ const MedicalReportRequestTable = () => {
   return store.loadingMedicalReportRequests ? (
     <CircularProgress />
   ) : !store.medicalReportRequests.length ? (
-    'No requests yet.'
+    'No Medical Report Requests yet.'
   ) : (
     <Table>
       <TableHead>
         <TableRow>
           <TableCell sx={{ fontWeight: 'bold' }}>Name</TableCell>
+          <TableCell sx={{ fontWeight: 'bold' }}>Status</TableCell>
           <TableCell sx={{ fontWeight: 'bold' }}>Date Requested</TableCell>
           <TableCell sx={{ fontWeight: 'bold' }} align="right">
             Action
@@ -40,6 +42,12 @@ const MedicalReportRequestTable = () => {
         {store.medicalReportRequests.map((m) => (
           <TableRow>
             <TableCell>{m.patientId.name}</TableCell>
+            <TableCell>
+              <Chip
+                label={m.status ? 'Approved' : 'Pending'}
+                color={m.status ? 'success' : 'default'}
+              />
+            </TableCell>
             <TableCell>{new Date(m.createdAt).toLocaleString()}</TableCell>
             <TableCell align="right">
               <Button

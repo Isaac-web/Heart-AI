@@ -23,7 +23,7 @@ const MedicalReportsTable = () => {
   return store.loadingMedicalReports ? (
     <CircularProgress />
   ) : !store.medicalReports.length ? (
-    'No requests yet.'
+    'No Medical Reports yet'
   ) : (
     <Table>
       <TableHead>

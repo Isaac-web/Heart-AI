@@ -54,7 +54,7 @@ const MedicalReportForm = () => {
   };
 
   return (
-    <AppContainer maxWidth="md">
+    <AppContainer maxWidth="sm">
       <Box sx={{ mb: theme.spacing(5) }}>
         <Typography variant="h4">New Medical Report</Typography>
       </Box>

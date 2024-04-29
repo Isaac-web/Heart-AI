@@ -6,12 +6,14 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Doctor from './pages/doctor/Doctor';
 import MedicalReportForm from './pages/MedicalReportForm';
+import Home from './pages/home/Home';
 
 export default function App() {
   return (
     <AppContextProvider>
       <Router>
         <Routes>
+          <Route path={paths.HOME_PAGE} element={<Home />} />
           <Route path={paths.LOGIN} element={<Login />} />
           <Route path={paths.REGISTER} element={<Register />} />
           <Route
@@ -21,7 +23,6 @@ export default function App() {
           <Route path={paths.DOCTOR} element={<Doctor />} />
 
           {/* <Route path={paths.PATIENT} element={<Patient />} /> */}
-          {/* <Route path={paths.HOME_PAGE} element={<WelcomePage />} /> */}
         </Routes>
       </Router>
     </AppContextProvider>

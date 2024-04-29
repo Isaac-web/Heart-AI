@@ -1,3 +1,4 @@
+import { getUserId } from '@/utils/auth';
 import {
   AppBar,
   Toolbar,
@@ -5,10 +6,18 @@ import {
   Avatar,
   Typography,
   useTheme,
+  Button,
+  Box,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const theme = useTheme();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.assign('/login');
+  };
 
   return (
     <>
@@ -29,7 +38,18 @@ const Header = () => {
               <Typography variant="h6">HeartAI</Typography>
             </Grid>
             <Grid item>
-              <Avatar />
+              {getUserId() ? (
+                <Grid container alignItems={'center'} spacing={2}>
+                  <Grid item>
+                    <Avatar />
+                  </Grid>
+                  <Grid item>
+                    <Button onClick={handleLogout}>Logout</Button>
+                  </Grid>
+                </Grid>
+              ) : (
+                <Button>Login</Button>
+              )}
             </Grid>
           </Grid>
         </Toolbar>
