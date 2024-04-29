@@ -1,96 +1,74 @@
-# Heart-Disease-Prediction-Group-2
-This project implements a FastAPI endpoint to interact with a chatbot focused on heart disease conversations. The chatbot is designed to provide information and support based on a user's diagnosis from a heart disease prediction model.
+# HeartAI: Heart Disease Prediction App 
 
-# Getting Started
-1.Clone this repository to your local machine.
-2.Install the required dependencies using pip:
-`pip install -r requirements.txt`
+Welcome to the HeartAI Documentation, your comprehensive guide to understanding and utilizing our predictive healthcare system. From heart disease prediction to real-time communication with healthcare professionals, this documentation covers every aspect of the system's features, installation, and usage.
 
-3. Set up environment variables:
-Create a .env file in the root directory.
-Add your OpenAI API key to the .env file:
-`OPENAI_API_KEY=your_openai_api_key_here
-PORT=9000`
-4.Run the FastAPI server:
-`uvicorn main:app --reload`
- # Usage
-## Chat Endpoint
-URL: /chat
-Method: POST
+## Introduction
 
-Request Body:
+HeartAI is a revolutionary healthcare system designed to empower individuals to proactively manage their heart health. Leveraging cutting-edge technologies such as artificial intelligence (AI) and machine learning (ML), HeartAI provides accurate predictions of heart disease risk while facilitating seamless communication between users and healthcare professionals.
 
-`{
-  "text": "Hello, how can I help you?",
-  "context": "heart_disease",
-  "session_id": "unique_session_id"
-}`
+## Features
 
-Response:
+### Heart Disease Prediction
+- Utilizes advanced ML algorithms to forecast heart disease risk based on user input and medical records.
+- Provides detailed reports outlining potential risk factors and actionable insights for improving heart health.
 
-`{
-  "response": "Chatbot response here"
-}`
+### Real-time Communication
+- Enables users to engage in live chat sessions with certified healthcare professionals for inquiries, advice, and consultations.
+- Facilitates secure and confidential communication to address user concerns and provide personalized guidance.
 
-# Example Usage
-Using cURL:
-`curl -X POST "http://localhost:9000/chat" -H "Content-Type: application/json" -d '{"text": "Hello, how can I help you?", "context": "heart_disease", "session_id": "unique_session_id"}'
-`
+### Medical Report Management
+- Empowers users to upload, store, and manage their medical reports within the system for precise prediction and communication.
+- Ensures data privacy and compliance with healthcare regulations through robust security measures.
 
-# Chatbot
+### Data and Chatbot Integration
+- HeartAI integrates a vast repository of anonymized medical data to enhance the accuracy of its predictive models.
+- The chatbot interface utilizes natural language processing (NLP) and AI to provide responsive and contextually relevant interactions with users.
 
-Loads the environmental variable and creates a  create_chain function that takes in the model and prompt and returns a chain
-```python
-  load_dotenv()
-  def create_chain():
-      model =  ChatOpenAI(
-              api_key= os.getenv("OPENAI_API_KEY"),
-              temperature=0.2,
-              model='gpt-3.5-turbo-1106'
-          )
+### Scalable and Extendable
+- Built on modern web technologies such as Express.js and MongoDB, offering high scalability and ease of extension with additional features.
+- Adheres to best practices in software development to deliver a robust and reliable healthcare solution for users worldwide.
 
-      prompt = ChatPromptTemplate.from_messages(
-          [
-              (
-                  "system",
-                  """You are Heartty, a cardiologist, provide accurate answers based on the {context} provided. 
-                  If you don't know the answer to any question truthfully say so and do not hallucinate.""",
-              ),
-              MessagesPlaceholder(variable_name="chathistory"),
-              ("human", "{input}"),
-          ]
-      )
-      chain = prompt | model
-      return chain
-```
+## Installation
 
-chain = create_chain calls the create_chain function and we create a dictionary named store. We then create a function that retrieves or creates a session_id.
-```python 
-  chain = create_chain()
-  store = {}
+### Prerequisites
+- Node.js and npm installed on your system
+- MongoDB database instance for storing user data and medical records
 
+### Steps
+1. Clone the repository: `git clone https://github.com/your/repository.git`
+2. Navigate to the project directory: `cd heart-ai`
+3. Install dependencies: `npm install`
+4. Configure environment variables:
+   - Create a `.env` file based on the `.env.example` template.
+   - Specify the required environment variables (e.g., MongoDB connection URI, JWT secret).
+5. Launch the server: `npm start`
 
-  def get_session_history(session_id: str) -> BaseChatMessageHistory:
-      if session_id not in store:
-          store[session_id] = ChatMessageHistory()
-      return store[session_id]
-```
+## Usage
 
+1. Access the web interface by visiting `http://localhost:PORT` in your web browser.
+2. Register an account or log in if you already have one.
+3. Explore the heart disease prediction tools, upload medical reports, and engage in chat sessions with healthcare professionals.
 
-We run the chain with the RunnableWithMessageHistory 
-```python
-    conversation = RunnableWithMessageHistory(
-        chain,
-        get_session_history,
-        input_messages_key="input",
-        history_messages_key="chathistory",
-      
-    )
-    def get_response(context, message, session_id):
-        response = conversation.invoke(
-            {"context": context, "input": message},
-            config={"configurable": {"session_id": session_id}},
-        )
+## API Endpoints
 
-        return response.content
-```        
+- `/users`: Handles user management tasks such as registration, login, and profile management.
+- `/chat-messages`: Manages endpoints for chat message interactions.
+- `/medical-reports`: Facilitates management of medical reports.
+- `/chat-sessions`: Manages chat session endpoints.
+- `/predictions`: Handles heart disease prediction endpoints.
+
+## Technologies Used
+
+- Express.js: Web application framework for Node.js
+- MongoDB: NoSQL database for storing user data, medical reports, and chat messages
+- bcrypt: Library for secure password hashing
+- Joi: Schema validation library for user input validation
+- JSON Web Tokens (JWT): Secure authentication mechanism
+- Other libraries and dependencies specified in `package.json`
+
+## Conclusion
+
+HeartAI represents a paradigm shift in predictive healthcare, empowering individuals to take control of their heart health through data-driven insights and expert guidance. With its user-friendly interface, robust architecture, and emphasis on privacy and security, HeartAI is poised to revolutionize the way we approach preventive healthcare in the digital age.
+
+# Contributors
+Samuel Berchie Opoku, Sven Dzeble, Moro Njie, Emeralda Kusi Yeboah, Faddal Ibrahim, Isaac kanyiti Takyi, Jeffrey Ofori Kwakye, Manu Adam Onyina, Isaac Asiamah, Abdul Razak Abubakari.
