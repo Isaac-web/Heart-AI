@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:chatview/chatview.dart';
 import 'package:dio/dio.dart';
@@ -7,7 +9,7 @@ import '../../../core/utils/constants.dart';
 import '../data.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key? key}) : super(key: key);
+  ChatScreen({Key? key}) : super(key: key);
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -18,6 +20,12 @@ class _ChatScreenState extends State<ChatScreen> {
   bool isDarkTheme = false;
 
   final Dio dio = Dio();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   final currentUser = ChatUser(
     id: '1',
@@ -42,6 +50,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: ChatView(
         currentUser: currentUser,
@@ -276,14 +285,15 @@ class _ChatScreenState extends State<ChatScreen> {
 
     try {
       _chatController.setTypingIndicator = true;
+      num randomNumber = Random().nextInt(1000000 - 1) + 1;
 
-
+      var context = prefs.getString("context");
       print("chat initialised");
       Response response = await dio.post(
         "${_baseUrl}api/chat-messages",
         data: {
           "text" : message,
-          "chatSessionId": sessionId,
+          "chatSessionId": sessionId ?? randomNumber.toString(),
           "context": "heart diseases",
         },
         options: Options(
@@ -318,7 +328,7 @@ class _ChatScreenState extends State<ChatScreen> {
         _chatController.setTypingIndicator = false;
 
         AwesomeDialog(
-          context: context,
+          context: context as BuildContext,
           dialogType: DialogType.error,
           animType: AnimType.rightSlide,
           headerAnimationLoop: true,

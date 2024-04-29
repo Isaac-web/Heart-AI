@@ -38,6 +38,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
   var loading = false;
   var isLoading = false;
   var show = false;
+  var datalist;
 
   late SharedPreferences prefs;
   Future<void> getData()async {
@@ -71,12 +72,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
       );
 
       Response response2 = await dio.get(
-        "${_baseUrl}api/medical-reports",
-        data: {
-          "name" : "patient",
-          "value": prefs.getString("userId"),
-          "isPath": false
-        },
+        "${_baseUrl}api/medical-reports/me",
         options: Options(
           headers: {
             "Authorization": "Bearer $token"
@@ -85,6 +81,9 @@ class _PatientDashboardState extends State<PatientDashboard> {
         ),
       );
 
+      setState(() {
+        datalist = response2.data["data"] as List;
+      });
       print('Response: ${response2.data}');
 
       print('Response: ${response.data}');
@@ -583,9 +582,11 @@ class _PatientDashboardState extends State<PatientDashboard> {
               height: 16.v,
             );
           },
-          itemCount: 8,
+          itemCount: datalist.length,
           itemBuilder: (context, index) {
-            return const CourseintroductlistItemWidget();
+            return CourseintroductlistItemWidget(
+              descrip: datalist[index]
+            );
           },
         ),
       ),

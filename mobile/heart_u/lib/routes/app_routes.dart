@@ -29,7 +29,7 @@ class AppRoutes {
   static Map<String, WidgetBuilder> routes = {
     // mobileScreen: (context) => MobileScreen(),
     // onboardingScreen: (context) => OnboardingScreen(),
-    chatList: (context) => const ChatScreen(),
+    chatList: (context) => ChatScreen(),
     chatScreen: (context) => const BotHomeScreen(),
     login: (context) => LoginScreen(),
     register: (context) => RegisterUserScreen(),

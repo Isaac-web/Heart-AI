@@ -254,7 +254,11 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
               onTap: (){
                 prefs.setString("sessionId", dataList[index]["_id"]);
                 prefs.setString("patientId", dataList[index]["patientId"]);
-                Navigator.pushNamed(context, AppRoutes.chatList);
+                prefs.setString("hasSession", "true");
+                Navigator.pushNamed(
+                    context,
+                    AppRoutes.chatList,
+                );
               },
               child: RecentchatlistItemWidget(
                 date: dataList[index]["createdAt"],
@@ -318,6 +322,7 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
 
                 prefs.setString('sessionId', sessionId);
                 prefs.setString('patientId', patientId);
+                prefs.setString("hasSession", "false");
 
                 Navigator.of(context).pushNamed(AppRoutes.chatList);
 

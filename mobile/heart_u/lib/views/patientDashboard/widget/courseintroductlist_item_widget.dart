@@ -1,12 +1,14 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/app_export.dart';
 import '../../../theme/custom_button_style.dart';
-import '../../../widgets/custom_elevated_button.dart'; // ignore: must_be_immutable
+import '../../../widgets/custom_elevated_button.dart';
 
 class CourseintroductlistItemWidget extends StatelessWidget {
-  const CourseintroductlistItemWidget({Key? key})
+  String descrip;
+  CourseintroductlistItemWidget({Key? key, required this.descrip})
       : super(
     key: key,
   );
@@ -25,9 +27,7 @@ class CourseintroductlistItemWidget extends StatelessWidget {
               headerAnimationLoop: true,
               animType: AnimType.bottomSlide,
               title: 'Report details',
-              desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                  " Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                  " Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+              desc: descrip,
               buttonsTextStyle: const TextStyle(color: Colors.black),
               showCloseIcon: true,
               btnOkOnPress: () {},
@@ -77,11 +77,11 @@ class CourseintroductlistItemWidget extends StatelessWidget {
                 SizedBox(height: 4.v),
                 SizedBox(
                   width: 149.h,
-                  child: const Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                  child: Text(
+                    descrip,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black
                     ),
                   ),
@@ -101,8 +101,10 @@ class CourseintroductlistItemWidget extends StatelessWidget {
     return BounceInDown(
       duration: const Duration(milliseconds: 1000),
       child: CustomElevatedButton(
-        onPressed: (){
-          // Navigator.of(context).pushNamed(AppRoutes.chatList);
+        onPressed: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString("hasSession", "false");
+          Navigator.of(context).pushNamed(AppRoutes.chatList);
         },
         height: 35.v,
         width: 100.h,
