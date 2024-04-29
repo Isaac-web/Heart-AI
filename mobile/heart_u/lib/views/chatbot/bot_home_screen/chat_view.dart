@@ -1,5 +1,7 @@
 import 'package:chatview/chatview.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:heart_u/dio/dio_client.dart';
 import '../data.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -12,6 +14,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   AppTheme theme = DarkTheme();
   bool isDarkTheme = false;
+
   final currentUser = ChatUser(
     id: '1',
     name: 'Flutter',
@@ -23,22 +26,7 @@ class _ChatScreenState extends State<ChatScreen> {
     chatUsers: [
       ChatUser(
         id: '2',
-        name: 'Simform',
-        profilePhoto: Data.profileImage,
-      ),
-      ChatUser(
-        id: '3',
-        name: 'Jhon',
-        profilePhoto: Data.profileImage,
-      ),
-      ChatUser(
-        id: '4',
-        name: 'Mike',
-        profilePhoto: Data.profileImage,
-      ),
-      ChatUser(
-        id: '5',
-        name: 'Rich',
+        name: 'Bot',
         profilePhoto: Data.profileImage,
       ),
     ],
@@ -247,11 +235,9 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  void _onSendTap(
-      String message,
-      ReplyMessage replyMessage,
+  void _onSendTap(String message, ReplyMessage replyMessage,
       MessageType messageType,
-      ) {
+      ) async {
     final id = int.parse(Data.messageList.last.id) + 1;
     _chatController.addMessage(
       Message(
@@ -270,19 +256,44 @@ class _ChatScreenState extends State<ChatScreen> {
     Future.delayed(const Duration(seconds: 1), () {
       _chatController.initialMessageList.last.setStatus = MessageStatus.read;
     });
+
+
+    final Dio dio = Dio();
+
+    const baseUrl = 'https://heart-disease-predictor-8.onrender.com/chat';
+
+    print("dio initialised");
+
+    try {
+      Response response = await dio.post(
+        baseUrl,
+        data: {
+          "context": "results = 'Status: You have heart disease" ,
+          "message" : message,
+          "session_id": "testzakid1",
+        },
+      );
+
+      print('Bot said: ${response.data}');
+
+    } catch (e) {
+      print('Error sending message: $e');
+    }
+
+
   }
 
-  void _onThemeIconTap() {
-    setState(() {
-      if (isDarkTheme) {
-        theme = LightTheme();
-        isDarkTheme = false;
-      } else {
-        theme = DarkTheme();
-        isDarkTheme = true;
-      }
-    });
-  }
+  // void _onThemeIconTap() {
+  //   setState(() {
+  //     if (isDarkTheme) {
+  //       theme = LightTheme();
+  //       isDarkTheme = false;
+  //     } else {
+  //       theme = DarkTheme();
+  //       isDarkTheme = true;
+  //     }
+  //   });
+  // }
 }
 
 class AppTheme {
@@ -301,10 +312,8 @@ class AppTheme {
   final Color? repliedMessageColor;
   final Color? repliedTitleTextColor;
   final Color? textFieldTextColor;
-
   final Color? closeIconColor;
   final Color? shareIconBackgroundColor;
-
   final Color? sendButtonColor;
   final Color? cameraIconColor;
   final Color? galleryIconColor;

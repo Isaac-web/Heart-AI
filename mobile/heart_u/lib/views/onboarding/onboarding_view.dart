@@ -64,7 +64,7 @@ class OnboardingScreen extends StatelessWidget {
                     duration: const Duration(milliseconds: 1000),
                     child: CustomElevatedButton(
                       onPressed: (){
-                        Navigator.of(context).pushNamed(AppRoutes.registerScreen);
+                        Navigator.of(context).pushNamed(AppRoutes.login);
                       },
                       height: 46.v,
                       width: 150.h,
@@ -117,7 +117,7 @@ class OnboardingScreen extends StatelessWidget {
               duration: const Duration(milliseconds: 1000),
               child: CustomElevatedButton(
                 onPressed: (){
-                  Navigator.of(context).pushNamed(AppRoutes.registerScreen);
+                  Navigator.of(context).pushNamed(AppRoutes.login);
                 },
                 width: 140.h,
                 text: "Get Started",

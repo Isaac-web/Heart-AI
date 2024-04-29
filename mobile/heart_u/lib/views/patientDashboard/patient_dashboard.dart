@@ -149,7 +149,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                       text: 'Log Out',
                       pressEvent: () {
                         Navigator.of(context).pushNamedAndRemoveUntil(
-                            AppRoutes.registerScreen,
+                            AppRoutes.login,
                                 (route) => false);
                       },
                     )
