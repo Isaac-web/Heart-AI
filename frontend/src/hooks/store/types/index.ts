@@ -1,6 +1,7 @@
 import {
   LoginFormData,
   MedicalReport,
+  MedicalReportFormData,
   MedicalReportRequest,
   MedicalReportSearchParams,
   RegistrationFormData,
@@ -39,8 +40,10 @@ export interface MedicalReportRequestSlice {
 
 export interface MedicalReportSlice {
   medicalReports: MedicalReport[];
+  creatingMedicalReport: boolean;
   loadingMedicalReports: boolean;
   fetchMedicalReports(params: MedicalReportSearchParams): Promise<void>;
+  createMedicalReport(data: MedicalReportFormData): Promise<void>;
 }
 
 export type StoreState = RequestErrorState &

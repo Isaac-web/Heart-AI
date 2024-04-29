@@ -45,7 +45,11 @@ const MedicalReportsTable = () => {
             <TableCell>{m.doctorId.name}</TableCell>
             <TableCell>{new Date(m.createdAt).toLocaleString()}</TableCell>
             <TableCell>
-              <Chip color={'success'} variant="outlined" label="Stable" />
+              <Chip
+                color={m.cardioStatus ? 'error' : 'success'}
+                variant="outlined"
+                label={m.cardioStatus ? 'Unhealthy' : 'Healty'}
+              />
             </TableCell>
             <TableCell align="right">
               <Button

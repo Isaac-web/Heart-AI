@@ -2,17 +2,22 @@ import AppContainer from '@/components/Container';
 import Form from '@/components/form/Form';
 import FormSubmitButton from '@/components/form/FormSubmitButton';
 import FormTextfield from '@/components/form/FormTextfield';
+import { useAppStore } from '@/hooks/store';
+import { MedicalReportFormData } from '@/types';
 import { getUserId } from '@/utils/auth';
 import { Box, Grid, Typography, useTheme } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { enqueueSnackbar } from 'notistack';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const MedicalReportForm = () => {
   const theme = useTheme();
   const { id: patientId } = useParams();
+  const store = useAppStore();
+  const navigate = useNavigate();
 
   const initialValues = {
-    doctorId: getUserId(),
-    patientId,
+    doctorId: getUserId() as string,
+    patientId: patientId as string,
     age: 0,
     sex: 0,
     trestbps: 0,
@@ -33,6 +38,21 @@ const MedicalReportForm = () => {
     thal_3: 0,
   };
 
+  const errorOccured = () => store.getError(store.createMedicalReport.name);
+
+  const handleCreateMedicalReport = async (data: MedicalReportFormData) => {
+    await store.createMedicalReport(data);
+    if (errorOccured()) {
+      enqueueSnackbar(errorOccured()?.message || '', { variant: 'error' });
+      return;
+    }
+    enqueueSnackbar('Medical record was created successfully.', {
+      variant: 'success',
+    });
+
+    navigate('/doctor');
+  };
+
   return (
     <AppContainer maxWidth="md">
       <Box sx={{ mb: theme.spacing(5) }}>
@@ -42,7 +62,7 @@ const MedicalReportForm = () => {
       <Form
         validationSchema={null}
         initialValues={initialValues}
-        onSubmit={(data) => console.log(data)}
+        onSubmit={(data) => handleCreateMedicalReport(data)}
       >
         <Grid container spacing={4}>
           <Grid item xs={6}>
@@ -97,7 +117,9 @@ const MedicalReportForm = () => {
             <FormTextfield label="restecg_3" name="restecg_3" type="number" />
           </Grid>
           <Grid item xs={12}>
-            <FormSubmitButton>Submit</FormSubmitButton>
+            <FormSubmitButton loading={store.creatingMedicalReport}>
+              Submit
+            </FormSubmitButton>
           </Grid>
         </Grid>
       </Form>
