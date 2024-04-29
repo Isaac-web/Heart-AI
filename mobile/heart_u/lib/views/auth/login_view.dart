@@ -186,16 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
               },
               options: Options(
                 responseType: ResponseType.json,
-                validateStatus: (statusCode){
-                  if(statusCode == null){
-                    return false;
-                  }
-                  if(statusCode == 422){
-                    return true;
-                  }else{
-                    return statusCode >= 200 && statusCode < 300;
-                  }
-                },
+                validateStatus: (_) => true,
               ),
             );
 

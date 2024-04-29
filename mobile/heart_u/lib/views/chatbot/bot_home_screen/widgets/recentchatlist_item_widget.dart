@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:heart_u/core/app_export.dart';
 
 class RecentchatlistItemWidget extends StatelessWidget {
-  const RecentchatlistItemWidget({Key? key})
+  String title;
+  String date;
+  RecentchatlistItemWidget({Key? key, required this.date, required this.title})
       : super(
           key: key,
         );
@@ -32,15 +34,20 @@ class RecentchatlistItemWidget extends StatelessWidget {
             padding: EdgeInsets.only(top: 2.v),
             child: Column(
               children: [
-                Text(
-                  "View Chat -  Mar 28,2023 ",
-                  style: theme.textTheme.titleSmall,
+                SizedBox(
+                  width: 149.h,
+                  child: Text(
+                    "View Chat - $date",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.titleSmall,
+                  ),
                 ),
                 SizedBox(height: 12.v),
                 SizedBox(
                   width: 221.h,
                   child: Text(
-                    "Viewed your Chat history on, 28 March 2023",
+                    "Session title: $title",
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.labelLarge,

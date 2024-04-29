@@ -33,9 +33,6 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
   TextEditingController userNameController = TextEditingController();
 
-  String _mySelection = "default";
-
-
   final Dio dio = Dio();
 
   var loading = false;
@@ -74,13 +71,15 @@ class _PatientDashboardState extends State<PatientDashboard> {
       );
 
       Response response2 = await dio.get(
-        "${_baseUrl}api/users",
+        "${_baseUrl}api/medical-reports",
         data: {
-          "userType" : "doctor",
+          "name" : "patient",
+          "value": prefs.getString("userId"),
+          "isPath": false
         },
         options: Options(
           headers: {
-            "Authorization": "Bearer ${token!}"
+            "Authorization": "Bearer $token"
           },
           validateStatus: (_) => true,
         ),
@@ -222,6 +221,13 @@ class _PatientDashboardState extends State<PatientDashboard> {
       actions: [
         AppbarTitle(
           onTap: (){
+
+          },
+          text: prefs.getString("name").toString(),
+          margin: EdgeInsets.fromLTRB(31.h, 18.v, 12.h, 6.v),
+        ),
+        AppbarTrailingCircleimage(
+          onTap: (){
             AwesomeDialog(
               context: context,
               animType: AnimType.topSlide,
@@ -258,7 +264,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                       isFixedHeight: false,
                       text: 'Update details',
                       pressEvent: () {
-                          AwesomeDialog(
+                        AwesomeDialog(
                           context: context,
                           animType: AnimType.scale,
                           headerAnimationLoop: true,
@@ -273,9 +279,9 @@ class _PatientDashboardState extends State<PatientDashboard> {
                                   child: const Text(
                                     'Error: Please try again later',
                                     style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.red
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red
                                     ),
                                   ),
                                 ),
@@ -290,100 +296,100 @@ class _PatientDashboardState extends State<PatientDashboard> {
                                   height: 20,
                                 ),
                                 Material(
-                                  elevation: 0,
-                                  color: Colors.blueGrey.withAlpha(40),
-                                  child: CustomTextFormField(
-                                    controller: userNameController,
-                                    hintText: "Enter Your update name",
-                                    textInputAction: TextInputAction.done,
-                                    textInputType: TextInputType.text,
-                                    obscureText: false,
-                                    textStyle:TextStyle(
-                                        color: Colors.grey[700]
-                                    ),
-                                  )
+                                    elevation: 0,
+                                    color: Colors.blueGrey.withAlpha(40),
+                                    child: CustomTextFormField(
+                                      controller: userNameController,
+                                      hintText: "Enter Your update name",
+                                      textInputAction: TextInputAction.done,
+                                      textInputType: TextInputType.text,
+                                      obscureText: false,
+                                      textStyle:TextStyle(
+                                          color: Colors.grey[700]
+                                      ),
+                                    )
                                 ),
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                  CircularWidgetLoading(
-                                   loading: isLoading,
-                                     child: const Text(".")),
+                                CircularWidgetLoading(
+                                    loading: isLoading,
+                                    child: const Text(".")),
 
-                                 const SizedBox()  ,
+                                const SizedBox()  ,
 
                                 AnimatedButton(
-                                   isFixedHeight: false,
-                                   text: 'Update',
-                                   pressEvent: () async {
+                                  isFixedHeight: false,
+                                  text: 'Update',
+                                  pressEvent: () async {
 
-                                     String _baseUrl = baseUrl;
+                                    String _baseUrl = baseUrl;
 
-                                     print("dio initialised");
+                                    print("dio initialised");
 
-                                     var token = prefs.getString("token");
+                                    var token = prefs.getString("token");
 
-                                     try {
+                                    try {
 
-                                       setState(() {
-                                         isLoading = false;
-                                       });
+                                      setState(() {
+                                        isLoading = false;
+                                      });
 
-                                       print("session creation initialised");
-                                       Response response = await dio.patch(
-                                         "${_baseUrl}api/users/me",
-                                         data: {
-                                           "name" : userNameController.text,
-                                         },
-                                         options: Options(
-                                           headers: {
-                                             "Authorization": "Bearer ${token!}"
-                                           },
-                                           validateStatus: (_) => true,
-                                         ),
-                                       );
+                                      print("session creation initialised");
+                                      Response response = await dio.patch(
+                                        "${_baseUrl}api/users/me",
+                                        data: {
+                                          "name" : userNameController.text,
+                                        },
+                                        options: Options(
+                                          headers: {
+                                            "Authorization": "Bearer ${token!}"
+                                          },
+                                          validateStatus: (_) => true,
+                                        ),
+                                      );
 
-                                       print('Response: ${response.data}');
+                                      print('Response: ${response.data}');
 
-                                       if (response.statusCode == 200){
+                                      if (response.statusCode == 200){
 
-                                         prefs.setString("name",
-                                             userNameController.text);
+                                        prefs.setString("name",
+                                            userNameController.text);
 
-                                         setState(() {
-                                           isLoading = false;
-                                         });
+                                        setState(() {
+                                          isLoading = false;
+                                        });
 
-                                         // final jsonData = response.data;
-                                         // final sessionId = jsonData['data']['_id'];
-                                         // final patientId = jsonData['data']['patientId'];
-                                         //
-                                         // prefs.setString('sessionId', sessionId);
-                                         // prefs.setString('patientId', patientId);
+                                        // final jsonData = response.data;
+                                        // final sessionId = jsonData['data']['_id'];
+                                        // final patientId = jsonData['data']['patientId'];
+                                        //
+                                        // prefs.setString('sessionId', sessionId);
+                                        // prefs.setString('patientId', patientId);
 
 
-                                       }else {
-                                         setState(() {
-                                           isLoading = false;
-                                         });
+                                      }else {
+                                        setState(() {
+                                          isLoading = false;
+                                        });
 
-                                         setState(() {
-                                           show = true;
-                                         });
-                                       }
+                                        setState(() {
+                                          show = true;
+                                        });
+                                      }
 
-                                     } catch (e) {
-                                       setState(() {
-                                         isLoading = false;
-                                       });
-                                       setState(() {
-                                         show = true;
-                                       });
-                                       print('Error sending message: $e');
-                                     }
+                                    } catch (e) {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                      setState(() {
+                                        show = true;
+                                      });
+                                      print('Error sending message: $e');
+                                    }
 
-                                   },
-                                 ),
+                                  },
+                                ),
                               ],
                             ),
                           ),
@@ -429,29 +435,29 @@ class _PatientDashboardState extends State<PatientDashboard> {
                                   height: 20,
                                 ),
                                 Material(
-                                    elevation: 0,
-                                    color: Colors.blueGrey.withAlpha(40),
-                                    child: DropdownButton<String>(
-                                      items: <String>[
-                                        "662fa6e4c14cf7d500679efd",
-                                        "662fb29ecd4caa90bf3a5c5f",
-                                        "662fb2b2cd4caa90bf3a5c62"
-                                        ].map((String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value,
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                            ),
+                                  elevation: 0,
+                                  color: Colors.blueGrey.withAlpha(40),
+                                  child: DropdownButton<String>(
+                                    items: <String>[
+                                      "662fa6e4c14cf7d500679efd",
+                                      "662fb29ecd4caa90bf3a5c5f",
+                                      "662fb2b2cd4caa90bf3a5c62"
+                                    ].map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value,
+                                          style: TextStyle(
+                                            color: Colors.black,
                                           ),
-                                        );
-                                      }).toList(),
-                                      onChanged: (String? newValue) {
-                                        setState(() {
-                                          docId = newValue;
-                                        });
-                                      },
-                                    ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        docId = newValue;
+                                      });
+                                    },
+                                  ),
                                 ),
                                 const SizedBox(
                                   height: 20,
@@ -552,10 +558,6 @@ class _PatientDashboardState extends State<PatientDashboard> {
               ),
             ).show();
           },
-          text: prefs.getString("name").toString(),
-          margin: EdgeInsets.fromLTRB(31.h, 18.v, 12.h, 6.v),
-        ),
-        AppbarTrailingCircleimage(
           imagePath: ImageConstant.imgEllipse1,
           margin: EdgeInsets.only(
             left: 8.h,

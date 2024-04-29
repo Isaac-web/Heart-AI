@@ -1,5 +1,5 @@
+import 'dart:convert';
 import 'dart:math';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
@@ -28,6 +28,8 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
 
   var loading = false;
   var isLoading = false;
+
+  var dataList;
 
   late SharedPreferences prefs;
 
@@ -58,6 +60,11 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
       );
 
       print('Response: ${response.data}');
+      setState(() {
+        dataList = response.data["data"] as List;
+      });
+
+
 
       if (response.statusCode == 200){
 
@@ -241,9 +248,18 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
               height: 10.v,
             );
           },
-          itemCount: 6,
+          itemCount: dataList == null ? 0 :  dataList.length,
           itemBuilder: (context, index) {
-            return const RecentchatlistItemWidget();
+            return GestureDetector(
+              onTap: (){
+
+                Navigator.pushNamed(context, AppRoutes.chatScreen);
+              },
+              child: RecentchatlistItemWidget(
+                date: dataList[index]["createdAt"],
+                title: dataList[index]["title"],
+              ),
+            );
           },
         ),
       ),
