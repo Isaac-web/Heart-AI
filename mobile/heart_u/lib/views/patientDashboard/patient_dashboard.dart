@@ -33,6 +33,8 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
   TextEditingController userNameController = TextEditingController();
 
+  String _mySelection = "default";
+
 
   final Dio dio = Dio();
 
@@ -71,6 +73,21 @@ class _PatientDashboardState extends State<PatientDashboard> {
         ),
       );
 
+      Response response2 = await dio.get(
+        "${_baseUrl}api/users",
+        data: {
+          "userType" : "doctor",
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token!}"
+          },
+          validateStatus: (_) => true,
+        ),
+      );
+
+      print('Response: ${response2.data}');
+
       print('Response: ${response.data}');
 
       if (response.statusCode == 200){
@@ -80,6 +97,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
         });
 
         final jsonData = response.data;
+
         final name = jsonData['data']['name'];
         final patientId = jsonData['data']['_id'];
 
@@ -186,6 +204,9 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
+
+    String? docId;
+
     return CustomAppBar(
       title: const Padding(
         padding: EdgeInsets.only(left: 10.0),
@@ -376,6 +397,141 @@ class _PatientDashboardState extends State<PatientDashboard> {
                       isFixedHeight: false,
                       text: 'Request report',
                       pressEvent: () {
+                        AwesomeDialog(
+                          context: context,
+                          animType: AnimType.scale,
+                          headerAnimationLoop: true,
+                          dialogType: DialogType.question,
+                          keyboardAware: true,
+                          body: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: <Widget>[
+                                Visibility(
+                                  visible: show,
+                                  child: const Text(
+                                    'Error: Please try again later',
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red
+                                    ),
+                                  ),
+                                ),
+
+                                const SizedBox(height: 10,),
+
+                                Text(
+                                  'Select doctor',
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Material(
+                                    elevation: 0,
+                                    color: Colors.blueGrey.withAlpha(40),
+                                    child: DropdownButton<String>(
+                                      items: <String>[
+                                        "662fa6e4c14cf7d500679efd",
+                                        "662fb29ecd4caa90bf3a5c5f",
+                                        "662fb2b2cd4caa90bf3a5c62"
+                                        ].map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          docId = newValue;
+                                        });
+                                      },
+                                    ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+
+                                AnimatedButton(
+                                  isFixedHeight: false,
+                                  text: 'Send Request',
+                                  pressEvent: () async {
+
+                                    String _baseUrl = baseUrl;
+
+                                    print("dio initialised");
+
+                                    var token = prefs.getString("token");
+
+                                    try {
+
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+
+                                      print("session creation initialised");
+                                      Response response = await dio.post(
+                                        "${_baseUrl}api/medical-reports/requests",
+                                        data: {
+                                          "patientId" : prefs.getString("userId"),
+                                          "doctorId" : docId,
+                                        },
+                                        options: Options(
+                                          headers: {
+                                            "Authorization": "Bearer ${token!}"
+                                          },
+                                          validateStatus: (_) => true,
+                                        ),
+                                      );
+
+                                      print('Response: ${response.data}');
+
+                                      if (response.statusCode == 200){
+
+
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+
+                                        // final jsonData = response.data;
+                                        // final sessionId = jsonData['data']['_id'];
+                                        // final patientId = jsonData['data']['patientId'];
+                                        //
+                                        // prefs.setString('sessionId', sessionId);
+                                        // prefs.setString('patientId', patientId);
+
+
+                                      }else {
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+
+                                        setState(() {
+                                          show = true;
+                                        });
+                                      }
+
+                                    } catch (e) {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                      setState(() {
+                                        show = true;
+                                      });
+                                      print('Error sending message: $e');
+                                    }
+
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ).show();
 
                       },
                     ),

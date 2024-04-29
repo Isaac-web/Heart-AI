@@ -27,6 +27,94 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
   final Dio dio = Dio();
 
   var loading = false;
+  var isLoading = false;
+
+  late SharedPreferences prefs;
+
+  Future<void> getData()async {
+    prefs = await SharedPreferences.getInstance();
+
+    String _baseUrl = baseUrl;
+
+    print("dio initialised");
+
+    var token = prefs.getString("token");
+
+    try {
+
+      setState(() {
+        isLoading = true;
+      });
+
+      print("session retrieval initialised");
+      Response response = await dio.get(
+        "${_baseUrl}api/chat-sessions/me",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${token!}"
+          },
+          validateStatus: (_) => true,
+        ),
+      );
+
+      print('Response: ${response.data}');
+
+      if (response.statusCode == 200){
+
+        setState(() {
+          isLoading = false;
+        });
+
+        // final jsonData = response.data;
+        // final name = jsonData['data']['name'];
+        // final patientId = jsonData['data']['_id'];
+        //
+        // prefs.setString("userId", patientId);
+        // prefs.setString("name", name);
+
+      }else {
+        setState(() {
+          isLoading = false;
+        });
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          animType: AnimType.rightSlide,
+          headerAnimationLoop: true,
+          title: 'Error',
+          desc:
+          'Please try again later',
+          btnOkOnPress: () {},
+          btnOkIcon: Icons.cancel,
+          btnOkColor: Colors.red,
+        ).show();
+      }
+
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.rightSlide,
+        headerAnimationLoop: true,
+        title: 'Error',
+        desc:
+        "Please try again later",
+        btnOkOnPress: () {},
+        btnOkIcon: Icons.cancel,
+        btnOkColor: Colors.red,
+      ).show();
+      print('Error sending message: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -143,17 +231,22 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
 
   /// Section Widget
   Widget _buildRecentChatList(BuildContext context) {
-    return ListView.separated(
-      shrinkWrap: true,
-      separatorBuilder: (context, index) {
-        return SizedBox(
-          height: 20.v,
-        );
-      },
-      itemCount: 3,
-      itemBuilder: (context, index) {
-        return const RecentchatlistItemWidget();
-      },
+    return Expanded(
+      child: CircularWidgetLoading(
+        loading: isLoading,
+        child: ListView.separated(
+          shrinkWrap: false,
+          separatorBuilder: (context, index) {
+            return SizedBox(
+              height: 10.v,
+            );
+          },
+          itemCount: 6,
+          itemBuilder: (context, index) {
+            return const RecentchatlistItemWidget();
+          },
+        ),
+      ),
     );
   }
 
@@ -165,8 +258,6 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
         loading: loading,
         child: CustomElevatedButton(
           onPressed: () async {
-
-            SharedPreferences prefs = await SharedPreferences.getInstance();
 
             String? token = prefs.getString('token');
 

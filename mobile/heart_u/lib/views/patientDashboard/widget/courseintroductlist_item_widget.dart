@@ -102,7 +102,7 @@ class CourseintroductlistItemWidget extends StatelessWidget {
       duration: const Duration(milliseconds: 1000),
       child: CustomElevatedButton(
         onPressed: (){
-          Navigator.of(context).pushNamed(AppRoutes.chatList);
+          // Navigator.of(context).pushNamed(AppRoutes.chatList);
         },
         height: 35.v,
         width: 100.h,

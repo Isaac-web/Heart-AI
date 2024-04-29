@@ -67,7 +67,7 @@ class _ChatScreenState extends State<ChatScreen> {
           backGroundColor: theme.appBarColor,
           profilePicture: Data.profileImage,
           backArrowColor: theme.backArrowColor,
-          chatTitle: "ChatBot",
+          chatTitle: "Hearty",
           chatTitleTextStyle: TextStyle(
             color: theme.appBarTitleTextStyle,
             fontWeight: FontWeight.bold,
