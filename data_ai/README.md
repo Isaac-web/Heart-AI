@@ -354,11 +354,7 @@ In summary, based on the visual representation:
 
 ### Model Evaluation
 A model is evaluated in terms of the samples correctly predicted as positive (True Positives), samples correctly predicted as negative (True Negatives), samples incorrectly predicted as positive (False Positives) and samples incorrectly predicted as negative (False Negatives).
-Where:
-  TP = True Positives
-  TN = True Negatives 
-  FP = False Positives
-  FN = False Negatives
+Where TP = True Positives, TN = True Negatives, FP = False Positives,FN = False Negatives
   
 #### Evaluation Metrics
 - Accuracy: 
