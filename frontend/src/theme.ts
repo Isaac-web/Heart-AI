@@ -41,7 +41,11 @@ const theme = createTheme({
       },
     },
   },
-  palette: {},
+  palette: {
+    primary: {
+      main: '#F74780',
+    },
+  },
 });
 
 export default theme;

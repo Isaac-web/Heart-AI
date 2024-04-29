@@ -2,7 +2,6 @@ import { useAppStore } from '@/hooks/store';
 import {
   Button,
   Chip,
-  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -11,6 +10,7 @@ import {
 } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LoadingIndicator from './LoadingIndicator';
 
 const MedicalReportRequestTable = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const MedicalReportRequestTable = () => {
   }, []);
 
   return store.loadingMedicalReportRequests ? (
-    <CircularProgress />
+    <LoadingIndicator />
   ) : !store.medicalReportRequests.length ? (
     'No Medical Report Requests yet.'
   ) : (
@@ -57,6 +57,7 @@ const MedicalReportRequestTable = () => {
                 onClick={() =>
                   navigate(`/doctor/medical-report-form/${m.patientId._id}`)
                 }
+                disabled={Boolean(m.status)}
               >
                 Issue Medical Report
               </Button>

@@ -1,5 +1,6 @@
 import { MedicalReportRequest } from '@/types';
 import { apiClient } from './apiClient';
+import { getUserId } from '@/utils/auth';
 
 const url = '/medical-reports/requests';
 export const fetchMedicalReportRequest = async () => {
@@ -7,7 +8,7 @@ export const fetchMedicalReportRequest = async () => {
     data: MedicalReportRequest[];
   }>(url, {
     params: {
-      doctorId: '662e2bb120071a548aa9a5a1',
+      doctorId: getUserId(),
     },
   });
 

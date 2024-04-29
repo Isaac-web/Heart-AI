@@ -8,6 +8,30 @@ import { getUserId } from '@/utils/auth';
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object().shape({
+  doctorId: Yup.string(),
+  patientId: Yup.string(),
+  age: Yup.number().min(0).required(),
+  sex: Yup.number().min(0).required(),
+  trestbps: Yup.number().min(0).required(),
+  chol: Yup.number().min(0).required(),
+  fbs: Yup.number().min(0).required(),
+  thalach: Yup.number().min(0).required(),
+  exang: Yup.number().min(0).required(),
+  oldpeak: Yup.number().min(0).required(),
+  slope: Yup.number().min(0).required(),
+  ca: Yup.number().min(0).required(),
+  cp_1: Yup.number().min(0).required(),
+  cp_2: Yup.number().min(0).required(),
+  cp_3: Yup.number().min(0).required(),
+  restecg_1: Yup.number().min(0).required(),
+  restecg_2: Yup.number().min(0).required(),
+  thal_1: Yup.number().min(0).required(),
+  thal_2: Yup.number().min(0).required(),
+  thal_3: Yup.number().min(0).required(),
+});
 
 const MedicalReportForm = () => {
   const theme = useTheme();
@@ -60,7 +84,7 @@ const MedicalReportForm = () => {
       </Box>
 
       <Form
-        validationSchema={null}
+        validationSchema={validationSchema}
         initialValues={initialValues}
         onSubmit={(data) => handleCreateMedicalReport(data)}
       >
@@ -108,13 +132,13 @@ const MedicalReportForm = () => {
             <FormTextfield label="restecg_2" name="restecg_2" type="number" />
           </Grid>
           <Grid item xs={6}>
-            <FormTextfield label="restecg_1" name="restecg_1" type="number" />
+            <FormTextfield label="thal_1" name="thal_1" type="number" />
           </Grid>
           <Grid item xs={6}>
-            <FormTextfield label="restecg_2" name="restecg_2" type="number" />
+            <FormTextfield label="thal_2" name="thal_2" type="number" />
           </Grid>
           <Grid item xs={6}>
-            <FormTextfield label="restecg_3" name="restecg_3" type="number" />
+            <FormTextfield label="thal_3" name="thal_3" type="number" />
           </Grid>
           <Grid item xs={12}>
             <FormSubmitButton loading={store.creatingMedicalReport}>

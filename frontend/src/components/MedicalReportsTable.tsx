@@ -3,7 +3,6 @@ import { getUserId } from '@/utils/auth';
 import {
   Button,
   Chip,
-  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -12,6 +11,7 @@ import {
 } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect } from 'react';
+import LoadingIndicator from './LoadingIndicator';
 
 const MedicalReportsTable = () => {
   const store = useAppStore();
@@ -21,7 +21,7 @@ const MedicalReportsTable = () => {
   }, []);
 
   return store.loadingMedicalReports ? (
-    <CircularProgress />
+    <LoadingIndicator />
   ) : !store.medicalReports.length ? (
     'No Medical Reports yet'
   ) : (
@@ -31,7 +31,7 @@ const MedicalReportsTable = () => {
           <TableCell sx={{ fontWeight: 'bold' }}>Patient Name</TableCell>
           <TableCell sx={{ fontWeight: 'bold' }}>Issued By</TableCell>
           <TableCell sx={{ fontWeight: 'bold' }}>Date Issued</TableCell>
-          <TableCell sx={{ fontWeight: 'bold' }}>cardio Status</TableCell>
+          <TableCell sx={{ fontWeight: 'bold' }}>Cardio Status</TableCell>
           <TableCell sx={{ fontWeight: 'bold' }} align="right">
             Action
           </TableCell>

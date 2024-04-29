@@ -1,4 +1,4 @@
-import { LoginFormData, RegistrationFormData } from '@/types';
+import { LoginFormData, RegistrationFormData, User } from '@/types';
 import { apiClient } from './apiClient';
 
 export const login = async (data: LoginFormData) => {
@@ -13,5 +13,11 @@ export const login = async (data: LoginFormData) => {
 export const register = async (data: RegistrationFormData) => {
   const { data: resData } = await apiClient.post('/users/register', data);
 
-  console.log(resData);
+  return resData;
+};
+
+export const getCurrentUser = async () => {
+  const { data: resData } = await apiClient.get<{ data: User }>('/users/me');
+
+  return resData.data;
 };

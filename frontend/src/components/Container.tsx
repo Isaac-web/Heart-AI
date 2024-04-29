@@ -7,7 +7,7 @@ const AppContainer = ({
   maxWidth,
 }: {
   children: ReactNode;
-  maxWidth?: 'xs' | 'md' | 'lg' | 'xl';
+  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }) => {
   const theme = useTheme();
 
