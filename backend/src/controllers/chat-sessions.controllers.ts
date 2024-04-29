@@ -1,11 +1,9 @@
-import { Request, Response } from 'express';
 import ChatSession from '../models/ChatSession';
 import { AppRequest, AppResponse } from '../types';
 
 export const getMyChatSessions = async (req: AppRequest, res: AppResponse) => {
   if (!req.user)
     return res.status(404).json({
-      successful: false,
       message: 'user not found',
     });
 
@@ -15,9 +13,7 @@ export const getMyChatSessions = async (req: AppRequest, res: AppResponse) => {
     }).sort({ createdAt: -1 });
 
     if (!chatSessions) {
-      return res
-        .status(400)
-        .json({ successful: false, error: 'Error getting forms' });
+      return res.status(400).json({ message: 'Error getting forms' });
     }
 
     res.status(200).json({ data: chatSessions });
@@ -29,7 +25,6 @@ export const getMyChatSessions = async (req: AppRequest, res: AppResponse) => {
 export const createChatSession = async (req: AppRequest, res: AppResponse) => {
   if (!req.user)
     return res.status(404).json({
-      successful: false,
       message: 'user not found',
     });
 
@@ -50,7 +45,6 @@ export const createChatSession = async (req: AppRequest, res: AppResponse) => {
   });
 
   return res.json({
-    successful: true,
     data: createdChatSession,
   });
 };
@@ -63,9 +57,7 @@ export const deleteChatSession = async (req: AppRequest, res: AppResponse) => {
     });
 
   if (!req.params.id) {
-    return res
-      .status(400)
-      .json({ successful: false, error: 'Error deleting form' });
+    return res.status(400).json({ message: 'Error deleting form' });
   }
 
   try {
@@ -74,23 +66,18 @@ export const deleteChatSession = async (req: AppRequest, res: AppResponse) => {
     );
     return res.status(200).json({ successful: true, data: deletedChatSession });
   } catch (error) {
-    return res
-      .status(400)
-      .json({ successful: false, error: 'Error deleting chat session' });
+    return res.status(400).json({ message: 'Error deleting chat session' });
   }
 };
 
 export const renameChatSession = async (req: AppRequest, res: AppResponse) => {
   if (!req.user)
     return res.status(404).json({
-      successful: false,
       message: 'user not found',
     });
 
   if (!req.params.id) {
-    return res
-      .status(400)
-      .json({ successful: false, error: 'Error renaming chat session' });
+    return res.status(400).json({ message: 'Error renaming chat session' });
   }
 
   try {
@@ -100,10 +87,8 @@ export const renameChatSession = async (req: AppRequest, res: AppResponse) => {
       { new: true }
     );
 
-    return res.status(200).json({ successful: true, data: renamedChatSession });
+    return res.status(200).json({ data: renamedChatSession });
   } catch (error) {
-    return res
-      .status(400)
-      .json({ successful: false, error: 'Error renaming chat session' });
+    return res.status(400).json({ message: 'Error renaming chat session' });
   }
 };
