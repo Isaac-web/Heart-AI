@@ -28,7 +28,8 @@ HeartAI is a revolutionary healthcare system designed to empower individuals to 
 - Built on modern web technologies such as Express.js and MongoDB, offering high scalability and ease of extension with additional features.
 - Adheres to best practices in software development to deliver a robust and reliable healthcare solution for users worldwide.
 
-## Installation
+## Mobile app
+- A mobile app for patients to request for prediction results and ask follow up questions.
 
 ### Prerequisites
 - Node.js and npm installed on your system
