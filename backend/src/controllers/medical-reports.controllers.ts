@@ -8,6 +8,7 @@ import { User } from '../models/User';
 import { AppRequest } from '../types';
 import axios from 'axios';
 import config from 'config';
+import { MedicalReportRequest } from '../models/MedicalReportRequest';
 
 export const getMedicalReport = async (req: Request, res: Response) => {
   const medicalReport = await MedicalReport.findById(req.params.id);
@@ -23,9 +24,16 @@ export const getMedicalReport = async (req: Request, res: Response) => {
 };
 
 export const getMedicalReports = async (req: AppRequest, res: Response) => {
+  if (!req.query.doctorId)
+    return res
+      .status(400)
+      .json({ message: 'doctorId in the query string is required.' });
+
   const medicalReports = await MedicalReport.find({
     doctorId: req.query.doctorId,
-  });
+  })
+    .populate('patientId', '-password')
+    .populate('doctorId', '-password');
 
   return res.json({
     message: 'returning multiple medical report to you of a user',
@@ -55,9 +63,13 @@ export const createMedicalReport = async (req: Request, res: Response) => {
       message: error.details[0].message,
     });
 
-  const [patient, doctor, existingReport] = await Promise.all([
+  const [patient, doctor, reportRequest, existingReport] = await Promise.all([
     User.findOne({ _id: req.body.patientId, userType: 'patient' }),
     User.findOne({ _id: req.body.doctorId, userType: 'doctor' }),
+    MedicalReportRequest.findOne({
+      doctorId: req.body.doctorId,
+      patientId: req.body.patientId,
+    }),
     MedicalReport.findOne(_.pick(req.body, ['patientId', 'doctorId'])),
   ]);
 
@@ -70,6 +82,8 @@ export const createMedicalReport = async (req: Request, res: Response) => {
     return res
       .status(404)
       .json({ message: 'Doctor with the given Id cannot be found.' });
+
+  
 
   if (existingReport)
     return res.status(400).json({
@@ -136,6 +150,11 @@ export const createMedicalReport = async (req: Request, res: Response) => {
       'cardioStatus',
     ])
   );
+
+  if (reportRequest) {
+    reportRequest.status = 1;
+    await reportRequest.save();
+  }
 
   return res.json({
     message: '1 medical report was added.',

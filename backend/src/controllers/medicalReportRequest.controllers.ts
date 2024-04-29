@@ -56,6 +56,21 @@ export const createMedicalReportRequest = async (
   });
 };
 
+export const fetchUserMedicalReport = async (
+  req: AppRequest,
+  res: AppResponse
+) => {
+  const user = req.user;
+  if (!user) return res.status(401).json({ message: 'User is not logged in.' });
+
+  const reportRequests = await MedicalReportRequest.find({ userId: user._id })
+    .populate('doctorId', '-password')
+    .populate('patientId', '-password');
+
+  res.json({
+    data: reportRequests,
+  });
+};
 export const fetchMedicalReportRequest = async (
   req: AppRequest,
   res: AppResponse
