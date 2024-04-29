@@ -73,3 +73,9 @@ HeartAI represents a paradigm shift in predictive healthcare, empowering individ
 
 # Contributors
 Samuel Berchie Opoku, Sven Dzeble, Moro Njie, Emeralda Kusi Yeboah, Faddal Ibrahim, Isaac kanyiti Takyi, Jeffrey Ofori Kwakye, Manu Adam Onyina, Isaac Asiamah, Abdul Razak Abubakari.
+
+# Additional Information
+Please read through our documentation 
+[https://reallygreattech.atlassian.net/l/ce/zLU7a72u](https://reallygreattech.atlassian.net/l/ce/zLU7a72u)
+Or  look up our presentation for a graphic view of the project 
+[https://docs.google.com/presentation/d/1kKyBZ7KIlsZSamtCHpwalDawTKrAagyB_vK7t5eTMzA/edit?pli=1#slide=id.g106ddb05087_0_625](https://docs.google.com/presentation/d/1kKyBZ7KIlsZSamtCHpwalDawTKrAagyB_vK7t5eTMzA/edit?pli=1#slide=id.g106ddb05087_0_625)
