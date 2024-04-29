@@ -53,8 +53,8 @@ To set up and run the HeartAI Frontend on your local machine, follow these steps
 3. Start the development server using `npm run dev` or `yarn dev`.
 4. Access the application in your web browser at `http://localhost:3000`.
 
-#Snippets of ui
+## Snippets of ui
 (https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/100998334/1f56218f-c3b4-4989-8e44-9fa276a66330)
-
-
-
+- [blob:https://reallygreattech.atlassian.net/13b296a0-b123-4fb0-8f26-86a428ad79d4#media-blob-url=true&id=fbbcd06a-77e2-49de-bf8a-bbf170f4be65&collection=contentId-4522025&contextId=4522025&mimeType=image%2Fpng&name=lp.PNG&size=51284&width=833&height=307&alt=lp.PNG](blob:https://reallygreattech.atlassian.net/13b296a0-b123-4fb0-8f26-86a428ad79d4#media-blob-url=true&id=fbbcd06a-77e2-49de-bf8a-bbf170f4be65&collection=contentId-4522025&contextId=4522025&mimeType=image%2Fpng&name=lp.PNG&size=51284&width=833&height=307&alt=lp.PNG)
+- [blob:https://reallygreattech.atlassian.net/2b8d5ad9-f53d-456f-a756-ab71c21271db#media-blob-url=true&id=dc6ff00c-45f8-4d9d-83a6-fd98ca82b33e&collection=contentId-4522025&contextId=4522025&mimeType=image%2Fpng&name=signin.PNG&size=9873&width=251&height=272&alt=signin.PNG]( [blob:https://reallygreattech.atlassian.net/2b8d5ad9-f53d-456f-a756-ab71c21271db#media-blob-url=true&id=dc6ff00c-45f8-4d9d-83a6-fd98ca82b33e&collection=contentId-4522025&contextId=4522025&mimeType=image%2Fpng&name=signin.PNG&size=9873&width=251&height=272&alt=signin.PNG)
+- [blob:https://reallygreattech.atlassian.net/d443a2a5-6d90-4fe3-bf69-91972ae9b853#media-blob-url=true&id=682299b8-ca3d-4ac6-b85b-68733a9bceeb&collection=contentId-4522025&contextId=4522025&mimeType=image%2Fpng&name=signup.PNG&size=7901&width=243&height=289&alt=signup.PNG]([blob:https://reallygreattech.atlassian.net/d443a2a5-6d90-4fe3-bf69-91972ae9b853#media-blob-url=true&id=682299b8-ca3d-4ac6-b85b-68733a9bceeb&collection=contentId-4522025&contextId=4522025&mimeType=image%2Fpng&name=signup.PNG&size=7901&width=243&height=289&alt=signup.PNG])
