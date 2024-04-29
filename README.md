@@ -28,7 +28,8 @@ HeartAI is a revolutionary healthcare system designed to empower individuals to 
 - Built on modern web technologies such as Express.js and MongoDB, offering high scalability and ease of extension with additional features.
 - Adheres to best practices in software development to deliver a robust and reliable healthcare solution for users worldwide.
 
-## Installation
+## Mobile app
+- A mobile app for patients to request for prediction results and ask follow up questions.
 
 ### Prerequisites
 - Node.js and npm installed on your system
@@ -72,3 +73,9 @@ HeartAI represents a paradigm shift in predictive healthcare, empowering individ
 
 # Contributors
 Samuel Berchie Opoku, Sven Dzeble, Moro Njie, Emeralda Kusi Yeboah, Faddal Ibrahim, Isaac kanyiti Takyi, Jeffrey Ofori Kwakye, Manu Adam Onyina, Isaac Asiamah, Abdul Razak Abubakari.
+
+# Additional Information
+Please read through our documentation 
+[https://reallygreattech.atlassian.net/l/ce/zLU7a72u](https://reallygreattech.atlassian.net/l/ce/zLU7a72u)
+Or  look up our presentation for a graphic view of the project 
+[https://docs.google.com/presentation/d/1kKyBZ7KIlsZSamtCHpwalDawTKrAagyB_vK7t5eTMzA/edit?pli=1#slide=id.g106ddb05087_0_625](https://docs.google.com/presentation/d/1kKyBZ7KIlsZSamtCHpwalDawTKrAagyB_vK7t5eTMzA/edit?pli=1#slide=id.g106ddb05087_0_625)

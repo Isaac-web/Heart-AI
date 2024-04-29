@@ -1,6 +1,5 @@
 import { useAppStore } from '@/hooks/store';
 import { User } from '@/types';
-import { getUserId } from '@/utils/auth';
 import {
   Dialog,
   DialogTitle,
