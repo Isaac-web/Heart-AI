@@ -70,7 +70,11 @@ const Login = () => {
               </Grid>
               <Grid item>
                 <Grid item>
-                  <FormTextfield name="password" label="Password" />
+                  <FormTextfield
+                    type="password"
+                    name="password"
+                    label="Password"
+                  />
                 </Grid>
               </Grid>
 

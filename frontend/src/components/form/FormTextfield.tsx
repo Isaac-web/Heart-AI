@@ -3,12 +3,14 @@ import { useFormikContext } from 'formik';
 
 interface FormTextFieldProps<T> {
   name: keyof T;
+  type?: string;
   label?: string;
   textFieldProps?: TextFieldProps;
 }
 
 const FormTextfield = <T extends {}>({
   name,
+  type,
   label,
   textFieldProps,
 }: FormTextFieldProps<T>) => {
@@ -16,6 +18,7 @@ const FormTextfield = <T extends {}>({
 
   return (
     <TextField
+      type={type}
       {...textFieldProps}
       label={label}
       onChange={handleChange(name)}
