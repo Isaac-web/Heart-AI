@@ -26,6 +26,9 @@ flutter run
 4. chatview: ^1.3.1
 5. awesome_dialog: ^3.2.0
 6. flutter_container_new: ^0.0.4
+7. dio: ^5.4.3+1
+8. widget_loading: ^0.4.0
+9. shared_preferences: ^2.2.3
 
 ## Key Features
 1. Chatbot :
@@ -38,15 +41,18 @@ flutter run
 
 ## Screens
 1. splash screen
-2. login
-3. Patient Dashboard
-4. Landing Page
-5. chatbot HomePage
-6. chatbot chatScreen
+2. Register screen
+3. login
+4. Patient Dashboard
+5. Landing Page
+6. chatbot HomePage
+7. chatbot chatScreen
 
 ## Screenshots
 
 <img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/4dcf47fb-8b27-45db-954b-2fb3b1ff9a1b" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/04fc01e4-40ec-4d99-b8ae-45c6e10d5727" width="100" heigth="200">
 
 <img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/2bd5a1e9-1fd5-4f1c-9e3d-113fb99adaf4" width="100" heigth="200">
 
