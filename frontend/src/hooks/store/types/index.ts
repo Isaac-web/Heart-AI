@@ -1,5 +1,9 @@
 import {
   LoginFormData,
+  MedicalReport,
+  MedicalReportFormData,
+  MedicalReportRequest,
+  MedicalReportSearchParams,
   RegistrationFormData,
   User,
   UsersSearchParams,
@@ -18,6 +22,7 @@ export interface RequestErrorState {
 }
 
 export interface AuthSlice {
+  authPending: boolean;
   login(data: LoginFormData): Promise<void>;
   register(data: RegistrationFormData): Promise<void>;
 }
@@ -27,4 +32,22 @@ export interface UsersSlice {
   fetchUsers(params?: UsersSearchParams): Promise<void>;
 }
 
-export type StoreState = RequestErrorState & AuthSlice & UsersSlice;
+export interface MedicalReportRequestSlice {
+  medicalReportRequests: MedicalReportRequest[];
+  loadingMedicalReportRequests: boolean;
+  fetchMedicalReportRequests(): Promise<void>;
+}
+
+export interface MedicalReportSlice {
+  medicalReports: MedicalReport[];
+  creatingMedicalReport: boolean;
+  loadingMedicalReports: boolean;
+  fetchMedicalReports(params: MedicalReportSearchParams): Promise<void>;
+  createMedicalReport(data: MedicalReportFormData): Promise<void>;
+}
+
+export type StoreState = RequestErrorState &
+  AuthSlice &
+  UsersSlice &
+  MedicalReportRequestSlice &
+  MedicalReportSlice;
