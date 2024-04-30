@@ -21,7 +21,7 @@ Welcome to the HeartAI Frontend! This application is designed to help users unde
 ### Hero Section
 - Welcomes users to the application and provides a brief overview of its purpose. Users can also initiate the signup process by clicking the "Get Started" button.
 
-### Authentication Page
+### Authentication 
 - Allows users to sign in as a doctor. Users are prompted to enter their username and password to access their accounts.
 
 ### Features Section
@@ -42,7 +42,6 @@ Welcome to the HeartAI Frontend! This application is designed to help users unde
 - React.js: A popular JavaScript library for building user interfaces.
 - React Router: Provides navigation and routing functionality within the React application.
 - material ui: A fast build tool for modern web development, used for bundling and serving the application.
-- tailwind css.
 
 ## Getting Started
 
@@ -55,3 +54,6 @@ To set up and run the HeartAI Frontend on your local machine, follow these steps
 
 ## Snippets of ui
 - Snippets of applcation are available in our documentation:[https://reallygreattech.atlassian.net/l/ce/ABVaf5AB](https://reallygreattech.atlassian.net/l/ce/ABVaf5AB) 
+
+# Additional information
+More details about the frontend are available in our documentation: [https://reallygreattech.atlassian.net/l/ce/ABVaf5AB](https://reallygreattech.atlassian.net/l/ce/ABVaf5AB) 
