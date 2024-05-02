@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:heart_u/views/chatbot/bot_home_screen/chat_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/app_export.dart';
 import '../../../theme/custom_button_style.dart';
@@ -103,8 +104,11 @@ class CourseintroductlistItemWidget extends StatelessWidget {
       child: CustomElevatedButton(
         onPressed: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('sessionId', "");
           prefs.setString("hasSession", "false");
-          Navigator.of(context).pushNamed(AppRoutes.chatList);
+          prefs.setString("chatContext", descrip);
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ChatScreen()));
         },
         height: 35.v,
         width: 100.h,

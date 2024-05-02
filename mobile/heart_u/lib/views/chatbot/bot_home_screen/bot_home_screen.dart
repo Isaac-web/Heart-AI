@@ -60,13 +60,15 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
       );
 
       print('Response: ${response.data}');
-      setState(() {
-        dataList = response.data["data"] as List;
-      });
+
 
 
 
       if (response.statusCode == 200){
+
+        setState(() {
+          dataList = response.data["data"] as List;
+        });
 
         setState(() {
           isLoading = false;
@@ -255,6 +257,8 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
                 prefs.setString("sessionId", dataList[index]["_id"]);
                 prefs.setString("patientId", dataList[index]["patientId"]);
                 prefs.setString("hasSession", "true");
+                prefs.setString("chatContext", "");
+
                 Navigator.pushNamed(
                     context,
                     AppRoutes.chatList,
@@ -323,6 +327,8 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
                 prefs.setString('sessionId', sessionId);
                 prefs.setString('patientId', patientId);
                 prefs.setString("hasSession", "false");
+                prefs.setString("chatContext", "");
+
 
                 Navigator.of(context).pushNamed(AppRoutes.chatList);
 

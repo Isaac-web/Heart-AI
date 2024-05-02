@@ -1,10 +1,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:heart_u/core/app_export.dart';
 import 'package:heart_u/views/patientDashboard/widget/courseintroductlist_item_widget.dart';
+import 'package:heart_u/views/patientDashboard/widget/courseintroductlist_item_widget2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:widget_loading/widget_loading.dart';
 import '../../core/utils/constants.dart';
@@ -13,6 +13,7 @@ import '../../widgets/appbar_title.dart';
 import '../../widgets/appbar_trailing_circleimage.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_text_form_feild.dart';
+import 'doc_class.dart';
 
 
 class PatientDashboard extends StatefulWidget {
@@ -39,6 +40,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
   var isLoading = false;
   var show = false;
   var datalist;
+  var datalist2;
 
   late SharedPreferences prefs;
   Future<void> getData()async {
@@ -81,12 +83,87 @@ class _PatientDashboardState extends State<PatientDashboard> {
         ),
       );
 
-      setState(() {
-        datalist = response2.data["data"] as List;
-      });
+
+      Response response3 = await dio.get(
+        "${_baseUrl}api/users?userType=doctor",
+        data: {
+          "name": "userType",
+          "value": "doctor",
+          "isPath": false,
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token"
+          },
+          validateStatus: (_) => true,
+        ),
+      );
+
+      print('Response: ${response3.data}');
+
       print('Response: ${response2.data}');
 
       print('Response: ${response.data}');
+
+
+      if (response3.statusCode == 200){
+        setState(() {
+          loading = false;
+          datalist2 = response3.data["data"] as List;
+        });
+      }else {
+        setState(() {
+          loading = false;
+        });
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          animType: AnimType.rightSlide,
+          headerAnimationLoop: true,
+          title: 'Error',
+          desc:
+          'Please try again later',
+          btnOkOnPress: () {},
+          btnOkIcon: Icons.cancel,
+          btnOkColor: Colors.red,
+        ).show();
+      }
+
+      if (response2.statusCode == 200){
+
+        setState(() {
+          datalist = response2.data["data"] as List;
+        });
+
+        setState(() {
+          loading = false;
+        });
+
+        final jsonData = response.data;
+
+        final name = jsonData['data']['name'];
+        final patientId = jsonData['data']['_id'];
+
+        prefs.setString("userId", patientId);
+        prefs.setString("name", name);
+
+      }else {
+        setState(() {
+          loading = false;
+        });
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          animType: AnimType.rightSlide,
+          headerAnimationLoop: true,
+          title: 'Error',
+          desc:
+          'Please try again later',
+          btnOkOnPress: () {},
+          btnOkIcon: Icons.cancel,
+          btnOkColor: Colors.red,
+        ).show();
+      }
 
       if (response.statusCode == 200){
 
@@ -183,7 +260,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                       ),
                       elevation: 50.0,
                       child: Bounce(
-                        infinite: true,
+                        infinite: false,
                           delay: const Duration(seconds: 1),
                           child: const ImageIcon(
                             color: Color(0xFF13183F),
@@ -436,103 +513,102 @@ class _PatientDashboardState extends State<PatientDashboard> {
                                 Material(
                                   elevation: 0,
                                   color: Colors.blueGrey.withAlpha(40),
-                                  child: DropdownButton<String>(
-                                    items: <String>[
-                                      "662fa6e4c14cf7d500679efd",
-                                      "662fb29ecd4caa90bf3a5c5f",
-                                      "662fb2b2cd4caa90bf3a5c62"
-                                    ].map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value,
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? newValue) {
-                                      setState(() {
-                                        docId = newValue;
-                                      });
-                                    },
+                                  child:  Container(
+                                    height: double.maxFinite,
+                                    width: double.maxFinite,
+                                    child: ListView.separated(
+                                      physics: const BouncingScrollPhysics(),
+                                      shrinkWrap: false,
+                                      separatorBuilder: (context, index) {
+                                        return SizedBox(
+                                          height: 16.v,
+                                        );
+                                      },
+                                      itemCount: datalist2 == null ? 0 :  datalist2.length,
+                                      itemBuilder: (context, index) {
+                                        return CourseintroductlistItemWidget2(
+                                            descrip: datalist2[index]["_id"],
+                                          name: datalist2[index]["name"],
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(
                                   height: 20,
                                 ),
 
-                                AnimatedButton(
-                                  isFixedHeight: false,
-                                  text: 'Send Request',
-                                  pressEvent: () async {
-
-                                    String _baseUrl = baseUrl;
-
-                                    print("dio initialised");
-
-                                    var token = prefs.getString("token");
-
-                                    try {
-
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-
-                                      print("session creation initialised");
-                                      Response response = await dio.post(
-                                        "${_baseUrl}api/medical-reports/requests",
-                                        data: {
-                                          "patientId" : prefs.getString("userId"),
-                                          "doctorId" : docId,
-                                        },
-                                        options: Options(
-                                          headers: {
-                                            "Authorization": "Bearer ${token!}"
-                                          },
-                                          validateStatus: (_) => true,
-                                        ),
-                                      );
-
-                                      print('Response: ${response.data}');
-
-                                      if (response.statusCode == 200){
-
-
-                                        setState(() {
-                                          isLoading = false;
-                                        });
-
-                                        // final jsonData = response.data;
-                                        // final sessionId = jsonData['data']['_id'];
-                                        // final patientId = jsonData['data']['patientId'];
-                                        //
-                                        // prefs.setString('sessionId', sessionId);
-                                        // prefs.setString('patientId', patientId);
-
-
-                                      }else {
-                                        setState(() {
-                                          isLoading = false;
-                                        });
-
-                                        setState(() {
-                                          show = true;
-                                        });
-                                      }
-
-                                    } catch (e) {
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                      setState(() {
-                                        show = true;
-                                      });
-                                      print('Error sending message: $e');
-                                    }
-
-                                  },
-                                ),
+                                // AnimatedButton(
+                                //   isFixedHeight: false,
+                                //   text: 'Send Request',
+                                //   pressEvent: () async {
+                                //
+                                //     String _baseUrl = baseUrl;
+                                //
+                                //     print("dio initialised");
+                                //
+                                //     var token = prefs.getString("token");
+                                //
+                                //     try {
+                                //
+                                //       setState(() {
+                                //         isLoading = false;
+                                //       });
+                                //
+                                //       print("session creation initialised");
+                                //       Response response = await dio.post(
+                                //         "${_baseUrl}api/medical-reports/requests",
+                                //         data: {
+                                //           "patientId" : prefs.getString("userId"),
+                                //           "doctorId" : docId,
+                                //         },
+                                //         options: Options(
+                                //           headers: {
+                                //             "Authorization": "Bearer ${token!}"
+                                //           },
+                                //           validateStatus: (_) => true,
+                                //         ),
+                                //       );
+                                //
+                                //       print('Response: ${response.data}');
+                                //
+                                //       if (response.statusCode == 200){
+                                //
+                                //
+                                //         setState(() {
+                                //           isLoading = false;
+                                //         });
+                                //
+                                //         // final jsonData = response.data;
+                                //         // final sessionId = jsonData['data']['_id'];
+                                //         // final patientId = jsonData['data']['patientId'];
+                                //         //
+                                //         // prefs.setString('sessionId', sessionId);
+                                //         // prefs.setString('patientId', patientId);
+                                //
+                                //
+                                //       }else {
+                                //         setState(() {
+                                //           isLoading = false;
+                                //         });
+                                //
+                                //         setState(() {
+                                //           show = true;
+                                //         });
+                                //       }
+                                //
+                                //     } catch (e) {
+                                //       setState(() {
+                                //         isLoading = false;
+                                //       });
+                                //       setState(() {
+                                //         show = true;
+                                //       });
+                                //       print('Error sending message: $e');
+                                //     }
+                                //
+                                //   },
+                                // ),
                               ],
                             ),
                           ),
@@ -582,10 +658,10 @@ class _PatientDashboardState extends State<PatientDashboard> {
               height: 16.v,
             );
           },
-          itemCount: datalist.length,
+          itemCount: datalist == null ? 0 :  datalist.length,
           itemBuilder: (context, index) {
             return CourseintroductlistItemWidget(
-              descrip: datalist[index]
+              descrip: datalist[index].toString()
             );
           },
         ),

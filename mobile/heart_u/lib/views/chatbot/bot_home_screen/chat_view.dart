@@ -50,7 +50,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: ChatView(
         currentUser: currentUser,
@@ -277,6 +276,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
     String? sessionId = prefs.getString('sessionId');
 
+    String? chatContext = prefs.getString('chatContext');
+
     print(token);
 
     String _baseUrl = baseUrl;
@@ -287,14 +288,13 @@ class _ChatScreenState extends State<ChatScreen> {
       _chatController.setTypingIndicator = true;
       num randomNumber = Random().nextInt(1000000 - 1) + 1;
 
-      var context = prefs.getString("context");
       print("chat initialised");
       Response response = await dio.post(
         "${_baseUrl}api/chat-messages",
         data: {
           "text" : message,
-          "chatSessionId": sessionId ?? randomNumber.toString(),
-          "context": "heart diseases",
+          "chatSessionId": sessionId == "" ? randomNumber.toString() : sessionId,
+          "context": chatContext == "" ? "heart diseases" : chatContext,
         },
         options: Options(
           headers: {
@@ -328,7 +328,7 @@ class _ChatScreenState extends State<ChatScreen> {
         _chatController.setTypingIndicator = false;
 
         AwesomeDialog(
-          context: context as BuildContext,
+          context: context,
           dialogType: DialogType.error,
           animType: AnimType.rightSlide,
           headerAnimationLoop: true,
@@ -350,8 +350,7 @@ class _ChatScreenState extends State<ChatScreen> {
         animType: AnimType.rightSlide,
         headerAnimationLoop: true,
         title: 'Error',
-        desc:
-        "An error occurred please try again later",
+        desc: e.toString(),
         btnOkOnPress: () {},
         btnOkIcon: Icons.cancel,
         btnOkColor: Colors.red,
