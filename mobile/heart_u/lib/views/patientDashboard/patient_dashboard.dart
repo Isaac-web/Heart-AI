@@ -260,7 +260,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                       ),
                       elevation: 50.0,
                       child: Bounce(
-                        infinite: false,
+                        infinite: true,
                           delay: const Duration(seconds: 1),
                           child: const ImageIcon(
                             color: Color(0xFF13183F),
