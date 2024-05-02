@@ -1,46 +1,57 @@
-// libraries
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-// components
-import Home from "@/pages/home/Home";
-import Login from "@/pages/auth/Login";
-import Register from "@/pages/auth/Register";
-// import PageNotFound from "@/pages/errors/not_found/NotFound";
-import Protected from "@/pages/protected/Protected";
-
-// utils
 import {
-  HOME_PAGE,
-  LOGIN,
-  REGISTER,
-  ADMIN,
-  // PAGE_NOT_FOUND,
-  PATIENT,
-  CHAT_BOT,
-} from "@/utils/routes";
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Outlet,
+  useNavigate,
+} from 'react-router-dom';
 
-// contexts
-import { AppContextProvider } from "@/contexts/AppContext";
-import Patient from "@/pages/patient/Patient";
-import Doctor from "@/pages/doctor/Doctor";
-import Chatbot from "@/pages/chatbot/Chatbot";
+import { paths } from '@/utils/routes';
+import { AppContextProvider } from '@/contexts/AppContext';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import Doctor from './pages/doctor/Doctor';
+import MedicalReportForm from './pages/MedicalReportForm';
+import Home from './pages/home/Home';
+import { useEffect } from 'react';
+import { getUserId } from './utils/auth';
+import { getCurrentUser } from './api/auth';
+import Header from './components/Header';
+
+const DoctorsPortal = () => {
+  const navigate = useNavigate();
+
+  const ensureUserIsDoctor = async () => {
+    if (!getUserId()) navigate('/login');
+
+    const user = await getCurrentUser();
+    if (user.userType !== 'doctor') navigate('/login');
+  };
+
+  useEffect(() => {
+    ensureUserIsDoctor();
+  }, []);
+
+  return <Outlet />;
+};
 
 export default function App() {
   return (
     <AppContextProvider>
       <Router>
+        <Header />
         <Routes>
-          <Route path={HOME_PAGE} element={<Home />} />
-          <Route path={LOGIN} element={<Login />} />
-          <Route path={REGISTER} element={<Register />} />
-          <Route element={<Protected allowedRoles={["patient"]} />}>
-            <Route path={PATIENT} element={<Patient />} />
-            <Route path={CHAT_BOT} element={<Chatbot />} />
+          <Route path={paths.HOME_PAGE} element={<Home />} />
+          <Route path={paths.LOGIN} element={<Login />} />
+          <Route path={paths.REGISTER} element={<Register />} />
+
+          <Route path={paths.DOCTOR} element={<DoctorsPortal />}>
+            <Route path={paths.DOCTOR} element={<Doctor />} />
+            <Route
+              path={paths.MEDICAL_REPORT_FORM}
+              element={<MedicalReportForm />}
+            />
           </Route>
-          <Route element={<Protected allowedRoles={["doctor"]} />}>
-            <Route path={ADMIN} element={<Doctor />} />
-          </Route>
-          {/* <Route path={PAGE_NOT_FOUND} element={<PageNotFound />} /> */}
         </Routes>
       </Router>
     </AppContextProvider>

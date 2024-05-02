@@ -352,10 +352,35 @@ In summary, based on the visual representation:
 - Usage
 - ![12](https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/59400730/33ed35bf-2edc-4a20-bd6a-0ac6ce2bb3b8)
 
-#### Best Model Performace 
-- A summary of the performance metrics achieved by the Support Vector Classifier (SVC) model for heart disease detection.
+### Model Evaluation
+A model is evaluated in terms of the samples correctly predicted as positive (True Positives), samples correctly predicted as negative (True Negatives), samples incorrectly predicted as positive (False Positives) and samples incorrectly predicted as negative (False Negatives).
+Where TP = True Positives, TN = True Negatives, FP = False Positives,FN = False Negatives
+  
+#### Evaluation Metrics
+- Accuracy: 
+Accuracy measures the overall correctness of a model's predictions. It is calculated as the ratio of correctly predicted instances to the total instances.
 
-##### Model Performance Metrics
+Accuracy = (TP + TN) / (TP + TN + FP + FN)
+
+- Precision: 
+Precision measures the proportion of true positive predictions out of all positive predictions made by the model. It quantifies how many of the instances predicted as positive are actually positive.
+
+Precision = TP / (TP + FP)
+
+- Recall: 
+Recall measures the proportion of true positive predictions out of all actual positive instances. It quantifies how many of the actual positive instances were correctly identified by the model. 
+
+Recall = TP / (TP + FN)
+
+- F1 Score: 
+F1 score is the harmonic mean of precision and recall, providing a balanced measure that considers both metrics. It strike a balance between precision and recall and can be used as a single metric to summarize a model's performance.
+
+F1 Score = 2 * (Precision * Recall) / (Precision + Recall)
+
+#### Best Model Performace 
+- A summary of the results achieved by the Support Vector Classifier (SVC) model for heart disease detection.
+
+##### Evaluation results (SVC)
 - Accuracy: 0.99
 - Precision: 1.00
 - Recall: 0.98
@@ -365,4 +390,54 @@ In summary, based on the visual representation:
 The SVC model demonstrates exceptional performance in accurately classifying instances of heart disease. With an accuracy of 0.99, it correctly predicts heart disease presence or absence in 99% of cases. The precision of 1.00 indicates that all positive predictions made by the model are indeed true positives, with no false positives. Similarly, the recall of 0.98 indicates that the model correctly identifies 98% of all true positive cases. The F1 score of 0.99 further confirms the model's balanced performance in terms of precision and recall.
 
 #### Model Saving 
-The trained SVC model was saved using the Joblib library, which efficiently serializes Python objects to disk.
+The trained SVC model was saved as a pickle using the Joblib library, which efficiently serializes Python objects to disk.
+
+## Experiment Tracking 
+The code uses MLflow for experiment tracking. It starts a new MLflow experiment for each model, logs metrics, and saves the best models.
+
+### Overview
+It is structured into several key components:
+
+1. Model Training: Each model is trained using the train_model function, which logs the model name and trains the model on the provided training data.
+2. Model Evaluation: The evaluate_model function is used to evaluate the performance of each model. It performs cross-validation, hyperparameter tuning (if a param_grid is provided), and logs metrics and parameters using MLflow. It also calculates and logs the training and testing scores.
+3. Confusion Matrix Visualization: The plot_and_log_confusion_matrix function generates and logs a confusion matrix for each model, along with key metrics such as accuracy, precision, recall, and F1 score.
+4. Model Comparison: The compare_best_models function compares the performance of all evaluated models, plots a comparison of their training and testing scores, and saves the best model.
+
+### Workflow
+
+The adopted workflow is as follows:
+
+1. Data preprocessing 
+2. Model training and evaluation using cross-validation
+3. Hyperparameter tuning for each model using a predefined parameter grid
+4. Logging model performance metrics (accuracy, precision, recall, F1-score) and confusion matrices using MLflow
+5. Comparison of the best models based on test set accuracy
+6. Saving the best model for future use
+
+### Requirements
+
+Python libraries include:
+
+- scikit-learn
+- matplotlib
+- seaborn
+- numpy
+- pandas
+- mlflow
+
+### Parameters
+The code includes parameter grids for hyperparameter tuning of Logistic Regression, Decision Tree, Random Forest, K-Nearest Neighbors, and Support Vector Machines. These grids are used in the evaluate_model function to tune the models' hyperparameters. Voting Classifer is an ensemble of the above-mentioned models.
+
+### Usage
+
+1. Set up an MLflow tracking URI (e.g., `mlflow.set_tracking_uri("sqlite:///mlflow.db")`)
+2. Ensure that the required data (X_train, X_test, y_train, y_test) is available
+3. Run the code to train and evaluate the models
+4. Review the logged metrics and artifacts in the MLflow UI
+5. Inspect the comparison of the best models and the saved model file
+
+### Artifacts
+The project logs several artifacts using MLflow, including:
+Model Artifacts: The best model for each evaluated model is saved as a pickle file.
+Confusion Matrix Plots: A confusion matrix plot for each model is generated and logged.
+Comparison Plot: A plot comparing the training and testing scores of all evaluated models is generated and displayed.

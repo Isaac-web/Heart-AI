@@ -7,7 +7,7 @@ export interface IChatSession extends Document {
 
 const ChatSessionSchema: Schema = new Schema<IChatSession>(
   {
-    title: { type: Schema.Types.String, required: true, unique: true },
+    title: { type: Schema.Types.String, required: true },
     patientId: { type: Schema.Types.ObjectId, required: true },
   },
   { timestamps: true }

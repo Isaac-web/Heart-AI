@@ -1,0 +1,1 @@
+const String baseUrl = 'https://heart-disease-prediction-group-2-ky21.onrender.com/';

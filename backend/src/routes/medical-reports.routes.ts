@@ -1,13 +1,14 @@
-import { Router } from "express";
-import * as MedicalReportControllers from "../controllers/medical-reports.controllers";
+import { Router } from 'express';
+import * as MedicalReportControllers from '../controllers/medical-reports.controllers';
+import { auth } from '../middleware/auth';
 
 const router = Router();
 
-router.get("/:id", MedicalReportControllers.getMedicalReport);
-router.get("/", MedicalReportControllers.getMedicalReports);
-router.get("/me", MedicalReportControllers.getMyMedicalReport);
-router.post("/", MedicalReportControllers.createMedicalReport);
-router.patch("/:id", MedicalReportControllers.updateMedicalReport);
-router.delete("/:id", MedicalReportControllers.deleteMedicalReport);
+router.post('/', auth, MedicalReportControllers.createMedicalReport);
+router.get('/me', auth, MedicalReportControllers.getMyMedicalReport);
+router.get('/:id', auth, MedicalReportControllers.getMedicalReport);
+router.get('/', auth, MedicalReportControllers.getMedicalReports);
+router.patch('/:id', auth, MedicalReportControllers.updateMedicalReport);
+router.delete('/:id', auth, MedicalReportControllers.deleteMedicalReport);
 
 export default router;
