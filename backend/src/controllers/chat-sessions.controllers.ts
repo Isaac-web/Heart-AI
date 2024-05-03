@@ -1,3 +1,4 @@
+import { ChatMessage } from '../models/ChatMessage';
 import ChatSession from '../models/ChatSession';
 import { AppRequest, AppResponse } from '../types';
 
@@ -61,9 +62,11 @@ export const deleteChatSession = async (req: AppRequest, res: AppResponse) => {
   }
 
   try {
-    const deletedChatSession = await ChatSession.findByIdAndDelete(
-      req.params.id
-    );
+    const [deletedChatSession] = await Promise.all([
+      ChatSession.findByIdAndDelete(req.params.id),
+      ChatMessage.deleteMany({ chatSession: req.params.id }),
+    ]);
+
     return res.status(200).json({ successful: true, data: deletedChatSession });
   } catch (error) {
     return res.status(400).json({ message: 'Error deleting chat session' });

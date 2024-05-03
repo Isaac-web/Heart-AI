@@ -4,7 +4,6 @@ import ChatThread from './ChatThread';
 import { useAppStore } from '@/hooks/store';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import { enqueueSnackbar } from 'notistack';
-import { fetchChatMessages } from '@/api/chatMessages';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const Chatbot = () => {

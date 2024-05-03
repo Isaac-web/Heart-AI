@@ -18,6 +18,7 @@ import { getUserId } from './utils/auth';
 import { getCurrentUser } from './api/auth';
 import Header from './components/Header';
 import Chatbot from './pages/chatbot/Chatbot';
+import { useAppStore } from './hooks/store';
 
 const DoctorsPortal = () => {
   const navigate = useNavigate();
@@ -37,6 +38,14 @@ const DoctorsPortal = () => {
 };
 
 export default function App() {
+  const store = useAppStore();
+
+  useEffect(() => {
+    if (getUserId()) {
+      store.getCurrentUser();
+    }
+  }, []);
+
   return (
     <AppContextProvider>
       <Router>

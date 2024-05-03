@@ -39,9 +39,15 @@ export const createChatMessagesSlice: StateCreator<
         _id: mockId,
         chatSession: data.chatSessionId,
         text: data.text,
+        user: null,
         createdAt: new Date().toString(),
         updatedAt: new Date().toString(),
       };
+
+      const currentUser = get().currentUser;
+      if (currentUser) {
+        userMessage.user = userMessage;
+      }
 
       set((state) => ({ chatMessages: [...state.chatMessages, userMessage] }));
 
