@@ -17,6 +17,7 @@ import { useEffect } from 'react';
 import { getUserId } from './utils/auth';
 import { getCurrentUser } from './api/auth';
 import Header from './components/Header';
+import Chatbot from './pages/chatbot/Chatbot';
 
 const DoctorsPortal = () => {
   const navigate = useNavigate();
@@ -44,6 +45,8 @@ export default function App() {
           <Route path={paths.HOME_PAGE} element={<Home />} />
           <Route path={paths.LOGIN} element={<Login />} />
           <Route path={paths.REGISTER} element={<Register />} />
+          <Route path={`${paths.CHAT_BOT}/:sessionId`} element={<Chatbot />} />
+          <Route path={paths.CHAT_BOT} element={<Chatbot />} />
 
           <Route path={paths.DOCTOR} element={<DoctorsPortal />}>
             <Route path={paths.DOCTOR} element={<Doctor />} />
