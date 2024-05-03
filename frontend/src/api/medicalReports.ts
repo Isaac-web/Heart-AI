@@ -21,3 +21,11 @@ export const fetchMedicalReports = async (
 
   return resData.data;
 };
+
+export const getCurrentUserMedicalReports = async () => {
+  const { data: resData } = await apiClient.get<{ data: MedicalReport[] }>(
+    '/medical-reports/me'
+  );
+
+  return resData.data;
+};

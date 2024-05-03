@@ -31,7 +31,12 @@ const Login = () => {
         await store.login(data);
         if (!errorOccured()) {
           enqueueSnackbar('You are logged in.', { variant: 'success' });
-          navigate('/doctor', { replace: true });
+          await store.getCurrentUser();
+
+          const user = store.currentUser;
+          if (user && user.userType === 'patient')
+            navigate('/doctor', { replace: true });
+          else navigate('/chatbot', { replace: true });
         }
       }}
     >

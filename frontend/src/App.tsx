@@ -37,6 +37,23 @@ const DoctorsPortal = () => {
   return <Outlet />;
 };
 
+const PatientPortal = () => {
+  const navigate = useNavigate();
+
+  const ensureUserIsDoctor = async () => {
+    if (!getUserId()) navigate('/login');
+
+    const user = await getCurrentUser();
+    if (user.userType == 'patient') navigate('/chatbot');
+  };
+
+  useEffect(() => {
+    ensureUserIsDoctor();
+  }, []);
+
+  return <Outlet />;
+};
+
 export default function App() {
   const store = useAppStore();
 
@@ -55,7 +72,10 @@ export default function App() {
           <Route path={paths.LOGIN} element={<Login />} />
           <Route path={paths.REGISTER} element={<Register />} />
           <Route path={`${paths.CHAT_BOT}/:sessionId`} element={<Chatbot />} />
+
+          {/* <Route path={paths.CHAT_BOT} element={<PatientPortal />}> */}
           <Route path={paths.CHAT_BOT} element={<Chatbot />} />
+          {/* </Route> */}
 
           <Route path={paths.DOCTOR} element={<DoctorsPortal />}>
             <Route path={paths.DOCTOR} element={<Doctor />} />

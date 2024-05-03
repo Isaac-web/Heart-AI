@@ -9,13 +9,13 @@ const ChatThread = () => {
   return store.loadingChatMessages ? (
     <LoadingIndicator />
   ) : (
-    <div className="w-full flex flex-col gap-5">
+    <div className="w-full flex flex-col gap-2">
       {store.chatMessages.map((c) => (
         <div
           key={c._id}
           className={`px-4 py-6 rounded-md w-[60%] max-w-[60%] bg-[rgba(178,178,238,0.4)] ${
             c.user ? 'self-end' : 'self-start'
-          }`}
+          } mb-[5em]`}
           style={{
             backgroundColor: !c.user
               ? alpha(theme.palette.primary.light, 0.1)

@@ -5,6 +5,8 @@ import { useAppStore } from '@/hooks/store';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import { enqueueSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Delete } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 import ChatbotResults from './ChatbotResults';
 import ChatbotGreet from './ChatbotGreet';
 
@@ -64,7 +66,24 @@ const Chatbot = () => {
         context: 'heart desease',
       });
     }
+
+    setMessage('');
   };
+
+  const handleDelete = (chatSessionId: string) => {
+    store.deleteChatSession(chatSessionId);
+    const error = store.getError(store.deleteChatSession.name);
+    if (error) {
+      enqueueSnackbar(error.message, { variant: 'error' });
+      return;
+    }
+
+    if (sessionId === chatSessionId) navigate('/chatbot/');
+  };
+
+  useEffect(() => {
+    store.getCurrentUserMedicalReports();
+  }, []);
 
   useEffect(() => {
     loadChatSessions();
@@ -74,11 +93,9 @@ const Chatbot = () => {
     loadChatMessages();
   }, [sessionId]);
 
-  // console.log(store.chatSessions);
-
   return (
-    <div className="flex bg-[#111] w-screen h-screen">
-      <div className="bg-[rgba(178,178,238,0.03)] h-screen text-white w-[16vw]">
+    <div className="flex bg-[#111] w-full h-auto overflow-y-auto">
+      <div className="bg-[rgba(178,178,238,0.03)] h-screen text-white min-w-[16vw] w-[25%] overflow-auto">
         <div>
           <div
             className="w-full py-4 flex justify-between px-6 items-center hover:bg-[rgba(178,178,238,0.1)] cursor-pointer"
@@ -100,7 +117,7 @@ const Chatbot = () => {
               <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
             </svg>
           </div>
-          
+
           <div>
             <form onSubmit={handleSubmit}>
               {!showInput ? null : store.creatingChatSession ? (
@@ -118,33 +135,59 @@ const Chatbot = () => {
             </form>
           </div>
         </div>
-       
+
         <div className="flex flex-col space-y-1">
           {store.loadingChatSession ? (
             <LoadingIndicator />
           ) : (
             store.chatSessions.map((m) => (
               <div
-                className="px-3 py-2 rounded-lg bg-white/10 cursor-pointer"
+                className="px-3 py-2 rounded-lg bg-white/10 cursor-pointer flex flex-row justify-between items-center"
                 onClick={() => navigate(`/chatbot/${m._id}`)}
               >
-                {m.title}
+                <span>{m.title}</span>
+                <IconButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+
+                    handleDelete(m._id);
+                  }}
+                >
+                  <Delete fontSize="small" />
+                </IconButton>
               </div>
             ))
           )}
         </div>
       </div>
 
-
-      {/* <ChatbotResults/> */}
       <div className="flex flex-col justify-between grow items-center">
-        <div className="grow text-white py-10 self-start mx-auto w-[55%]">
+        <div className="grow text-white py-10 self-start">
           {sessionId ? (
-            <div className='flex flex-col space-y-12'>
-               <ChatbotGreet/>
-               <ChatbotResults/>
-            <ChatThread />
-            
+            <div className="flex flex-col space-y-12 px-10">
+              <ChatbotGreet />
+              <ChatbotResults />
+              <div>
+                <ChatThread />
+                <div className="fixed bottom-0 w-full bg-[#111] ">
+                  <form className="w-full" onSubmit={handleSendMessage}>
+                    <div className="w-fullp-10 flex justify-center p-4 w-[70%]">
+                      <div className=" px-8 py-6 rounded-lg w-[80%] flex justify-between space-x-5">
+                        <input
+                          type="text"
+                          className="border border-[rgba(178,178,238,0.1)] w-full p-5 rounded-lg outline-0 bg-[rgba(178,178,238,0.1)]"
+                          placeholder="type..."
+                          value={message}
+                          onChange={(e) => setMessage(e.target.value)}
+                        />
+                        <button className="text-blue-300" type="submit">
+                          send
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="flex flex-col items-center">
@@ -153,23 +196,6 @@ const Chatbot = () => {
             </div>
           )}
         </div>
-       
-        <form className="w-full" onSubmit={handleSendMessage}>
-          <div className="w-fullp-10 flex justify-center p-4 w-[70%]">
-            <div className="border border-[rgba(178,178,238,0.1)] px-8 py-6 rounded-lg w-[80%] flex justify-between">
-              <input
-                type="text"
-                className="bg-transparent outline-0 border-0 text-white"
-                placeholder="type..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-              <button className="text-blue-300" type="submit">
-                send
-              </button>
-            </div>
-          </div>
-        </form>
       </div>
     </div>
   );

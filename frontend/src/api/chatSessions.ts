@@ -17,3 +17,11 @@ export const createChatSession = async (data: { title: string }) => {
 
   return resData;
 };
+
+export const deleteChatSession = async (sessionId: string) => {
+  const { data: resData } = await apiClient.delete<{ data: ChatSession }>(
+    `/chat-sessions/me/${sessionId}`
+  );
+
+  return resData.data;
+};
