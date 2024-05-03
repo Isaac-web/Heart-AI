@@ -66,6 +66,8 @@ const Chatbot = () => {
         context: 'heart desease',
       });
     }
+
+    setMessage('');
   };
 
   const handleDelete = (chatSessionId: string) => {
@@ -92,8 +94,8 @@ const Chatbot = () => {
   }, [sessionId]);
 
   return (
-    <div className="flex bg-[#111] w-screen h-screen">
-      <div className="bg-[rgba(178,178,238,0.03)] h-screen text-white w-[16vw]">
+    <div className="flex bg-[#111] w-full h-auto overflow-y-auto">
+      <div className="bg-[rgba(178,178,238,0.03)] h-screen text-white min-w-[16vw] w-[25%] overflow-auto">
         <div>
           <div
             className="w-full py-4 flex justify-between px-6 items-center hover:bg-[rgba(178,178,238,0.1)] cursor-pointer"
@@ -159,14 +161,33 @@ const Chatbot = () => {
         </div>
       </div>
 
-      {/* <ChatbotResults/> */}
       <div className="flex flex-col justify-between grow items-center">
-        <div className="grow text-white py-10 self-start mx-auto w-[55%]">
+        <div className="grow text-white py-10 self-start">
           {sessionId ? (
-            <div className="flex flex-col space-y-12">
+            <div className="flex flex-col space-y-12 px-10">
               <ChatbotGreet />
               <ChatbotResults />
-              <ChatThread />
+              <div>
+                <ChatThread />
+                <div className="fixed bottom-0 w-full bg-[#111] ">
+                  <form className="w-full" onSubmit={handleSendMessage}>
+                    <div className="w-fullp-10 flex justify-center p-4 w-[70%]">
+                      <div className=" px-8 py-6 rounded-lg w-[80%] flex justify-between space-x-5">
+                        <input
+                          type="text"
+                          className="border border-[rgba(178,178,238,0.1)] w-full p-5 rounded-lg outline-0 bg-[rgba(178,178,238,0.1)]"
+                          placeholder="type..."
+                          value={message}
+                          onChange={(e) => setMessage(e.target.value)}
+                        />
+                        <button className="text-blue-300" type="submit">
+                          send
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="flex flex-col items-center">
@@ -175,23 +196,6 @@ const Chatbot = () => {
             </div>
           )}
         </div>
-
-        <form className="w-full" onSubmit={handleSendMessage}>
-          <div className="w-fullp-10 flex justify-center p-4 w-[70%]">
-            <div className="border border-[rgba(178,178,238,0.1)] px-8 py-6 rounded-lg w-[80%] flex justify-between">
-              <input
-                type="text"
-                className="bg-transparent outline-0 border-0 text-white"
-                placeholder="type..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-              <button className="text-blue-300" type="submit">
-                send
-              </button>
-            </div>
-          </div>
-        </form>
       </div>
     </div>
   );
