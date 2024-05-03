@@ -15,6 +15,8 @@ export const createChatMessagesSlice: StateCreator<
   loadingChatMessages: false,
   creatingChatMessages: false,
   async fetchChatMessages(sessionId) {
+    get().removeError(fetchChatMessages.name)
+
     set({ loadingChatMessages: true });
     try {
       const chatMessages = await fetchChatMessages(sessionId);

@@ -50,14 +50,17 @@ export interface MedicalReportSlice {
   loadingMedicalReports: boolean;
   fetchMedicalReports(params: MedicalReportSearchParams): Promise<void>;
   createMedicalReport(data: MedicalReportFormData): Promise<void>;
+  getCurrentUserMedicalReports(): Promise<void>;
 }
 
 export interface ChatSessionSlice {
   chatSessions: ChatSession[];
   creatingChatSession: boolean;
   loadingChatSession: boolean;
+  deletingChatSession: boolean;
   fetchChatSessions(): Promise<void>;
   createChatSession(data: { title: string }): Promise<void>;
+  deleteChatSession(sessionId: string): Promise<void>;
 }
 
 export interface ChatMessagesSlice {

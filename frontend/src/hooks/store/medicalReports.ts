@@ -1,7 +1,11 @@
 import { StateCreator } from 'zustand';
 import { MedicalReportSlice, StoreState } from './types';
 import { handleError } from '@/utils/errorHandler';
-import { createMedicalReport, fetchMedicalReports } from '@/api/medicalReports';
+import {
+  createMedicalReport,
+  fetchMedicalReports,
+  getCurrentUserMedicalReports,
+} from '@/api/medicalReports';
 
 export const createMedicalReportsSlice: StateCreator<
   StoreState,
@@ -32,7 +36,20 @@ export const createMedicalReportsSlice: StateCreator<
       await createMedicalReport(data);
     } catch (err) {
       const message = handleError(err as Error);
-      console.log(message);
+      get().addError({ callingFunction: createMedicalReport.name, message });
+    } finally {
+      set({ creatingMedicalReport: false });
+    }
+  },
+
+  async getCurrentUserMedicalReports() {
+    set({ creatingMedicalReport: true });
+    try {
+      get().removeError(createMedicalReport.name);
+      const data = await getCurrentUserMedicalReports();
+      set({ medicalReports: data });
+    } catch (err) {
+      const message = handleError(err as Error);
       get().addError({ callingFunction: createMedicalReport.name, message });
     } finally {
       set({ creatingMedicalReport: false });

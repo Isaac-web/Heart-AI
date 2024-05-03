@@ -5,6 +5,8 @@ import { useAppStore } from '@/hooks/store';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import { enqueueSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Delete } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 
 const Chatbot = () => {
   const [showInput, setShowInput] = useState(false);
@@ -64,6 +66,21 @@ const Chatbot = () => {
     }
   };
 
+  const handleDelete = (chatSessionId: string) => {
+    store.deleteChatSession(chatSessionId);
+    const error = store.getError(store.deleteChatSession.name);
+    if (error) {
+      enqueueSnackbar(error.message, { variant: 'error' });
+      return;
+    }
+
+    if (sessionId === chatSessionId) navigate('/chatbot/');
+  };
+
+  useEffect(() => {
+    store.getCurrentUserMedicalReports();
+  }, []);
+
   useEffect(() => {
     loadChatSessions();
   }, []);
@@ -71,8 +88,6 @@ const Chatbot = () => {
   useEffect(() => {
     loadChatMessages();
   }, [sessionId]);
-
-  // console.log(store.chatSessions);
 
   return (
     <div className="flex bg-[#111] w-screen h-screen">
@@ -123,10 +138,19 @@ const Chatbot = () => {
           ) : (
             store.chatSessions.map((m) => (
               <div
-                className="px-3 py-2 rounded-lg bg-white/10 cursor-pointer"
+                className="px-3 py-2 rounded-lg bg-white/10 cursor-pointer flex flex-row justify-between items-center"
                 onClick={() => navigate(`/chatbot/${m._id}`)}
               >
-                {m.title}
+                <span>{m.title}</span>
+                <IconButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+
+                    handleDelete(m._id);
+                  }}
+                >
+                  <Delete fontSize="small" />
+                </IconButton>
               </div>
             ))
           )}
