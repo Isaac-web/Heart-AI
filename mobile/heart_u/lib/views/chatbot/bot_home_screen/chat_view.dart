@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:chatview/chatview.dart';
 import 'package:dio/dio.dart';
@@ -9,7 +8,8 @@ import '../../../core/utils/constants.dart';
 import '../data.dart';
 
 class ChatScreen extends StatefulWidget {
-  ChatScreen({Key? key}) : super(key: key);
+  String? chatContext;
+  ChatScreen({Key? key, this.chatContext}) : super(key: key);
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -20,12 +20,6 @@ class _ChatScreenState extends State<ChatScreen> {
   bool isDarkTheme = false;
 
   final Dio dio = Dio();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   final currentUser = ChatUser(
     id: '1',
@@ -38,12 +32,17 @@ class _ChatScreenState extends State<ChatScreen> {
     chatUsers: [
       ChatUser(
         id: '2',
-        name: 'Bot',
+        name: 'Hearty',
         profilePhoto: Data.profileImage,
       ),
     ],
   );
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
   void _showHideTypingIndicator() {
     _chatController.setTypingIndicator = !_chatController.showTypingIndicator;
   }
@@ -84,25 +83,25 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           userStatus: "online",
           userStatusTextStyle: const TextStyle(color: Colors.grey),
-          actions: [
-            // IconButton(
-            //   onPressed: _onThemeIconTap,
-            //   icon: Icon(
-            //     isDarkTheme
-            //         ? Icons.brightness_4_outlined
-            //         : Icons.dark_mode_outlined,
-            //     color: theme.themeIconColor,
-            //   ),
-            // ),
-            IconButton(
-              tooltip: 'Toggle TypingIndicator',
-              onPressed: _showHideTypingIndicator,
-              icon: Icon(
-                Icons.keyboard,
-                color: theme.themeIconColor,
-              ),
-            ),
-          ],
+          // actions: [
+          //   // IconButton(
+          //   //   onPressed: _onThemeIconTap,
+          //   //   icon: Icon(
+          //   //     isDarkTheme
+          //   //         ? Icons.brightness_4_outlined
+          //   //         : Icons.dark_mode_outlined,
+          //   //     color: theme.themeIconColor,
+          //   //   ),
+          //   // ),
+          //   // IconButton(
+          //   //   tooltip: 'Toggle TypingIndicator',
+          //   //   onPressed: _showHideTypingIndicator,
+          //   //   icon: Icon(
+          //   //     Icons.keyboard,
+          //   //     color: theme.themeIconColor,
+          //   //   ),
+          //   // ),
+          // ],
         ),
         chatBackgroundConfig: ChatBackgroundConfiguration(
           messageTimeIconColor: theme.messageTimeIconColor,
@@ -276,9 +275,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
     String? sessionId = prefs.getString('sessionId');
 
-    String? chatContext = prefs.getString('chatContext');
-
     print(token);
+    print(widget.chatContext);
+
 
     String _baseUrl = baseUrl;
 
@@ -294,7 +293,7 @@ class _ChatScreenState extends State<ChatScreen> {
         data: {
           "text" : message,
           "chatSessionId": sessionId == "" ? randomNumber.toString() : sessionId,
-          "context": chatContext == "" ? "heart diseases" : chatContext,
+          "context": widget.chatContext ?? "heart diseases",
         },
         options: Options(
           headers: {

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:heart_u/core/app_export.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,6 +11,7 @@ import 'package:widget_loading/widget_loading.dart';
 import '../../../core/utils/constants.dart';
 import '../../../theme/custom_button_style.dart';
 import '../../../widgets/custom_elevated_button.dart';
+import 'chat_view.dart';
 import 'widgets/recentchatlist_item_widget.dart';
 
 class BotHomeScreen extends StatefulWidget {
@@ -176,10 +178,15 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Image.asset(
-                   "assets/images/Frame2.png",
-                  height: 60.adaptSize,
-                  width: 60.adaptSize,
+                GestureDetector(
+                  onTap: (){
+                    getData();
+                  },
+                  child: Image.asset(
+                     "assets/images/Frame2.png",
+                    height: 60.adaptSize,
+                    width: 60.adaptSize,
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
@@ -190,7 +197,8 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
                   child: Column(
                     children: [
                       Text(
-                        "Hearty is online and ready to chat",
+                        "Hearty is online and ready to chat \n"
+                            "Tap on bot to refresh sessions",
                         style: theme.textTheme.titleSmall,
                       ),
                       SizedBox(height: 12.v),
@@ -257,7 +265,7 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
                 prefs.setString("sessionId", dataList[index]["_id"]);
                 prefs.setString("patientId", dataList[index]["patientId"]);
                 prefs.setString("hasSession", "true");
-                prefs.setString("chatContext", "");
+
 
                 Navigator.pushNamed(
                     context,
@@ -327,10 +335,10 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
                 prefs.setString('sessionId', sessionId);
                 prefs.setString('patientId', patientId);
                 prefs.setString("hasSession", "false");
-                prefs.setString("chatContext", "");
 
 
-                Navigator.of(context).pushNamed(AppRoutes.chatList);
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ChatScreen()));
 
               }else {
                 setState(() {

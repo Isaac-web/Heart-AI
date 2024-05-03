@@ -338,6 +338,17 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
                     AnimatedButton(
                       isFixedHeight: false,
+                      icon: Icons.refresh,
+                      text: 'Refresh system data',
+                      pressEvent: () {
+                        getData();
+                      }
+                    ),
+
+                    const SizedBox(height: 10,),
+
+                    AnimatedButton(
+                      isFixedHeight: false,
                       text: 'Update details',
                       pressEvent: () {
                         AwesomeDialog(
@@ -661,7 +672,66 @@ class _PatientDashboardState extends State<PatientDashboard> {
           itemCount: datalist == null ? 0 :  datalist.length,
           itemBuilder: (context, index) {
             return CourseintroductlistItemWidget(
-              descrip: datalist[index].toString()
+              descrip: datalist[index].toString(),
+              docId: datalist[index]["doctorId"].toString(),
+              id: datalist[index]["patientId"].toString(),
+              reportId: datalist[index]["_id"].toString(),
+              date: datalist[index]["createdAt"].toString(),
+              age: datalist[index]["age"].toString(),
+              sex: datalist[index]["sex"].toString() == "0" ? "male" : "female",
+              trestbps: datalist[index]["trestbps"].toString(),
+              chol: datalist[index]["chol"].toString(),
+              fbs: datalist[index]["fbs"].toString() == "0" ? "false" : "true",
+              thalach: datalist[index]["thalach"].toString(),
+              exang: datalist[index]["exang"].toString() == "0" ? "No" : "Yes",
+              oldPeak: datalist[index]["oldpeak"].toString(),
+              slope: datalist[index]["slope"].toString() == "0" ? "Upsloping" :
+              datalist[index]["slope"].toString() == "1"? "flat"
+                  : "Downsloping",
+              ca: datalist[index]["ca"].toString(),
+
+              cp_1: datalist[index]["cp_1"].toString() == "0" ? "Typical angina"
+                  : datalist[index]["cp_1"].toString() == "1" ?
+              "Atypical angina" : datalist[index]["cp_1"].toString() == "2" ?
+              "Non-anginal pain" : "Asymptomatic",
+
+              cp_2: datalist[index]["cp_2"].toString() == "0" ? "Typical angina"
+                  : datalist[index]["cp_2"].toString() == "1" ?
+              "Atypical angina" : datalist[index]["cp_2"].toString() == "2" ?
+              "Non-anginal pain" : "Asymptomatic",
+
+              cp_3: datalist[index]["cp_3"].toString() == "0" ? "Typical angina"
+                  : datalist[index]["cp_3"].toString() == "1" ?
+              "Atypical angina" : datalist[index]["cp_3"].toString() == "2" ?
+              "Non-anginal pain" : "Asymptomatic",
+
+              restecg_1: datalist[index]["restecg_1"].toString() == "0" ?
+              "Normal" : datalist[index]["restecg_1"].toString() == "1" ?
+              "having ST-T wave abnormality" : "Showing probable or definite "
+                  "left ventricular hypertrophy" ,
+
+              restecg_2: datalist[index]["restecg_2"].toString() == "0" ?
+              "Normal" : datalist[index]["restecg_2"].toString() == "1" ?
+              "having ST-T wave abnormality" : "Showing probable or definite "
+                  "left ventricular hypertrophy" ,
+
+              thal_1: datalist[index]["thal_1"].toString() == "0" ? "Normal" :
+              datalist[index]["thal_1"].toString() == "1" ? "Fixed defect"
+                  : datalist[index]["thal_1"].toString() == "2" ?
+              "Reversible defect" : "Not described"   ,
+
+              thal_2: datalist[index]["thal_2"].toString() == "0" ? "Normal" :
+              datalist[index]["thal_2"].toString() == "1" ? "Fixed defect"
+                  : datalist[index]["thal_2"].toString() == "2" ?
+              "Reversible defect" : "Not described"   ,
+
+              thal_3: datalist[index]["thal_3"].toString() == "0" ? "Normal" :
+              datalist[index]["thal_3"].toString() == "1" ? "Fixed defect"
+                  : datalist[index]["thal_3"].toString() == "2" ?
+              "Reversible defect" : "Not described"   ,
+
+              status: datalist[index]["cardioStatus"].toString() == "0" ?
+              "No disease" : "Presence of disease" ,
             );
           },
         ),
