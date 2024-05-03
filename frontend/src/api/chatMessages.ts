@@ -1,7 +1,11 @@
+import { ChatMessage } from '@/types';
 import { apiClient } from './apiClient';
 
-export const fetchChatMessage = async (sessionId: string) => {
-  const { data } = await apiClient.get(`/chat-messages/${sessionId}`, {});
+export const fetchChatMessages = async (sessionId: string) => {
+  const { data: resData } = await apiClient.get<{ data: ChatMessage[] }>(
+    `/chat-messages/${sessionId}`,
+    {}
+  );
 
-  return data;
+  return resData.data;
 };

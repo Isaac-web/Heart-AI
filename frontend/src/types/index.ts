@@ -129,3 +129,12 @@ export interface ChatSession {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ChatMessage {
+  _id: string;
+  text: string;
+  chatSession: string;
+  user?: User;
+  createdAt: string;
+  updatedAt: string;
+}

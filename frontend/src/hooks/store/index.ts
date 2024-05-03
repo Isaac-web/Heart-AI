@@ -4,6 +4,7 @@ import { createMedicalReportRequestSlice } from './medicalReportRequests';
 import { createAuthSlice } from './authSlice';
 import { createErrorSlice } from './errorSlice';
 import { createUserSlice } from './usersSlice';
+import { createChatMessagesSlice } from './chatMessagesSlice';
 import { create } from 'zustand';
 import { StoreState } from './types';
 
@@ -14,4 +15,5 @@ export const useAppStore = create<StoreState>()((...a) => ({
   ...createMedicalReportRequestSlice(...a),
   ...createMedicalReportsSlice(...a),
   ...createChatSessionsSlice(...a),
+  ...createChatMessagesSlice(...a),
 }));

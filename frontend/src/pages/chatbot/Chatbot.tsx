@@ -4,11 +4,15 @@ import ChatThread from './ChatThread';
 import { useAppStore } from '@/hooks/store';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import { enqueueSnackbar } from 'notistack';
+import { fetchChatMessages } from '@/api/chatMessages';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Chatbot = () => {
   const [showInput, setShowInput] = useState(false);
   const store = useAppStore();
   const [title, setTitle] = useState('');
+  const navigate = useNavigate();
+  const { sessionId } = useParams();
 
   const checkError = () => {
     const error = store.getError(store.createChatSession.name);
@@ -33,9 +37,30 @@ const Chatbot = () => {
     setShowInput(false);
   };
 
+  const loadChatSessions = async () => {
+    await store.fetchChatSessions();
+    const error = store.getError(store.fetchChatSessions.name);
+    if (store.getError(store.fetchChatSessions.name))
+      enqueueSnackbar(error?.message);
+  };
+
+  const loadChatMessages = async () => {
+    if (sessionId) {
+      store.fetchChatMessages(sessionId);
+      const error = store.getError(store.fetchChatMessages.name);
+      if (error) enqueueSnackbar(error.message, { variant: 'error' });
+    }
+  };
+
   useEffect(() => {
-    store.fetchChatSessions();
+    loadChatSessions();
   }, []);
+
+  useEffect(() => {
+    loadChatMessages();
+  }, [sessionId]);
+
+  // console.log(store.chatSessions);
 
   return (
     <div className="flex bg-[#111] w-screen h-screen">
@@ -81,14 +106,23 @@ const Chatbot = () => {
         </div>
 
         <div className="flex flex-col space-y-1">
-          {store.chatSessions.map((m) => (
-            <div className="px-3 py-2 rounded-lg bg-white/10">{m.title}</div>
-          ))}
+          {store.loadingChatSession ? (
+            <LoadingIndicator />
+          ) : (
+            store.chatSessions.map((m) => (
+              <div
+                className="px-3 py-2 rounded-lg bg-white/10 cursor-pointer"
+                onClick={() => navigate(`/chatbot/${m._id}`)}
+              >
+                {m.title}
+              </div>
+            ))
+          )}
         </div>
       </div>
       <div className="flex flex-col justify-between grow items-center">
         <div className="grow text-white py-10 self-start mx-auto w-[55%]">
-          {showInput ? (
+          {sessionId ? (
             <ChatThread />
           ) : (
             <div className="flex flex-col items-center">
