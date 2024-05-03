@@ -1,4 +1,5 @@
 import {
+  ChatSession,
   LoginFormData,
   MedicalReport,
   MedicalReportFormData,
@@ -46,8 +47,17 @@ export interface MedicalReportSlice {
   createMedicalReport(data: MedicalReportFormData): Promise<void>;
 }
 
+export interface ChatSessionSlice {
+  chatSessions: ChatSession[];
+  creatingChatSession: boolean;
+  loadingChatSession: boolean;
+  fetchChatSessions(): Promise<void>;
+  createChatSession(data: { title: string }): Promise<void>;
+}
+
 export type StoreState = RequestErrorState &
   AuthSlice &
   UsersSlice &
   MedicalReportRequestSlice &
-  MedicalReportSlice;
+  MedicalReportSlice &
+  ChatSessionSlice;

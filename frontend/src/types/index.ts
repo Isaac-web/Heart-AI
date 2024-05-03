@@ -121,3 +121,11 @@ export interface MedicalReportRequest {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ChatSession {
+  _id: string;
+  patientId: string;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+}
