@@ -7,6 +7,8 @@ import { enqueueSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Delete } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
+import ChatbotResults from './ChatbotResults';
+import ChatbotGreet from './ChatbotGreet';
 
 const Chatbot = () => {
   const [showInput, setShowInput] = useState(false);
@@ -156,10 +158,16 @@ const Chatbot = () => {
           )}
         </div>
       </div>
+
+      {/* <ChatbotResults/> */}
       <div className="flex flex-col justify-between grow items-center">
         <div className="grow text-white py-10 self-start mx-auto w-[55%]">
           {sessionId ? (
-            <ChatThread />
+            <div className="flex flex-col space-y-12">
+              <ChatbotGreet />
+              <ChatbotResults />
+              <ChatThread />
+            </div>
           ) : (
             <div className="flex flex-col items-center">
               <MedicalSvg />
@@ -167,6 +175,7 @@ const Chatbot = () => {
             </div>
           )}
         </div>
+
         <form className="w-full" onSubmit={handleSendMessage}>
           <div className="w-fullp-10 flex justify-center p-4 w-[70%]">
             <div className="border border-[rgba(178,178,238,0.1)] px-8 py-6 rounded-lg w-[80%] flex justify-between">
