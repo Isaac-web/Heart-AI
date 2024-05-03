@@ -12,6 +12,6 @@ const router = Router();
 router.post('/', auth, createMedicalReportRequest);
 router.get('/me', auth, fetchUserMedicalReport);
 router.get('/', auth, fetchMedicalReportRequest);
-router.delete('/:id', deleteMedicalReportRequest);
+router.delete('/:id', auth, deleteMedicalReportRequest);
 
 export default router;
