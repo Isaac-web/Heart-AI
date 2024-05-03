@@ -6,6 +6,8 @@ import LoadingIndicator from '@/components/LoadingIndicator';
 import { enqueueSnackbar } from 'notistack';
 import { fetchChatMessages } from '@/api/chatMessages';
 import { useNavigate, useParams } from 'react-router-dom';
+import ChatbotResults from './ChatbotResults';
+import ChatbotGreet from './ChatbotGreet';
 
 const Chatbot = () => {
   const [showInput, setShowInput] = useState(false);
@@ -99,7 +101,7 @@ const Chatbot = () => {
               <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
             </svg>
           </div>
-
+          
           <div>
             <form onSubmit={handleSubmit}>
               {!showInput ? null : store.creatingChatSession ? (
@@ -117,7 +119,7 @@ const Chatbot = () => {
             </form>
           </div>
         </div>
-
+       
         <div className="flex flex-col space-y-1">
           {store.loadingChatSession ? (
             <LoadingIndicator />
@@ -133,10 +135,18 @@ const Chatbot = () => {
           )}
         </div>
       </div>
+
+
+      {/* <ChatbotResults/> */}
       <div className="flex flex-col justify-between grow items-center">
         <div className="grow text-white py-10 self-start mx-auto w-[55%]">
           {sessionId ? (
+            <div className='flex flex-col space-y-12'>
+               <ChatbotGreet/>
+               <ChatbotResults/>
             <ChatThread />
+            
+            </div>
           ) : (
             <div className="flex flex-col items-center">
               <MedicalSvg />
@@ -144,6 +154,7 @@ const Chatbot = () => {
             </div>
           )}
         </div>
+       
         <form className="w-full" onSubmit={handleSendMessage}>
           <div className="w-fullp-10 flex justify-center p-4 w-[70%]">
             <div className="border border-[rgba(178,178,238,0.1)] px-8 py-6 rounded-lg w-[80%] flex justify-between">

@@ -18,14 +18,14 @@ const Features = () => {
   return (
     <>
       <section className="mt-10 px-5 md:px-52 md:mt-10 md:mb-8">
-        <div className="bg-gradient-to-r from-[#FF6F48] to-[#F02AA6] text-center text-white rounded-md p-6">
+        <div className="bg-gradient-to-r from-[#FF6F48] to-[#F02AA6] text-center text-white rounded-md p-6 hover:animate-pulse">
           Features
         </div>
       </section>
 
       <div className="grid md:grid-cols-3 mb-5 lg:mx-48 lg:mb-11">
         {features.map((feature) => (
-          <div className="bg-[#F3F4FF] rounded-lg mx-5 mt-4">
+          <div className="bg-[#F3F4FF] rounded-lg mx-5 mt-4 active:scale-[.98] active:duration-75  hover:scale-[1.08] ease-in-out">
             <div className="py-11 pl-5 md:px-4">
               <h3 className="text-dark-blue font-semibold md:text-center">
                 {feature.title}
