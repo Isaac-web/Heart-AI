@@ -138,3 +138,21 @@ export interface ChatMessage {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ChatMessageFormData {
+  text: string;
+  chatSessionId: string;
+  context: string;
+}
+
+export interface ChatMessageResponse {
+  userMessage: {
+    _id: string;
+    text: string;
+    chatSession: string;
+    user: User;
+    createdAt: string;
+    updatedAt: string;
+  };
+  systemMessage: string;
+}

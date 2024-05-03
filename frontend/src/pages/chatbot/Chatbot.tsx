@@ -11,6 +11,7 @@ const Chatbot = () => {
   const [showInput, setShowInput] = useState(false);
   const store = useAppStore();
   const [title, setTitle] = useState('');
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const { sessionId } = useParams();
 
@@ -49,6 +50,18 @@ const Chatbot = () => {
       store.fetchChatMessages(sessionId);
       const error = store.getError(store.fetchChatMessages.name);
       if (error) enqueueSnackbar(error.message, { variant: 'error' });
+    }
+  };
+
+  const handleSendMessage = (e: FormEvent) => {
+    e.preventDefault();
+
+    if (sessionId) {
+      store.sendChatMessage({
+        chatSessionId: sessionId,
+        text: message,
+        context: 'heart desease',
+      });
     }
   };
 
@@ -131,16 +144,22 @@ const Chatbot = () => {
             </div>
           )}
         </div>
-        <div className="w-fullp-10 flex justify-center p-4 w-[70%]">
-          <div className="border border-[rgba(178,178,238,0.1)] px-8 py-6 rounded-lg w-[80%] flex justify-between">
-            <input
-              type="text"
-              className="bg-transparent outline-0 border-0 text-white"
-              placeholder="type..."
-            />
-            <button className="text-blue-300">send</button>
+        <form className="w-full" onSubmit={handleSendMessage}>
+          <div className="w-fullp-10 flex justify-center p-4 w-[70%]">
+            <div className="border border-[rgba(178,178,238,0.1)] px-8 py-6 rounded-lg w-[80%] flex justify-between">
+              <input
+                type="text"
+                className="bg-transparent outline-0 border-0 text-white"
+                placeholder="type..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              />
+              <button className="text-blue-300" type="submit">
+                send
+              </button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

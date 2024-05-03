@@ -1,5 +1,6 @@
 import {
   ChatMessage,
+  ChatMessageFormData,
   ChatSession,
   LoginFormData,
   MedicalReport,
@@ -61,7 +62,7 @@ export interface ChatMessagesSlice {
   creatingChatMessages: boolean;
   loadingChatMessages: boolean;
   fetchChatMessages(sessionId: string): Promise<void>;
-  // sendChatMessage(data: { title: string }): Promise<void>;
+  sendChatMessage(data: ChatMessageFormData): Promise<void>;
 }
 
 export type StoreState = RequestErrorState &
