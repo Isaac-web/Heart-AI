@@ -26,7 +26,10 @@ export interface RequestErrorState {
 
 export interface AuthSlice {
   authPending: boolean;
+  loadingCurrentUser: boolean;
+  currentUser: User | null;
   login(data: LoginFormData): Promise<void>;
+  getCurrentUser(): Promise<void>;
   register(data: RegistrationFormData): Promise<void>;
 }
 

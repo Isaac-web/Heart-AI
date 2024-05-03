@@ -134,7 +134,7 @@ export interface ChatMessage {
   _id: string;
   text: string;
   chatSession: string;
-  user?: User;
+  user?: User | null;
   createdAt: string;
   updatedAt: string;
 }
