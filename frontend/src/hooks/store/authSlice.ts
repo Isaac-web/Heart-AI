@@ -1,6 +1,6 @@
 import { StateCreator } from 'zustand';
 import { AuthSlice, StoreState } from './types';
-import { login, register } from '@/api/auth';
+import { getCurrentUser, login, register } from '@/api/auth';
 import { handleError } from '@/utils/errorHandler';
 
 export const createAuthSlice: StateCreator<StoreState, [], [], AuthSlice> = (
@@ -8,6 +8,8 @@ export const createAuthSlice: StateCreator<StoreState, [], [], AuthSlice> = (
   get
 ) => ({
   authPending: false,
+  loadingCurrentUser: false,
+  currentUser: null,
   login: async (data) => {
     set({ authPending: true });
     try {
@@ -30,6 +32,20 @@ export const createAuthSlice: StateCreator<StoreState, [], [], AuthSlice> = (
       get().addError({ callingFunction: register.name, message });
     } finally {
       set({ authPending: false });
+    }
+  },
+  async getCurrentUser() {
+    get().removeError(getCurrentUser.name);
+
+    try {
+      set({ loadingCurrentUser: true });
+      const user = await getCurrentUser();
+      set({ currentUser: user });
+    } catch (err) {
+      const message = handleError(err as Error);
+      get().addError({ callingFunction: getCurrentUser.name, message });
+    } finally {
+      set({ loadingCurrentUser: false });
     }
   },
 });

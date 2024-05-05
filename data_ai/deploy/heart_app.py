@@ -3,6 +3,8 @@ from fastapi import FastAPI
 from Heart_Params import HeartParameter
 import numpy as np
 import pickle
+import warnings
+warnings.filterwarnings('ignore')
 
 app = FastAPI()
 pickle_in = open("svm.pkl","rb")
@@ -82,7 +84,7 @@ def predict_disease(data:HeartParameter):
         result = f'Your heart is fine, you do not have heart disease'
 
     return {
-        'prediction': result,
+        'status': result,
         'details': details
     }
 

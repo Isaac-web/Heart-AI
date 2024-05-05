@@ -1,4 +1,7 @@
 import {
+  ChatMessage,
+  ChatMessageFormData,
+  ChatSession,
   LoginFormData,
   MedicalReport,
   MedicalReportFormData,
@@ -23,7 +26,10 @@ export interface RequestErrorState {
 
 export interface AuthSlice {
   authPending: boolean;
+  loadingCurrentUser: boolean;
+  currentUser: User | null;
   login(data: LoginFormData): Promise<void>;
+  getCurrentUser(): Promise<void>;
   register(data: RegistrationFormData): Promise<void>;
 }
 
@@ -44,10 +50,31 @@ export interface MedicalReportSlice {
   loadingMedicalReports: boolean;
   fetchMedicalReports(params: MedicalReportSearchParams): Promise<void>;
   createMedicalReport(data: MedicalReportFormData): Promise<void>;
+  getCurrentUserMedicalReports(): Promise<void>;
+}
+
+export interface ChatSessionSlice {
+  chatSessions: ChatSession[];
+  creatingChatSession: boolean;
+  loadingChatSession: boolean;
+  deletingChatSession: boolean;
+  fetchChatSessions(): Promise<void>;
+  createChatSession(data: { title: string }): Promise<void>;
+  deleteChatSession(sessionId: string): Promise<void>;
+}
+
+export interface ChatMessagesSlice {
+  chatMessages: ChatMessage[];
+  creatingChatMessages: boolean;
+  loadingChatMessages: boolean;
+  fetchChatMessages(sessionId: string): Promise<void>;
+  sendChatMessage(data: ChatMessageFormData): Promise<void>;
 }
 
 export type StoreState = RequestErrorState &
   AuthSlice &
   UsersSlice &
   MedicalReportRequestSlice &
-  MedicalReportSlice;
+  MedicalReportSlice &
+  ChatSessionSlice &
+  ChatMessagesSlice;

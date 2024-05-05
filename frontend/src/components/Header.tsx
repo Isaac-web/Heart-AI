@@ -18,8 +18,6 @@ const Header = () => {
     return pathname === '/login' || pathname === '/register';
   };
 
-  console.log(isAuthPage());
-
   const renderAuthBox = () => {
     return isAuthPage() ? null : (
       <Grid item>
