@@ -1,6 +1,5 @@
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import '../app_export.dart'; // These are the Viewport values of your Figma Design.
+// These are the Viewport values of your Figma Design.
 
 // These are used in the code as a reference to create your UI Responsively.
 const num FIGMA_DESIGN_WIDTH = 375;
@@ -24,7 +23,7 @@ extension ResponsiveExtension on num {
 
 extension FormatExtension on double {
   double toDoubleValue({int fractionDigits = 2}) {
-    return double.parse(this.toStringAsFixed(fractionDigits));
+    return double.parse(toStringAsFixed(fractionDigits));
   }
 
   double isNonZero({num defaultValue = 0.0}) {
@@ -38,7 +37,7 @@ typedef ResponsiveBuild = Widget Function(
     BuildContext context, Orientation orientation, DeviceType deviceType);
 
 class Sizer extends StatelessWidget {
-  const Sizer({Key? key, required this.builder}) : super(key: key);
+  const Sizer({super.key, required this.builder});
 
   /// Builds the widget whenever the orientation changes.
   final ResponsiveBuild builder;

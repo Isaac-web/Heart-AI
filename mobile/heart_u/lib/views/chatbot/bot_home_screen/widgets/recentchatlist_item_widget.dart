@@ -6,10 +6,7 @@ import 'package:heart_u/core/app_export.dart';
 class RecentchatlistItemWidget extends StatelessWidget {
   String title;
   String date;
-  RecentchatlistItemWidget({Key? key, required this.date, required this.title})
-      : super(
-          key: key,
-        );
+  RecentchatlistItemWidget({super.key, required this.date, required this.title});
 
   @override
   Widget build(BuildContext context) {

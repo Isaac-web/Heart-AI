@@ -13,14 +13,10 @@ import '../../widgets/appbar_title.dart';
 import '../../widgets/appbar_trailing_circleimage.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_text_form_feild.dart';
-import 'doc_class.dart';
 
 
 class PatientDashboard extends StatefulWidget {
-  PatientDashboard({Key? key})
-      : super(
-    key: key,
-  );
+  const PatientDashboard({super.key});
 
   @override
   State<PatientDashboard> createState() => _PatientDashboardState();
@@ -46,8 +42,6 @@ class _PatientDashboardState extends State<PatientDashboard> {
   Future<void> getData()async {
      prefs = await SharedPreferences.getInstance();
 
-    String _baseUrl = baseUrl;
-
     print("dio initialised");
 
     var token = prefs.getString("token");
@@ -60,7 +54,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
       print("detail retrieval initialised");
       Response response = await dio.get(
-        "${_baseUrl}api/users/me",
+        "${baseUrl}api/users/me",
         data: {
           "email" : prefs.getString("email"),
           "password": prefs.getString("password"),
@@ -74,7 +68,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
       );
 
       Response response2 = await dio.get(
-        "${_baseUrl}api/medical-reports/me",
+        "${baseUrl}api/medical-reports/me",
         options: Options(
           headers: {
             "Authorization": "Bearer $token"
@@ -85,7 +79,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
 
       Response response3 = await dio.get(
-        "${_baseUrl}api/users?userType=doctor",
+        "${baseUrl}api/users?userType=doctor",
         data: {
           "name": "userType",
           "value": "doctor",
@@ -410,8 +404,6 @@ class _PatientDashboardState extends State<PatientDashboard> {
                                   text: 'Update',
                                   pressEvent: () async {
 
-                                    String _baseUrl = baseUrl;
-
                                     print("dio initialised");
 
                                     var token = prefs.getString("token");
@@ -424,7 +416,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
                                       print("session creation initialised");
                                       Response response = await dio.patch(
-                                        "${_baseUrl}api/users/me",
+                                        "${baseUrl}api/users/me",
                                         data: {
                                           "name" : userNameController.text,
                                         },
@@ -524,7 +516,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                                 Material(
                                   elevation: 0,
                                   color: Colors.blueGrey.withAlpha(40),
-                                  child:  Container(
+                                  child:  SizedBox(
                                     height: double.maxFinite,
                                     width: double.maxFinite,
                                     child: ListView.separated(

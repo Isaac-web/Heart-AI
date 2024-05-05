@@ -4,10 +4,7 @@ import '../../core/app_export.dart'; // ignore: must_be_immutable
 
 // ignore_for_file: must_be_immutable
 class AppbarTitle extends StatelessWidget {
-  AppbarTitle({Key? key, required this.text, this.margin, this.onTap})
-      : super(
-          key: key,
-        );
+  AppbarTitle({super.key, required this.text, this.margin, this.onTap});
 
   String text;
 

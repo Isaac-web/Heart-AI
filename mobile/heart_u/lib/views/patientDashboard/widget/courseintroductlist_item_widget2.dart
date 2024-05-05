@@ -2,22 +2,16 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:heart_u/views/chatbot/bot_home_screen/chat_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:widget_loading/widget_loading.dart';
 import '../../../core/app_export.dart';
 import '../../../core/utils/constants.dart';
-import '../../../theme/custom_button_style.dart';
-import '../../../widgets/custom_elevated_button.dart';
 
 class CourseintroductlistItemWidget2 extends StatefulWidget {
   String descrip;
   String name;
-  CourseintroductlistItemWidget2({Key? key, required this.descrip,
-    required this.name})
-      : super(
-    key: key,
-  );
+  CourseintroductlistItemWidget2({super.key, required this.descrip,
+    required this.name});
 
   @override
   State<CourseintroductlistItemWidget2> createState() => _CourseintroductlistItemWidget2State();
@@ -40,8 +34,6 @@ class _CourseintroductlistItemWidget2State extends State<CourseintroductlistItem
 
             prefs = await SharedPreferences.getInstance();
 
-            String _baseUrl = baseUrl;
-
             print("dio initialised");
 
             var token = prefs.getString("token");
@@ -54,7 +46,7 @@ class _CourseintroductlistItemWidget2State extends State<CourseintroductlistItem
 
               print("session creation initialised");
               Response response = await dio.post(
-                "${_baseUrl}api/medical-reports/requests",
+                "${baseUrl}api/medical-reports/requests",
                 data: {
                   "patientId" : prefs.getString("userId"),
                   "doctorId" : widget.descrip,
@@ -108,7 +100,7 @@ class _CourseintroductlistItemWidget2State extends State<CourseintroductlistItem
                   headerAnimationLoop: true,
                   title: 'Error',
                   desc:
-                  "Please try again later",
+                  response.data["message"],
                   btnOkOnPress: () {},
                   btnOkIcon: Icons.cancel,
                   btnOkColor: Colors.red,

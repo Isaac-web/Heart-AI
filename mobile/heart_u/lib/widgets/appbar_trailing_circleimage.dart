@@ -3,10 +3,7 @@ import '../../core/app_export.dart';
 import 'custom_image_view.dart';
 
 class AppbarTrailingCircleimage extends StatelessWidget {
-  AppbarTrailingCircleimage({Key? key, this.imagePath, this.margin, this.onTap})
-      : super(
-          key: key,
-        );
+  AppbarTrailingCircleimage({super.key, this.imagePath, this.margin, this.onTap});
 
   String? imagePath;
 

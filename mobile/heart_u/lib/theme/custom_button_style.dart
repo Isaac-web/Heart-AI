@@ -7,8 +7,8 @@ class CustomButtonStyles {
       BoxDecoration(
         borderRadius: BorderRadius.circular(21.h),
         gradient: LinearGradient(
-          begin: Alignment(1.08, 0),
-          end: Alignment(0.0, 0),
+          begin: const Alignment(1.08, 0),
+          end: const Alignment(0.0, 0),
           colors: [appTheme.lightGreen600, theme.colorScheme.primary],
         ),
       );
@@ -29,16 +29,16 @@ class CustomButtonStyles {
   static BoxDecoration get gradientIndigoAToPinkADecoration => BoxDecoration(
     borderRadius: BorderRadius.circular(24.h),
     gradient: LinearGradient(
-      begin: Alignment(0.0, 0),
-      end: Alignment(0.0, 1),
+      begin: const Alignment(0.0, 0),
+      end: const Alignment(0.0, 1),
       colors: [appTheme.indigoA400, appTheme.pinkA200],
     ),
   );
   static BoxDecoration get gradientOnPrimaryToPinkADecoration => BoxDecoration(
     borderRadius: BorderRadius.circular(28.h),
     gradient: LinearGradient(
-      begin: Alignment(0.0, 0),
-      end: Alignment(0.0, 1),
+      begin: const Alignment(0.0, 0),
+      end: const Alignment(0.0, 1),
       colors: [theme.colorScheme.onPrimary, appTheme.pinkA200],
     ),
   );

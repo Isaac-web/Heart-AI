@@ -6,7 +6,7 @@ import 'custom_image_view.dart';
 enum BottomBarEnum { Home, Search, Localphone, Settings }
 
 class CustomBottomBar extends StatefulWidget {
-  CustomBottomBar({this.onChanged});
+  CustomBottomBar({super.key, this.onChanged});
 
   Function(BottomBarEnum)? onChanged;
 
@@ -94,11 +94,13 @@ class BottomMenuModel {
 }
 
 class DefaultWidget extends StatelessWidget {
+  const DefaultWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xffffffff),
-      padding: EdgeInsets.all(10),
+      color: const Color(0xffffffff),
+      padding: const EdgeInsets.all(10),
       child: const Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

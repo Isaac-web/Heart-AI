@@ -19,15 +19,15 @@ class AppDecoration {
 // Gradient decorations
   static BoxDecoration get gradientOnPrimaryToPinkA => BoxDecoration(
     gradient: LinearGradient(
-      begin: Alignment(0, 0),
-      end: Alignment(0, 1),
+      begin: const Alignment(0, 0),
+      end: const Alignment(0, 1),
       colors: [theme.colorScheme.onPrimary, appTheme.pinkA200],
     ),
   );
   static BoxDecoration get gradientWhiteAToBlue => BoxDecoration(
     gradient: LinearGradient(
-      begin: Alignment(0, 0),
-      end: Alignment(0, 1),
+      begin: const Alignment(0, 0),
+      end: const Alignment(0, 1),
       colors: [appTheme.whiteA700, appTheme.blue50],
     ),
   );

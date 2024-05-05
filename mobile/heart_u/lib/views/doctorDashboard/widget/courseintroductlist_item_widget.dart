@@ -5,10 +5,7 @@ import '../../../theme/custom_button_style.dart';
 import '../../../widgets/custom_elevated_button.dart'; // ignore: must_be_immutable
 
 class CourseintroductlistItemWidget extends StatelessWidget {
-  const CourseintroductlistItemWidget({Key? key})
-      : super(
-    key: key,
-  );
+  const CourseintroductlistItemWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

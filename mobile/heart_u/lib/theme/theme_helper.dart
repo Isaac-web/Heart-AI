@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../core/app_export.dart';
 
@@ -9,18 +8,18 @@ ThemeData get theme => ThemeHelper().themeData();
 /// Helper class for managing themes and colors.
 class ThemeHelper {
   // A map of custom color themes supported by the app
-  Map<String, LightCodeColors> _supportedCustomColor = {
+  final Map<String, LightCodeColors> _supportedCustomColor = {
     'lightCode': LightCodeColors()
   };
 
 // A map of color schemes supported by the app
-  Map<String, ColorScheme> _supportedColorScheme = {
+  final Map<String, ColorScheme> _supportedColorScheme = {
     'lightCode': ColorSchemes.lightCodeColorScheme
   };
 
-  /// Changes the app theme to [_newTheme].
-  void changeTheme(String _newTheme) {
-    _appTheme = _newTheme;
+  /// Changes the app theme to [newTheme].
+  void changeTheme(String newTheme) {
+    _appTheme = newTheme;
   }
 
   /// Returns the lightCode colors for the current theme.
@@ -116,7 +115,7 @@ class TextThemes {
 
 /// Class containing the supported color schemes.
 class ColorSchemes {
-  static final lightCodeColorScheme = ColorScheme.light(
+  static const lightCodeColorScheme = ColorScheme.light(
     primary: Color(0XFF13173F),
     primaryContainer: Color(0XFF000000),
     secondaryContainer: Color(0XFF13183F),
@@ -129,26 +128,26 @@ class ColorSchemes {
 /// Class containing custom colors for a lightCode theme.
 class LightCodeColors {
   //Black
-  Color get black900 => Color(0XFF000000);
+  Color get black900 => const Color(0XFF000000);
   // Blue
-  Color get blue50 => Color(0XFFEFF1FF);
+  Color get blue50 => const Color(0XFFEFF1FF);
 // BlueGray
-  Color get blueGray400 => Color(0XFF82859A);
-  Color get blueGray40001 => Color(0XFF888888);
+  Color get blueGray400 => const Color(0XFF82859A);
+  Color get blueGray40001 => const Color(0XFF888888);
 // Gray
-  Color get gray100 => Color(0XFFF3F4FF);
-  Color get gray50 => Color(0XFFF8FAFC);
+  Color get gray100 => const Color(0XFFF3F4FF);
+  Color get gray50 => const Color(0XFFF8FAFC);
 // Indigob
-  Color get indigo9000b => Color(0X0B06168D);
+  Color get indigo9000b => const Color(0X0B06168D);
 // Indigo
-  Color get indigo90028 => Color(0X2806158D);
-  Color get indigoA400 => Color(0XFF4750FF);
+  Color get indigo90028 => const Color(0X2806158D);
+  Color get indigoA400 => const Color(0XFF4750FF);
 // Pink
-  Color get pinkA200 => Color(0XFFF02AA6);
-  Color get pinkA20001 => Color(0XFFF74780);
+  Color get pinkA200 => const Color(0XFFF02AA6);
+  Color get pinkA20001 => const Color(0XFFF74780);
 // White
-  Color get whiteA700 => Color(0XFFFFFFFF);
-  Color get lightGreen600 => Color(0XFF81B83A);
-  Color get lightGreenA700E5 => Color(0XE586CE1B);
+  Color get whiteA700 => const Color(0XFFFFFFFF);
+  Color get lightGreen600 => const Color(0XFF81B83A);
+  Color get lightGreenA700E5 => const Color(0XE586CE1B);
 
 }

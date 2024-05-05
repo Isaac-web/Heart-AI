@@ -12,7 +12,7 @@ import '../../theme/custom_button_style.dart';
 import '../../widgets/custom_elevated_button.dart';
 
 class DoctorForm extends StatefulWidget {
-  DoctorForm({Key? key}) : super(key: key);
+  const DoctorForm({super.key});
 
   @override
   State<DoctorForm> createState() => _DoctorFormState();

@@ -4,10 +4,7 @@ import 'custom_image_view.dart';
 
 // ignore_for_file: must_be_immutable
 class AppbarTitleImage extends StatelessWidget {
-  AppbarTitleImage({Key? key, this.imagePath, this.margin, this.onTap})
-      : super(
-    key: key,
-  );
+  AppbarTitleImage({super.key, this.imagePath, this.margin, this.onTap});
 
   String? imagePath;
 
