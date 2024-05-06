@@ -5,13 +5,16 @@ import { ThemeProvider } from '@mui/material';
 import './index.css';
 import theme from './theme.ts';
 import { SnackbarProvider } from 'notistack';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <SnackbarProvider>
-        <App />
-      </SnackbarProvider>
-    </ThemeProvider>
+    <Router>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider>
+          <App />
+        </SnackbarProvider>
+      </ThemeProvider>
+    </Router>
   </React.StrictMode>
 );
