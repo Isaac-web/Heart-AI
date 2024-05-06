@@ -4,10 +4,7 @@ import 'package:heart_u/core/app_export.dart';
 class ColumnItemWidget extends StatelessWidget {
   String title;
   String content;
-   ColumnItemWidget({Key? key, required this.title, required this.content})
-      : super(
-    key: key,
-  );
+   ColumnItemWidget({super.key, required this.title, required this.content});
 
   @override
   Widget build(BuildContext context) {

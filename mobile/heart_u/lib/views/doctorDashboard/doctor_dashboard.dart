@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:heart_u/core/app_export.dart';
 import 'package:heart_u/views/doctorDashboard/widget/courseintroductlist_item_widget.dart';
@@ -12,10 +11,7 @@ import '../doctorForm/doctor_form.dart';
 
 
 class DoctorDashboard extends StatefulWidget {
-  DoctorDashboard({Key? key})
-      : super(
-    key: key,
-  );
+  const DoctorDashboard({super.key});
 
   @override
   State<DoctorDashboard> createState() => _DoctorDashboardState();
@@ -62,7 +58,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                     onPressed: (){
                       Navigator.push<dynamic>(
                         context,
-                        MaterialPageRoute<dynamic>(builder: (BuildContext context) => DoctorForm()), //if you want to disable back feature set to false
+                        MaterialPageRoute<dynamic>(builder: (BuildContext context) => const DoctorForm()), //if you want to disable back feature set to false
                       );
                     },
                     label: const Text("Diagnose"),
@@ -171,7 +167,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
   Widget _buildCourseIntroductList(BuildContext context) {
     return Expanded(
       child: ListView.separated(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         shrinkWrap: true,
         separatorBuilder: (context, index) {
           return SizedBox(

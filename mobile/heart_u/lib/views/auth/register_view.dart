@@ -1,21 +1,17 @@
-import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:heart_u/core/utils/constants.dart';
 import 'package:widget_loading/widget_loading.dart';
 import '../../core/app_export.dart';
+import '../../core/utils/constants.dart';
 import '../../theme/custom_button_style.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_feild.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
 class RegisterUserScreen extends StatefulWidget {
-  RegisterUserScreen({Key? key})
-      : super(
-    key: key,
-  );
+  const RegisterUserScreen({super.key});
 
   @override
   State<RegisterUserScreen> createState() => _RegisterUserScreenState();
@@ -30,7 +26,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 
   TextEditingController repeatPasswordController = TextEditingController();
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final Dio dio = Dio();
 
@@ -217,8 +213,6 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 
         } else {
 
-          String _baseUrl = baseUrl;
-
           print("dio initialised");
 
           try {
@@ -229,7 +223,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 
             print("register initialised");
             Response response = await dio.post(
-              "${_baseUrl}api/users/register",
+              "${baseUrl}api/users/register",
               data: {
                 "name": name ,
                 "email" : email,

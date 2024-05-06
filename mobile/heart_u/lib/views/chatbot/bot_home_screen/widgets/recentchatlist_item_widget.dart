@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:heart_u/core/app_export.dart';
@@ -7,10 +6,7 @@ import 'package:heart_u/core/app_export.dart';
 class RecentchatlistItemWidget extends StatelessWidget {
   String title;
   String date;
-  RecentchatlistItemWidget({Key? key, required this.date, required this.title})
-      : super(
-          key: key,
-        );
+  RecentchatlistItemWidget({super.key, required this.date, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -56,23 +52,23 @@ class RecentchatlistItemWidget extends StatelessWidget {
               ],
             ),
           ),
-          GestureDetector(
-            onTap: (){
-              AwesomeDialog(
-                context: context,
-                dialogType: DialogType.warning,
-                dismissOnTouchOutside: true,
-                dismissOnBackKeyPress: false,
-                headerAnimationLoop: true,
-                animType: AnimType.leftSlide,
-                title: 'Confirm',
-                desc: 'Do you want to delete this chat ?',
-                showCloseIcon: true,
-                btnCancelOnPress: () {},
-                btnOkOnPress: () {},
-              ).show();
-            },
-              child: const Icon(Icons.more_vert))
+          // GestureDetector(
+          //   onTap: (){
+          //     AwesomeDialog(
+          //       context: context,
+          //       dialogType: DialogType.warning,
+          //       dismissOnTouchOutside: true,
+          //       dismissOnBackKeyPress: false,
+          //       headerAnimationLoop: true,
+          //       animType: AnimType.leftSlide,
+          //       title: 'Confirm',
+          //       desc: 'Do you want to delete this chat ?',
+          //       showCloseIcon: true,
+          //       btnCancelOnPress: () {},
+          //       btnOkOnPress: () {},
+          //     ).show();
+          //   },
+          //     child: const Icon(Icons.more_vert))
         ],
       ),
     );

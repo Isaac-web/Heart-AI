@@ -121,3 +121,38 @@ export interface MedicalReportRequest {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ChatSession {
+  _id: string;
+  patientId: string;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ChatMessage {
+  _id: string;
+  text: string;
+  chatSession: string;
+  user?: User | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ChatMessageFormData {
+  text: string;
+  chatSessionId: string;
+  context: string;
+}
+
+export interface ChatMessageResponse {
+  userMessage: {
+    _id: string;
+    text: string;
+    chatSession: string;
+    user: User;
+    createdAt: string;
+    updatedAt: string;
+  };
+  systemMessage: string;
+}

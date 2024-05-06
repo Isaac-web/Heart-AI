@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:dio/dio.dart';
@@ -13,10 +12,7 @@ import '../../widgets/custom_text_form_feild.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key? key})
-      : super(
-    key: key,
-  );
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -27,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   TextEditingController passwordController = TextEditingController();
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final Dio dio = Dio();
 
@@ -167,8 +163,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
         }else {
 
-          String _baseUrl = baseUrl;
-
           print("dio initialised");
 
           try {
@@ -179,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
             print("login initialised");
             Response response = await dio.post(
-              "${_baseUrl}api/users/login",
+              "${baseUrl}api/users/login",
               data: {
                 "email" : username,
                 "password": password,

@@ -6,10 +6,7 @@ import '../../widgets/custom_elevated_button.dart';
 import 'package:animate_do/animate_do.dart';
 
 class OnboardingScreen extends StatelessWidget {
-  const OnboardingScreen({Key? key})
-      : super(
-    key: key,
-  );
+  const OnboardingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

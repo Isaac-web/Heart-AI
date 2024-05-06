@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -10,13 +9,11 @@ import 'package:widget_loading/widget_loading.dart';
 import '../../../core/utils/constants.dart';
 import '../../../theme/custom_button_style.dart';
 import '../../../widgets/custom_elevated_button.dart';
+import 'chat_view.dart';
 import 'widgets/recentchatlist_item_widget.dart';
 
 class BotHomeScreen extends StatefulWidget {
-  const BotHomeScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const BotHomeScreen({super.key});
 
   @override
   State<BotHomeScreen> createState() => _BotHomeScreenState();
@@ -50,7 +47,7 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
 
       print("session retrieval initialised");
       Response response = await dio.get(
-        "${_baseUrl}api/chat-sessions/me",
+        "${baseUrl}api/chat-sessions/me",
         options: Options(
           headers: {
             "Authorization": "Bearer ${token!}"
@@ -60,13 +57,15 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
       );
 
       print('Response: ${response.data}');
-      setState(() {
-        dataList = response.data["data"] as List;
-      });
+
 
 
 
       if (response.statusCode == 200){
+
+        setState(() {
+          dataList = response.data["data"] as List;
+        });
 
         setState(() {
           isLoading = false;
@@ -156,7 +155,7 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
         Padding(
           padding: EdgeInsets.only(left: 3.h),
           child: Text(
-            "Chat with Bot",
+            "Chat with Hearty",
             style: theme.textTheme.titleLarge,
           ),
         ),
@@ -174,10 +173,15 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Image.asset(
-                   "assets/images/Frame2.png",
-                  height: 60.adaptSize,
-                  width: 60.adaptSize,
+                GestureDetector(
+                  onTap: (){
+                    getData();
+                  },
+                  child: Image.asset(
+                     "assets/images/Frame2.png",
+                    height: 60.adaptSize,
+                    width: 60.adaptSize,
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
@@ -188,7 +192,8 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
                   child: Column(
                     children: [
                       Text(
-                        "Hearty is online and ready to chat",
+                        "Hearty is online and ready to chat \n"
+                            "Tap on bot to refresh sessions",
                         style: theme.textTheme.titleSmall,
                       ),
                       SizedBox(height: 12.v),
@@ -251,10 +256,87 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
           itemCount: dataList == null ? 0 :  dataList.length,
           itemBuilder: (context, index) {
             return GestureDetector(
-              onTap: (){
+              onTap: () async {
                 prefs.setString("sessionId", dataList[index]["_id"]);
                 prefs.setString("patientId", dataList[index]["patientId"]);
-                Navigator.pushNamed(context, AppRoutes.chatList);
+
+                try{
+
+                  String sessionId = dataList[index]["_id"];
+                  prefs = await SharedPreferences.getInstance();
+
+                  var token = prefs.getString("token");
+
+                  setState(() {
+                    isLoading = true;
+                  });
+
+                  print("session messages retrieval initialised");
+                  Response response = await dio.get(
+                    "${baseUrl}api/chat-messages/$sessionId",
+                    options: Options(
+                      headers: {
+                        "Authorization": "Bearer ${token!}"
+                      },
+                      validateStatus: (_) => true,
+                    ),
+                  );
+
+                  print('Response: ${response.data}');
+
+                  if (response.statusCode == 200){
+
+                    setState(() {
+                        isLoading = false;
+                    });
+
+                    var messages = response.data["data"] as List;
+                    
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ChatScreen(sessionMessages: messages,))
+                      );
+                    
+                  } else{
+
+                    setState(() {
+                        isLoading = false;
+                    });
+
+                     AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.error,
+                      animType: AnimType.rightSlide,
+                      headerAnimationLoop: true,
+                      title: 'Error',
+                      desc:
+                      'An error occurred while fetching messages. Please try again later',
+                      btnOkOnPress: () {},
+                      btnOkIcon: Icons.cancel,
+                      btnOkColor: Colors.red,
+                    ).show();
+                  }
+                      
+
+                } catch (e){
+                  print('Response: $e');
+
+                    setState(() {
+                        isLoading = false;
+                    });
+                  AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.error,
+                      animType: AnimType.rightSlide,
+                      headerAnimationLoop: true,
+                      title: 'Error',
+                      desc:
+                      'Please try again later',
+                      btnOkOnPress: () {},
+                      btnOkIcon: Icons.cancel,
+                      btnOkColor: Colors.red,
+                    ).show();
+
+                }
               },
               child: RecentchatlistItemWidget(
                 date: dataList[index]["createdAt"],
@@ -278,8 +360,6 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
 
             String? token = prefs.getString('token');
 
-            String _baseUrl = baseUrl;
-
             print("dio initialised");
 
             try {
@@ -292,7 +372,7 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
 
               print("session creation initialised");
               Response response = await dio.post(
-                "${_baseUrl}api/chat-sessions/me",
+                "${baseUrl}api/chat-sessions/me",
                 data: {
                   "title" : randomNumber.toString(),
                 },
@@ -319,7 +399,8 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
                 prefs.setString('sessionId', sessionId);
                 prefs.setString('patientId', patientId);
 
-                Navigator.of(context).pushNamed(AppRoutes.chatList);
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ChatScreen()));
 
               }else {
                 setState(() {

@@ -29,13 +29,13 @@ class AppRoutes {
   static Map<String, WidgetBuilder> routes = {
     // mobileScreen: (context) => MobileScreen(),
     // onboardingScreen: (context) => OnboardingScreen(),
-    chatList: (context) => const ChatScreen(),
+    chatList: (context) => ChatScreen(),
     chatScreen: (context) => const BotHomeScreen(),
-    login: (context) => LoginScreen(),
-    register: (context) => RegisterUserScreen(),
-    patientDashboardScreen: (context) => PatientDashboard(),
+    login: (context) => const LoginScreen(),
+    register: (context) => const RegisterUserScreen(),
+    patientDashboardScreen: (context) => const PatientDashboard(),
     // appNavigationScreen: (context) => AppNavigationScreen(),
     initialRoute: (context) => const OnboardingScreen(),
-    doctorDashboardScreen: (context) => DoctorDashboard(),
+    doctorDashboardScreen: (context) => const DoctorDashboard(),
   };
 }
