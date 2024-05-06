@@ -1,11 +1,14 @@
-import PersonalInfoForm from '@/components/PersonalInfoForm';
-import PhoneNumberVerificationForm from '@/components/PhoneNumberVerificationForm';
+import OrgainzationInfoForm from '@/components/OrgainzationInfoForm';
 
 const DoctorOnboardingPage = () => {
   return (
     <section className="pt-20 mt-10">
-      {/* <PersonalInfoForm /> */}
-      <PhoneNumberVerificationForm/>
+      {/* <PersonalInfoForm />
+      <PhoneNumberVerificationForm /> */}
+      <OrgainzationInfoForm
+        title="Profesional Info"
+        description="Tell us about your practice hub! Provide basic details about your hospital below, including its name and location, to help us tailor your experience and connect you with relevant resources."
+      />
     </section>
   );
 };

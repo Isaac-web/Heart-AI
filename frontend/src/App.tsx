@@ -6,7 +6,6 @@ import DoctorOnboardingPage from './pages/DoctorOnboardingPage';
 const App = () => {
   return (
     <main>
-      {/* <nav>Logo</nav> */}
       <Routes>
         <Route path="/doctor/onboarding" element={<DoctorOnboardingPage />} />
         <Route path="/register/doctor" element={<DoctorSignUpPage />} />
