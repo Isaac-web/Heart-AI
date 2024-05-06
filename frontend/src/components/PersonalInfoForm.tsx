@@ -10,7 +10,7 @@ const PersonalInfoForm = ({
   our community.`,
 }: PersonalInfoFormProps) => {
   return (
-    <div className="  container  max-w-xl mx-auto">
+    <div className="container max-w-xl mx-auto">
       <div>
         <div className="mb-12">
           <h3 className="text-2xl font-semibold mb-5 dark:text-white/90">
