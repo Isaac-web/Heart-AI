@@ -13,7 +13,6 @@ const App = () => {
           element={<DoctorOnboardPerfonalInforPage />}
         />
         <Route path="/register/doctor" element={<DoctorSignUpPage />} />
-        <Route path="/register/patient" element={<DoctorSignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
     </main>
