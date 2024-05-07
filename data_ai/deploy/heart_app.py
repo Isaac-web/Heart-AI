@@ -3,8 +3,12 @@ from fastapi import FastAPI
 from Heart_Params import HeartParameter
 import numpy as np
 import pickle
+<<<<<<< HEAD
+import pandas as pd
+=======
 import warnings
 warnings.filterwarnings('ignore')
+>>>>>>> 0b256f97eb88577b852c1f9ad7152e4371514c2f
 
 app = FastAPI()
 pickle_in = open("svc.pkl","rb")
