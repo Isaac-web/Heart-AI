@@ -1,12 +1,11 @@
-import { Routes, Route } from "react-router-dom";
-// import DoctorSignUpPage from "./pages/DoctorSignUpPage";
-// import DoctorOnboardPerfonalInforPage from "./pages/DoctorOnboardPerfonalInforPage";
-import PatientDashboard from "./pages/patient/PatientDashboard";
-import LoginPage from "./pages/LoginPage";
-import SignUpPage from "./pages/SignUpPage";
-import DoctorOnboardingPage from "./pages/DoctorOnboardingPage";
-import Dashboard from "./pages/Dashboard";
-import PortalContainer from "./components/PortalContainer";
+import { Routes, Route } from 'react-router-dom';
+import PatientDashboard from './pages/patient/PatientDashboard';
+import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
+import DoctorOnboardingPage from './pages/DoctorOnboardingPage';
+import Dashboard from './pages/Dashboard';
+import PortalContainer from './components/PortalContainer';
+import DoctorDashboard from './pages/doctor/DoctorDashboard';
 
 const App = () => {
   return (
@@ -23,7 +22,7 @@ const App = () => {
         <Route path="/register/doctor" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/portal" element={<PortalContainer />}>
-          <Route path="/portal/doctor" element={<>Doctor</>} />
+          <Route path="/portal/doctor" element={<DoctorDashboard />} />
           <Route path="/portal/patient" element={<>Patient</>} />
           <Route path="/portal/admin" element={<>Admin</>} />
         </Route>
