@@ -3,11 +3,15 @@ from fastapi import FastAPI
 from Heart_Params import HeartParameter
 import numpy as np
 import pickle
+<<<<<<< HEAD
+import pandas as pd
+=======
 import warnings
 warnings.filterwarnings('ignore')
+>>>>>>> 0b256f97eb88577b852c1f9ad7152e4371514c2f
 
 app = FastAPI()
-pickle_in = open("svm.pkl","rb")
+pickle_in = open("svc.pkl","rb")
 classifier=pickle.load(pickle_in)
 
 #print(classifier)
@@ -25,27 +29,22 @@ def get_name(name: str):
 def predict_disease(data:HeartParameter):
     age = data.age       
     sex = data.sex
-    resting_blood_pressure = data.trestbps  
-    serum_cholesterol  = data.chol 
-    fasting_blood_sugar_level = data.fbs
-    maximum_heart_rate = data.thalach  
-    exercise_induced_agina   = data.exang
-    st_depression  = data.oldpeak
+    cp  = data.cp
+    trestbps = data.trestbps  
+    col  = data.chol 
+    fbs = data.fbs
+    restecg = data.restecg
+    thalach = data.thalach  
+    exang   = data.exang
+    oldpeak  = data.oldpeak
     slope  =  data.slope 
-    number_of_major_vessels   = data.ca 
-    chest_pain_type_1  = data.cp_1
-    chest_pain_type_2  = data.cp_2
-    chest_pain_type_3  = data.cp_3
-    rest_ecg_results_1 = data.restecg_1 
-    rest_ecg_results_2 = data.restecg_2 
-    thallium_stress_results_1  = data.thal_1
-    thallium_stress_results_2  = data.thal_2
-    thallium_stress_results_3 = data.thal_3
+    ca   = data.ca  
+    thal  = data.thal
 
 
 
-    features = np.array([[age,sex,resting_blood_pressure,serum_cholesterol,fasting_blood_sugar_level,maximum_heart_rate,exercise_induced_agina,st_depression,slope,number_of_major_vessels,
-    chest_pain_type_1, chest_pain_type_2 ,chest_pain_type_3,rest_ecg_results_1, rest_ecg_results_2, thallium_stress_results_1,thallium_stress_results_2, thallium_stress_results_3]])
+    features = np.array([[age,sex,cp,trestbps,col,fbs,restecg,thalach,exang,oldpeak,
+    slope,ca,thal]])
 
     prediction = classifier.predict(features)
 
@@ -56,22 +55,17 @@ def predict_disease(data:HeartParameter):
     details = {
         "age":age,     
         "sex": sex, 
-        "resting blood pressure" : resting_blood_pressure, 
-        "serum cholesterol": serum_cholesterol,
-        "fasting blood sugar level": fasting_blood_sugar_level,
-        "maximum heart rate" : maximum_heart_rate,
-        "exercise induced agina" : exercise_induced_agina,
-        "st_depression" : st_depression,
+        "chest pain type":cp, 
+        "resting blood pressure": trestbps,
+        "serum colesterol": col,
+        "fasting blood sugar level" : fbs,
+        "resting electrocardiographoc results" : restecg,
+        "maximum heart rate": thalach,
+        "exercise induced agina" : exang,
+        "st depression" : oldpeak,
         "slope" : slope,
-        "number of major vessels" : number_of_major_vessels,
-        "chest pain type_1"  : chest_pain_type_1,
-        "chest pain type_2"  :  chest_pain_type_2,
-        "chest pain type_3"  : chest_pain_type_3,
-        "resting electrocardiographoc results_1" : rest_ecg_results_1,
-        "resting electrocardiographoc results_2" : rest_ecg_results_2,
-        "thallium stress test_results_1" : thallium_stress_results_1,
-        "thallium stress test_results_2" : thallium_stress_results_2,
-        "thallium stress_test_results_3" : thallium_stress_results_3
+        "number of major vessels" : ca,
+        "thallium stress test_results" : thal,
     }
 
 

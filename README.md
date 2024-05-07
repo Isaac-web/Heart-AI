@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+# Heart-Disease-Prediction-Group-2
+A Chat Bot to Converse with Concerning Heart Disease Conditions
+=======
 # HeartAI: Heart Disease Prediction App 
 
 Welcome to the HeartAI Documentation, your comprehensive guide to understanding and utilizing our predictive healthcare system. This document provides a comprehensive overview of the HeartAI system, including its frontend interface, backend architecture, AI model integration, and mobile application.
@@ -130,3 +134,4 @@ You can have a different view of our app through our text documenation
 [https://reallygreattech.atlassian.net/l/ce/zLU7a72u](https://reallygreattech.atlassian.net/l/ce/zLU7a72u)
 Or  look up our presentation for a graphic view of the project 
 [https://docs.google.com/presentation/d/1kKyBZ7KIlsZSamtCHpwalDawTKrAagyB_vK7t5eTMzA/edit?pli=1#slide=id.g106ddb05087_0_625](https://docs.google.com/presentation/d/1kKyBZ7KIlsZSamtCHpwalDawTKrAagyB_vK7t5eTMzA/edit?pli=1#slide=id.g106ddb05087_0_625)
+>>>>>>> 5c9bb552ce5283780d11946f4122c902532af6f2

@@ -24,7 +24,3 @@ export interface AppNextFunction extends NextFunction {}
 export interface JwtAuthPayload {
   _id: string;
 }
-
-export interface LLMRespnse {
-  response: string;
-}
