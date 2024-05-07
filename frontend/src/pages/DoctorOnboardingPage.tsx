@@ -14,7 +14,7 @@ const DoctorOnboardingPage = () => {
   };
 
   return (
-    <section className="pt-20 mt-10">
+    <section className="py-10 mt-10">
       {step === 0 && <PersonalInfoForm onDone={handleNextStep} />}
       {step === 1 && <PhoneNumberVerificationForm onDone={handleNextStep} />}
       {step === 2 && (

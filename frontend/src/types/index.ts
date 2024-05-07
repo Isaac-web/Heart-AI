@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactNode } from 'react';
+import { ChangeEvent, InputHTMLAttributes, ReactNode } from 'react';
 
 export interface LoginFormData {
   email: string;
@@ -169,4 +169,18 @@ export interface AppTextInputProps {
   startAdornment?: ReactNode;
   endAdornment?: ReactNode;
   onChange?(e: ChangeEvent<HTMLInputElement>): void;
+}
+
+interface SelectOption {
+  label: string;
+  value: string;
+}
+
+export interface AppSelectInputProps
+  extends InputHTMLAttributes<HTMLSelectElement> {
+  label?: string;
+  options: SelectOption[];
+  placeholder: string;
+  error?: boolean;
+  helperText?: string;
 }

@@ -16,9 +16,9 @@ const FormTextfield = <T extends {}>({
     <AppTextInput
       {...rest}
       helperText={touched[name] && (errors[name] as string)}
-      value={`${values[name] || ''}`}
       error={Boolean(touched[name] && errors[name])}
       onChange={handleChange(name)}
+      value={`${values[name] || ''}`}
     />
   );
 };

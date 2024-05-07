@@ -1,12 +1,26 @@
 import Form from './form/Form';
 import FormTextfield from './form/FormTextfield';
 import FormSubmitButton from './form/FormSubmitButton';
+import FormSelectInput from './form/FormSelectInput';
+import * as Yup from 'yup';
 
 interface PersonalInfoFormProps {
   title?: string;
   description?: string;
   onDone?(): void;
 }
+
+const validationSchema = Yup.object().shape({
+  firstName: Yup.string().min(3).required().label('First name'),
+  lastName: Yup.string().min(3).required().label('Last name'),
+  age: Yup.number().min(18).max(120).required().label('Age'),
+  sex: Yup.string().length(1).required().label('Sex'),
+});
+
+const options = [
+  { label: 'Male', value: '1' },
+  { label: 'Female', value: '0' },
+];
 
 const PersonalInfoForm = ({
   title = 'Personal Data',
@@ -17,6 +31,7 @@ const PersonalInfoForm = ({
 }: PersonalInfoFormProps) => {
   const handleSubmit = () => {
     // console.log(data);
+
     if (onDone) onDone();
   };
 
@@ -31,8 +46,13 @@ const PersonalInfoForm = ({
         </div>
 
         <Form
-          validationSchema={null}
-          initialValues={{ email: '' }}
+          validationSchema={validationSchema}
+          initialValues={{
+            firstName: '',
+            lastName: '',
+            age: '',
+            sex: '',
+          }}
           onSubmit={handleSubmit}
         >
           <div className="grid grid-cols-2 gap-5">
@@ -49,7 +69,7 @@ const PersonalInfoForm = ({
             </div>
 
             <div className="col-span-1">
-              <FormTextfield name={'sex'} placeholder="Sex" />
+              <FormSelectInput name="sex" placeholder="Sex" options={options} />
             </div>
 
             <div className="col-span-2">
