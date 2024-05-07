@@ -1,11 +1,120 @@
+import AppPagination from '@/components/AppPagination';
+import AppTable from '@/components/AppTable';
 import DashboardCard from '@/components/DashboardCard';
-import React from 'react';
+import { Column } from '@/types';
+
+interface Appointment {
+  name: string;
+  country: string;
+  imageUrl: string;
+  company: string;
+  job: string;
+  favouriteColor: string;
+}
+
+const columns: Column<Appointment>[] = [
+  // {
+  //   label: '',
+  //   value: 'checkbox',
+  //   render() {
+  //     return (
+  //       <label>
+  //         <input type="checkbox" className="checkbox" />
+  //       </label>
+  //     );
+  //   },
+  // },
+  {
+    label: 'Name',
+    value: 'name',
+    render(item) {
+      return (
+        <div className="flex items-center gap-3">
+          <div className="avatar">
+            <div className="mask mask-squircle w-12 h-12">
+              <img src={item.imageUrl} alt="Avatar Tailwind CSS Component" />
+            </div>
+          </div>
+          <div>
+            <div className="font-bold">{item.name}</div>
+            <div className="text-sm opacity-50">{item.country}</div>
+          </div>
+        </div>
+      );
+    },
+  },
+  {
+    label: 'Job',
+    value: 'job',
+    render(item) {
+      return (
+        <div>
+          Zemlak, Daniel and Leannon
+          <br />
+          <span className="badge badge-ghost badge-sm">
+            Desktop Support Technician
+          </span>
+        </div>
+      );
+    },
+  },
+  {
+    label: 'Favorit Color',
+    value: 'favouriteColor',
+  },
+  {
+    label: '',
+    value: 'details',
+    render() {
+      return <button className="btn btn-ghost btn-xs">details</button>;
+    },
+  },
+];
+
+const data = [
+  {
+    name: 'Hart Hagerty',
+    country: 'United States',
+    imageUrl:
+      'https://img.daisyui.com/tailwind-css-component-profile-2@56w.png',
+    company: 'Zemlak, Daniel and Leannon',
+    job: 'Desktop Support Technician',
+    favouriteColor: 'Purple',
+  },
+  {
+    name: 'Brice Swyre',
+    country: 'China',
+    imageUrl:
+      'https://img.daisyui.com/tailwind-css-component-profile-3@56w.png',
+    company: 'Carroll Group',
+    job: 'Tax Accountant',
+    favouriteColor: 'Red',
+  },
+  {
+    name: 'Marjy Ferencz',
+    country: 'Russia',
+    imageUrl:
+      'https://img.daisyui.com/tailwind-css-component-profile-4@56w.png',
+    company: 'Rowe-Schoen',
+    job: 'Office Assistant I',
+    favouriteColor: 'Crimson',
+  },
+  {
+    name: 'Yancy Tear',
+    country: 'Brazil',
+    imageUrl:
+      'https://img.daisyui.com/tailwind-css-component-profile-5@56w.png',
+    company: 'Wyman-Ledner',
+    job: 'Community Outreach Specialist',
+    favouriteColor: 'Indigo',
+  },
+];
 
 const DoctorDashboard = () => {
   return (
-    <div className="px-5 lg:px-10 py-5">
+    <div className="px-5 lg:px-10 py-10">
       <div className="mb-14">
-        <h1 className="text-3xl font-semibold">Good evening John Doe</h1>
+        <h1 className="text-3xl font-semibold">Overview</h1>
       </div>
       <div className="grid grid-cols-3 gap-5 mb-14">
         <div className="col-span-1">
@@ -32,180 +141,17 @@ const DoctorDashboard = () => {
       </div>
 
       <div className="mb-10">
-        <h2 className="text-3xl mb-2">Up Coming Appointments</h2>
-        <p className="text-sm mb">You have 8 appointments</p>
+        <h2 className="text-3xl mb-2">Appointments</h2>
+        <p className="text-sm mb">
+          4 users are booking an appointment with you for a medical report.
+        </p>
       </div>
 
       <div>
-        <div className="overflow-x-auto">
-          <table className="table ">
-            {/* head */}
-            <thead>
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <th>Name</th>
-                <th>Job</th>
-                <th>Favorite Color</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* row 1 */}
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle w-12 h-12">
-                        <img
-                          src="https://img.daisyui.com/tailwind-css-component-profile-2@56w.png"
-                          alt="Avatar Tailwind CSS Component"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="font-bold">Hart Hagerty</div>
-                      <div className="text-sm opacity-50">United States</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  Zemlak, Daniel and Leannon
-                  <br />
-                  <span className="badge badge-ghost badge-sm">
-                    Desktop Support Technician
-                  </span>
-                </td>
-                <td>Purple</td>
-                <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
-                </th>
-              </tr>
-              {/* row 2 */}
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle w-12 h-12">
-                        <img
-                          src="https://img.daisyui.com/tailwind-css-component-profile-3@56w.png"
-                          alt="Avatar Tailwind CSS Component"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="font-bold">Brice Swyre</div>
-                      <div className="text-sm opacity-50">China</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  Carroll Group
-                  <br />
-                  <span className="badge badge-ghost badge-sm">
-                    Tax Accountant
-                  </span>
-                </td>
-                <td>Red</td>
-                <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
-                </th>
-              </tr>
-              {/* row 3 */}
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle w-12 h-12">
-                        <img
-                          src="https://img.daisyui.com/tailwind-css-component-profile-4@56w.png"
-                          alt="Avatar Tailwind CSS Component"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="font-bold">Marjy Ferencz</div>
-                      <div className="text-sm opacity-50">Russia</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  Rowe-Schoen
-                  <br />
-                  <span className="badge badge-ghost badge-sm">
-                    Office Assistant I
-                  </span>
-                </td>
-                <td>Crimson</td>
-                <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
-                </th>
-              </tr>
-              {/* row 4 */}
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle w-12 h-12">
-                        <img
-                          src="https://img.daisyui.com/tailwind-css-component-profile-5@56w.png"
-                          alt="Avatar Tailwind CSS Component"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="font-bold">Yancy Tear</div>
-                      <div className="text-sm opacity-50">Brazil</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  Wyman-Ledner
-                  <br />
-                  <span className="badge badge-ghost badge-sm">
-                    Community Outreach Specialist
-                  </span>
-                </td>
-                <td>Indigo</td>
-                <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
-                </th>
-              </tr>
-            </tbody>
-            {/* foot */}
-            <tfoot>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Job</th>
-                <th>Favorite Color</th>
-                <th></th>
-              </tr>
-            </tfoot>
-          </table>
+        <AppTable columns={columns} data={data} />
+
+        <div className="flex justify-end py-5 pt-10">
+          <AppPagination />
         </div>
       </div>
     </div>
