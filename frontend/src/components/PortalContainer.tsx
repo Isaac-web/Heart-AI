@@ -1,6 +1,8 @@
-const drawerWidth = 280;
+const drawerWidth = 240;
+import { ReactNode } from 'react';
+import { Outlet } from 'react-router-dom';
 
-const PortalContainer = () => {
+const PortalContainer = ({ children }: { children?: ReactNode }) => {
   return (
     <section className="w-full">
       <aside
@@ -16,7 +18,7 @@ const PortalContainer = () => {
         }}
         className=""
       >
-        Rest of portal
+        <Outlet />
       </main>
     </section>
   );
