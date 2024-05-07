@@ -1,45 +1,43 @@
 import Form from '@/components/form/Form';
 import FormSubmitButton from '@/components/form/FormSubmitButton';
 import FormTextfield from '@/components/form/FormTextfield';
-import { Email, Key } from '@mui/icons-material';
+import { Email, Lock } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required(),
   password: Yup.string().min(7).required(),
+  confirmPassword: Yup.string().min(7).required(),
 });
 
-const LoginPage = () => {
+const SignUpPage = () => {
   return (
     <section className="w-full min-h-screen flex">
-      <div className="w-full lg:w-1/2 flex justify-center py-10">
-        <div className="min-w-[30em]">
+      <div className="w-1/2 bg-slate-700"></div>
+      <div className="w-1/2  flex justify-center py-10">
+        <div className="min-w-[30em] max-w-[30em]">
           <div>
-            <div className="mb-12 flex flex-col items-center">
-              <h3 className="text-2xl font-semibold text-center mb-5 dark:text-white/90">
-                Login
+            <div className="mb-12 flex flex-col items-start">
+              <h3 className="text-2xl font-semibold text-left mb-5 dark:text-white/90">
+                New Account
               </h3>
-              <span className="text-sm  text-center w-full">
-                We suggest you use your work email
+              <span className="text-sm  text-left w-full">
+                Join our community of healthcare professionals. Sign up below to
+                unlock exclusive features of our AI powered platform.
               </span>
             </div>
 
             <Form
-              initialValues={{
-                email: '',
-                password: '',
-              }}
-              onSubmit={(data) => {
-                console.log(data);
-              }}
+              initialValues={{ email: '', password: '', confirmPassword: '' }}
               validationSchema={validationSchema}
+              onSubmit={(data) => console.log(data)}
             >
-              <div className="flex flex-col space-y-5 ">
+              <div className=" flex flex-col gap-2">
                 <div>
                   <FormTextfield
-                    name="email"
                     label="Email"
+                    name="email"
                     placeholder="example@email.com"
                     startAdornment={<Email fontSize="small" />}
                   />
@@ -47,15 +45,23 @@ const LoginPage = () => {
 
                 <div>
                   <FormTextfield
-                    name="password"
                     label="Password"
-                    placeholder="Input your user password"
-                    startAdornment={<Key fontSize="small" />}
+                    name="password"
+                    placeholder="Please enter your password"
+                    startAdornment={<Lock fontSize="small" />}
+                  />
+                </div>
+                <div>
+                  <FormTextfield
+                    label="Confirm Password"
+                    name="confirmPassword"
+                    placeholder="Confirm your password"
+                    startAdornment={<Lock fontSize="small" />}
                   />
                 </div>
 
-                <div>
-                  <FormSubmitButton>Login</FormSubmitButton>
+                <div className="mt-8">
+                  <FormSubmitButton>Register</FormSubmitButton>
                 </div>
               </div>
             </Form>
@@ -78,12 +84,9 @@ const LoginPage = () => {
 
           <div className="">
             <p className="text-center mb-20 text-sm">
-              Don't have an account yet?{' '}
-              <Link
-                to="/register/doctor"
-                className="text-primary cursor-pointer"
-              >
-                Sign Up
+              Already have a Doctor's account?{' '}
+              <Link to="/login" className="text-primary cursor-pointer">
+                Login
               </Link>
             </p>
 
@@ -95,10 +98,8 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
-
-      <div className="w-1/2 bg-slate-700"></div>
     </section>
   );
 };
 
-export default LoginPage;
+export default SignUpPage;
