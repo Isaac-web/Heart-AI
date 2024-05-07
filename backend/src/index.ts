@@ -21,7 +21,6 @@ import chatSessions from './routes/chat-session.routes';
 import chatMessages from './routes/chatMessage.routes';
 import predictions from './routes/predictions.routes';
 import medicalReportRequest from './routes/medicalReportRequest.routes';
->>>>>>> 5c9bb552ce5283780d11946f4122c902532af6f2
 
 const logDb = debug("db");
 
