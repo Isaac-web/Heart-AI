@@ -18,7 +18,7 @@ const FormSubmitButton = ({
 
   return (
     <button
-      className={`btn w-full bg-primary dark:text-white ${className}`}
+      className={`btn w-full dark:text-white btn-primary ${className}`}
       type="submit"
       onClick={() => handleSubmit()}
     >

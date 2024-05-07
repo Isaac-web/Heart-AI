@@ -11,7 +11,7 @@ const validationSchema = Yup.object().shape({
   confirmPassword: Yup.string().min(7).required(),
 });
 
-const DoctorSignUpPage = () => {
+const SignUpPage = () => {
   return (
     <section className="w-full min-h-screen flex">
       <div className="w-1/2 bg-slate-700"></div>
@@ -102,4 +102,4 @@ const DoctorSignUpPage = () => {
   );
 };
 
-export default DoctorSignUpPage;
+export default SignUpPage;

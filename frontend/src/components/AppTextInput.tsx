@@ -13,11 +13,13 @@ const AppTextInput = ({
 }: AppTextInputProps) => {
   return (
     <label className="form-control w-full">
-      <div className="label">
-        <span className={`label-text ${error ? 'text-error' : ''}`}>
-          {label}
-        </span>
-      </div>
+      {label && (
+        <div className="label">
+          <span className={`label-text ${error ? 'text-error' : ''}`}>
+            {label}
+          </span>
+        </div>
+      )}
 
       <div
         className={`input input-bordered flex items-center gap-2 ${
