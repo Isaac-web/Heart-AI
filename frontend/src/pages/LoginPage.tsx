@@ -1,9 +1,19 @@
+import Form from '@/components/form/Form';
+import FormSubmitButton from '@/components/form/FormSubmitButton';
+import FormTextfield from '@/components/form/FormTextfield';
+import { Email, Key } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object().shape({
+  email: Yup.string().email().required(),
+  password: Yup.string().min(7).required(),
+});
 
 const LoginPage = () => {
   return (
-    <section className="w-full h-screen flex">
-      <div className="w-1/2  flex justify-center pt-20">
+    <section className="w-full min-h-screen flex">
+      <div className="w-full lg:w-1/2 flex justify-center py-10">
         <div className="min-w-[30em]">
           <div>
             <div className="mb-12 flex flex-col items-center">
@@ -15,50 +25,40 @@ const LoginPage = () => {
               </span>
             </div>
 
-            <div className=" flex flex-col space-y-8 ">
-              <div>
-                <label className="input input-bordered flex items-center gap-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    className="w-4 h-4 opacity-70"
-                  >
-                    <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
-                    <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
-                  </svg>
-                  <input type="text" className="grow" placeholder="Email" />
-                </label>
-              </div>
-
-              <div>
-                <label className="input input-bordered flex items-center gap-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    className="w-4 h-4 opacity-70"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <input
-                    type="password"
-                    className="grow"
-                    placeholder="Password"
+            <Form
+              initialValues={{
+                email: '',
+                password: '',
+              }}
+              onSubmit={(data) => {
+                console.log(data);
+              }}
+              validationSchema={validationSchema}
+            >
+              <div className="flex flex-col space-y-5 ">
+                <div>
+                  <FormTextfield
+                    name="email"
+                    label="Email"
+                    placeholder="example@email.com"
+                    startAdornment={<Email fontSize="small" />}
                   />
-                </label>
-              </div>
+                </div>
 
-              <div>
-                <button className="btn w-full bg-primary dark:text-white">
-                  Login
-                </button>
+                <div>
+                  <FormTextfield
+                    name="password"
+                    label="Password"
+                    placeholder="Input your user password"
+                    startAdornment={<Key fontSize="small" />}
+                  />
+                </div>
+
+                <div>
+                  <FormSubmitButton>Login</FormSubmitButton>
+                </div>
               </div>
-            </div>
+            </Form>
 
             <div className="my-8 w-full ">
               <span className="w-full inline-block text-center text-sm">

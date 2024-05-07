@@ -1,29 +1,24 @@
-import { TextField, TextFieldProps } from '@mui/material';
 import { useFormikContext } from 'formik';
+import AppTextInput from '../AppTextInput';
+import { AppTextInputProps } from '@/types';
 
-interface FormTextFieldProps<T> {
+interface FormTextFieldProps<T> extends AppTextInputProps {
   name: keyof T;
-  type?: string;
-  label?: string;
-  textFieldProps?: TextFieldProps;
 }
 
 const FormTextfield = <T extends {}>({
   name,
-  type,
-  label,
-  textFieldProps,
+  ...rest
 }: FormTextFieldProps<T>) => {
-  const { touched, errors, handleChange } = useFormikContext<T>();
+  const { touched, errors, values, handleChange } = useFormikContext<T>();
 
   return (
-    <TextField
-      type={type}
-      {...textFieldProps}
-      label={label}
-      onChange={handleChange(name)}
+    <AppTextInput
+      {...rest}
       helperText={touched[name] && (errors[name] as string)}
+      value={`${values[name] || ''}`}
       error={Boolean(touched[name] && errors[name])}
+      onChange={handleChange(name)}
     />
   );
 };

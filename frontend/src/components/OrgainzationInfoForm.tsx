@@ -1,9 +1,18 @@
 interface OrganizationInfoForm {
   title?: string;
   description?: string;
+  onDone?(): void;
 }
 
-const OrgainzationInfoForm = ({ title, description }: OrganizationInfoForm) => {
+const OrgainzationInfoForm = ({
+  title,
+  description,
+  onDone,
+}: OrganizationInfoForm) => {
+  const handleSubmit = () => {
+    if (onDone) onDone();
+  };
+
   return (
     <div className="container max-w-xl mx-auto">
       <div>
@@ -40,7 +49,10 @@ const OrgainzationInfoForm = ({ title, description }: OrganizationInfoForm) => {
           </div>
 
           <div className="col-span-2 flex justify-end">
-            <button className="btn btn-primary min-w-28 dark:text-white">
+            <button
+              className="btn btn-primary min-w-28 dark:text-white"
+              onClick={handleSubmit}
+            >
               Finish
             </button>
           </div>

@@ -1,4 +1,14 @@
-const PhoneNumberVerificationForm = () => {
+interface PhoneNumberVerificationForm {
+  onDone?(): void;
+}
+
+const PhoneNumberVerificationForm = ({
+  onDone,
+}: PhoneNumberVerificationForm) => {
+  const handleSubmit = () => {
+    if (onDone) onDone();
+  };
+
   return (
     <div className="container max-w-xl mx-auto">
       <div className="mb-10">
@@ -19,7 +29,9 @@ const PhoneNumberVerificationForm = () => {
           className="input input-bordered w-full"
         />
 
-        <button className="btn btn-primary w-full">Verify</button>
+        <button className="btn btn-primary w-full" onClick={handleSubmit}>
+          Verify
+        </button>
       </div>
     </div>
   );
