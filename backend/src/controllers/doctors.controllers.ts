@@ -1,10 +1,5 @@
 import _ from 'lodash';
-import {
-  AppRequest,
-  AppResponse,
-  AuthAppRequest,
-  Doctor as DoctorInterface,
-} from '../types';
+import { AppRequest, AppResponse } from '../types';
 import {
   Doctor,
   validateDoctorLogin,
