@@ -1,7 +1,9 @@
 import AppPagination from '@/components/AppPagination';
 import AppTable from '@/components/AppTable';
 import AppTextInput from '@/components/AppTextInput';
+import { useAppStore } from '@/store';
 import { Search } from '@mui/icons-material';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 interface Appointment {
@@ -89,6 +91,14 @@ const data = [
 ];
 
 const AppointmentsPage = () => {
+  const store = useAppStore();
+
+  useEffect(() => {
+    store.entities.names.addData('Hello World');
+  }, []);
+
+  console.log(store.entities);
+
   return (
     <section className="container">
       <div className="mb-16">

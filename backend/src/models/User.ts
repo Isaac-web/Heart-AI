@@ -16,6 +16,7 @@ export const User = mongoose.model(
         type: String,
         minlength: 3,
         maxlength: 256,
+        unique: true,
         trim: true,
         required: true,
       },
