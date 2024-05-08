@@ -20,7 +20,10 @@ export const createMedicalReportRequest = async (
   const [patient, doctor, existingRequest] = await Promise.all([
     User.findOne({ _id: req.body.patientId, userType: 'patient' }),
     User.findOne({ _id: req.body.doctorId, userType: 'doctor' }),
-    MedicalReportRequest.findOne(_.pick(req.body, ['patientId', 'doctorId'])),
+    MedicalReportRequest.findOne({
+      patient: req.body.patientId,
+      doctor: req.body.doctorId,
+    }),
   ]);
 
   if (!patient)
@@ -35,13 +38,14 @@ export const createMedicalReportRequest = async (
 
   if (existingRequest)
     return res.status(400).json({
-      message:
-        'There is already a request from the given user to the given doctor.',
+      message: 'There is already an appointment with this doctor.',
     });
 
-  const medicalReportRequest = await MedicalReportRequest.create(
-    _.pick(req.body, ['patientId', 'doctorId'])
-  );
+  const medicalReportRequest = await MedicalReportRequest.create({
+    doctor: req.body.doctorId,
+    patient: req.body.patientId,
+    appointmentDate: req.body.appointmentDate,
+  });
 
   patient.password = '';
   doctor.password = '';
@@ -50,8 +54,8 @@ export const createMedicalReportRequest = async (
     message: 'Medical Report Request Sent.',
     data: {
       ...medicalReportRequest.toObject(),
-      patientId: patient,
-      doctorId: doctor,
+      patient,
+      doctor,
     },
   });
 };
@@ -63,11 +67,19 @@ export const fetchUserMedicalReport = async (
   const user = req.user;
   if (!user) return res.status(401).json({ message: 'User is not logged in.' });
 
-  const reportRequests = await MedicalReportRequest.find({ userId: user._id })
-    .populate('doctorId', '-password')
-    .populate('patientId', '-password');
+  const skip = Number(req.query.skip) || 0;
+  const limit = Number(req.query.limit) || 20;
+  const [reportRequests, count] = await Promise.all([
+    MedicalReportRequest.find({ userId: user._id })
+      .populate('doctorId', '-password')
+      .populate('patientId', '-password'),
+    MedicalReportRequest.find({ userId: user._id }).countDocuments(),
+  ]);
 
   res.json({
+    skip,
+    limit,
+    total: count,
     data: reportRequests,
   });
 };
@@ -75,17 +87,29 @@ export const fetchMedicalReportRequest = async (
   req: AppRequest,
   res: AppResponse
 ) => {
-  const { doctorId } = req.query;
-  if (!doctorId)
-    return res.status(404).json({
-      message: 'doctorId is required in the query string.',
-    });
+  const skip = Number(req.query.skip) || 0;
+  const limit = Number(req.query.limit) || 20;
 
-  const reportRequests = await MedicalReportRequest.find({ doctorId })
-    .populate('doctorId', '-password')
-    .populate('patientId', '-password');
+  const filter: { doctorId?: string; patientId?: string } = {};
+
+  const { doctorId, patientId } = req.query;
+
+  if (doctorId) filter.doctorId = doctorId as string;
+  if (patientId) filter.patientId = patientId as string;
+
+  const [reportRequests, count] = await Promise.all([
+    MedicalReportRequest.find(filter)
+      .skip(skip)
+      .limit(limit)
+      .populate('doctor', '-password')
+      .populate('patient', '-password'),
+    MedicalReportRequest.find(filter).countDocuments(),
+  ]);
 
   res.json({
+    skip,
+    limit,
+    total: count,
     data: reportRequests,
   });
 };
