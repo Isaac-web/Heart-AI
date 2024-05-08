@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../core/app_export.dart'; // ignore: must_be_immutable
+
+import '../core/utils/size_utils.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar(

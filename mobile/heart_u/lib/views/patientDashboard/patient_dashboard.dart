@@ -273,9 +273,6 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-
-    String? docId;
-
     return CustomAppBar(
       title: const Padding(
         padding: EdgeInsets.only(left: 10.0),
