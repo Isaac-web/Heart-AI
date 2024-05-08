@@ -6,5 +6,7 @@ import { handleConnection } from './startup/connection';
 const app = express();
 
 configureMiddlewares(app);
+
 configureRoutes(app);
+
 handleConnection(app);
