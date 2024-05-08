@@ -3,7 +3,6 @@ from fastapi import FastAPI
 from Heart_Params import HeartParameter
 import numpy as np
 import pickle
-import pandas as pd
 import warnings
 warnings.filterwarnings('ignore')
 
