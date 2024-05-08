@@ -11,12 +11,12 @@ const menu = [
   },
   {
     label: 'Appointments',
-    link: '/portal/patient',
+    link: '/portal/doctor/appointments',
     icon: <Event />,
   },
   {
     label: 'Medical Reports',
-    link: '/portal/admin',
+    link: '/portal/doctor/medical-reports',
     icon: <DocumentScannerTwoTone />,
   },
 ];
@@ -41,7 +41,7 @@ const PortalContainer = () => {
           <ul className="menu bg w-full">
             {menu.map((m) => (
               <Link to={m.link}>
-                <li>
+                <li className="bg-active">
                   <a>
                     {m.icon}
                     <span>{m.label}</span>

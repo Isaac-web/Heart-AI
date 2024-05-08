@@ -37,11 +37,13 @@ const AppTextInput = ({
         {endAdornment && <span>{endAdornment}</span>}
       </div>
 
-      <div className="label">
-        <span className={`label-text-alt ${error ? 'text-error' : ''}`}>
-          {helperText}
-        </span>
-      </div>
+      {label && (
+        <div className="label">
+          <span className={`label-text-alt ${error ? 'text-error' : ''}`}>
+            {helperText}
+          </span>
+        </div>
+      )}
     </label>
   );
 };
