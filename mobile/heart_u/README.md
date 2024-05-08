@@ -9,7 +9,11 @@ Also you must have flutter and dart extensions installed in the editor
 
 1. https://github.com/dzeble/Heart-Disease-Prediction-Group-2.git to clone this repo
 2. 'flutter pub get' in the project root directory to install all the required dependencies.
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> 2df53e1b78e8b2a6b806f002ef7d77526a237b7e
 A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
