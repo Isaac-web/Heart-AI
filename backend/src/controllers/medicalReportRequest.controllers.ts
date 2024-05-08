@@ -61,7 +61,7 @@ export const createMedicalReportRequest = async (
   });
 };
 
-export const fetchUserMedicalReport = async (
+export const fetchUserMedicalReportRequest = async (
   req: AppRequest,
   res: AppResponse
 ) => {
@@ -71,10 +71,10 @@ export const fetchUserMedicalReport = async (
   const skip = Number(req.query.skip) || 0;
   const limit = Number(req.query.limit) || 20;
   const [reportRequests, count] = await Promise.all([
-    MedicalReportRequest.find({ userId: user._id })
-      .populate('doctorId', '-password')
-      .populate('patientId', '-password'),
-    MedicalReportRequest.find({ userId: user._id }).countDocuments(),
+    MedicalReportRequest.find({ patient: user._id })
+      .populate('doctor', '-password')
+      .populate('patient', '-password'),
+    MedicalReportRequest.find({ patient: user._id }).countDocuments(),
   ]);
 
   res.json({
