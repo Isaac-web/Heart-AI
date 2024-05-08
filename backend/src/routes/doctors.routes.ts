@@ -5,7 +5,6 @@ import {
   registerDoctor,
   updateDoctor,
 } from '../controllers/doctors.controllers';
-import { auth } from '../middleware/auth';
 import { doctorAuth } from '../middleware/doctorAuth';
 
 const router = Router();

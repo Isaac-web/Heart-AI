@@ -5,6 +5,7 @@ import {
 } from '../models/MedicalReportRequest';
 import { User } from '../models/User';
 import { AppRequest, AppResponse } from '../types';
+import { Doctor } from '../models/Doctor';
 
 export const createMedicalReportRequest = async (
   req: AppRequest,
@@ -18,8 +19,8 @@ export const createMedicalReportRequest = async (
     });
 
   const [patient, doctor, existingRequest] = await Promise.all([
-    User.findOne({ _id: req.body.patientId, userType: 'patient' }),
-    User.findOne({ _id: req.body.doctorId, userType: 'doctor' }),
+    User.findOne({ _id: req.body.patientId }),
+    Doctor.findOne({ _id: req.body.doctorId }),
     MedicalReportRequest.findOne({
       patient: req.body.patientId,
       doctor: req.body.doctorId,
