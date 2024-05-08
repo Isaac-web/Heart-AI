@@ -1,4 +1,4 @@
-import Chatbot from "./Chatbot";
+import Chatbot from './Chatbot';
 
 const PatientDashboard = () => {
   const ReportIcon = (
@@ -56,15 +56,15 @@ const PatientDashboard = () => {
 
   const menuItems = [
     {
-      name: "Reports",
+      name: 'Reports',
       icon: ReportIcon,
     },
     {
-      name: "Chatbot",
+      name: 'Chatbot',
       icon: ChatbotIcon,
     },
     {
-      name: "Messages",
+      name: 'Messages',
       icon: MessagesIcon,
     },
   ];

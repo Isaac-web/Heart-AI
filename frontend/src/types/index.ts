@@ -184,3 +184,9 @@ export interface AppSelectInputProps
   error?: boolean;
   helperText?: string;
 }
+
+export interface Column<T> {
+  label: string;
+  value: string;
+  render?(item: T): ReactNode;
+}
