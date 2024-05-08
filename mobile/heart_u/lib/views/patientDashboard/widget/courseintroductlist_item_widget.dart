@@ -313,8 +313,6 @@ class _CourseintroductlistItemWidgetState extends State<CourseintroductlistItemW
             ).show();
             print('Error sending message: $e');
           }
-
-
         },
         height: 35.v,
         width: 100.h,

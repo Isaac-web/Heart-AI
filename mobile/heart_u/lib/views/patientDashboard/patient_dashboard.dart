@@ -625,10 +625,22 @@ class _PatientDashboardState extends State<PatientDashboard> {
                     AnimatedButton(
                       isFixedHeight: false,
                       text: 'Log Out',
-                      pressEvent: () {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            AppRoutes.login,
-                                (route) => false);
+                      pressEvent: () async {
+                        setState(() {
+                          loading = true;
+                        });
+                        var cleared = await prefs.clear();
+                        if (cleared == true){
+
+                          setState(() {
+                            loading = false;
+                          });
+
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              AppRoutes.login,
+                                  (route) => false);
+                        }
+
                       },
                     )
                   ],

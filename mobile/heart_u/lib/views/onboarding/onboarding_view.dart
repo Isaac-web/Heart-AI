@@ -1,13 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:heart_u/core/app_export.dart';
 import 'package:heart_u/views/onboarding/widget/column_item_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme/custom_button_style.dart';
 import '../../widgets/custom_elevated_button.dart';
 import 'package:animate_do/animate_do.dart';
 
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+
+
+  Future<void> checkIfLoggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    bool? isLoggedIn = prefs.getBool("isLoggedIn");
+    print(isLoggedIn.toString());
+    if (isLoggedIn == true){
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          AppRoutes.patientDashboardScreen, (route) => false);
+    }
+  }
+
+  @override
+  void initState() {
+   checkIfLoggedIn();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -187,5 +212,4 @@ class OnboardingScreen extends StatelessWidget {
       ),
     );
   }
-
 }

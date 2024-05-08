@@ -194,6 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
             prefs.setString('token', token);
             prefs.setString('email', username);
             prefs.setString("password", password);
+            prefs.setBool("isLoggedIn", true);
 
             if (response.statusCode == 200){
 
