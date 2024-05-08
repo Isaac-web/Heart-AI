@@ -1,16 +1,26 @@
-# HeartAi mobile app
+# heart_u
 
+<<<<<<< HEAD
+A new Flutter project.
+=======
 HeartAI is a revolutionary healthcare system designed to empower individuals to proactively manage their heart health. Leveraging cutting-edge technologies such as artificial intelligence (AI), HeartAI provides accurate predictions of heart disease risk while facilitating seamless communication between users and healthcare professionals and gives the patient access to chat with a bot for more details.
+>>>>>>> 5c9bb552ce5283780d11946f4122c902532af6f2
 
 ## Getting Started
 
 You need to install andoid studio or visual studio code or ant editor of choice.
 Also you must have flutter and dart extensions installed in the editor
 
-## Set Up
+A few resources to get you started if this is your first Flutter project:
 
-Run the following commands from your terminal:
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
+<<<<<<< HEAD
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
+=======
 1. https://github.com/dzeble/Heart-Disease-Prediction-Group-2.git to clone this repo
 2. 'flutter pub get' in the project root directory to install all the required dependencies.
 
@@ -78,3 +88,4 @@ https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/c79f1
 
 HeartAI represents a paradigm shift in predictive healthcare, empowering individuals to take control of their heart health through data-driven insights and expert guidance. With its user-friendly interface, robust architecture, and emphasis on privacy and security, HeartAI is poised to revolutionize the way we approach preventive healthcare in the digital age.
 
+>>>>>>> 5c9bb552ce5283780d11946f4122c902532af6f2

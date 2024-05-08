@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.container {
+	@apply px-5 lg:px-10 py-10;
+}
