@@ -8,7 +8,7 @@ const AppTextInput = ({
   type = 'text',
   startAdornment,
   endAdornment = null,
-  error = true,
+  error = false,
   onChange,
 }: AppTextInputProps) => {
   return (

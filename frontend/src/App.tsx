@@ -6,6 +6,8 @@ import DoctorOnboardingPage from './pages/DoctorOnboardingPage';
 import Dashboard from './pages/Dashboard';
 import PortalContainer from './components/PortalContainer';
 import DoctorDashboard from './pages/doctor/DoctorDashboard';
+import AppointmentsPage from './pages/AppointmentsPage';
+import MedicalReports from './pages/MedicalReports';
 
 const App = () => {
   return (
@@ -23,8 +25,8 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/portal" element={<PortalContainer />}>
           <Route path="/portal/doctor" element={<DoctorDashboard />} />
-          <Route path="/portal/patient" element={<>Patient</>} />
-          <Route path="/portal/admin" element={<>Admin</>} />
+          <Route path="/portal/patient" element={<AppointmentsPage />} />
+          <Route path="/portal/admin" element={<MedicalReports />} />
         </Route>
       </Routes>
     </main>

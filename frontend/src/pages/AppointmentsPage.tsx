@@ -1,7 +1,8 @@
 import AppPagination from '@/components/AppPagination';
 import AppTable from '@/components/AppTable';
-import DashboardCard from '@/components/DashboardCard';
+import AppTextInput from '@/components/AppTextInput';
 import { Column } from '@/types';
+import { Search } from '@mui/icons-material';
 
 interface Appointment {
   name: string;
@@ -13,6 +14,17 @@ interface Appointment {
 }
 
 const columns: Column<Appointment>[] = [
+  {
+    label: '',
+    value: 'checkbox',
+    render() {
+      return (
+        <label>
+          <input type="checkbox" className="checkbox" />
+        </label>
+      );
+    },
+  },
   {
     label: 'Name',
     value: 'name',
@@ -97,53 +109,68 @@ const data = [
     job: 'Community Outreach Specialist',
     favouriteColor: 'Indigo',
   },
+  {
+    name: 'Hart Hagerty',
+    country: 'United States',
+    imageUrl:
+      'https://img.daisyui.com/tailwind-css-component-profile-2@56w.png',
+    company: 'Zemlak, Daniel and Leannon',
+    job: 'Desktop Support Technician',
+    favouriteColor: 'Purple',
+  },
+  {
+    name: 'Brice Swyre',
+    country: 'China',
+    imageUrl:
+      'https://img.daisyui.com/tailwind-css-component-profile-3@56w.png',
+    company: 'Carroll Group',
+    job: 'Tax Accountant',
+    favouriteColor: 'Red',
+  },
+  {
+    name: 'Marjy Ferencz',
+    country: 'Russia',
+    imageUrl:
+      'https://img.daisyui.com/tailwind-css-component-profile-4@56w.png',
+    company: 'Rowe-Schoen',
+    job: 'Office Assistant I',
+    favouriteColor: 'Crimson',
+  },
+  {
+    name: 'Yancy Tear',
+    country: 'Brazil',
+    imageUrl:
+      'https://img.daisyui.com/tailwind-css-component-profile-5@56w.png',
+    company: 'Wyman-Ledner',
+    job: 'Community Outreach Specialist',
+    favouriteColor: 'Indigo',
+  },
 ];
 
-const DoctorDashboard = () => {
+const AppointmentsPage = () => {
   return (
     <section className="container">
-      <div className="mb-14">
-        <h1 className="text-3xl font-semibold">Overview</h1>
+      <div className="mb-16">
+        <h1 className="text-3xl font-semibold">Appointments</h1>
       </div>
-      <div className="grid grid-cols-3 gap-5 mb-14">
+
+      <div className="grid grid-cols-3 mb-10">
         <div className="col-span-1">
-          <DashboardCard
-            title="Pending Reports"
-            description="Pending reports"
-            value="17"
-          />
-        </div>
-        <div className="col-span-1">
-          <DashboardCard
-            title="Medical Reports"
-            description="Issued medical reports"
-            value="13"
-          />
-        </div>
-        <div className="col-span-1">
-          <DashboardCard
-            title="Patients"
-            description="Patients with heart diseases"
-            value={'4'}
+          <AppTextInput
+            startAdornment={<Search />}
+            placeholder="Search by username..."
           />
         </div>
       </div>
 
       <div className="mb-10">
-        <h2 className="text-3xl mb-2">Appointments</h2>
-        <p className="text-sm mb">
-          4 users are booking an appointment with you for a medical report.
-        </p>
-      </div>
-
-      <div>
         <AppTable columns={columns} data={data} />
       </div>
-      <div className="flex py-5 pt-10">
+      <div>
         <AppPagination />
       </div>
     </section>
   );
 };
 
-export default DoctorDashboard;
+export default AppointmentsPage;
