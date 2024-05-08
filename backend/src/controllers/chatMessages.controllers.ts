@@ -1,8 +1,8 @@
-import { AppRequest, AppResponse } from "../types";
-import { ChatMessage, validateCreateChatMessage } from "../models/ChatMessage";
-import { User } from "../models/User";
-import axios from "axios";
-import config from "config";
+import { AppRequest, AppResponse } from '../types';
+import { ChatMessage, validateCreateChatMessage } from '../models/ChatMessage';
+import { User } from '../models/User';
+import axios from 'axios';
+import config from 'config';
 
 export const sendMessage = async (req: AppRequest, res: AppResponse) => {
   const { error } = validateCreateChatMessage(req.body);
@@ -12,12 +12,12 @@ export const sendMessage = async (req: AppRequest, res: AppResponse) => {
     });
 
   if (!req.user)
-    return res.status(401).json({ message: "User is not authenticated." });
+    return res.status(401).json({ message: 'User is not authenticated.' });
 
   const [user] = await Promise.all([User.findById(req.user._id)]);
   if (!user)
     return res.status(404).json({
-      message: "Could not find user with the given id",
+      message: 'Could not find user with the given id',
     });
 
   //check if chat session exists
@@ -29,9 +29,9 @@ export const sendMessage = async (req: AppRequest, res: AppResponse) => {
   });
 
   try {
-    const { data: llmChat } = await axios.request<LLMRespnse>({
-      method: "POST",
-      url: config.get("LLMUrl"),
+    const { data: llmChat } = await axios.request({
+      method: 'POST',
+      url: config.get('LLMUrl'),
       data: {
         text: req.body.text,
         session_id: req.body.chatSessionId,
@@ -44,7 +44,7 @@ export const sendMessage = async (req: AppRequest, res: AppResponse) => {
       text: llmChat.response,
     });
 
-    user.password = "";
+    user.password = '';
 
     res.json({
       data: {
@@ -54,7 +54,7 @@ export const sendMessage = async (req: AppRequest, res: AppResponse) => {
     });
   } catch (err: any) {
     return res.status(500).json({
-      message: "Something went wrong.",
+      message: 'Something went wrong.',
     });
   }
 };
@@ -65,7 +65,7 @@ export const fetchChatSessionMessages = async (
 ) => {
   const chatMessages = await ChatMessage.find({
     chatSession: req.params.chatSessionId,
-  }).populate("user", "-password");
+  }).populate('user', '-password');
 
   res.json({
     data: chatMessages,
@@ -78,10 +78,10 @@ export const deleteChatMessage = async (req: AppRequest, res: AppResponse) => {
   if (!chatMessage)
     return res
       .status(404)
-      .json({ message: "Could not find chat message with the given id." });
+      .json({ message: 'Could not find chat message with the given id.' });
 
   res.json({
-    message: "1 chat message was deleted.",
+    message: '1 chat message was deleted.',
     data: chatMessage,
   });
 };
