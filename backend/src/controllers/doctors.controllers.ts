@@ -90,6 +90,8 @@ export const doctorLogin = async (req: AppRequest, res: AppResponse) => {
 //   });
 // };
 
+
+// get all doctors info/details 
 export const getDoctorInfo = async (req: AppRequest, res: AppResponse) => {
   try {
     const doctors = await Doctor.find({}).select('-password');
@@ -153,6 +155,12 @@ export const updateDoctor = async (req: AppRequest, res: AppResponse) => {
     error && res.status(422).json({
       message: error.details[0].message,
     });
+
+    // if (req.body.password){
+    //   const salt = await bcrypt.genSalt(12);
+    //   const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    //   req.body.password = hashedPassword;
+    // }
 
     const doctor = await Doctor.findByIdAndUpdate(authDoc, req.body, {
       new: true,
