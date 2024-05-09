@@ -1,20 +1,27 @@
 import { NextFunction, Request, Response } from 'express';
 
-export interface User {
+export interface BaseUser {
   _id: string;
-  name: string;
   email: string;
   password: string;
   imageUrl?: string;
-  userType: string;
+}
+
+export interface User extends BaseUser {}
+
+export interface Doctor {
+  _id: string;
+  email: string;
+  password: string;
+  imageUrl?: string;
 }
 
 export interface AppRequest extends Request {
-  user?: User;
+  user?: BaseUser;
 }
 
-export interface AuthAppRequest extends Request {
-  user: User;
+export interface AuthAppRequest<T extends BaseUser> extends Request {
+  user: T;
 }
 
 export interface AppResponse extends Response {}

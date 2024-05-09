@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { AppRequest, AppResponse } from '../types';
 import {
   Doctor,
@@ -77,6 +78,24 @@ export const doctorLogin = async (req: AppRequest, res: AppResponse) => {
   });
 };
 
+export const getCurrentDoctor = async (req: AppRequest, res: AppResponse) => {
+  const user = req?.user;
+  if (!user)
+    return res.status(401).json({ message: 'Doctor is not logged in.' });
+
+  const doctor = await Doctor.findById(user._id);
+  if (!doctor)
+    return res
+      .status(404)
+      .json({ message: 'Doctor with the given id cannot be found.' });
+
+  doctor.password = '';
+
+  res.json({
+    data: doctor,
+  });
+};
+
 export const updateDoctor = async (req: AppRequest, res: AppResponse) => {
   const { error } = validateUpdateDoctor(req.body);
   if (error)
@@ -84,8 +103,32 @@ export const updateDoctor = async (req: AppRequest, res: AppResponse) => {
       message: error.details[0].message,
     });
 
+  const doctor = await Doctor.findByIdAndUpdate(
+    req.params.id,
+    {
+      $set: _.pick(req.body, [
+        'firstName',
+        'lastName',
+        'age',
+        'sex',
+        'phone',
+        'bio',
+        'hospital',
+        'supportingDocumentUrl',
+      ]),
+    },
+    { new: true }
+  );
+
+  if (!doctor)
+    return res
+      .status(404)
+      .json({ message: 'Doctor with the given id could not be found.' });
+
+  doctor.password = '';
+
   res.json({
-    message: 'You are logged in.',
-    data: {},
+    message: 'User update was successful.',
+    data: doctor,
   });
 };
