@@ -122,3 +122,5 @@ export const updateUser = async (req: AppRequest, res: AppResponse) => {
 };
 
 export const deleteAccount = async (req: AppRequest, res: AppResponse) => {};
+
+// npm run dev
