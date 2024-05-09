@@ -1,3 +1,4 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:heart_u/routes/app_routes.dart';
@@ -19,12 +20,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(
       builder: (context, orientation, deviceType) {
-        return MaterialApp(
-          theme: theme,
-          title: 'heart-U',
-          debugShowCheckedModeBanner: false,
-          initialRoute: AppRoutes.initialRoute,
-          routes: AppRoutes.routes,
+        return AdaptiveTheme(
+          light: ThemeData.light(useMaterial3: true),
+          dark: ThemeData.dark(useMaterial3: true),
+          debugShowFloatingThemeButton: true,
+          initial: AdaptiveThemeMode.light,
+          builder: (theme, darkTheme) => MaterialApp(
+            theme: theme,
+            darkTheme: darkTheme,
+            title: 'heartAI',
+            debugShowCheckedModeBanner: false,
+            initialRoute: AppRoutes.initialRoute,
+            routes: AppRoutes.routes,
+          ),
         );
       },
     );

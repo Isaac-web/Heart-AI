@@ -54,9 +54,12 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                             padding: EdgeInsets.only(left: 11.h),
                             child: FadeInLeft(
                               duration: const Duration(milliseconds: 1000),
-                              child: Text(
+                              child: const Text(
                                 "HeartAI",
-                                style: theme.textTheme.headlineMedium,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 30,
+                                ),
                               ),
                             ),
                           ),
@@ -73,7 +76,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                               duration: const Duration(milliseconds: 1000),
                               child: _buildName(context)
                           ),
-                          SizedBox(height: 11.v),
+                          SizedBox(height: 18.v),
                           FadeInUp(
                               duration: const Duration(milliseconds: 1000),
                               child: _buildUserName(context)
@@ -88,7 +91,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                               duration: const Duration(milliseconds: 1000),
                               child: _buildRepeatPassword(context)
                           ),
-                          SizedBox(height: 49.v),
+                          SizedBox(height: 35.v),
                           FadeInRight(
                               duration: const Duration(milliseconds: 1000),
                               child: CircularWidgetLoading(
@@ -131,6 +134,10 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       textStyle: TextStyle(
           color: Colors.grey[700]
       ),
+      borderDecoration: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4.h),
+        borderSide: const BorderSide(color: Color(0xff204099), width: 0.0),
+      ),
     );
   }
 
@@ -142,6 +149,10 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       hintText: "Enter email",
       textStyle: TextStyle(
           color: Colors.grey[700]
+      ),
+      borderDecoration: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4.h),
+        borderSide: const BorderSide(color: Color(0xff204099), width: 0.0),
       ),
     );
   }
@@ -157,6 +168,10 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       textStyle:TextStyle(
           color: Colors.grey[700]
       ),
+      borderDecoration: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4.h),
+        borderSide: const BorderSide(color: Color(0xff204099), width: 0.0),
+      ),
     );
   }
 
@@ -169,6 +184,10 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       obscureText: true,
       textStyle:TextStyle(
           color: Colors.grey[700]
+      ),
+      borderDecoration: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4.h),
+        borderSide: const BorderSide(color: Color(0xff204099), width: 0.0),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { AppRequest, AppResponse } from '../types';
 import {
   Doctor,
@@ -77,6 +78,7 @@ export const doctorLogin = async (req: AppRequest, res: AppResponse) => {
   });
 };
 
+
 // export const updateDoctor = async (req: AppRequest, res: AppResponse) => {
 //   const { error } = validateUpdateDoctor(req.body);
 //   if (error)
@@ -118,26 +120,24 @@ export const getDoctorById = async (req: AppRequest, res: AppResponse) => {
   }
 };
 
-export const getMyProfileAsDoctor = async (req: AppRequest, res: AppResponse) => {
-  try {
-    const authDoc = req.user; 
 
-    !authDoc && res.status(401).json({
-      message: 'You are not authorized to to access this account.',
-    });
+export const getCurrentDoctor = async (req: AppRequest, res: AppResponse) => {
+  const user = req?.user;
+  if (!user)
+    return res.status(401).json({ message: 'Doctor is not logged in.' });
 
-    const doctor = await Doctor.findById(authDoc?._id);
+  const doctor = await Doctor.findById(user._id);
+  if (!doctor)
+    return res
+      .status(404)
+      .json({ message: 'Doctor with the given id cannot be found.' });
 
-    res.status(200).json({
-      data: doctor,
-    });
+  doctor.password = '';
 
-  } catch (err: any) {
-    res.status(500).json({
-      message: `server error: ${err?.message}`,
-    });
-  }
-}
+  res.json({
+    data: doctor,
+  });
+};
 
 export const updateDoctor = async (req: AppRequest, res: AppResponse) => {
   try {
@@ -156,20 +156,33 @@ export const updateDoctor = async (req: AppRequest, res: AppResponse) => {
       message: error.details[0].message,
     });
 
-    // if (req.body.password){
-    //   const salt = await bcrypt.genSalt(12);
-    //   const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    //   req.body.password = hashedPassword;
-    // }
-
-    const doctor = await Doctor.findByIdAndUpdate(authDoc, req.body, {
-      new: true,
-      runValidators: true,
-    });
-
-    res.status(200).json({
+    const doctor = await Doctor.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: _.pick(req.body, [
+          'firstName',
+          'lastName',
+          'age',
+          'sex',
+          'phone',
+          'bio',
+          'hospital',
+          'supportingDocumentUrl',
+        ]),
+      },
+      { new: true }
+    );
+  
+    if (!doctor)
+      return res
+        .status(404)
+        .json({ message: 'Doctor with the given id could not be found.' });
+  
+    doctor.password = '';
+  
+    res.json({
+      message: 'User update was successful.',
       data: doctor,
-      message: 'Your account has been updated.',
     });
     
   } catch (err:any) {

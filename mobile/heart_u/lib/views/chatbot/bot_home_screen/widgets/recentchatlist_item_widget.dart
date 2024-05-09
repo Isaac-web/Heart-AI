@@ -46,7 +46,6 @@ class RecentchatlistItemWidget extends StatelessWidget {
                     "Session title: $title",
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.labelLarge,
                   ),
                 )
               ],

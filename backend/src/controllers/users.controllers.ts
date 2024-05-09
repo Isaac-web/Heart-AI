@@ -51,7 +51,7 @@ export const login = async (req: AppRequest, res: AppResponse) => {
   const user = await User.findOne({ email: req.body.email });
   if (!user)
     return res.status(404).json({
-      message: 'Invalid username or password.',
+      message: 'Invalid email or password.',
     });
 
   const passwordIsValid = await bcrypt.compare(
@@ -60,7 +60,7 @@ export const login = async (req: AppRequest, res: AppResponse) => {
   );
   if (!passwordIsValid)
     return res.status(400).json({
-      message: 'Invalid username or password.',
+      message: 'Invalid email or password.',
     });
 
   const token = jwt.sign({ _id: user._id }, `${process.env.JWT_SECRET}`);
