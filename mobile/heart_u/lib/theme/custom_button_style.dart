@@ -15,7 +15,7 @@ class CustomButtonStyles {
       );
   // Filled button style
   static ButtonStyle get fillPinkA => ElevatedButton.styleFrom(
-    backgroundColor: appTheme.pinkA20001,
+    backgroundColor: Color(0xff204099),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10.h),
     ),

@@ -1,9 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:heart_u/views/onboarding/widget/column_item_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/utils/size_utils.dart';
 import '../../routes/app_routes.dart';
-import '../../theme/app_decoration.dart';
 import '../../theme/custom_button_style.dart';
 import '../../theme/custom_text_style.dart';
 import '../../theme/theme_helper.dart';
@@ -96,7 +96,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       width: 150.h,
                       text: "Get Started",
                       margin: EdgeInsets.only(left: 16.h),
-                      buttonStyle: CustomButtonStyles.none,
+                      buttonStyle: CustomButtonStyles.fillPinkA,
                       decoration:
                       CustomButtonStyles.gradientOnPrimaryToPinkADecoration,
                     ),
@@ -133,9 +133,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   top: 6.v,
                   bottom: 5.v,
                 ),
-                child: Text(
+                child: const Text(
                   "HeartAI",
-                  style: theme.textTheme.headlineMedium,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                  ),
                 ),
               ),
             ),
@@ -145,6 +148,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 onPressed: (){
                   Navigator.of(context).pushNamed(AppRoutes.login);
                 },
+                buttonStyle: CustomButtonStyles.fillPinkA,
                 width: 140.h,
                 text: "Get Started",
               ),
@@ -169,8 +173,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           horizontal: 114.h,
           vertical: 13.v,
         ),
-        decoration: AppDecoration.gradientOnPrimaryToPinkA.copyWith(
-          borderRadius: BorderRadiusStyle.roundedBorder10,
+        decoration: BoxDecoration(
+         color: const Color(0xff204099),
+          borderRadius: BorderRadius.circular(10.h),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -195,13 +200,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         horizontal: 16.h,
         vertical: 14.v,
       ),
-      decoration: AppDecoration.fillGray,
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         separatorBuilder: (context, index) {
           return SizedBox(
-            height: 24.v,
+            height: 14.v,
           );
         },
         itemCount: cards.length,

@@ -101,9 +101,12 @@ class _CourseintroductlistItemWidgetState extends State<CourseintroductlistItemW
                     const SizedBox(
                       height: 10,
                     ),
-                    Text(
+                    const Text(
                       'Report Details',
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                      ),
                     ),
                     const SizedBox(height: 10,),
 
@@ -139,15 +142,7 @@ class _CourseintroductlistItemWidgetState extends State<CourseintroductlistItemW
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x41A9A9A9),
-                    offset: Offset(-12, 12),
-                    blurRadius: 8,
-                  ),
-                ],
-
+                color: const Color(0xff204099),
               ),
               alignment: Alignment.centerLeft,
               child: Column(
@@ -163,7 +158,7 @@ class _CourseintroductlistItemWidgetState extends State<CourseintroductlistItemW
                             text: "Results",
                             style: TextStyle(
                               fontSize: 30,
-                              color: Colors.black,
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.italic,
                             ),
@@ -183,11 +178,10 @@ class _CourseintroductlistItemWidgetState extends State<CourseintroductlistItemW
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              color: Colors.black
+                              color: Colors.white
                           ),
                         ),
                       ),
-                      SizedBox(width: 30.v),
                       _buildStartButton(context)
                     ],
                   ),
@@ -315,7 +309,7 @@ class _CourseintroductlistItemWidgetState extends State<CourseintroductlistItemW
           }
         },
         height: 35.v,
-        width: 100.h,
+        width: 140.h,
         text: "Consult Bot",
         buttonStyle: CustomButtonStyles.fillLightBlue,
       ),
