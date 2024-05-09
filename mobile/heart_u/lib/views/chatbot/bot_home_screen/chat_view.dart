@@ -17,7 +17,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  AppTheme theme = DarkTheme();
+  AppTheme theme = LightTheme();
   bool isDarkTheme = false;
 
   final Dio dio = Dio();
@@ -120,16 +120,17 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           userStatus: "online",
           userStatusTextStyle: const TextStyle(color: Colors.grey),
-          // actions: [
-          //   // IconButton(
-          //   //   onPressed: _onThemeIconTap,
-          //   //   icon: Icon(
-          //   //     isDarkTheme
-          //   //         ? Icons.brightness_4_outlined
-          //   //         : Icons.dark_mode_outlined,
-          //   //     color: theme.themeIconColor,
-          //   //   ),
-          //   // ),
+          actions: [
+            IconButton(
+              onPressed: _onThemeIconTap,
+              icon: Icon(
+                isDarkTheme
+                    ? Icons.brightness_4_outlined
+                    : Icons.dark_mode_outlined,
+                color: theme.themeIconColor,
+              ),
+            ),
+
           //   // IconButton(
           //   //   tooltip: 'Toggle TypingIndicator',
           //   //   onPressed: _showHideTypingIndicator,
@@ -138,7 +139,7 @@ class _ChatScreenState extends State<ChatScreen> {
           //   //     color: theme.themeIconColor,
           //   //   ),
           //   // ),
-          // ],
+          ],
         ),
         chatBackgroundConfig: ChatBackgroundConfiguration(
           messageTimeIconColor: theme.messageTimeIconColor,
@@ -395,17 +396,17 @@ class _ChatScreenState extends State<ChatScreen> {
 
   }
 
-  // void _onThemeIconTap() {
-  //   setState(() {
-  //     if (isDarkTheme) {
-  //       theme = LightTheme();
-  //       isDarkTheme = false;
-  //     } else {
-  //       theme = DarkTheme();
-  //       isDarkTheme = true;
-  //     }
-  //   });
-  // }
+  void _onThemeIconTap() {
+    setState(() {
+      if (isDarkTheme) {
+        theme = LightTheme();
+        isDarkTheme = false;
+      } else {
+        theme = DarkTheme();
+        isDarkTheme = true;
+      }
+    });
+  }
 }
 
 class AppTheme {

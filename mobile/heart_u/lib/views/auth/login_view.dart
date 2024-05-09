@@ -53,9 +53,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: EdgeInsets.only(left: 11.h),
                             child: FadeInLeft(
                               duration: const Duration(milliseconds: 1000),
-                              child: Text(
+                              child: const Text(
                                 "HeartAI",
-                                style: theme.textTheme.headlineMedium,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 30,
+                                ),
                               ),
                             ),
                           ),
@@ -121,6 +124,10 @@ class _LoginScreenState extends State<LoginScreen> {
       textStyle: TextStyle(
           color: Colors.grey[700]
       ),
+      borderDecoration: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4.h),
+        borderSide: const BorderSide(color: Color(0xff204099), width: 0.0),
+      ),
     );
   }
 
@@ -135,6 +142,10 @@ class _LoginScreenState extends State<LoginScreen> {
       textStyle:TextStyle(
         color: Colors.grey[700]
         ),
+      borderDecoration: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4.h),
+        borderSide: const BorderSide(color: Color(0xff204099), width: 0.0),
+      ),
     );
   }
 
@@ -194,6 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
             prefs.setString('token', token);
             prefs.setString('email', username);
             prefs.setString("password", password);
+            prefs.setBool("isLoggedIn", true);
 
             if (response.statusCode == 200){
 

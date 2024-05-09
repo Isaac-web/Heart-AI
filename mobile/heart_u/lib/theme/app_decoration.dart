@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../core/app_export.dart';
+import 'package:heart_u/core/utils/size_utils.dart';
+import 'package:heart_u/theme/theme_helper.dart';
 
 class AppDecoration {
   // F decorations
