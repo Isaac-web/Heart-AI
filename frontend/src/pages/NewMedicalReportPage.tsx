@@ -5,6 +5,7 @@ import FormTextfield from '@/components/form/FormTextfield';
 import Lottie from 'react-lottie';
 import * as Yup from 'yup';
 import heartPulzeAnimation from '../assets/animations/heart-pulze-animation.json';
+import { useState } from 'react';
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required().label('First Name'),
@@ -34,6 +35,8 @@ const validationSchema = Yup.object().shape({
 });
 
 const NewMedicalReportPage = () => {
+  const [loading, setLoading] = useState(false);
+
   return (
     <section className="container max-w-xl mx-auto relative">
       <div>
@@ -168,34 +171,37 @@ const NewMedicalReportPage = () => {
           learn more.
         </p>
       </div>
-      <div
-        className="fixed h-screen bg-black/60 flex flex-col gap-5 justify-center items-center"
-        style={{ top: 0, left: '240px', width: 'calc(100% - 240px)' }}
-      >
-        <div>
-          <Lottie
-            options={{
-              loop: true,
-              autoplay: true,
-              animationData: heartPulzeAnimation,
-              rendererSettings: {
-                preserveAspectRatio: 'xMidYMid slice',
-              },
-            }}
-            height={150}
-            width={150}
-          />
+
+      {loading && (
+        <div
+          className="fixed h-screen bg-black/60 flex flex-col gap-5 justify-center items-center"
+          style={{ top: 0, left: '240px', width: 'calc(100% - 240px)' }}
+        >
+          <div>
+            <Lottie
+              options={{
+                loop: true,
+                autoplay: true,
+                animationData: heartPulzeAnimation,
+                rendererSettings: {
+                  preserveAspectRatio: 'xMidYMid slice',
+                },
+              }}
+              height={150}
+              width={150}
+            />
+          </div>
+          <div className="max-w-md -mt-6">
+            <p className="text-sm text-center text-white/90">
+              Please wait... We're analyzing your cardiovascular data to provide
+              an accurate prediction.
+            </p>
+          </div>
+          <div>
+            <button className="btn w-32">Cancel</button>
+          </div>
         </div>
-        <div className="max-w-md -mt-6">
-          <p className="text-sm text-center text-white/90">
-            Please wait... We're analyzing your cardiovascular data to provide
-            an accurate prediction.
-          </p>
-        </div>
-        <div>
-          <button className="btn w-32">Cancel</button>
-        </div>
-      </div>
+      )}
     </section>
   );
 };
