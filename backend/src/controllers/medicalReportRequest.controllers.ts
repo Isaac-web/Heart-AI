@@ -5,6 +5,7 @@ import {
 } from '../models/MedicalReportRequest';
 import { User } from '../models/User';
 import { AppRequest, AppResponse } from '../types';
+import { Doctor } from '../models/Doctor';
 
 export const createMedicalReportRequest = async (
   req: AppRequest,
@@ -18,8 +19,8 @@ export const createMedicalReportRequest = async (
     });
 
   const [patient, doctor, existingRequest] = await Promise.all([
-    User.findOne({ _id: req.body.patientId, userType: 'patient' }),
-    User.findOne({ _id: req.body.doctorId, userType: 'doctor' }),
+    User.findOne({ _id: req.body.patientId }),
+    Doctor.findOne({ _id: req.body.doctorId }),
     MedicalReportRequest.findOne({
       patient: req.body.patientId,
       doctor: req.body.doctorId,
@@ -60,7 +61,7 @@ export const createMedicalReportRequest = async (
   });
 };
 
-export const fetchUserMedicalReport = async (
+export const fetchUserMedicalReportRequest = async (
   req: AppRequest,
   res: AppResponse
 ) => {
@@ -70,10 +71,10 @@ export const fetchUserMedicalReport = async (
   const skip = Number(req.query.skip) || 0;
   const limit = Number(req.query.limit) || 20;
   const [reportRequests, count] = await Promise.all([
-    MedicalReportRequest.find({ userId: user._id })
-      .populate('doctorId', '-password')
-      .populate('patientId', '-password'),
-    MedicalReportRequest.find({ userId: user._id }).countDocuments(),
+    MedicalReportRequest.find({ patient: user._id })
+      .populate('doctor', '-password')
+      .populate('patient', '-password'),
+    MedicalReportRequest.find({ patient: user._id }).countDocuments(),
   ]);
 
   res.json({
@@ -90,12 +91,12 @@ export const fetchMedicalReportRequest = async (
   const skip = Number(req.query.skip) || 0;
   const limit = Number(req.query.limit) || 20;
 
-  const filter: { doctorId?: string; patientId?: string } = {};
+  const filter: { doctor?: string; patient?: string } = {};
 
   const { doctorId, patientId } = req.query;
 
-  if (doctorId) filter.doctorId = doctorId as string;
-  if (patientId) filter.patientId = patientId as string;
+  if (doctorId) filter.doctor = doctorId as string;
+  if (patientId) filter.patient = patientId as string;
 
   const [reportRequests, count] = await Promise.all([
     MedicalReportRequest.find(filter)

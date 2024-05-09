@@ -11,8 +11,8 @@ export const MedicalReportRequest = mongoose.model(
         required: true,
       },
       doctor: {
-        type: mongoose.Types.ObjectId,
-        ref: 'User',
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Doctor',
         required: true,
       },
       appointmentDate: {
