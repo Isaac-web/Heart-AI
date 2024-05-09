@@ -3,6 +3,6 @@
 	"predictionModelUrl": "https://heart-disease-prediction-group-2-29eq.onrender.com/predict",
 	"LLMUrl": "https://heart-disease-predictor-8.onrender.com/chat",
 	"db": {
-		"url": "mongodb+srv://heart-ai-dev:heartai123@cluster0.ni0ol.mongodb.net/heart-ai-dev"
+		"url": "mongodb://127.0.0.1/heart-health-dev"
 	}
 }
