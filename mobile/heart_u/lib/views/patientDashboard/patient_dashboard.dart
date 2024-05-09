@@ -9,7 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:widget_loading/widget_loading.dart';
 import '../../core/utils/constants.dart';
 import '../../core/utils/image_constant.dart';
-import '../../widgets/appbar_title.dart';
 import '../../widgets/appbar_trailing_circleimage.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_text_form_feild.dart';
@@ -234,11 +233,14 @@ class _PatientDashboardState extends State<PatientDashboard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
+                const Padding(
+                  padding: EdgeInsets.only(left: 8.0),
                   child: Text(
                     "Reports",
-                    style: theme.textTheme.titleLarge,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
                   ),
                 ),
                 FadeInRight(
@@ -273,28 +275,24 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-
-    String? docId;
-
     return CustomAppBar(
       title: const Padding(
         padding: EdgeInsets.only(left: 10.0),
         child: Text(
           "HeartAI",
           style: TextStyle(
-            color: Colors.black,
-            fontSize: 28,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.bold,
+            fontSize: 30,
           ),
         ),
       ),
       actions: [
-        AppbarTitle(
-          onTap: (){
-
-          },
-          text: prefs.getString("name").toString(),
-          margin: EdgeInsets.fromLTRB(31.h, 18.v, 12.h, 6.v),
+        Text(
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 15,
+          ),
+          prefs.getString("name").toString(),
         ),
         AppbarTrailingCircleimage(
           onTap: (){
@@ -333,6 +331,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                     AnimatedButton(
                       isFixedHeight: false,
                       icon: Icons.refresh,
+                      color: const Color(0xff204099),
                       text: 'Refresh system data',
                       pressEvent: () {
                         getData();
@@ -344,6 +343,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                     AnimatedButton(
                       isFixedHeight: false,
                       text: 'Update details',
+                      color: const Color(0xff204099),
                       pressEvent: () {
                         AwesomeDialog(
                           context: context,
@@ -402,6 +402,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                                 AnimatedButton(
                                   isFixedHeight: false,
                                   text: 'Update',
+                                  color: const Color(0xff204099),
                                   pressEvent: () async {
 
                                     print("dio initialised");
@@ -481,6 +482,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                     AnimatedButton(
                       isFixedHeight: false,
                       text: 'Request report',
+                      color: const Color(0xff204099),
                       pressEvent: () {
                         AwesomeDialog(
                           context: context,
@@ -625,10 +627,23 @@ class _PatientDashboardState extends State<PatientDashboard> {
                     AnimatedButton(
                       isFixedHeight: false,
                       text: 'Log Out',
-                      pressEvent: () {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            AppRoutes.login,
-                                (route) => false);
+                      color: const Color(0xff204099),
+                      pressEvent: () async {
+                        setState(() {
+                          loading = true;
+                        });
+                        var cleared = await prefs.clear();
+                        if (cleared == true){
+
+                          setState(() {
+                            loading = false;
+                          });
+
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              AppRoutes.login,
+                                  (route) => false);
+                        }
+
                       },
                     )
                   ],

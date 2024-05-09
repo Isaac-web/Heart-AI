@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../core/app_export.dart';
+import 'package:heart_u/core/utils/size_utils.dart';
 
 String _appTheme = "lightCode";
 LightCodeColors get appTheme => ThemeHelper().themeColor();
@@ -22,7 +22,6 @@ class ThemeHelper {
     _appTheme = newTheme;
   }
 
-  /// Returns the lightCode colors for the current theme.
   LightCodeColors _getThemeColors() {
     return _supportedCustomColor[_appTheme] ?? LightCodeColors();
   }
@@ -116,7 +115,7 @@ class TextThemes {
 /// Class containing the supported color schemes.
 class ColorSchemes {
   static const lightCodeColorScheme = ColorScheme.light(
-    primary: Color(0XFF13173F),
+    primary: Color(0XFF204099),
     primaryContainer: Color(0XFF000000),
     secondaryContainer: Color(0XFF13183F),
     onErrorContainer: Color(0XFFB8BCCA),

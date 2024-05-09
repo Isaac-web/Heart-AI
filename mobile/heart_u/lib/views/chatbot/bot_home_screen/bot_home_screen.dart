@@ -154,9 +154,12 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
       children: [
         Padding(
           padding: EdgeInsets.only(left: 3.h),
-          child: Text(
+          child: const Text(
             "Chat with Hearty",
-            style: theme.textTheme.titleLarge,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
           ),
         ),
         SizedBox(height: 18.v),
@@ -229,12 +232,15 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
   Widget _buildRecentChatsRow(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 3.h),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             "Recent  chats",
-            style: theme.textTheme.titleLarge,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
           ),
         ],
       ),
@@ -291,11 +297,11 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
                     });
 
                     var messages = response.data["data"] as List;
-                    
+
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ChatScreen(sessionMessages: messages,))
                       );
-                    
+
                   } else{
 
                     setState(() {
@@ -315,7 +321,7 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
                       btnOkColor: Colors.red,
                     ).show();
                   }
-                      
+
 
                 } catch (e){
                   print('Response: $e');
@@ -355,54 +361,74 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
       duration: const Duration(milliseconds: 1000),
       child: CircularWidgetLoading(
         loading: loading,
-        child: CustomElevatedButton(
-          onPressed: () async {
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
+          child: CustomElevatedButton(
+            onPressed: () async {
 
-            String? token = prefs.getString('token');
+              String? token = prefs.getString('token');
 
-            print("dio initialised");
+              print("dio initialised");
 
-            try {
-
-              setState(() {
-                loading = true;
-              });
-
-              num randomNumber = Random().nextInt(1000000 - 1) + 1;
-
-              print("session creation initialised");
-              Response response = await dio.post(
-                "${baseUrl}api/chat-sessions/me",
-                data: {
-                  "title" : randomNumber.toString(),
-                },
-                options: Options(
-                  headers: {
-                    "Authorization": "Bearer ${token!}"
-                  },
-                  validateStatus: (_) => true,
-                ),
-              );
-
-              print('Response: ${response.data}');
-
-              if (response.statusCode == 200){
+              try {
 
                 setState(() {
-                  loading = false;
+                  loading = true;
                 });
 
-                final jsonData = response.data;
-                final sessionId = jsonData['data']['_id'];
-                final patientId = jsonData['data']['patientId'];
+                num randomNumber = Random().nextInt(1000000 - 1) + 1;
 
-                prefs.setString('sessionId', sessionId);
-                prefs.setString('patientId', patientId);
+                print("session creation initialised");
+                Response response = await dio.post(
+                  "${baseUrl}api/chat-sessions/me",
+                  data: {
+                    "title" : randomNumber.toString(),
+                  },
+                  options: Options(
+                    headers: {
+                      "Authorization": "Bearer ${token!}"
+                    },
+                    validateStatus: (_) => true,
+                  ),
+                );
 
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ChatScreen()));
+                print('Response: ${response.data}');
 
-              }else {
+                if (response.statusCode == 200){
+
+                  setState(() {
+                    loading = false;
+                  });
+
+                  final jsonData = response.data;
+                  final sessionId = jsonData['data']['_id'];
+                  final patientId = jsonData['data']['patientId'];
+
+                  prefs.setString('sessionId', sessionId);
+                  prefs.setString('patientId', patientId);
+
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ChatScreen()));
+
+                }else {
+                  setState(() {
+                    loading = false;
+                  });
+                  AwesomeDialog(
+                    context: context,
+                    dialogType: DialogType.error,
+                    animType: AnimType.rightSlide,
+                    headerAnimationLoop: true,
+                    title: 'Error',
+                    desc:
+                    'Please try again later',
+                    btnOkOnPress: () {},
+                    btnOkIcon: Icons.cancel,
+                    btnOkColor: Colors.red,
+                  ).show();
+                }
+
+              } catch (e) {
                 setState(() {
                   loading = false;
                 });
@@ -413,42 +439,19 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
                   headerAnimationLoop: true,
                   title: 'Error',
                   desc:
-                  'Please try again later',
+                  "Please try again later",
                   btnOkOnPress: () {},
                   btnOkIcon: Icons.cancel,
                   btnOkColor: Colors.red,
                 ).show();
+                print('Error sending message: $e');
               }
 
-            } catch (e) {
-              setState(() {
-                loading = false;
-              });
-              AwesomeDialog(
-                context: context,
-                dialogType: DialogType.error,
-                animType: AnimType.rightSlide,
-                headerAnimationLoop: true,
-                title: 'Error',
-                desc:
-                "Please try again later",
-                btnOkOnPress: () {},
-                btnOkIcon: Icons.cancel,
-                btnOkColor: Colors.red,
-              ).show();
-              print('Error sending message: $e');
-            }
-
-          },
-          height: 45.v,
-          text: "Start new conversation",
-          margin: EdgeInsets.only(
-            left: 52.h,
-            right: 53.h,
-            bottom: 47.v,
+            },
+            height: 43.v,
+            text: "Start new conversation",
+            buttonStyle: CustomButtonStyles.fillPinkA,
           ),
-          buttonStyle: CustomButtonStyles.none,
-          decoration: CustomButtonStyles.gradientLightGreenToPrimaryDecoration,
         ),
       ),
     );

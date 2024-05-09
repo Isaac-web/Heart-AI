@@ -1,12 +1,11 @@
-import { Request, Response } from "express";
-import ChatSession from "../models/ChatSession";
-import { AppRequest, AppResponse } from "../types";
-import { ChatMessage } from "../models/ChatMessage";
+import ChatSession from '../models/ChatSession';
+import { AppRequest, AppResponse } from '../types';
+import { ChatMessage } from '../models/ChatMessage';
 
 export const getMyChatSessions = async (req: AppRequest, res: AppResponse) => {
   if (!req.user)
     return res.status(404).json({
-      message: "user not found",
+      message: 'user not found',
     });
 
   try {
@@ -15,19 +14,19 @@ export const getMyChatSessions = async (req: AppRequest, res: AppResponse) => {
     }).sort({ createdAt: -1 });
 
     if (!chatSessions) {
-      return res.status(400).json({ message: "Error getting forms" });
+      return res.status(400).json({ message: 'Error getting forms' });
     }
 
     res.status(200).json({ data: chatSessions });
   } catch (error) {
-    return res.status(400).json({ message: "Something went wrong." });
+    return res.status(400).json({ message: 'Something went wrong.' });
   }
 };
 
 export const createChatSession = async (req: AppRequest, res: AppResponse) => {
   if (!req.user)
     return res.status(404).json({
-      message: "user not found",
+      message: 'user not found',
     });
 
   const existingChat = await ChatSession.findOne({
@@ -38,7 +37,7 @@ export const createChatSession = async (req: AppRequest, res: AppResponse) => {
   if (existingChat)
     return res.status(400).json({
       message:
-        "A session already exists with the given title. Trying using another title.",
+        'A session already exists with the given title. Trying using another title.',
     });
 
   const createdChatSession = await ChatSession.create({
@@ -55,11 +54,11 @@ export const deleteChatSession = async (req: AppRequest, res: AppResponse) => {
   if (!req.user)
     return res.status(404).json({
       successful: false,
-      message: "user not found",
+      message: 'user not found',
     });
 
   if (!req.params.id) {
-    return res.status(400).json({ message: "Error deleting form" });
+    return res.status(400).json({ message: 'Error deleting form' });
   }
 
   try {
@@ -70,18 +69,18 @@ export const deleteChatSession = async (req: AppRequest, res: AppResponse) => {
 
     return res.status(200).json({ successful: true, data: deletedChatSession });
   } catch (error) {
-    return res.status(400).json({ message: "Error deleting chat session" });
+    return res.status(400).json({ message: 'Error deleting chat session' });
   }
 };
 
 export const renameChatSession = async (req: AppRequest, res: AppResponse) => {
   if (!req.user)
     return res.status(404).json({
-      message: "user not found",
+      message: 'user not found',
     });
 
   if (!req.params.id) {
-    return res.status(400).json({ message: "Error renaming chat session" });
+    return res.status(400).json({ message: 'Error renaming chat session' });
   }
 
   try {
@@ -93,6 +92,6 @@ export const renameChatSession = async (req: AppRequest, res: AppResponse) => {
 
     return res.status(200).json({ data: renamedChatSession });
   } catch (error) {
-    return res.status(400).json({ message: "Error renaming chat session" });
+    return res.status(400).json({ message: 'Error renaming chat session' });
   }
 };

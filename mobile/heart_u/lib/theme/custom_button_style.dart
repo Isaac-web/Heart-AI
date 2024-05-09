@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../core/app_export.dart';
+import 'package:heart_u/core/utils/size_utils.dart';
+import 'package:heart_u/theme/theme_helper.dart';
 
 /// A class that offers pre-defined button styles for customizing button appearance.
 class CustomButtonStyles {
@@ -14,7 +15,7 @@ class CustomButtonStyles {
       );
   // Filled button style
   static ButtonStyle get fillPinkA => ElevatedButton.styleFrom(
-    backgroundColor: appTheme.pinkA20001,
+    backgroundColor: Color(0xff204099),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10.h),
     ),

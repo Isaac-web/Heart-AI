@@ -5,14 +5,18 @@ export const MedicalReportRequest = mongoose.model(
   'MedicalReportRequest',
   new mongoose.Schema(
     {
-      patientId: {
+      patient: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
       },
-      doctorId: {
-        type: mongoose.Types.ObjectId,
-        ref: 'User',
+      doctor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Doctor',
+        required: true,
+      },
+      appointmentDate: {
+        type: Date,
         required: true,
       },
       status: {
@@ -30,6 +34,7 @@ export const validateCreateMedicalReportRequest = (data: unknown) => {
   const schema = Joi.object({
     patientId: Joi.string().required(),
     doctorId: Joi.string().required(),
+    appointmentDate: Joi.date().min(Date.now()).required(),
   });
 
   return schema.validate(data);

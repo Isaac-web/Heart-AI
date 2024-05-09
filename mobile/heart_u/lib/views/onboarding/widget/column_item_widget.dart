@@ -13,9 +13,7 @@ class ColumnItemWidget extends StatelessWidget {
         horizontal: 24.h,
         vertical: 12.v,
       ),
-      decoration: AppDecoration.outlineIndigoB.copyWith(
-        borderRadius: BorderRadiusStyle.roundedBorder10,
-      ),
+
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
