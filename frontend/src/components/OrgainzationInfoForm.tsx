@@ -1,16 +1,48 @@
+import { DoctorUpdateFormData } from '@/types';
+import Form from './form/Form';
+import { useSearchParams } from 'react-router-dom';
+import FormSubmitButton from './form/FormSubmitButton';
+import FormTextfield from './form/FormTextfield';
+import { useAppStore } from '@/store';
+import * as Yup from 'yup';
+
 interface OrganizationInfoForm {
   title?: string;
   description?: string;
   onDone?(): void;
 }
 
+const validationSchema = () =>
+  Yup.object().shape({
+    hospital: Yup.string().max(256).required().label('Hospital'),
+    supportingDocumentUrl: Yup.string()
+      .max(1024)
+      .required()
+      .label('Medical License'),
+  });
+
 const OrgainzationInfoForm = ({
   title,
   description,
   onDone,
 }: OrganizationInfoForm) => {
-  const handleSubmit = () => {
-    if (onDone) onDone();
+  const [searchParams] = useSearchParams();
+  const store = useAppStore();
+
+  const getError = () => {
+    return store.getError(store.auth.doctor.update.name);
+  };
+
+  const handleSubmit = async (data: DoctorUpdateFormData) => {
+    const doctorId = searchParams.get('doctorId');
+
+    if (doctorId) {
+      await store.auth.doctor.update(doctorId, data);
+
+      if (!getError()) {
+        if (onDone) onDone();
+      }
+    }
   };
 
   return (
@@ -23,40 +55,28 @@ const OrgainzationInfoForm = ({
           <p className="text-sm">{description}</p>
         </div>
 
-        <div className="flex flex-col gap-y-8">
-          <div className="w-full">
-            <input
-              type="text"
-              placeholder="Hospital Name"
-              className="input input-bordered w-full"
-            />
-          </div>
+        <Form
+          initialValues={{ hospital: '', supportingDocumentUrl: '' }}
+          onSubmit={handleSubmit}
+          validationSchema={validationSchema}
+        >
+          <div className="flex flex-col gap-y-8">
+            <div className="w-full">
+              <FormTextfield name="hospital" placeholder="Hospital" />
+            </div>
 
-          <div className="col-span-1">
-            <input
-              type="text"
-              placeholder="Location Of Hospital"
-              className="input input-bordered w-full"
-            />
-          </div>
+            <div className="w-full">
+              <FormTextfield
+                name="supportingDocumentUrl"
+                placeholder="Medical Licence"
+              />
+            </div>
 
-          <div className="col-span-1">
-            <input
-              type="text"
-              placeholder="License"
-              className="input input-bordered w-full"
-            />
+            <div className="col-span-2 flex justify-end">
+              <FormSubmitButton>Finish</FormSubmitButton>
+            </div>
           </div>
-
-          <div className="col-span-2 flex justify-end">
-            <button
-              className="btn btn-primary min-w-28 dark:text-white"
-              onClick={handleSubmit}
-            >
-              Finish
-            </button>
-          </div>
-        </div>
+        </Form>
       </div>
     </div>
   );

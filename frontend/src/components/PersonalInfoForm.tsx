@@ -3,6 +3,9 @@ import FormTextfield from './form/FormTextfield';
 import FormSubmitButton from './form/FormSubmitButton';
 import FormSelectInput from './form/FormSelectInput';
 import * as Yup from 'yup';
+import { DoctorUpdateFormData } from '@/types';
+import { useSearchParams } from 'react-router-dom';
+import { useAppStore } from '@/store';
 
 interface PersonalInfoFormProps {
   title?: string;
@@ -29,10 +32,22 @@ const PersonalInfoForm = ({
   our community.`,
   onDone,
 }: PersonalInfoFormProps) => {
-  const handleSubmit = () => {
-    // console.log(data);
+  const [searchParams] = useSearchParams();
+  const store = useAppStore();
+  const getError = () => store.getError(store.auth.doctor.update.name);
 
-    if (onDone) onDone();
+  const handleSubmit = async (data: DoctorUpdateFormData) => {
+    const userId = searchParams.get('doctorId');
+
+    if (userId) {
+      console.log('Working...');
+      await store.auth.doctor.update(userId, data);
+      const error = getError();
+      console.log(error);
+      if (!error) {
+        if (onDone) onDone();
+      }
+    }
   };
 
   return (
@@ -50,8 +65,8 @@ const PersonalInfoForm = ({
           initialValues={{
             firstName: '',
             lastName: '',
-            age: '',
-            sex: '',
+            age: NaN,
+            sex: NaN,
           }}
           onSubmit={handleSubmit}
         >

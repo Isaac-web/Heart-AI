@@ -1,8 +1,12 @@
+import Alert from '@/components/Alert';
 import Form from '@/components/form/Form';
 import FormSubmitButton from '@/components/form/FormSubmitButton';
 import FormTextfield from '@/components/form/FormTextfield';
+import { useAppStore } from '@/store';
+import { RegistrationFormData } from '@/types';
 import { Email, Lock } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+
+import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
@@ -12,6 +16,29 @@ const validationSchema = Yup.object().shape({
 });
 
 const SignUpPage = () => {
+  const store = useAppStore();
+  const navigate = useNavigate();
+
+  const handleSignUp = async (data: RegistrationFormData) => {
+    await store.auth.doctor.register(data);
+
+    const error = getError();
+    if (!error)
+      navigate(`/onboarding/doctor?doctorId=${getCurrentDoctor()._id}`);
+  };
+
+  const getError = () => {
+    return store.getError(store.auth.doctor.register.name);
+  };
+
+  const getCurrentDoctor = () => {
+    return store.auth.doctor.data;
+  };
+
+  const handleCloseAlert = () => {
+    store.removeError(store.auth.doctor.register.name);
+  };
+
   return (
     <section className="w-full min-h-screen flex">
       <div className="w-1/2 bg-slate-700"></div>
@@ -28,10 +55,20 @@ const SignUpPage = () => {
               </span>
             </div>
 
+            {getError() && (
+              <div className="mb-5">
+                <Alert
+                  title="Registration failed"
+                  message={getError()?.message || ''}
+                  onClose={handleCloseAlert}
+                />
+              </div>
+            )}
+
             <Form
               initialValues={{ email: '', password: '', confirmPassword: '' }}
               validationSchema={validationSchema}
-              onSubmit={(data) => console.log(data)}
+              onSubmit={handleSignUp}
             >
               <div className=" flex flex-col gap-2">
                 <div>
@@ -47,6 +84,7 @@ const SignUpPage = () => {
                   <FormTextfield
                     label="Password"
                     name="password"
+                    type="password"
                     placeholder="Please enter your password"
                     startAdornment={<Lock fontSize="small" />}
                   />
@@ -55,6 +93,7 @@ const SignUpPage = () => {
                   <FormTextfield
                     label="Confirm Password"
                     name="confirmPassword"
+                    type="password"
                     placeholder="Confirm your password"
                     startAdornment={<Lock fontSize="small" />}
                   />
@@ -103,3 +142,30 @@ const SignUpPage = () => {
 };
 
 export default SignUpPage;
+
+// const Alert = ({ message, icon, title, onClose }: AppAlertProps) => {
+//   return (
+//     <div role="alert" className="alert shadow-lg">
+//       <svg
+//         xmlns="http://www.w3.org/2000/svg"
+//         fill="none"
+//         viewBox="0 0 24 24"
+//         className="stroke-error shrink-0 w-6 h-6"
+//       >
+//         <path
+//           strokeLinecap="round"
+//           strokeLinejoin="round"
+//           strokeWidth="2"
+//           d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+//         ></path>
+//       </svg>
+//       <div>
+//         <h3 className="font-bold">{title}</h3>
+//         <div className="text-xs">{message}</div>
+//       </div>
+//       <button className="btn btn-sm" onClick={onClose}>
+//         <Close fontSize="small" />
+//       </button>
+//     </div>
+//   );
+// };

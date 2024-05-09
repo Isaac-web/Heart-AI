@@ -9,7 +9,6 @@ import {
   deleteDoctor,
 } from '../controllers/doctors.controllers';
 
-
 import { doctorAuth } from '../middleware/doctorAuth';
 
 const router = Router();
@@ -22,7 +21,7 @@ router.get('/', getAllDoctor);
 
 router.get('/me', doctorAuth, getCurrentDoctor);
 
-router.patch('/:id', doctorAuth, updateDoctor); 
+router.patch('/:id', doctorAuth, updateDoctor);
 router.delete('/me', doctorAuth, deleteDoctor);
 
 export default router;

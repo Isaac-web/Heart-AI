@@ -1,8 +1,10 @@
 import {
+  Appointment,
   ChatMessage,
   ChatMessageFormData,
   ChatSession,
-  LoginFormData,
+  Doctor,
+  DoctorUpdateFormData,
   MedicalReport,
   MedicalReportFormData,
   MedicalReportRequest,
@@ -24,24 +26,9 @@ export interface RequestErrorState {
   getError(callingFunctionName: string): RequestError | null;
 }
 
-export interface AuthSlice {
-  authPending: boolean;
-  loadingCurrentUser: boolean;
-  currentUser: User | null;
-  login(data: LoginFormData): Promise<void>;
-  getCurrentUser(): Promise<void>;
-  register(data: RegistrationFormData): Promise<void>;
-}
-
 export interface UsersSlice {
   users: User[];
   fetchUsers(params?: UsersSearchParams): Promise<void>;
-}
-
-export interface MedicalReportRequestSlice {
-  medicalReportRequests: MedicalReportRequest[];
-  loadingMedicalReportRequests: boolean;
-  fetchMedicalReportRequests(): Promise<void>;
 }
 
 export interface MedicalReportSlice {
@@ -81,16 +68,53 @@ export interface NamesEntity {
   addData(name: string): void;
 }
 
+export interface AppointmentEntity {
+  loading: boolean;
+  isPending: boolean;
+  data: Appointment[];
+  fetchAppointments(): Promise<void>;
+}
+
+export interface AppointmentDetail {
+  loading: boolean;
+  isPending: boolean;
+  data: Appointment;
+  getAppointmentById(id: string): Promise<void>;
+}
+
+
+
+
 export interface AppDataSlice {
   entities: {
-    names: NamesEntity;
+    appointments: AppointmentEntity;
+  };
+  details: {
+    appointment: AppointmentDetail;
+  }
+}
+
+export interface DoctorAuth {
+  loading: boolean;
+  isPending: boolean;
+  data: Doctor;
+  login(): Promise<void>;
+  register(data: RegistrationFormData): Promise<void>;
+  update(doctorId: string, data: DoctorUpdateFormData): Promise<void>;
+}
+
+export interface AuthSlice {
+  auth: {
+    doctor: DoctorAuth;
+    user: {
+      name: string;
+    };
   };
 }
 
 export type StoreState = RequestErrorState &
   AuthSlice &
   UsersSlice &
-  MedicalReportRequestSlice &
   MedicalReportSlice &
   ChatSessionSlice &
   ChatMessagesSlice &
