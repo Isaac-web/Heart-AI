@@ -2,7 +2,13 @@ import { Router } from 'express';
 import {
   doctorLogin,
   registerDoctor,
+  updateDoctor,
+  getDoctorById,
+  getDoctorInfo,
+  getMyProfileAsDoctor,
+  deleteDoctor,
 } from '../controllers/doctors.controllers';
+import { auth } from '../middleware/auth';
 
 const router = Router();
 
@@ -10,28 +16,18 @@ router.post('/register', registerDoctor);
 
 router.post('/login', doctorLogin);
 
-router.get('/me', (req, res) => {
-  res.json({ message: 'Get Current Doctor' });
-});
+router.get('/me', auth, getMyProfileAsDoctor);
 
-router.get('/:id', (req, res) => {
-  res.json({ message: 'Get Doctor By Id' });
-});
+router.get('/:id', getDoctorById);
 
-router.get('/', (req, res) => {
-  res.json({ message: 'Fetch All Doctors' });
-});
+router.get('/', getDoctorInfo);
 
-router.patch('/:id', (req, res) => {
-  res.json({ message: 'Get Doctor By Id' });
-});
+// router.patch('/:id', (req, res) => {
+//   res.json({ message: 'Get Doctor By Id' });
+// });
 
-router.patch('/:id', (req, res) => {
-  res.json({ message: 'Doctors endpoint' });
-});
+router.patch('/:id', auth, updateDoctor);
 
-router.delete('/me', (req, res) => {
-  res.json({ message: 'Doctors endpoint' });
-});
+router.delete('/me', auth, deleteDoctor);
 
 export default router;

@@ -77,15 +77,119 @@ export const doctorLogin = async (req: AppRequest, res: AppResponse) => {
   });
 };
 
+// export const updateDoctor = async (req: AppRequest, res: AppResponse) => {
+//   const { error } = validateUpdateDoctor(req.body);
+//   if (error)
+//     return res.status(422).json({
+//       message: error.details[0].message,
+//     });
+
+//   res.json({
+//     message: 'You are logged in.',
+//     data: {},
+//   });
+// };
+
+export const getDoctorInfo = async (req: AppRequest, res: AppResponse) => {
+  try {
+    const doctors = await Doctor.find({}).select('-password');
+    res.status(200).json({
+      data: doctors,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      message: `server error: ${err?.message}`,
+    });
+  }
+};
+
+export const getDoctorById = async (req: AppRequest, res: AppResponse) => {
+  try {
+    const doctor = await Doctor.findById(req.params.id).select('-password');
+    res.status(200).json({
+      data: doctor,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      message: `server error: ${err?.message}`,
+    });
+  }
+};
+
+export const getMyProfileAsDoctor = async (req: AppRequest, res: AppResponse) => {
+  try {
+    const authDoc = req.user; 
+
+    !authDoc && res.status(401).json({
+      message: 'You are not authorized to to access this account.',
+    });
+
+    const doctor = await Doctor.findById(authDoc?._id);
+
+    res.status(200).json({
+      data: doctor,
+    });
+
+  } catch (err: any) {
+    res.status(500).json({
+      message: `server error: ${err?.message}`,
+    });
+  }
+}
+
 export const updateDoctor = async (req: AppRequest, res: AppResponse) => {
-  const { error } = validateUpdateDoctor(req.body);
-  if (error)
-    return res.status(422).json({
+  try {
+    const authDoc = req.user;
+
+    !authDoc && res.status(401).json({
+      message: 'You are not authorized to perform an update on this account.',
+    });
+
+    !req.body && res.status(400).json({
+      message: 'No data provided.',
+    });
+
+    const { error } = validateUpdateDoctor(req.body);
+    error && res.status(422).json({
       message: error.details[0].message,
     });
 
-  res.json({
-    message: 'You are logged in.',
-    data: {},
-  });
-};
+    const doctor = await Doctor.findByIdAndUpdate(authDoc, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.status(200).json({
+      data: doctor,
+      message: 'Your account has been updated.',
+    });
+    
+  } catch (err:any) {
+    res.status(500).json({
+      message: `server error: ${err?.message}`,
+    });
+  }
+}
+
+export const deleteDoctor = async (req: AppRequest, res: AppResponse) => {
+  try {
+    const authDoc = req.user;
+
+    !authDoc && res.status(401).json({
+      message: 'You are not authorized to delete this account.',
+    });
+
+    await Doctor.findByIdAndDelete(authDoc);
+
+    res.status(200).json({
+      data: {},
+      message: 'Your account has been deleted.',
+    });
+
+  } catch (err:any) {
+    res.status(500).json({
+      message: `server error: ${err?.message}`,
+    });
+  }
+}
+
