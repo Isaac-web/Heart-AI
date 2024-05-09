@@ -78,26 +78,19 @@ export const doctorLogin = async (req: AppRequest, res: AppResponse) => {
   });
 };
 
-
-// export const updateDoctor = async (req: AppRequest, res: AppResponse) => {
-//   const { error } = validateUpdateDoctor(req.body);
-//   if (error)
-//     return res.status(422).json({
-//       message: error.details[0].message,
-//     });
-
-//   res.json({
-//     message: 'You are logged in.',
-//     data: {},
-//   });
-// };
-
-
-// get all doctors info/details 
-export const getDoctorInfo = async (req: AppRequest, res: AppResponse) => {
+export const getAllDoctor = async (req: AppRequest, res: AppResponse) => {
   try {
-    const doctors = await Doctor.find({}).select('-password');
+    const skip = Number(req.query.skip) || 0;
+    const limit = Number(req.query.limit) || 20;
+    const [doctors, count] = await Promise.all([
+      Doctor.find({}).select('-password'),
+      Doctor.find({}).select('-password').countDocuments(),
+  ]);
+    // const doctors = await Doctor.find({}).select('-password');
     res.status(200).json({
+      skip,
+      limit,
+      count,
       data: doctors,
     });
   } catch (err: any) {
@@ -126,7 +119,7 @@ export const getCurrentDoctor = async (req: AppRequest, res: AppResponse) => {
   if (!user)
     return res.status(401).json({ message: 'Doctor is not logged in.' });
 
-  const doctor = await Doctor.findById(user._id);
+  const doctor = await Doctor.findById(user?._id);
   if (!doctor)
     return res
       .status(404)
@@ -169,7 +162,7 @@ export const updateDoctor = async (req: AppRequest, res: AppResponse) => {
           'hospital',
           'supportingDocumentUrl',
         ]),
-      },
+      } ,
       { new: true }
     );
   
@@ -200,7 +193,7 @@ export const deleteDoctor = async (req: AppRequest, res: AppResponse) => {
       message: 'You are not authorized to delete this account.',
     });
 
-    await Doctor.findByIdAndDelete(authDoc);
+    await Doctor.findByIdAndDelete(authDoc?._id);
 
     res.status(200).json({
       data: {},
