@@ -9,7 +9,6 @@ export interface User {
   _id: string;
   name: string;
   email: string;
-  userType: string;
 }
 
 export interface UsersSearchParams {
@@ -17,10 +16,20 @@ export interface UsersSearchParams {
 }
 
 export interface RegistrationFormData {
-  name: string;
   email: string;
   password: string;
-  userType: string;
+  confirmPassword: string;
+}
+
+export interface DoctorUpdateFormData {
+  firstName?: string;
+  lastName?: string;
+  age?: number;
+  sex?: number;
+  phone?: string;
+  hospital?: string;
+  supportingDocumentUrl?: string;
+  bio?: string;
 }
 
 export interface APIRequestError {
@@ -159,6 +168,20 @@ export interface ChatMessageResponse {
   systemMessage: string;
 }
 
+export interface Doctor {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  age: number;
+  sex: number;
+  phone: string;
+  hospital: string;
+  supportingDocumentUrl: string;
+  bio: string;
+  email: string;
+  createdAt: string;
+}
+
 export interface AppTextInputProps {
   label?: string;
   type?: string;
@@ -189,4 +212,11 @@ export interface Column<T> {
   label: string;
   value: string;
   render?(item: T): ReactNode;
+}
+
+export interface Appointment {
+  _id: string;
+  patient: User;
+  doctor: Doctor;
+  appointmentDate: string;
 }

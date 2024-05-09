@@ -1,4 +1,10 @@
-import { LoginFormData, RegistrationFormData, User } from '@/types';
+import {
+  Doctor,
+  DoctorUpdateFormData,
+  LoginFormData,
+  RegistrationFormData,
+  User,
+} from '@/types';
 import { apiClient } from './apiClient';
 
 export const login = async (data: LoginFormData) => {
@@ -10,8 +16,22 @@ export const login = async (data: LoginFormData) => {
   localStorage.setItem('heart-AI-token', resData.token);
 };
 
-export const register = async (data: RegistrationFormData) => {
-  const { data: resData } = await apiClient.post('/users/register', data);
+export const registerDoctor = async (data: RegistrationFormData) => {
+  const { data: resData } = await apiClient.post<{
+    data: Doctor;
+    token: string;
+  }>('/doctors/register', data);
+
+  return resData;
+};
+
+export const updateDoctor = async (
+  doctorId: string,
+  data: DoctorUpdateFormData
+) => {
+  const { data: resData } = await apiClient.patch<{
+    data: Doctor;
+  }>(`/doctors/${doctorId}`, data);
 
   return resData;
 };

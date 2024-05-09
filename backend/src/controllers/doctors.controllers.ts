@@ -41,6 +41,7 @@ export const registerDoctor = async (req: AppRequest, res: AppResponse) => {
 
   res.setHeader('X-AUTH-TOKEN', token).json({
     message: 'Doctor registration was successful.',
+    token,
     data: doctor,
   });
 };

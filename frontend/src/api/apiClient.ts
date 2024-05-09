@@ -6,7 +6,7 @@ export const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((req) => {
-  const token = localStorage.getItem('heart-AI-token');
+  const token = localStorage.getItem('auth-token');
   if (!token) return req;
 
   req.headers['Authorization'] = `Bearer ${token}`;
