@@ -1,15 +1,39 @@
+import { DoctorUpdateFormData } from '@/types';
 import Form from './form/Form';
 import FormSubmitButton from './form/FormSubmitButton';
+import * as Yup from 'yup';
+import FormTextfield from './form/FormTextfield';
+import { useAppStore } from '@/store';
+import { useSearchParams } from 'react-router-dom';
 
 interface PhoneNumberVerificationForm {
   onDone?(): void;
 }
 
+const validationSchema = Yup.object().shape({
+  phone: Yup.string().max(15).required().label('Phone Number'),
+});
+
 const PhoneNumberVerificationForm = ({
   onDone,
 }: PhoneNumberVerificationForm) => {
-  const handleSubmit = () => {
-    if (onDone) onDone();
+  const store = useAppStore();
+  const [searchParams] = useSearchParams();
+
+  const getError = () => {
+    return store.getError(store.auth.doctor.update.name);
+  };
+
+  const handleSubmit = async (data: DoctorUpdateFormData) => {
+    const doctorId = searchParams.get('doctorId');
+
+    if (doctorId) {
+      await store.auth.doctor.update(doctorId, data);
+
+      if (!getError()) {
+        if (onDone) onDone();
+      }
+    }
   };
 
   return (
@@ -28,14 +52,12 @@ const PhoneNumberVerificationForm = ({
       <Form
         initialValues={{ phone: '' }}
         onSubmit={handleSubmit}
-        validationSchema={null}
+        validationSchema={validationSchema}
       >
         <div className="flex flex-col gap-y-8">
-          <input
-            type="text"
-            placeholder="Input Your Phone Number"
-            className="input input-bordered w-full"
-          />
+          <div>
+            <FormTextfield name="phone" placeholder="Input Your Phone Number" />
+          </div>
 
           <FormSubmitButton className="btn btn-primary w-full">
             Verify

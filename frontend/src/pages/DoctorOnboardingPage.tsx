@@ -8,18 +8,18 @@ const DoctorOnboardingPage = () => {
   const [step, setstep] = useState(0);
   const navigate = useNavigate();
 
-  const handleNextStep = () => {
+  const handleLastStep = () => {
     if (step < 2) setstep((prev) => prev + 1);
-    else navigate('/doctor/dashboard');
+    else navigate('/portal/doctor');
   };
 
   return (
     <section className="py-10 mt-10">
-      {step === 0 && <PersonalInfoForm onDone={handleNextStep} />}
-      {step === 1 && <PhoneNumberVerificationForm onDone={handleNextStep} />}
+      {step === 0 && <PersonalInfoForm onDone={handleLastStep} />}
+      {step === 1 && <PhoneNumberVerificationForm onDone={handleLastStep} />}
       {step === 2 && (
         <OrgainzationInfoForm
-          onDone={handleNextStep}
+          onDone={handleLastStep}
           title="Profesional Info"
           description="Tell us about your practice hub! Provide basic details about your hospital below, including its name and location, to help us tailor your experience and connect you with relevant resources."
         />
