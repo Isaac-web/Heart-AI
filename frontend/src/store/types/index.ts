@@ -42,14 +42,6 @@ export interface MedicalReportSlice {
   getCurrentUserMedicalReports(): Promise<void>;
 }
 
-export interface ChatMessagesSlice {
-  chatMessages: ChatMessage[];
-  creatingChatMessages: boolean;
-  loadingChatMessages: boolean;
-  fetchChatMessages(sessionId: string): Promise<void>;
-  sendChatMessage(data: ChatMessageFormData): Promise<void>;
-}
-
 export interface NamesEntity {
   loading: boolean;
   isPending: boolean;
@@ -116,6 +108,15 @@ export interface ChatSessionsSlice {
   fetchChatSession(): Promise<void>;
   createChatSession(data: NewChatSessionFormData): Promise<void>;
   deleteChatSession(id: string): Promise<void>;
+}
+
+export interface ChatMessagesSlice {
+  loading: boolean;
+  isPending: boolean;
+  data: ChatMessage[];
+  fetchChatMessages(sessionId: string): Promise<void>;
+  // createChatSession(data: NewChatSessionFormData): Promise<void>;
+  // deleteChatSession(id: string): Promise<void>;
 }
 
 export interface AppDataSlice {
