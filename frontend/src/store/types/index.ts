@@ -8,8 +8,8 @@ import {
   LoginFormData,
   MedicalReport,
   MedicalReportFormData,
-  MedicalReportRequest,
   MedicalReportSearchParams,
+  NewChatSessionFormData,
   RegistrationFormData,
   User,
   UserUpdateFormData,
@@ -40,16 +40,6 @@ export interface MedicalReportSlice {
   fetchMedicalReports(params: MedicalReportSearchParams): Promise<void>;
   createMedicalReport(data: MedicalReportFormData): Promise<void>;
   getCurrentUserMedicalReports(): Promise<void>;
-}
-
-export interface ChatSessionSlice {
-  chatSessions: ChatSession[];
-  creatingChatSession: boolean;
-  loadingChatSession: boolean;
-  deletingChatSession: boolean;
-  fetchChatSessions(): Promise<void>;
-  createChatSession(data: { title: string }): Promise<void>;
-  deleteChatSession(sessionId: string): Promise<void>;
 }
 
 export interface ChatMessagesSlice {
@@ -119,10 +109,20 @@ export interface AuthSlice {
   };
 }
 
+export interface ChatSessionsSlice {
+  loading: boolean;
+  isPending: boolean;
+  data: ChatSession[];
+  fetchChatSession(): Promise<void>;
+  createChatSession(data: NewChatSessionFormData): Promise<void>;
+  deleteChatSession(id: string): Promise<void>;
+}
+
 export interface AppDataSlice {
   entities: {
     appointments: AppointmentEntity;
     medicalReports: MedicalReportEntity;
+    chatSessions: ChatSessionsSlice;
   };
   details: {
     appointment: AppointmentDetail;
@@ -133,6 +133,5 @@ export type StoreState = RequestErrorState &
   AuthSlice &
   UsersSlice &
   MedicalReportSlice &
-  ChatSessionSlice &
   ChatMessagesSlice &
   AppDataSlice;

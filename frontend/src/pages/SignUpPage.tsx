@@ -59,6 +59,12 @@ const SignUpPage = () => {
     }
   };
 
+  const getUserType = (): string => {
+    if (location.pathname.startsWith('/register/doctor')) return 'doctor';
+
+    return 'patient';
+  };
+
   return (
     <section className="w-full min-h-screen flex">
       <div className="w-1/2 bg-slate-700"></div>
@@ -146,7 +152,10 @@ const SignUpPage = () => {
           <div className="">
             <p className="text-center mb-20 text-sm">
               Already have a Doctor's account?{' '}
-              <Link to="/login" className="text-primary cursor-pointer">
+              <Link
+                to={`/login/${getUserType()}`}
+                className="text-primary cursor-pointer"
+              >
                 Login
               </Link>
             </p>

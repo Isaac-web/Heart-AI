@@ -8,7 +8,7 @@ import heartPulzeAnimation from '../assets/animations/heart-pulze-animation.json
 import { MedicalReportFormData } from '@/types';
 import { useAppStore } from '@/store';
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import Alert from '@/components/Alert';
 
@@ -32,29 +32,14 @@ const validationSchema = Yup.object().shape({
   thal: Yup.number().required().label('thal'),
 });
 
-// details: {
-//   age: 52,
-//   sex: 1,
-//   'chest pain type': 0,
-//   'resting blood pressure': 125,
-//   'serum colesterol': 212,
-//   'fasting blood sugar level': 0,
-//   'resting electrocardiographoc results': 1,
-//   'maximum heart rate': 168,
-//   'exercise induced agina': 0,
-//   'st depression': 1,
-//   slope: 2,
-//   'number of major vessels': 2,
-//   'thallium stress test_results': 3
-// }
-// }
-
 const NewMedicalReportPage = () => {
   const [searchParams] = useSearchParams();
   const store = useAppStore();
   const appointment = store.details.appointment;
   const medicalReports = store.entities.medicalReports;
   const appointmentId = searchParams.get('appointmentId') as string;
+
+  const navigate = useNavigate();
 
   const ensureMedicalReports = () => {
     const { data } = appointment;
@@ -82,6 +67,11 @@ const NewMedicalReportPage = () => {
     data.patient = appointment.data.patient._id;
 
     store.entities.medicalReports.createMedicalReport(data);
+
+    const error = getError();
+    // if (!error) navigate(``);
+
+    //Navigate to report details page
   };
 
   return (
