@@ -38,12 +38,26 @@ const LoginPage = () => {
     }
   };
 
+  const handlePatientLogin = async (data: LoginFormData) => {
+    await store.auth.user.login(data);
+    const error = getError();
+    if (!error) {
+      navigate('/dashboard/patient', { replace: true });
+    }
+  };
+
   const handleLogin = (data: LoginFormData) => {
     if (location.pathname.startsWith('/login/doctor')) {
       handleDoctorLogin(data);
     } else if (location.pathname.startsWith('/login/patient')) {
-      console.log('Patient Login...');
+      handlePatientLogin(data);
     }
+  };
+
+  const getUserType = (): string => {
+    if (location.pathname.startsWith('/login/doctor')) return 'doctor';
+
+    return 'patient';
   };
 
   return (
@@ -126,7 +140,7 @@ const LoginPage = () => {
             <p className="text-center mb-20 text-sm">
               Don't have an account yet?{' '}
               <Link
-                to="/register/doctor"
+                to={`/register/${getUserType()}`}
                 className="text-primary cursor-pointer"
               >
                 Sign Up

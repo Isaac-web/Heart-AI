@@ -8,7 +8,7 @@ import heartPulzeAnimation from '../assets/animations/heart-pulze-animation.json
 import { MedicalReportFormData } from '@/types';
 import { useAppStore } from '@/store';
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import Alert from '@/components/Alert';
 
@@ -56,6 +56,8 @@ const NewMedicalReportPage = () => {
   const medicalReports = store.entities.medicalReports;
   const appointmentId = searchParams.get('appointmentId') as string;
 
+  const navigate = useNavigate();
+
   const ensureMedicalReports = () => {
     const { data } = appointment;
     if (!data.doctor._id || !data.patient._id)
@@ -82,6 +84,11 @@ const NewMedicalReportPage = () => {
     data.patient = appointment.data.patient._id;
 
     store.entities.medicalReports.createMedicalReport(data);
+
+    const error = getError();
+    // if (!error) navigate(``);
+
+    //Navigate to report details page
   };
 
   return (
