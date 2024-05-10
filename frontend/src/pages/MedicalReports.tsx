@@ -1,19 +1,22 @@
 import AppPagination from '@/components/AppPagination';
 import AppTable from '@/components/AppTable';
 import AppTextInput from '@/components/AppTextInput';
-import { Column } from '@/types';
+import LoadingIndicator from '@/components/LoadingIndicator';
+import { useAppStore } from '@/store';
+import { Column, MedicalReport } from '@/types';
 import { Search } from '@mui/icons-material';
+import { useEffect } from 'react';
 
-interface Appointment {
-  name: string;
-  country: string;
-  imageUrl: string;
-  company: string;
-  job: string;
-  favouriteColor: string;
-}
+// interface Appointment {
+//   name: string;
+//   country: string;
+//   imageUrl: string;
+//   company: string;
+//   job: string;
+//   favouriteColor: string;
+// }
 
-const columns: Column<Appointment>[] = [
+const columns: Column<MedicalReport>[] = [
   {
     label: '',
     value: 'checkbox',
@@ -26,42 +29,47 @@ const columns: Column<Appointment>[] = [
     },
   },
   {
-    label: 'Name',
+    label: 'Patient Name',
     value: 'name',
-    render(item) {
+    render(report) {
       return (
         <div className="flex items-center gap-3">
           <div className="avatar">
             <div className="mask mask-squircle w-12 h-12">
-              <img src={item.imageUrl} alt="Avatar Tailwind CSS Component" />
+              <img
+                src={
+                  'https://img.daisyui.com/tailwind-css-component-profile-2@56w.png'
+                }
+                alt="User Avatar"
+              />
             </div>
           </div>
           <div>
-            <div className="font-bold">{item.name}</div>
-            <div className="text-sm opacity-50">{item.country}</div>
+            <div className="font-bold">{report.patient.name}</div>
+            <div className="text-sm opacity-50">{report.patient.email}</div>
           </div>
         </div>
       );
     },
   },
   {
-    label: 'Job',
-    value: 'job',
-    render() {
+    label: 'Date Issued',
+    value: 'createdAt',
+    render(report) {
       return (
         <div>
-          Zemlak, Daniel and Leannon
+          {new Date().toLocaleTimeString()}
           <br />
           <span className="badge badge-ghost badge-sm">
-            Desktop Support Technician
+            {new Date().toLocaleDateString()}
           </span>
         </div>
       );
     },
   },
   {
-    label: 'Favorit Color',
-    value: 'favouriteColor',
+    label: 'Cadio Status',
+    value: 'cadioStatus',
   },
   {
     label: '',
@@ -72,82 +80,14 @@ const columns: Column<Appointment>[] = [
   },
 ];
 
-const data = [
-  {
-    name: 'Hart Hagerty',
-    country: 'United States',
-    imageUrl:
-      'https://img.daisyui.com/tailwind-css-component-profile-2@56w.png',
-    company: 'Zemlak, Daniel and Leannon',
-    job: 'Desktop Support Technician',
-    favouriteColor: 'Purple',
-  },
-  {
-    name: 'Brice Swyre',
-    country: 'China',
-    imageUrl:
-      'https://img.daisyui.com/tailwind-css-component-profile-3@56w.png',
-    company: 'Carroll Group',
-    job: 'Tax Accountant',
-    favouriteColor: 'Red',
-  },
-  {
-    name: 'Marjy Ferencz',
-    country: 'Russia',
-    imageUrl:
-      'https://img.daisyui.com/tailwind-css-component-profile-4@56w.png',
-    company: 'Rowe-Schoen',
-    job: 'Office Assistant I',
-    favouriteColor: 'Crimson',
-  },
-  {
-    name: 'Yancy Tear',
-    country: 'Brazil',
-    imageUrl:
-      'https://img.daisyui.com/tailwind-css-component-profile-5@56w.png',
-    company: 'Wyman-Ledner',
-    job: 'Community Outreach Specialist',
-    favouriteColor: 'Indigo',
-  },
-  {
-    name: 'Hart Hagerty',
-    country: 'United States',
-    imageUrl:
-      'https://img.daisyui.com/tailwind-css-component-profile-2@56w.png',
-    company: 'Zemlak, Daniel and Leannon',
-    job: 'Desktop Support Technician',
-    favouriteColor: 'Purple',
-  },
-  {
-    name: 'Brice Swyre',
-    country: 'China',
-    imageUrl:
-      'https://img.daisyui.com/tailwind-css-component-profile-3@56w.png',
-    company: 'Carroll Group',
-    job: 'Tax Accountant',
-    favouriteColor: 'Red',
-  },
-  {
-    name: 'Marjy Ferencz',
-    country: 'Russia',
-    imageUrl:
-      'https://img.daisyui.com/tailwind-css-component-profile-4@56w.png',
-    company: 'Rowe-Schoen',
-    job: 'Office Assistant I',
-    favouriteColor: 'Crimson',
-  },
-  {
-    name: 'Yancy Tear',
-    country: 'Brazil',
-    imageUrl:
-      'https://img.daisyui.com/tailwind-css-component-profile-5@56w.png',
-    company: 'Wyman-Ledner',
-    job: 'Community Outreach Specialist',
-    favouriteColor: 'Indigo',
-  },
-];
-
 const MedicalReports = () => {
+  const store = useAppStore();
+  const medicalReports = store.entities.medicalReports;
+
+  useEffect(() => {
+    store.entities.medicalReports.fetchMedicalReports();
+  }, []);
+
   return (
     <section className="container">
       <div className="mb-16">
@@ -164,7 +104,15 @@ const MedicalReports = () => {
       </div>
 
       <div className="mb-10">
-        <AppTable columns={columns} data={data} />
+        {medicalReports.loading ? (
+          <LoadingIndicator />
+        ) : !medicalReports.data.length ? (
+          <div className="py-10">
+            <p className="text-center">No Medical Report</p>
+          </div>
+        ) : (
+          <AppTable columns={columns} data={medicalReports.data} />
+        )}
       </div>
       <div>
         <AppPagination />

@@ -82,16 +82,12 @@ export interface AppointmentDetail {
   getAppointmentById(id: string): Promise<void>;
 }
 
-
-
-
-export interface AppDataSlice {
-  entities: {
-    appointments: AppointmentEntity;
-  };
-  details: {
-    appointment: AppointmentDetail;
-  }
+export interface MedicalReportEntity {
+  loading: boolean;
+  isPending: boolean;
+  data: MedicalReport[];
+  createMedicalReport(data: MedicalReportFormData): Promise<void>;
+  fetchMedicalReports(params?: MedicalReportSearchParams): Promise<void>;
 }
 
 export interface DoctorAuth {
@@ -109,6 +105,16 @@ export interface AuthSlice {
     user: {
       name: string;
     };
+  };
+}
+
+export interface AppDataSlice {
+  entities: {
+    appointments: AppointmentEntity;
+    medicalReports: MedicalReportEntity;
+  };
+  details: {
+    appointment: AppointmentDetail;
   };
 }
 

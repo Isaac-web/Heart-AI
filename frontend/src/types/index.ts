@@ -39,69 +39,40 @@ export interface APIRequestError {
 }
 
 export interface MedicalReportFormData {
-  doctorId: string;
-  patientId: string;
+  doctor: string;
+  patient: string;
   age: number;
   sex: number;
+  cp: number;
   trestbps: number;
   chol: number;
   fbs: number;
+  restecg: number;
   thalach: number;
   exang: number;
   oldpeak: number;
   slope: number;
   ca: number;
-  cp_1: number;
-  cp_2: number;
-  cp_3: number;
-  restecg_1: number;
-  restecg_2: number;
-  thal_1: number;
-  thal_2: number;
-  thal_3: number;
+  thal: number;
 }
 
 export interface MedicalReport {
   _id: string;
-  patientId: {
-    _id: string;
-    name: string;
-    email: string;
-    userType: string;
-    createdAt: string;
-    updatedAt: string;
-    __v: 0;
-  };
-  doctorId: {
-    _id: string;
-    name: string;
-    email: string;
-    userType: string;
-    createdAt: string;
-    updatedAt: string;
-    __v: 0;
-  };
+  patient: User;
+  doctorId: Doctor;
   age: number;
   sex: number;
+  cp: number;
   trestbps: number;
   chol: number;
   fbs: number;
+  restecg: number;
   thalach: number;
   exang: number;
   oldpeak: number;
   slope: number;
   ca: number;
-  cp_1: number;
-  cp_2: number;
-  cp_3: number;
-  restecg_1: number;
-  restecg_2: number;
-  thal_1: number;
-  thal_2: number;
-  thal_3: number;
-  cardioStatus: number;
-  createdAt: string;
-  updated: string;
+  thal: number;
 }
 
 export interface MedicalReportSearchParams {
