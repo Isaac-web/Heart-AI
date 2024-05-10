@@ -3,12 +3,12 @@ import Joi from 'joi';
 
 const MedicalReportSchema: Schema = new Schema(
   {
-    doctorId: {
+    doctor: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'Doctor',
       required: true,
     },
-    patientId: {
+    patient: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
@@ -38,6 +38,11 @@ const MedicalReportSchema: Schema = new Schema(
       min: 0,
       required: true,
     },
+    restecg: {
+      type: Number,
+      min: 0,
+      required: true,
+    },
     thalach: {
       type: Number,
       min: 0,
@@ -63,47 +68,17 @@ const MedicalReportSchema: Schema = new Schema(
       min: 0,
       required: true,
     },
-    cp_1: {
+    cp: {
       type: Number,
       min: 0,
       required: true,
     },
-    cp_2: {
+    thal: {
       type: Number,
       min: 0,
       required: true,
     },
-    cp_3: {
-      type: Number,
-      min: 0,
-      required: true,
-    },
-    restecg_1: {
-      type: Number,
-      min: 0,
-      required: true,
-    },
-    restecg_2: {
-      type: Number,
-      min: 0,
-      required: true,
-    },
-    thal_1: {
-      type: Number,
-      min: 0,
-      required: true,
-    },
-    thal_2: {
-      type: Number,
-      min: 0,
-      required: true,
-    },
-    thal_3: {
-      type: Number,
-      min: 0,
-      required: true,
-    },
-    cardioStatus: {
+    cadioStatus: {
       type: Number,
       min: 0,
       max: 1,
@@ -115,26 +90,21 @@ const MedicalReportSchema: Schema = new Schema(
 
 export const validateCreateMedicalReport = (data: unknown) => {
   const schema = Joi.object({
-    patientId: Joi.string().required(),
-    doctorId: Joi.string().required(),
+    patient: Joi.string().required(),
+    doctor: Joi.string().required(),
     age: Joi.number().min(0).required(),
     sex: Joi.number().required(),
     trestbps: Joi.number().min(0).required(),
     chol: Joi.number().min(0).required(),
     fbs: Joi.number().min(0).required(),
+    restecg: Joi.number().min(0).required(),
     thalach: Joi.number().min(0).required(),
     exang: Joi.number().min(0).required(),
     oldpeak: Joi.number().min(0).required(),
     slope: Joi.number().min(0).required(),
     ca: Joi.number().min(0).required(),
-    cp_1: Joi.number().min(0).required(),
-    cp_2: Joi.number().min(0).required(),
-    cp_3: Joi.number().min(0).required(),
-    restecg_1: Joi.number().min(0).required(),
-    restecg_2: Joi.number().min(0).required(),
-    thal_1: Joi.number().min(0).required(),
-    thal_2: Joi.number().min(0).required(),
-    thal_3: Joi.number().min(0).required(),
+    cp: Joi.number().min(0).required(),
+    thal: Joi.number().min(0).required(),
   });
 
   return schema.validate(data);
@@ -142,26 +112,21 @@ export const validateCreateMedicalReport = (data: unknown) => {
 
 export const validateUpdateMedicalReport = (data: unknown) => {
   const schema = Joi.object({
-    patientId: Joi.string(),
-    doctorId: Joi.string(),
+    patient: Joi.string(),
+    doctor: Joi.string(),
     age: Joi.number().min(0),
     sex: Joi.number(),
     trestbps: Joi.number().min(0),
     chol: Joi.number().min(0),
     fbs: Joi.number().min(0),
+    restecg: Joi.number().min(0),
     thalach: Joi.number().min(0),
     exang: Joi.number().min(0),
     oldpeak: Joi.number().min(0),
     slope: Joi.number().min(0),
     ca: Joi.number().min(0),
-    cp_1: Joi.number().min(0),
-    cp_2: Joi.number().min(0),
-    cp_3: Joi.number().min(0),
-    restecg_1: Joi.number().min(0),
-    restecg_2: Joi.number().min(0),
-    thal_1: Joi.number().min(0),
-    thal_2: Joi.number().min(0),
-    thal_3: Joi.number().min(0),
+    cp: Joi.number().min(0),
+    thal: Joi.number().min(0),
   });
 
   return schema.validate(data);

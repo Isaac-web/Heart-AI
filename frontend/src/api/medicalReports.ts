@@ -6,9 +6,12 @@ import {
 import { apiClient } from './apiClient';
 
 export const createMedicalReport = async (data: MedicalReportFormData) => {
-  const { data: resData } = await apiClient.post('/medical-reports', data);
+  const { data: resData } = await apiClient.post<{ data: MedicalReport }>(
+    '/medical-reports',
+    data
+  );
 
-  return resData;
+  return resData.data;
 };
 
 export const fetchMedicalReports = async (

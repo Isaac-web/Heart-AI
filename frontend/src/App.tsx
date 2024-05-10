@@ -9,6 +9,7 @@ import AppointmentsPage from './pages/AppointmentsPage';
 import MedicalReports from './pages/MedicalReports';
 import DoctorPortal from './components/DoctorPortal';
 import NewMedicalReportPage from './pages/NewMedicalReportPage';
+import PatientOnboardingPage from './pages/PatientOnboardingPage';
 
 const App = () => {
   return (
@@ -16,9 +17,16 @@ const App = () => {
       <Routes>
         <Route path="/dashboard/patient" element={<PatientDashboard />} />
         <Route path="/onboarding/doctor" element={<DoctorOnboardingPage />} />
+        <Route path="/onboarding/patient" element={<PatientOnboardingPage />} />
         <Route path="/register/doctor" element={<SignUpPage />} />
+        <Route path="/register/patient" element={<SignUpPage />} />
+        <Route path="/login/doctor" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/portal" element={<PortalContainer />}>
+          <Route
+            path="/portal/doctor/medical-reports/:id"
+            element={<>Report Details</>}
+          />
           <Route path="/portal/doctor" element={<DoctorPortal />}>
             <Route
               path="/portal/doctor/overview"

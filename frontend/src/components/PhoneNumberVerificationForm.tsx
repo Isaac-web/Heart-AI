@@ -1,4 +1,4 @@
-import { DoctorUpdateFormData } from '@/types';
+import { DoctorUpdateFormData, UserUpdateFormData } from '@/types';
 import Form from './form/Form';
 import FormSubmitButton from './form/FormSubmitButton';
 import * as Yup from 'yup';
@@ -24,7 +24,7 @@ const PhoneNumberVerificationForm = ({
     return store.getError(store.auth.doctor.update.name);
   };
 
-  const handleSubmit = async (data: DoctorUpdateFormData) => {
+  const handleDoctorUpdate = async (data: DoctorUpdateFormData) => {
     const doctorId = searchParams.get('doctorId');
 
     if (doctorId) {
@@ -33,6 +33,22 @@ const PhoneNumberVerificationForm = ({
       if (!getError()) {
         if (onDone) onDone();
       }
+    }
+  };
+
+  const handleUpdatePatient = async (data: UserUpdateFormData) => {
+    await store.auth.user.update(data);
+
+    if (!getError()) {
+      if (onDone) onDone();
+    }
+  };
+
+  const handleSubmit = (data: UserUpdateFormData | DoctorUpdateFormData) => {
+    if (location.pathname === '/onboarding/patient') {
+      handleUpdatePatient(data);
+    } else if (location.pathname === '/onboarding/doctor') {
+      handleDoctorUpdate(data);
     }
   };
 

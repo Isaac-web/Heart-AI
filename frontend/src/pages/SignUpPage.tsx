@@ -6,7 +6,7 @@ import { useAppStore } from '@/store';
 import { RegistrationFormData } from '@/types';
 import { Email, Lock } from '@mui/icons-material';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
@@ -18,17 +18,14 @@ const validationSchema = Yup.object().shape({
 const SignUpPage = () => {
   const store = useAppStore();
   const navigate = useNavigate();
-
-  const handleSignUp = async (data: RegistrationFormData) => {
-    await store.auth.doctor.register(data);
-
-    const error = getError();
-    if (!error)
-      navigate(`/onboarding/doctor?doctorId=${getCurrentDoctor()._id}`);
-  };
+  const location = useLocation();
 
   const getError = () => {
     return store.getError(store.auth.doctor.register.name);
+  };
+
+  const signUpPending = (): boolean => {
+    return Boolean(store.auth.doctor.isPending || store.auth.user.isPending);
   };
 
   const getCurrentDoctor = () => {
@@ -37,6 +34,29 @@ const SignUpPage = () => {
 
   const handleCloseAlert = () => {
     store.removeError(store.auth.doctor.register.name);
+  };
+
+  const handleDoctorRegistration = async (data: RegistrationFormData) => {
+    await store.auth.doctor.register(data);
+
+    const error = getError();
+    if (!error)
+      navigate(`/onboarding/doctor?doctorId=${getCurrentDoctor()._id}`);
+  };
+
+  const handlePatientRegistration = async (data: RegistrationFormData) => {
+    await store.auth.user.register(data);
+
+    const error = getError();
+    if (!error) navigate(`/onboarding/patient`);
+  };
+
+  const handleSignUp = (data: RegistrationFormData) => {
+    if (location.pathname === '/register/patient') {
+      handlePatientRegistration(data);
+    } else if (location.pathname === '/register/doctor') {
+      handleDoctorRegistration(data);
+    }
   };
 
   return (
@@ -100,7 +120,9 @@ const SignUpPage = () => {
                 </div>
 
                 <div className="mt-8">
-                  <FormSubmitButton>Register</FormSubmitButton>
+                  <FormSubmitButton loading={signUpPending()}>
+                    Register
+                  </FormSubmitButton>
                 </div>
               </div>
             </Form>
@@ -142,30 +164,3 @@ const SignUpPage = () => {
 };
 
 export default SignUpPage;
-
-// const Alert = ({ message, icon, title, onClose }: AppAlertProps) => {
-//   return (
-//     <div role="alert" className="alert shadow-lg">
-//       <svg
-//         xmlns="http://www.w3.org/2000/svg"
-//         fill="none"
-//         viewBox="0 0 24 24"
-//         className="stroke-error shrink-0 w-6 h-6"
-//       >
-//         <path
-//           strokeLinecap="round"
-//           strokeLinejoin="round"
-//           strokeWidth="2"
-//           d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-//         ></path>
-//       </svg>
-//       <div>
-//         <h3 className="font-bold">{title}</h3>
-//         <div className="text-xs">{message}</div>
-//       </div>
-//       <button className="btn btn-sm" onClick={onClose}>
-//         <Close fontSize="small" />
-//       </button>
-//     </div>
-//   );
-// };

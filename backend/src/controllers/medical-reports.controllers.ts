@@ -9,6 +9,7 @@ import { AppRequest } from '../types';
 import axios from 'axios';
 import config from 'config';
 import { MedicalReportRequest } from '../models/MedicalReportRequest';
+import { Doctor } from '../models/Doctor';
 
 export const getMedicalReport = async (req: Request, res: Response) => {
   const medicalReport = await MedicalReport.findById(req.params.id);
@@ -24,16 +25,13 @@ export const getMedicalReport = async (req: Request, res: Response) => {
 };
 
 export const getMedicalReports = async (req: AppRequest, res: Response) => {
-  if (!req.query.doctorId)
-    return res
-      .status(400)
-      .json({ message: 'doctorId in the query string is required.' });
+  const { doctorId } = req.query;
+  const filter: { [key: string]: string } = {};
+  if (doctorId) filter.doctor = doctorId as string;
 
-  const medicalReports = await MedicalReport.find({
-    doctorId: req.query.doctorId,
-  })
-    .populate('patientId', '-password')
-    .populate('doctorId', '-password');
+  const medicalReports = await MedicalReport.find(filter)
+    .populate('patient', '-password')
+    .populate('doctor', '-password');
 
   return res.json({
     message: 'returning multiple medical report to you of a user',
@@ -64,13 +62,13 @@ export const createMedicalReport = async (req: Request, res: Response) => {
     });
 
   const [patient, doctor, reportRequest, existingReport] = await Promise.all([
-    User.findOne({ _id: req.body.patientId, userType: 'patient' }),
-    User.findOne({ _id: req.body.doctorId, userType: 'doctor' }),
+    User.findOne({ _id: req.body.patient }),
+    Doctor.findOne({ _id: req.body.doctor }),
     MedicalReportRequest.findOne({
       doctorId: req.body.doctorId,
       patientId: req.body.patientId,
     }),
-    MedicalReport.findOne(_.pick(req.body, ['patientId', 'doctorId'])),
+    MedicalReport.findOne(_.pick(req.body, ['patient', 'doctor'])),
   ]);
 
   if (!patient)
@@ -83,8 +81,6 @@ export const createMedicalReport = async (req: Request, res: Response) => {
       .status(404)
       .json({ message: 'Doctor with the given Id cannot be found.' });
 
-  
-
   if (existingReport)
     return res.status(400).json({
       message: 'Medical report already exists from this doctor.',
@@ -96,57 +92,45 @@ export const createMedicalReport = async (req: Request, res: Response) => {
       _.pick(req.body, [
         'age',
         'sex',
-        'cp_1',
-        'cp_2',
-        'cp_3',
+        'cp',
         'trestbps',
         'chol',
         'fbs',
+        'restecg',
         'thalach',
         'exang',
         'oldpeak',
         'slope',
         'ca',
-        'thal_1',
-        'thal_2',
-        'thal_3',
-        'restecg_1',
-        'restecg_2',
-        'restecg_3',
+        'thal',
       ])
     );
 
     if (data.prediction !== 'Your heart is fine, you do not have heart disease')
       req.body.cardioStatus = 1;
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       message: 'Something went wrong.',
     });
   }
 
   const medicalReport = await MedicalReport.create(
     _.pick(req.body, [
-      'patientId',
-      'doctorId',
+      'patient',
+      'doctor',
       'age',
       'sex',
-      'cp_1',
-      'cp_2',
-      'cp_3',
+      'cp',
       'trestbps',
       'chol',
       'fbs',
+      'restecg',
       'thalach',
       'exang',
       'oldpeak',
       'slope',
       'ca',
-      'thal_1',
-      'thal_2',
-      'thal_3',
-      'restecg_1',
-      'restecg_2',
-      'restecg_3',
+      'thal',
       'cardioStatus',
     ])
   );
@@ -155,6 +139,12 @@ export const createMedicalReport = async (req: Request, res: Response) => {
     reportRequest.status = 1;
     await reportRequest.save();
   }
+
+  patient.password = '';
+  doctor.password = '';
+
+  medicalReport.patient = patient;
+  medicalReport.doctor = doctor;
 
   return res.json({
     message: '1 medical report was added.',

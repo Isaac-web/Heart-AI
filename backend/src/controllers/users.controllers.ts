@@ -22,8 +22,21 @@ export const registerUser = async (req: AppRequest, res: AppResponse) => {
       message: 'Email is already taken.',
     });
 
+  if (req.body.password !== req.body.confirmPassword)
+    return res.status(400).json({
+      message: 'Passwords donnot match.',
+    });
+
   const user = new User(
-    _.pick(req.body, ['name', 'email', 'imageUrl', 'userType'])
+    _.pick(req.body, [
+      'name',
+      'email',
+      'phone',
+      'sex',
+      'age',
+      'imageUrl',
+      'userType',
+    ])
   );
 
   const salt = await bcrypt.genSalt(12);
@@ -65,9 +78,12 @@ export const login = async (req: AppRequest, res: AppResponse) => {
 
   const token = jwt.sign({ _id: user._id }, `${process.env.JWT_SECRET}`);
 
+  user.password = '';
+
   res.json({
     message: 'You are logged in.',
     token: token,
+    data: user,
   });
 };
 
@@ -106,7 +122,7 @@ export const updateUser = async (req: AppRequest, res: AppResponse) => {
   const user = await User.findByIdAndUpdate(
     authUser._id,
     {
-      $set: _.pick(req.body, ['name', 'imageUrl']),
+      $set: _.pick(req.body, ['name', 'sex', 'phone', 'age', 'imageUrl']),
     },
     { new: true }
   );
@@ -115,6 +131,8 @@ export const updateUser = async (req: AppRequest, res: AppResponse) => {
     return res
       .status(404)
       .json({ message: 'Could not find user with the given id.' });
+
+  user.password = '';
 
   res.json({
     data: user,
