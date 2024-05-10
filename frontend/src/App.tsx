@@ -1,22 +1,11 @@
-<<<<<<< HEAD
 // import DoctorSignUpPage from "./pages/DoctorSignUpPage";
 // import DoctorOnboardPerfonalInforPage from "./pages/DoctorOnboardPerfonalInforPage";
-import Chatbot from "./pages/patient/Chatbot";
-import Reports from "./pages/patient/Reports";
-import { Routes, Route, Navigate } from "react-router-dom";
-import PatientDashboard from "./pages/patient/PatientDashboard";
-import LoginPage from "./pages/LoginPage";
-import SignUpPage from "./pages/SignUpPage";
-import DoctorOnboardingPage from "./pages/DoctorOnboardingPage";
-import PortalContainer from "./components/PortalContainer";
-import DoctorDashboard from "./pages/doctor/DoctorDashboard";
-import AppointmentsPage from "./pages/AppointmentsPage";
-import MedicalReports from "./pages/MedicalReports";
-import DoctorPortal from "./components/DoctorPortal";
-import NewMedicalReportPage from "./pages/NewMedicalReportPage";
-=======
-import { Routes, Route, Navigate } from 'react-router-dom';
+import Chatbot from './pages/patient/Chatbot';
+import Reports from './pages/patient/Reports';
+
 import PatientDashboard from './pages/patient/PatientDashboard';
+
+import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import DoctorOnboardingPage from './pages/DoctorOnboardingPage';
@@ -27,7 +16,6 @@ import MedicalReports from './pages/MedicalReports';
 import DoctorPortal from './components/DoctorPortal';
 import NewMedicalReportPage from './pages/NewMedicalReportPage';
 import PatientOnboardingPage from './pages/PatientOnboardingPage';
->>>>>>> cd4e112576f7d92cae9cfa0989cbeb56de0c06f3
 
 const App = () => {
   return (
@@ -78,7 +66,7 @@ const App = () => {
             />
             <Route
               path="/portal/doctor"
-              element={<Navigate to={"/portal/doctor/overview"} />}
+              element={<Navigate to={'/portal/doctor/overview'} />}
             />
           </Route>
         </Route>

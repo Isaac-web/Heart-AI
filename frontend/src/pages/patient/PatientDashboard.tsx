@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-import { NavLink, Outlet } from "react-router-dom";
-=======
+import { NavLink, Outlet } from 'react-router-dom';
 import Chatbot from './Chatbot';
->>>>>>> cd4e112576f7d92cae9cfa0989cbeb56de0c06f3
 
 const PatientDashboard = () => {
   const ReportIcon = (
@@ -60,15 +57,15 @@ const PatientDashboard = () => {
 
   const menuItems = [
     {
-      name: "Reports",
+      name: 'Reports',
       icon: ReportIcon,
     },
     {
-      name: "Chatbot",
+      name: 'Chatbot',
       icon: ChatbotIcon,
     },
     {
-      name: "Messages",
+      name: 'Messages',
       icon: MessagesIcon,
     },
   ];
