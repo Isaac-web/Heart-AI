@@ -81,13 +81,13 @@ const AppointmentsPage = () => {
               {
                 label: 'Appointment Date',
                 value: 'date',
-                render() {
+                render(item) {
                   return (
                     <div>
-                      {new Date().toLocaleTimeString()}
+                      {new Date(item.createdAt).toLocaleTimeString()}
                       <br />
                       <span className="badge badge-ghost badge-sm w-14">
-                        {new Date().toLocaleDateString()}
+                        {new Date(item.createdAt).toLocaleDateString()}
                       </span>
                     </div>
                   );
@@ -96,8 +96,8 @@ const AppointmentsPage = () => {
               {
                 label: 'Status of appointment',
                 value: 'status',
-                render() {
-                  return 'pending';
+                render(item) {
+                  return item.status ? 'Approved' : 'Pending';
                 },
               },
               {

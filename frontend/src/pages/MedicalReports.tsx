@@ -7,6 +7,7 @@ import { Column, MedicalReport } from '@/types';
 import { getUserId } from '@/utils/auth';
 import { Favorite, HeartBroken, Search } from '@mui/icons-material';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const columns: Column<MedicalReport>[] = [
   {
@@ -50,10 +51,10 @@ const columns: Column<MedicalReport>[] = [
     render(report) {
       return (
         <div>
-          {new Date().toLocaleTimeString()}
+          {new Date(report.createdAt).toLocaleTimeString()}
           <br />
           <span className="badge badge-ghost badge-sm">
-            {new Date().toLocaleDateString()}
+            {new Date(report.createdAt).toLocaleDateString()}
           </span>
         </div>
       );
@@ -92,8 +93,12 @@ const columns: Column<MedicalReport>[] = [
   {
     label: '',
     value: 'details',
-    render() {
-      return <button className="btn btn-ghost btn-xs">details</button>;
+    render(item) {
+      return (
+        <Link to={`/portal/doctor/medical-reports/${item._id}`}>
+          <button className="btn btn-ghost btn-xs">details</button>
+        </Link>
+      );
     },
   },
 ];

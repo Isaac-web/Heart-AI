@@ -7,14 +7,35 @@ import {
 } from '@/types';
 import { apiClient } from './apiClient';
 
-export const login = async (data: LoginFormData) => {
+export const loginUser = async (data: LoginFormData) => {
   const { data: resData } = await apiClient.post<{
     message: string;
     token: string;
+    data: User;
   }>('/users/login', data);
 
-  localStorage.setItem('heart-AI-token', resData.token);
+  return resData;
 };
+
+export const registerUser = async (data: RegistrationFormData) => {
+  const { data: resData } = await apiClient.post<{
+    data: User;
+    token: string;
+  }>('/users/register', data);
+
+  return resData;
+};
+
+// export const updateUser = async (
+//   doctorId: string,
+//   data: DoctorUpdateFormData
+// ) => {
+//   const { data: resData } = await apiClient.patch<{
+//     data: Doctor;
+//   }>(`/doctors/${doctorId}`, data);
+
+//   return resData;
+// };
 
 export const loginDoctor = async (data: LoginFormData) => {
   const { data: resData } = await apiClient.post<{

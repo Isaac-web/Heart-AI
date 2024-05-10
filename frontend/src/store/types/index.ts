@@ -12,6 +12,7 @@ import {
   MedicalReportSearchParams,
   RegistrationFormData,
   User,
+  UserUpdateFormData,
   UsersSearchParams,
 } from '@/types';
 
@@ -101,12 +102,20 @@ export interface DoctorAuth {
   getCurrentDoctor(): Promise<void>;
 }
 
+export interface UserAuth {
+  loading: boolean;
+  isPending: boolean;
+  data: User;
+  login(data: LoginFormData): Promise<void>;
+  register(data: RegistrationFormData): Promise<void>;
+  update(data: UserUpdateFormData): Promise<void>;
+  // getCurrentDoctor(): Promise<void>;
+}
+
 export interface AuthSlice {
   auth: {
     doctor: DoctorAuth;
-    user: {
-      name: string;
-    };
+    user: UserAuth;
   };
 }
 

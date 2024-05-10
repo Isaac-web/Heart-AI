@@ -9,6 +9,18 @@ export interface User {
   _id: string;
   name: string;
   email: string;
+  phone: string;
+  age: number;
+  sex: number;
+  userType: string;
+  createdAt: string;
+}
+
+export interface UserUpdateFormData {
+  name?: string;
+  age?: number;
+  sex?: number;
+  phone?: string;
 }
 
 export interface UsersSearchParams {
@@ -74,6 +86,7 @@ export interface MedicalReport {
   ca: number;
   thal: number;
   cardioStatus: number;
+  createdAt: string;
 }
 
 export interface MedicalReportSearchParams {
@@ -191,4 +204,6 @@ export interface Appointment {
   patient: User;
   doctor: Doctor;
   appointmentDate: string;
+  status: number;
+  createdAt: string;
 }
