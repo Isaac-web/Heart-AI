@@ -16,10 +16,9 @@ const router = Router();
 router.post('/register', registerDoctor);
 router.post('/login', doctorLogin);
 
+router.get('/me', doctorAuth, getCurrentDoctor);
 router.get('/:id', getDoctorById);
 router.get('/', getAllDoctor);
-
-router.get('/me', doctorAuth, getCurrentDoctor);
 
 router.patch('/:id', doctorAuth, updateDoctor);
 router.delete('/me', doctorAuth, deleteDoctor);

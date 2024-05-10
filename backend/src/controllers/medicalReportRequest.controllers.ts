@@ -115,6 +115,26 @@ export const fetchMedicalReportRequest = async (
   });
 };
 
+export const getMedicalReportRequestById = async (
+  req: AppRequest,
+  res: AppResponse
+) => {
+  const medicalReportRequest = await MedicalReportRequest.findById(
+    req.params.id
+  )
+    .populate('doctor', '-password')
+    .populate('patient', '-password');
+
+  if (!medicalReportRequest)
+    return res.status(404).json({
+      message: 'Could not find medical report request with the given id.',
+    });
+
+  res.json({
+    data: medicalReportRequest,
+  });
+};
+
 export const deleteMedicalReportRequest = async (
   req: AppRequest,
   res: AppResponse
