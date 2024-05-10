@@ -1,4 +1,4 @@
-import { ChatSession } from '@/types';
+import { ChatSession, NewChatSessionFormData } from '@/types';
 import { apiClient } from './apiClient';
 
 export const fetchUserChatSessions = async () => {
@@ -9,13 +9,13 @@ export const fetchUserChatSessions = async () => {
   return resData.data;
 };
 
-export const createChatSession = async (data: { title: string }) => {
-  const { data: resData } = await apiClient.post<ChatSession>(
+export const createChatSession = async (data: NewChatSessionFormData) => {
+  const { data: resData } = await apiClient.post<{ data: ChatSession }>(
     '/chat-sessions/me',
     data
   );
 
-  return resData;
+  return resData.data;
 };
 
 export const deleteChatSession = async (sessionId: string) => {

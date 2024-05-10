@@ -57,7 +57,6 @@ export const createChatSessionsSlice: StateCreator<
       clonedChatSessions.splice(index, 1);
 
       set({ chatSessions: clonedChatSessions });
-      
     } catch (err) {
       const message = handleError(err as Error);
       get().addError({ callingFunction: deleteChatSession.name, message });

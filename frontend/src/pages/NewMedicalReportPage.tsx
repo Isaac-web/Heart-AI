@@ -32,23 +32,6 @@ const validationSchema = Yup.object().shape({
   thal: Yup.number().required().label('thal'),
 });
 
-// details: {
-//   age: 52,
-//   sex: 1,
-//   'chest pain type': 0,
-//   'resting blood pressure': 125,
-//   'serum colesterol': 212,
-//   'fasting blood sugar level': 0,
-//   'resting electrocardiographoc results': 1,
-//   'maximum heart rate': 168,
-//   'exercise induced agina': 0,
-//   'st depression': 1,
-//   slope: 2,
-//   'number of major vessels': 2,
-//   'thallium stress test_results': 3
-// }
-// }
-
 const NewMedicalReportPage = () => {
   const [searchParams] = useSearchParams();
   const store = useAppStore();

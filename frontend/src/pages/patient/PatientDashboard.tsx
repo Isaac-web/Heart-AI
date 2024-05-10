@@ -1,4 +1,7 @@
+import { useEffect } from 'react';
 import Chatbot from './Chatbot';
+import { useAppStore } from '@/store';
+import { getUserId } from '@/utils/auth';
 
 const PatientDashboard = () => {
   const ReportIcon = (

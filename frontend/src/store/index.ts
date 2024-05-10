@@ -1,5 +1,4 @@
 import { createDataSlice } from './createDataSlice';
-import { createChatSessionsSlice } from './chatSessionsSlice';
 import { createMedicalReportsSlice } from './medicalReports';
 import { createAuthSlice } from './auth/authSlice';
 import { createErrorSlice } from './errorSlice';
@@ -13,7 +12,6 @@ export const useAppStore = create<StoreState>()((...a) => ({
   ...createAuthSlice(...a),
   ...createUserSlice(...a),
   ...createMedicalReportsSlice(...a),
-  ...createChatSessionsSlice(...a),
   ...createChatMessagesSlice(...a),
   ...createDataSlice(...a),
 }));

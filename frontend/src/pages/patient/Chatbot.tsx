@@ -1,4 +1,14 @@
+import { useAppStore } from '@/store';
+import { useEffect } from 'react';
+
 export default function Chatbot() {
+  const store = useAppStore();
+  const chatSessions = store.entities.chatSessions;
+
+  useEffect(() => {
+    chatSessions.fetchChatSession();
+  }, []);
+
   return (
     <div className="flex h-screen">
       <div className="bg-black/50 text-white w-[17vw] py-4 flex flex-col justify-between gap-5">
@@ -27,18 +37,11 @@ export default function Chatbot() {
           <div className="flex flex-col gap-2">
             <small className="text-gray-600 px-4">Previous 40 days</small>
             <div>
-              <p className="px-2 py-2 hover:bg-white/5 rounded-sm cursor-pointer px-4">
-                hello world
-              </p>
-              <p className="px-2 py-2 hover:bg-white/5 rounded-sm cursor-pointer px-4">
-                hello world
-              </p>
-              <p className="px-2 py-2 hover:bg-white/5 rounded-sm cursor-pointer px-4">
-                hello world
-              </p>
-              <p className="px-2 py-2 hover:bg-white/5 rounded-sm cursor-pointer px-4">
-                hello world
-              </p>
+              {chatSessions.data.map((item) => (
+                <p className="py-2 hover:bg-white/5 rounded-sm cursor-pointer px-4">
+                  {item.title}
+                </p>
+              ))}
             </div>
           </div>
 
