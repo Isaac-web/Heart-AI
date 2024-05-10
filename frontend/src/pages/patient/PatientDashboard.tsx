@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+import { NavLink, Outlet } from "react-router-dom";
+=======
 import Chatbot from './Chatbot';
+>>>>>>> cd4e112576f7d92cae9cfa0989cbeb56de0c06f3
 
 const PatientDashboard = () => {
   const ReportIcon = (
@@ -56,15 +60,15 @@ const PatientDashboard = () => {
 
   const menuItems = [
     {
-      name: 'Reports',
+      name: "Reports",
       icon: ReportIcon,
     },
     {
-      name: 'Chatbot',
+      name: "Chatbot",
       icon: ChatbotIcon,
     },
     {
-      name: 'Messages',
+      name: "Messages",
       icon: MessagesIcon,
     },
   ];
@@ -109,15 +113,18 @@ const PatientDashboard = () => {
           <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
             <h1 className="text-2xl">HeartAI</h1>
             {menuItems.map((item) => (
-              <li key={item.name} className="flex flex-row  items-center">
-                {item.icon}
-                <a>{item.name}</a>
-              </li>
+              <NavLink to={item.name.toLowerCase()} key={item.name}>
+                <li className="flex flex-row  items-center">
+                  {item.icon}
+                  <a>{item.name}</a>
+                </li>
+              </NavLink>
             ))}
           </ul>
         </div>
       </div>
-      <Chatbot />
+
+      <Outlet />
     </div>
   );
 };

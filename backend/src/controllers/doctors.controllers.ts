@@ -87,7 +87,6 @@ export const getAllDoctor = async (req: AppRequest, res: AppResponse) => {
       Doctor.find({}).select('-password'),
       Doctor.find({}).select('-password').countDocuments(),
     ]);
-    // const doctors = await Doctor.find({}).select('-password');
     res.status(200).json({
       skip,
       limit,
