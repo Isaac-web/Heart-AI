@@ -8,7 +8,7 @@ import '../../../core/utils/constants.dart';
 import '../data.dart';
 
 class ChatScreen extends StatefulWidget {
-  String? chatContext;
+  var chatContext;
   List? sessionMessages;
   ChatScreen({super.key, this.chatContext, this.sessionMessages});
 
@@ -329,7 +329,7 @@ class _ChatScreenState extends State<ChatScreen> {
           "text" : message,
           "chatSessionId": sessionId == "" ? randomNumber.toString()
               : sessionId,
-          "context": widget.chatContext ?? "heart diseases",
+          "context": widget.chatContext ?? {"subject":"heart diseases"},
         },
         options: Options(
           headers: {

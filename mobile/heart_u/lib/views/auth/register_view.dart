@@ -2,6 +2,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:widget_loading/widget_loading.dart';
 import '../../core/app_export.dart';
 import '../../core/utils/constants.dart';
@@ -26,11 +27,28 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 
   TextEditingController repeatPasswordController = TextEditingController();
 
+  TextEditingController phoneController = TextEditingController();
+
+  TextEditingController ageController = TextEditingController();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final Dio dio = Dio();
 
   var loading = false;
+
+  int selectedOption = 1;
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    passwordController.dispose();
+    repeatPasswordController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
+    ageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +96,51 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                           ),
                           SizedBox(height: 18.v),
                           FadeInUp(
+                              duration: const Duration(milliseconds: 1000),
+                              child: _buildLName(context)
+                          ),
+                          SizedBox(height: 18.v),
+                          FadeInUp(
+                              duration: const Duration(milliseconds: 1000),
+                              child: _buildAge(context)
+                          ),
+                          SizedBox(height: 18.v),
+                          FadeInUp(
+                            duration: const Duration(milliseconds: 1000),
+                            child: Column(
+                              children: <Widget>[
+                                ListTile(
+                                  title: const Text('Male'),
+                                    leading: Radio<int>(
+                                      value: 1,
+                                      groupValue: selectedOption,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          selectedOption = value!;
+                                          print(selectedOption);
+                                        });
+                                      },
+                                    )
+                                ),
+                                ListTile(
+                                  title: const Text('Female'),
+                                  leading: Radio<int>(
+                                    value: 0,
+                                    groupValue: selectedOption,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedOption = value!;
+                                        print(selectedOption);
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ]
+                            ),
+                          ),
+
+
+                        FadeInUp(
                               duration: const Duration(milliseconds: 1000),
                               child: _buildUserName(context)
                           ),
@@ -130,10 +193,32 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
   Widget _buildName(BuildContext context) {
     return CustomTextFormField(
       controller: nameController,
-      hintText: "Enter full Name",
-      textStyle: TextStyle(
-          color: Colors.grey[700]
+      hintText: "Enter Full Name",
+      borderDecoration: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4.h),
+        borderSide: const BorderSide(color: Color(0xff204099), width: 0.0),
       ),
+    );
+  }
+
+  /// Section Widget
+  Widget _buildLName(BuildContext context) {
+    return CustomTextFormField(
+      controller: phoneController,
+      hintText: "Enter Phone number",
+      textInputType: TextInputType.number,
+      borderDecoration: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4.h),
+        borderSide: const BorderSide(color: Color(0xff204099), width: 0.0),
+      ),
+    );
+  }
+
+  Widget _buildAge(BuildContext context) {
+    return CustomTextFormField(
+      controller: ageController,
+      hintText: "Enter Age",
+      textInputType: TextInputType.number,
       borderDecoration: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4.h),
         borderSide: const BorderSide(color: Color(0xff204099), width: 0.0),
@@ -147,9 +232,6 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       textInputType: TextInputType.emailAddress,
       controller: emailController,
       hintText: "Enter email",
-      textStyle: TextStyle(
-          color: Colors.grey[700]
-      ),
       borderDecoration: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4.h),
         borderSide: const BorderSide(color: Color(0xff204099), width: 0.0),
@@ -165,9 +247,6 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       textInputAction: TextInputAction.done,
       textInputType: TextInputType.visiblePassword,
       obscureText: true,
-      textStyle:TextStyle(
-          color: Colors.grey[700]
-      ),
       borderDecoration: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4.h),
         borderSide: const BorderSide(color: Color(0xff204099), width: 0.0),
@@ -182,9 +261,6 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       textInputAction: TextInputAction.done,
       textInputType: TextInputType.visiblePassword,
       obscureText: true,
-      textStyle:TextStyle(
-          color: Colors.grey[700]
-      ),
       borderDecoration: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4.h),
         borderSide: const BorderSide(color: Color(0xff204099), width: 0.0),
@@ -199,9 +275,12 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
         String password = passwordController.text;
         String email = emailController.text;
         String name = nameController.text;
+        String phone = phoneController.text;
         String repeatPass = repeatPasswordController.text;
+        String age = ageController.text;
         if (password.isEmpty || name.isEmpty ||
-            email.isEmpty || repeatPass.isEmpty){
+            email.isEmpty || repeatPass.isEmpty || phone.isEmpty
+            || age.isEmpty){
 
           AwesomeDialog(
             context: context,
@@ -247,7 +326,10 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 "name": name ,
                 "email" : email,
                 "password": password,
-                "userType": "patient"
+                "phone": phone,
+                "age": age,
+                "confirmPassword": repeatPass,
+                "sex": selectedOption.toString(),
               },
               options: Options(
                 responseType: ResponseType.json,
@@ -271,6 +353,14 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
               setState(() {
                 loading = false;
               });
+
+              Fluttertoast.showToast(
+                  msg: "✔️ Account created successfully",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  fontSize: 16.0
+              );
 
               Navigator.of(context).pushNamedAndRemoveUntil(
                   AppRoutes.login, (route) => false);
@@ -351,3 +441,5 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 //   );
 // }
 }
+
+enum BestTutorSite { javatpoint, w3schools, tutorialandexample }

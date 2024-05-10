@@ -10,8 +10,9 @@ import MedicalReports from "./pages/MedicalReports";
 import DoctorPortal from "./components/DoctorPortal";
 import NewMedicalReportPage from "./pages/NewMedicalReportPage";
 import PatientOnboardingPage from "./pages/PatientOnboardingPage";
-import Chatbot from "./pages/chatbot/Chatbot";
+import Chatbot from "./pages/patient/Chatbot";
 import Reports from "./pages/patient/Reports";
+import NewLandingPage from "./pages/LandingPage";
 
 const App = () => {
   return (
@@ -23,6 +24,8 @@ const App = () => {
         /> */}
         {/* <Route path="/register/doctor" element={<DoctorSignUpPage />} /> */}
         {/* <Route path="/dashboard/patient" element={<PatientDashboard />} /> */}
+
+        <Route index element={<NewLandingPage />}></Route>
 
         <Route path="/dashboard/patient" element={<PatientDashboard />}>
           <Route path="chatbot" element={<Chatbot />} />

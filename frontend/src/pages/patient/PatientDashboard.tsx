@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 import { useEffect } from "react";
 import Chatbot from "./Chatbot";
 import { useAppStore } from "@/store";
 import { getUserId } from "@/utils/auth";
 import { NavLink, Outlet } from "react-router-dom";
 
+=======
+import { useEffect } from 'react';
+import Chatbot from './Chatbot';
+import { useAppStore } from '@/store';
+import { getUserId } from '@/utils/auth';
+import { NavLink } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+>>>>>>> 1cfeb95ffc5687f8eb2269ceeb1f8fc603b1edb3
 const PatientDashboard = () => {
   const ReportIcon = (
     <svg

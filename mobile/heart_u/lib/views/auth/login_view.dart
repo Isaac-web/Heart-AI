@@ -199,6 +199,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
             final jsonData = response.data;
             final token = jsonData['token'];
+            final sex = jsonData["data"]["sex"];
+            final userId = jsonData["data"]["_id"];
+            final name = jsonData["data"]["name"];
+            final phone = jsonData["data"]["phone"];
+            final age = jsonData["data"]["age"];
 
             print("Message is $token");
 
@@ -206,6 +211,12 @@ class _LoginScreenState extends State<LoginScreen> {
             prefs.setString('email', username);
             prefs.setString("password", password);
             prefs.setBool("isLoggedIn", true);
+            prefs.setString("sex", sex.toString());
+            prefs.setString("userId", userId);
+            prefs.setString("name", name);
+            prefs.setString("phone", phone.toString());
+            prefs.setString("age", age.toString());
+
 
             if (response.statusCode == 200){
 
