@@ -1,12 +1,12 @@
-import { StateCreator } from 'zustand';
-import { MedicalReportRequestSlice, StoreState } from './types';
-import { handleError } from '@/utils/errorHandler';
-import { fetchMedicalReportRequest } from '@/api/appointments';
+import { StateCreator } from "zustand";
+import { MedicalReportRequestSlice, StoreState } from "./types";
+import { handleError } from "@/utils/errorHandler";
+import { fetchMedicalReportRequest } from "@/api/appointments";
 
 export const createMedicalReportRequestSlice: StateCreator<
   StoreState,
   [],
-  [],
+  // [],
   MedicalReportRequestSlice
 > = (set) => ({
   medicalReportRequests: [],
