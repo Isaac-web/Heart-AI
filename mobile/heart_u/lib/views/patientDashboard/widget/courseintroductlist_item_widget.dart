@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
@@ -14,7 +13,7 @@ import '../../../theme/custom_button_style.dart';
 import '../../../widgets/custom_elevated_button.dart';
 
 class CourseintroductlistItemWidget extends StatefulWidget {
-  String descrip;
+  var chatContext;
   String id;
   String docId;
   String reportId;
@@ -33,7 +32,7 @@ class CourseintroductlistItemWidget extends StatefulWidget {
   String cp_2;String cp_3;String restecg_1;String restecg_2;String thal_1;
   String thal_2;String thal_3;String status;
 
-  CourseintroductlistItemWidget({super.key, required this.descrip,
+  CourseintroductlistItemWidget({super.key, required this.chatContext,
     required this.id,
     required this.docId,required this.reportId,
     required this.date,required this.age,
@@ -120,6 +119,7 @@ class _CourseintroductlistItemWidgetState extends State<CourseintroductlistItemW
                     AnimatedButton(
                         isFixedHeight: false,
                         icon: Icons.share,
+                        color: const Color(0xff204099),
                         text: 'Share',
                         pressEvent: () {
                           Share.share(report,subject: "Test result");
@@ -207,6 +207,8 @@ class _CourseintroductlistItemWidgetState extends State<CourseintroductlistItemW
 
           String? token = prefs.getString('token');
 
+          print(widget.chatContext.toString());
+
           print("dio initialised");
 
           try {
@@ -247,29 +249,7 @@ class _CourseintroductlistItemWidgetState extends State<CourseintroductlistItemW
               prefs.setString('patientId', patientId);
 
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ChatScreen(chatContext:  "Patient Id: ${widget.id} \n"
-                      "Doctor Id: ${widget.docId} \n"
-                      "Report Id: ${widget.reportId} \n"
-                      "Date: ${widget.date} \n"
-                      "Age: ${widget.age} \n"
-                      "Sex: ${widget.sex}  \n\n"
-                      "Resting blood pressure in mm Hg: ${widget.trestbps} \n\n"
-                      "Serum cholesterol in mg/dl: ${widget.chol} \n\n"
-                      "Fasting blood sugar level, categorized as above 120 mg/dl: ${widget.fbs} \n\n"
-                      "Maximum heart rate achieved during a stress test: ${widget.thalach} \n\n"
-                      "Exercise-induced angina: ${widget.exang} \n\n"
-                      "T depression induced by exercise relative to rest: ${widget.oldPeak} \n\n"
-                      "slope of the peak exercise ST segment: ${widget.slope} \n\n"
-                      "Number of major vessels (0-4) colored by fluoroscopy: ${widget.ca} \n\n"
-                      "chest pain type 1: ${widget.cp_1} \n\n"
-                      "chest pain type 2: ${widget.cp_2} \n\n"
-                      "chest pain type 3: ${widget.cp_3} \n\n"
-                      "Resting electrocardiographic results 1: ${widget.restecg_1} \n\n"
-                      "Resting electrocardiographic results 2: ${widget.restecg_2} \n\n"
-                      "Thallium stress test results 1: ${widget.thal_1} \n\n"
-                      "Thallium stress test results 2: ${widget.thal_2} \n\n"
-                      "Thallium stress test results 3: ${widget.thal_3} \n\n"
-                      "Status: ${widget.status} \n",)));
+                  builder: (context) => ChatScreen(chatContext:  widget.chatContext,)));
 
             }else {
               setState(() {
@@ -305,7 +285,7 @@ class _CourseintroductlistItemWidgetState extends State<CourseintroductlistItemW
               btnOkIcon: Icons.cancel,
               btnOkColor: Colors.red,
             ).show();
-            print('Error sending message: $e');
+            print('Error : $e');
           }
         },
         height: 35.v,
