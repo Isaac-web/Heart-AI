@@ -139,6 +139,26 @@ export const updateUser = async (req: AppRequest, res: AppResponse) => {
   });
 };
 
-export const deleteAccount = async (req: AppRequest, res: AppResponse) => {};
+export const deleteUser = async (req: AppRequest, res: AppResponse) => {
+  try {
+    const authUser = req.user;
+
+    !authUser &&
+      res.status(401).json({
+        message: 'You are not authorized to delete this account.',
+      });
+
+    await User.findByIdAndDelete(authUser?._id);
+
+    res.status(200).json({
+      data: {},
+      message: 'Your account has been deleted.',
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      message: `server error: ${err?.message}`,
+    });
+  }
+};
 
 // npm run dev
