@@ -2,13 +2,10 @@ import { StateCreator } from 'zustand';
 import { ChatMessagesSlice, StoreState } from '../types';
 import { handleError } from '@/utils/errorHandler';
 import { produce } from 'immer';
-import {
-  createChatSession,
-  deleteChatSession,
-  fetchUserChatSessions,
-} from '@/api/chatSessions';
+import { fetchChatMessages, sendChatMessage } from '@/api/chatMessages';
+import { ChatMessage } from '@/types';
 
-export const chatSessionsSlice: StateCreator<
+export const chatMessagesSlice: StateCreator<
   StoreState,
   [],
   [],
@@ -17,96 +14,94 @@ export const chatSessionsSlice: StateCreator<
   loading: false,
   isPending: false,
   data: [],
-  async fetchChatMessages(sessionId) {},
-  // async() {
-  //   try {
-  //     get().removeError(this.fetchChatSession.name);
-  //     set(
-  //       produce((store: StoreState) => {
-  //         store.entities.chatSessions.loading = true;
-  //       })
-  //     );
-  //     const chatSessions = await fetchUserChatSessions();
+  async fetchChatMessages(sessionId) {
+    get().removeError(this.fetchChatMessages.name);
 
-  //     set(
-  //       produce((store: StoreState) => {
-  //         store.entities.chatSessions.data = chatSessions;
-  //       })
-  //     );
-  //   } catch (err) {
-  //     const message = handleError(err as Error);
+    set(
+      produce((store: StoreState) => {
+        store.entities.chatMessages.loading = true;
+      })
+    );
+    try {
+      const chatMessages = await fetchChatMessages(sessionId);
 
-  //     get().addError({
-  //       callingFunction: this.fetchChatSession.name,
-  //       message,
-  //     });
-  //   } finally {
-  //     set(
-  //       produce((store: StoreState) => {
-  //         store.entities.chatSessions.loading = false;
-  //       })
-  //     );
-  //   }
-  // },
-  // async createChatSession(data: NewChatSessionFormData) {
-  //   try {
-  //     get().removeError(this.createChatSession.name);
-  //     set(
-  //       produce((store: StoreState) => {
-  //         store.entities.chatSessions.isPending = true;
-  //       })
-  //     );
-  //     const chatSession = await createChatSession(data);
+      set(
+        produce((store: StoreState) => {
+          store.entities.chatMessages.data = chatMessages;
+        })
+      );
+    } catch (err) {
+      const message = handleError(err as Error);
+      get().addError({
+        callingFunction: this.fetchChatMessages.name,
+        message,
+      });
+    } finally {
+      set(
+        produce((store: StoreState) => {
+          store.entities.chatMessages.loading = false;
+        })
+      );
+    }
+  },
 
-  //     set(
-  //       produce((store: StoreState) => {
-  //         store.entities.chatSessions.data.push(chatSession);
-  //       })
-  //     );
-  //   } catch (err) {
-  //     const message = handleError(err as Error);
+  async sendChatMessage(data) {
+    get().removeError(this.sendChatMessage.name);
 
-  //     get().addError({
-  //       callingFunction: this.createChatSession.name,
-  //       message,
-  //     });
-  //   } finally {
-  //     set(
-  //       produce((store: StoreState) => {
-  //         store.entities.chatSessions.isPending = false;
-  //       })
-  //     );
-  //   }
-  // },
-  // async deleteChatSession(id: string) {
-  //   get().removeError(this.deleteChatSession.name);
-  //   try {
-  //     set(
-  //       produce((store: StoreState) => {
-  //         store.entities.chatSessions.isPending = true;
-  //       })
-  //     );
+    const mockId = Date.now().toString();
+    try {
+      // add chat message
+      const userMessage: ChatMessage = {
+        _id: mockId,
+        chatSession: data.chatSessionId,
+        text: data.text,
+        user: get().auth.user.data,
+        createdAt: new Date().toString(),
+        updatedAt: new Date().toString(),
+      };
 
-  //     const chatSession = await deleteChatSession(id);
+      set(
+        produce((store: StoreState) => {
+          store.entities.chatMessages.data.push(userMessage);
+          store.entities.chatMessages.isPending = true;
+        })
+      );
 
-  //     set(
-  //       produce((state: StoreState) => {
-  //         const index = state.entities.chatSessions.data.findIndex(
-  //           (ch) => ch._id === chatSession._id
-  //         );
+      const response = await sendChatMessage(data);
 
-  //         state.entities.chatSessions.data.splice(index, 1);
-  //       })
-  //     );
-  //   } catch (err) {
-  //     const message = handleError(err as Error);
-  //     get().addError({ callingFunction: deleteChatSession.name, message });
-  //   } finally {
-  //     set(
-  //       produce((store: StoreState) => {
-  //         store.entities.chatSessions.isPending = false;
-  //       })
-  //     );
-  //   }
-  // },
+      set(
+        produce((store: StoreState) => {
+          const index = store.entities.chatMessages.data.findIndex(
+            (ch) => ch._id === mockId
+          );
+
+          store.entities.chatMessages.data.splice(
+            index,
+            1,
+            response.userMessage
+          );
+
+          const systemMessage: ChatMessage = {
+            ...response.userMessage,
+            text: response.systemMessage,
+            user: undefined,
+          };
+
+          store.entities.chatMessages.data.push(systemMessage);
+        })
+      );
+    } catch (err) {
+      const message = handleError(err as Error);
+      get().addError({
+        callingFunction: this.sendChatMessage.name,
+        message,
+      });
+    } finally {
+      set(
+        produce((store: StoreState) => {
+          store.entities.chatMessages.loading = true;
+        })
+      );
+    }
+  },
 });

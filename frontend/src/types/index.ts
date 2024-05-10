@@ -143,7 +143,7 @@ export interface ChatMessage {
 export interface ChatMessageFormData {
   text: string;
   chatSessionId: string;
-  context: string;
+  context: string | object;
 }
 
 export interface ChatMessageResponse {

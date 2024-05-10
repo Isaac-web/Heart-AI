@@ -91,7 +91,6 @@ export interface UserAuth {
   login(data: LoginFormData): Promise<void>;
   register(data: RegistrationFormData): Promise<void>;
   update(data: UserUpdateFormData): Promise<void>;
-  // getCurrentDoctor(): Promise<void>;
 }
 
 export interface AuthSlice {
@@ -115,8 +114,7 @@ export interface ChatMessagesSlice {
   isPending: boolean;
   data: ChatMessage[];
   fetchChatMessages(sessionId: string): Promise<void>;
-  // createChatSession(data: NewChatSessionFormData): Promise<void>;
-  // deleteChatSession(id: string): Promise<void>;
+  sendChatMessage(data: ChatMessageFormData): Promise<void>;
 }
 
 export interface AppDataSlice {
@@ -124,6 +122,7 @@ export interface AppDataSlice {
     appointments: AppointmentEntity;
     medicalReports: MedicalReportEntity;
     chatSessions: ChatSessionsSlice;
+    chatMessages: ChatMessagesSlice;
   };
   details: {
     appointment: AppointmentDetail;

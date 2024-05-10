@@ -1,12 +1,18 @@
-import { useAppStore } from "@/store";
-import { useEffect } from "react";
+import { useAppStore } from '@/store';
+import { useEffect } from 'react';
 
 export default function Chatbot() {
   const store = useAppStore();
   const chatSessions = store.entities.chatSessions;
+  const chatMessages = store.entities.chatMessages;
 
   useEffect(() => {
-    chatSessions.fetchChatSession();
+    chatMessages.sendChatMessage({
+      chatSessionId: '663df8bd0d1c12bd34a4a777',
+      text: 'Hello World...',
+      context: {},
+    });
+    // chatSessions.fetchChatSession();
   }, []);
 
   return (
