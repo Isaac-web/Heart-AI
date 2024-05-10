@@ -73,6 +73,7 @@ export interface MedicalReport {
   slope: number;
   ca: number;
   thal: number;
+  cardioStatus: number;
 }
 
 export interface MedicalReportSearchParams {

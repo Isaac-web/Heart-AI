@@ -4,17 +4,9 @@ import AppTextInput from '@/components/AppTextInput';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import { useAppStore } from '@/store';
 import { Column, MedicalReport } from '@/types';
-import { Search } from '@mui/icons-material';
+import { getUserId } from '@/utils/auth';
+import { Favorite, HeartBroken, Search } from '@mui/icons-material';
 import { useEffect } from 'react';
-
-// interface Appointment {
-//   name: string;
-//   country: string;
-//   imageUrl: string;
-//   company: string;
-//   job: string;
-//   favouriteColor: string;
-// }
 
 const columns: Column<MedicalReport>[] = [
   {
@@ -70,6 +62,32 @@ const columns: Column<MedicalReport>[] = [
   {
     label: 'Cadio Status',
     value: 'cadioStatus',
+    render(report) {
+      const isHealthy = !report.cardioStatus;
+
+      return (
+        <div
+          className={`w-[10em] px-5 py-2 rounded-full flex gap-2 items-center justify-center border ${
+            isHealthy ? 'border-success' : 'border-error'
+          }`}
+        >
+          <div>
+            {isHealthy ? (
+              <Favorite className="text-success" />
+            ) : (
+              <HeartBroken className="text-error" />
+            )}
+          </div>
+          <div className="text-xs">
+            {isHealthy ? (
+              <span className="text-success">Healthy</span>
+            ) : (
+              <span className="text-error">Not Healthy</span>
+            )}
+          </div>
+        </div>
+      );
+    },
   },
   {
     label: '',
@@ -83,9 +101,14 @@ const columns: Column<MedicalReport>[] = [
 const MedicalReports = () => {
   const store = useAppStore();
   const medicalReports = store.entities.medicalReports;
+  const currentDoctor = store.auth.doctor;
 
   useEffect(() => {
-    store.entities.medicalReports.fetchMedicalReports();
+    const userId = getUserId();
+
+    store.entities.medicalReports.fetchMedicalReports({
+      doctorId: userId,
+    });
   }, []);
 
   return (

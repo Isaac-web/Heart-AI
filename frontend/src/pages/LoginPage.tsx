@@ -1,9 +1,11 @@
+import Alert from '@/components/Alert';
 import Form from '@/components/form/Form';
 import FormSubmitButton from '@/components/form/FormSubmitButton';
 import FormTextfield from '@/components/form/FormTextfield';
 import { useAppStore } from '@/store';
+import { LoginFormData } from '@/types';
 import { Email, Key } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
@@ -12,6 +14,38 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginPage = () => {
+  const store = useAppStore();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const getError = () => {
+    return store.getError(store.auth.doctor.login.name);
+  };
+
+  const handleCloseAlert = () => {
+    return store.removeError(store.auth.doctor.login.name);
+  };
+
+  const isPending = (): boolean => {
+    return store.auth.doctor.isPending;
+  };
+
+  const handleDoctorLogin = async (data: LoginFormData) => {
+    await store.auth.doctor.login(data);
+    const error = getError();
+    if (!error) {
+      navigate('/portal/doctor/overview', { replace: true });
+    }
+  };
+
+  const handleLogin = (data: LoginFormData) => {
+    if (location.pathname.startsWith('/login/doctor')) {
+      handleDoctorLogin(data);
+    } else if (location.pathname.startsWith('/login/patient')) {
+      console.log('Patient Login...');
+    }
+  };
+
   return (
     <section className="w-full min-h-screen flex">
       <div className="w-full lg:w-1/2 flex justify-center py-10">
@@ -26,14 +60,22 @@ const LoginPage = () => {
               </span>
             </div>
 
+            {getError() && (
+              <div className="mb-5">
+                <Alert
+                  title="Login failed"
+                  message={getError()?.message || ''}
+                  onClose={handleCloseAlert}
+                />
+              </div>
+            )}
+
             <Form
               initialValues={{
                 email: '',
                 password: '',
               }}
-              onSubmit={(data) => {
-                console.log(data);
-              }}
+              onSubmit={handleLogin}
               validationSchema={validationSchema}
             >
               <div className="flex flex-col space-y-5 ">
@@ -50,13 +92,16 @@ const LoginPage = () => {
                   <FormTextfield
                     name="password"
                     label="Password"
+                    type="password"
                     placeholder="Input your user password"
                     startAdornment={<Key fontSize="small" />}
                   />
                 </div>
 
                 <div>
-                  <FormSubmitButton>Login</FormSubmitButton>
+                  <FormSubmitButton loading={isPending()}>
+                    Login
+                  </FormSubmitButton>
                 </div>
               </div>
             </Form>

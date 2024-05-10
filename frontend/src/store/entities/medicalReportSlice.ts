@@ -57,6 +57,7 @@ export const medicalReportSlice: StateCreator<
       );
     } catch (err) {
       const message = handleError(err as Error);
+      //   console.log(message);
 
       get().addError({
         callingFunction: this.fetchMedicalReports.name,

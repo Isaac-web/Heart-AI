@@ -5,6 +5,7 @@ import {
   ChatSession,
   Doctor,
   DoctorUpdateFormData,
+  LoginFormData,
   MedicalReport,
   MedicalReportFormData,
   MedicalReportRequest,
@@ -94,9 +95,10 @@ export interface DoctorAuth {
   loading: boolean;
   isPending: boolean;
   data: Doctor;
-  login(): Promise<void>;
+  login(data: LoginFormData): Promise<void>;
   register(data: RegistrationFormData): Promise<void>;
   update(doctorId: string, data: DoctorUpdateFormData): Promise<void>;
+  getCurrentDoctor(): Promise<void>;
 }
 
 export interface AuthSlice {
