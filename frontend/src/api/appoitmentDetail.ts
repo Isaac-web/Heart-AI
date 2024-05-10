@@ -1,6 +1,10 @@
 import { Appointment } from '@/types';
 import { apiClient } from './apiClient';
 
-const getAppoitmentById = (id: string) => {
-  apiClient.get<{ data: Appointment }>('/');
+export const getAppoitmentById = async (id: string) => {
+  const { data: resData } = await apiClient.get<{ data: Appointment }>(
+    `/medical-reports/requests/${id}`
+  );
+
+  return resData.data;
 };

@@ -5,12 +5,14 @@ import {
   ChatSession,
   Doctor,
   DoctorUpdateFormData,
+  LoginFormData,
   MedicalReport,
   MedicalReportFormData,
-  MedicalReportRequest,
   MedicalReportSearchParams,
+  NewChatSessionFormData,
   RegistrationFormData,
   User,
+  UserUpdateFormData,
   UsersSearchParams,
 } from '@/types';
 
@@ -38,16 +40,6 @@ export interface MedicalReportSlice {
   fetchMedicalReports(params: MedicalReportSearchParams): Promise<void>;
   createMedicalReport(data: MedicalReportFormData): Promise<void>;
   getCurrentUserMedicalReports(): Promise<void>;
-}
-
-export interface ChatSessionSlice {
-  chatSessions: ChatSession[];
-  creatingChatSession: boolean;
-  loadingChatSession: boolean;
-  deletingChatSession: boolean;
-  fetchChatSessions(): Promise<void>;
-  createChatSession(data: { title: string }): Promise<void>;
-  deleteChatSession(sessionId: string): Promise<void>;
 }
 
 export interface ChatMessagesSlice {
@@ -82,33 +74,58 @@ export interface AppointmentDetail {
   getAppointmentById(id: string): Promise<void>;
 }
 
-
-
-
-export interface AppDataSlice {
-  entities: {
-    appointments: AppointmentEntity;
-  };
-  details: {
-    appointment: AppointmentDetail;
-  }
+export interface MedicalReportEntity {
+  loading: boolean;
+  isPending: boolean;
+  data: MedicalReport[];
+  createMedicalReport(data: MedicalReportFormData): Promise<void>;
+  fetchMedicalReports(params?: MedicalReportSearchParams): Promise<void>;
 }
 
 export interface DoctorAuth {
   loading: boolean;
   isPending: boolean;
   data: Doctor;
-  login(): Promise<void>;
+  login(data: LoginFormData): Promise<void>;
   register(data: RegistrationFormData): Promise<void>;
   update(doctorId: string, data: DoctorUpdateFormData): Promise<void>;
+  getCurrentDoctor(): Promise<void>;
+}
+
+export interface UserAuth {
+  loading: boolean;
+  isPending: boolean;
+  data: User;
+  login(data: LoginFormData): Promise<void>;
+  register(data: RegistrationFormData): Promise<void>;
+  update(data: UserUpdateFormData): Promise<void>;
+  // getCurrentDoctor(): Promise<void>;
 }
 
 export interface AuthSlice {
   auth: {
     doctor: DoctorAuth;
-    user: {
-      name: string;
-    };
+    user: UserAuth;
+  };
+}
+
+export interface ChatSessionsSlice {
+  loading: boolean;
+  isPending: boolean;
+  data: ChatSession[];
+  fetchChatSession(): Promise<void>;
+  createChatSession(data: NewChatSessionFormData): Promise<void>;
+  deleteChatSession(id: string): Promise<void>;
+}
+
+export interface AppDataSlice {
+  entities: {
+    appointments: AppointmentEntity;
+    medicalReports: MedicalReportEntity;
+    chatSessions: ChatSessionsSlice;
+  };
+  details: {
+    appointment: AppointmentDetail;
   };
 }
 
@@ -116,6 +133,5 @@ export type StoreState = RequestErrorState &
   AuthSlice &
   UsersSlice &
   MedicalReportSlice &
-  ChatSessionSlice &
   ChatMessagesSlice &
   AppDataSlice;

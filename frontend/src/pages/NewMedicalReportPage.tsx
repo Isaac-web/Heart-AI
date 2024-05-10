@@ -5,11 +5,14 @@ import FormTextfield from '@/components/form/FormTextfield';
 import Lottie from 'react-lottie';
 import * as Yup from 'yup';
 import heartPulzeAnimation from '../assets/animations/heart-pulze-animation.json';
-import { useState } from 'react';
+import { MedicalReportFormData } from '@/types';
+import { useAppStore } from '@/store';
+import { useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import LoadingIndicator from '@/components/LoadingIndicator';
+import Alert from '@/components/Alert';
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required().label('First Name'),
-  lastName: Yup.string().required().label('Last Name'),
   age: Yup.number().required().min(16).label('Age'),
   sex: Yup.number()
     .min(0, "Sex must be either 'Male' or 'Female'")
@@ -24,18 +27,52 @@ const validationSchema = Yup.object().shape({
   oldpeak: Yup.number().required().label('oldpeak'),
   slope: Yup.number().required().label('slope'),
   ca: Yup.number().required().label('ca'),
-  cp_1: Yup.number().required().label('cp_1'),
-  cp_2: Yup.number().required().label('cp_2'),
-  cp_3: Yup.number().required().label('cp_3'),
-  restecg_1: Yup.number().required().label('restecg_1'),
-  restecg_2: Yup.number().required().label('restecg_2'),
-  thal_1: Yup.number().required().label('thal_1'),
-  thal_2: Yup.number().required().label('thal_2'),
-  thal_3: Yup.number().required().label('thal_3'),
+  cp: Yup.number().required().label('cp'),
+  restecg: Yup.number().required().label('restecg'),
+  thal: Yup.number().required().label('thal'),
 });
 
 const NewMedicalReportPage = () => {
-  const [loading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  const store = useAppStore();
+  const appointment = store.details.appointment;
+  const medicalReports = store.entities.medicalReports;
+  const appointmentId = searchParams.get('appointmentId') as string;
+
+  const navigate = useNavigate();
+
+  const ensureMedicalReports = () => {
+    const { data } = appointment;
+    if (!data.doctor._id || !data.patient._id)
+      if (appointmentId)
+        store.details.appointment.getAppointmentById(appointmentId);
+  };
+
+  const getError = () => {
+    return store.getError(
+      store.entities.medicalReports.createMedicalReport.name
+    );
+  };
+
+  const removeError = () => {
+    store.removeError(store.entities.medicalReports.createMedicalReport.name);
+  };
+
+  useEffect(() => {
+    ensureMedicalReports();
+  }, []);
+
+  const handleIssueMedicalReport = (data: MedicalReportFormData) => {
+    data.doctor = appointment.data.doctor._id;
+    data.patient = appointment.data.patient._id;
+
+    store.entities.medicalReports.createMedicalReport(data);
+
+    const error = getError();
+    // if (!error) navigate(``);
+
+    //Navigate to report details page
+  };
 
   return (
     <section className="container max-w-xl mx-auto relative">
@@ -49,113 +86,101 @@ const NewMedicalReportPage = () => {
         </p>
       </div>
 
-      <div className="mb-10">
-        <Form
-          initialValues={{
-            firstName: '',
-            lastName: '',
-            age: NaN,
-            sex: NaN,
-            trestbps: NaN,
-            chol: NaN,
-            fbs: NaN,
-            thalach: NaN,
-            exang: NaN,
-            oldpeak: NaN,
-            slope: NaN,
-            ca: NaN,
-            cp_1: NaN,
-            cp_2: NaN,
-            cp_3: NaN,
-            restecg_1: NaN,
-            restecg_2: NaN,
-            thal_1: NaN,
-            thal_2: NaN,
-            thal_3: NaN,
-          }}
-          validationSchema={validationSchema}
-          onSubmit={(data) => console.log(data)}
-        >
-          <div className="grid grid-cols-2 gap-x-5 gap-y-1 mb-5">
-            <div className="col-span-1">
-              <FormTextfield name="firstName" label="First Name" />
+      {appointment.loading ? (
+        <LoadingIndicator />
+      ) : (
+        <div className="mb-10">
+          <Form
+            initialValues={{
+              doctor: '',
+              patient: '',
+              age: NaN,
+              sex: NaN,
+              cp: NaN,
+              trestbps: NaN,
+              chol: NaN,
+              fbs: NaN,
+              restecg: NaN,
+              thalach: NaN,
+              exang: NaN,
+              oldpeak: NaN,
+              slope: NaN,
+              ca: NaN,
+              thal: NaN,
+            }}
+            validationSchema={validationSchema}
+            onSubmit={handleIssueMedicalReport}
+          >
+            <div className="grid grid-cols-2 gap-x-5 gap-y-1 mb-5">
+              <div className="col-span-1">
+                <FormTextfield name="age" label="Age" type="number" />
+              </div>
+              <div className="col-span-1">
+                <FormSelectInput
+                  name="sex"
+                  label="Sex"
+                  placeholder="Select One"
+                  options={[
+                    { label: 'Male', value: '1' },
+                    { label: 'Female', value: '2' },
+                  ]}
+                />
+              </div>
+              <div className="col-span-1">
+                <FormTextfield name="trestbps" label="trestbps" type="number" />
+              </div>
+              <div className="col-span-1">
+                <FormTextfield
+                  name="chol"
+                  label="Cholestrol Level"
+                  type="number"
+                />
+              </div>
+              <div className="col-span-1">
+                <FormTextfield name="fbs" label="fbs" type="number" />
+              </div>
+              <div className="col-span-1">
+                <FormTextfield name="thalach" label="thalach" type="number" />
+              </div>
+              <div className="col-span-1">
+                <FormTextfield name="exang" label="exang" type="number" />
+              </div>
+              <div className="col-span-1">
+                <FormTextfield name="oldpeak" label="oldpeak" type="number" />
+              </div>
+              <div className="col-span-1">
+                <FormTextfield name="slope" label="slope" type="number" />
+              </div>
+              <div className="col-span-1">
+                <FormTextfield name="ca" label="ca" type="number" />
+              </div>
+              <div className="col-span-1">
+                <FormTextfield name="cp" label="CP" type="number" />
+              </div>
+              <div className="col-span-1">
+                <FormTextfield name="restecg" label="restecg" type="number" />
+              </div>
+              <div className="col-span-1">
+                <FormTextfield name="thal" label="thal" type="number" />
+              </div>
             </div>
-            <div className="col-span-1">
-              <FormTextfield name="lastName" label="last Name" />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield name="age" label="Age" type="number" />
-            </div>
-            <div className="col-span-1">
-              <FormSelectInput
-                name="sex"
-                label="Sex"
-                placeholder="Select One"
-                options={[
-                  { label: 'Male', value: '1' },
-                  { label: 'Female', value: '2' },
-                ]}
-              />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield name="trestbps" label="trestbps" type="number" />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield
-                name="chol"
-                label="Cholestrol Level"
-                type="number"
-              />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield name="fbs" label="fbs" type="number" />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield name="thalach" label="thalach" type="number" />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield name="exang" label="exang" type="number" />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield name="oldpeak" label="oldpeak" type="number" />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield name="slope" label="slope" type="number" />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield name="ca" label="ca" type="number" />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield name="cp_1" label="cp_1" type="number" />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield name="cp_2" label="cp_2" type="number" />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield name="cp_3" label="cp_3" type="number" />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield name="restecg_1" label="restecg_1" type="number" />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield name="restecg_2" label="restecg_2" type="number" />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield name="thal_1" label="thal_1" type="number" />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield name="thal_2" label="thal_2" type="number" />
-            </div>
-            <div className="col-span-1">
-              <FormTextfield name="thal_3" label="thal_3" type="number" />
-            </div>
-          </div>
 
-          <div>
-            <FormSubmitButton>Predict Cardio Status</FormSubmitButton>
-          </div>
-        </Form>
-      </div>
+            <div>
+              <FormSubmitButton>Predict Cardio Status</FormSubmitButton>
+            </div>
+          </Form>
+
+          {getError() && (
+            <div className="mt-10">
+              <Alert
+                title="Error"
+                message={getError()?.message || ''}
+                onClose={() => removeError()}
+              />
+            </div>
+          )}
+        </div>
+      )}
 
       <div>
         <p className="text-warning text-xs mb-1">Disclaimer</p>
@@ -172,7 +197,7 @@ const NewMedicalReportPage = () => {
         </p>
       </div>
 
-      {loading && (
+      {medicalReports.isPending && (
         <div
           className="fixed h-screen bg-black/60 flex flex-col gap-5 justify-center items-center"
           style={{ top: 0, left: '240px', width: 'calc(100% - 240px)' }}

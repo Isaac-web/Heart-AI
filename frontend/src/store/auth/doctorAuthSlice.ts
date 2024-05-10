@@ -1,6 +1,11 @@
 import { StateCreator } from 'zustand';
 import { DoctorAuth, StoreState } from '../types';
-import { registerDoctor, updateDoctor } from '@/api/auth';
+import {
+  getCurrentDoctor,
+  loginDoctor,
+  registerDoctor,
+  updateDoctor,
+} from '@/api/auth';
 import { handleError } from '@/utils/errorHandler';
 import { produce } from 'immer';
 
@@ -24,7 +29,39 @@ export const doctorAuthSlice: StateCreator<StoreState, [], [], DoctorAuth> = (
     password: '',
     createdAt: '',
   },
-  async login() {},
+  async login(data) {
+    try {
+      get().removeError(this.login.name);
+
+      set(
+        produce((store: StoreState) => {
+          store.auth.doctor.isPending = true;
+        })
+      );
+
+      const res = await loginDoctor(data);
+
+      localStorage.setItem('auth-token', res.token);
+
+      set(
+        produce((store: StoreState) => {
+          store.auth.doctor.data = res.data;
+        })
+      );
+    } catch (err) {
+      const message = handleError(err as Error);
+      get().addError({
+        callingFunction: this.login.name,
+        message,
+      });
+    } finally {
+      set(
+        produce((store: StoreState) => {
+          store.auth.doctor.isPending = false;
+        })
+      );
+    }
+  },
   async register(data) {
     try {
       get().removeError(this.register.name);
@@ -61,6 +98,37 @@ export const doctorAuthSlice: StateCreator<StoreState, [], [], DoctorAuth> = (
         callingFunction: this.register.name,
         message,
       });
+    }
+  },
+  async getCurrentDoctor() {
+    try {
+      get().removeError(this.getCurrentDoctor.name);
+
+      set(
+        produce((store: StoreState) => {
+          store.auth.doctor.loading = true;
+        })
+      );
+
+      const currentDoctor = await getCurrentDoctor();
+
+      set(
+        produce((store: StoreState) => {
+          store.auth.doctor.data = currentDoctor;
+        })
+      );
+    } catch (err) {
+      const message = handleError(err as Error);
+      get().addError({
+        callingFunction: this.getCurrentDoctor.name,
+        message,
+      });
+    } finally {
+      set(
+        produce((store: StoreState) => {
+          store.auth.doctor.loading = false;
+        })
+      );
     }
   },
 });

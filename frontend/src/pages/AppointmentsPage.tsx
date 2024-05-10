@@ -12,6 +12,7 @@ const AppointmentsPage = () => {
   const store = useAppStore();
 
   const appointments = store.entities.appointments;
+  const appointmentDetails = store.details.appointment;
 
   useEffect(() => {
     store.entities.appointments.fetchAppointments();
@@ -52,7 +53,7 @@ const AppointmentsPage = () => {
                 },
               },
               {
-                label: 'Name',
+                label: 'Patient Name',
                 value: 'name',
                 render(item) {
                   return (
@@ -78,25 +79,25 @@ const AppointmentsPage = () => {
                 },
               },
               {
-                label: 'Date',
+                label: 'Appointment Date',
                 value: 'date',
-                render() {
+                render(item) {
                   return (
                     <div>
-                      {new Date().toLocaleTimeString()}
+                      {new Date(item.createdAt).toLocaleTimeString()}
                       <br />
                       <span className="badge badge-ghost badge-sm w-14">
-                        {new Date().toLocaleDateString()}
+                        {new Date(item.createdAt).toLocaleDateString()}
                       </span>
                     </div>
                   );
                 },
               },
               {
-                label: 'Status',
+                label: 'Status of appointment',
                 value: 'status',
-                render() {
-                  return 'pending';
+                render(item) {
+                  return item.status ? 'Approved' : 'Pending';
                 },
               },
               {
@@ -116,7 +117,9 @@ const AppointmentsPage = () => {
                             htmlFor="my-drawer-4"
                             className="btn btn-ghost btn-xs z-10"
                             onClick={() => {
-                              console.log(item);
+                              store.details.appointment.getAppointmentById(
+                                item._id
+                              );
                             }}
                           >
                             details
@@ -135,16 +138,22 @@ const AppointmentsPage = () => {
                               <div className="flex items-start gap-5">
                                 <div>
                                   <div className="bg-neutral text-neutral-content rounded-full w-24 h-24 flex justify-center items-center">
-                                    <span className="text-3xl">D</span>
+                                    <span className="text-3xl">
+                                      {appointmentDetails.data.patient.name.charAt(
+                                        0
+                                      )}
+                                    </span>
                                   </div>
                                 </div>
 
                                 <div className="pt-5 w-full">
                                   <div className="mb-10">
                                     <p className="text-xl dark:text-white/90">
-                                      John Doe
+                                      {appointmentDetails.data.patient.name}
                                     </p>
-                                    <p className="text-sm">example@gmail.com</p>
+                                    <p className="text-sm">
+                                      {appointmentDetails.data.patient.email}
+                                    </p>
                                   </div>
 
                                   <div className="mb-10 flex flex-col gap-2">
@@ -152,6 +161,9 @@ const AppointmentsPage = () => {
                                     <p className="text-sm">Sex: Male</p>
                                     <p className="text-sm">
                                       Appointment Date:{' '}
+                                      {new Date(
+                                        appointmentDetails.data.appointmentDate
+                                      ).toLocaleString()}
                                     </p>
                                   </div>
 
@@ -162,7 +174,9 @@ const AppointmentsPage = () => {
                                     </p>
                                   </div>
 
-                                  <Link to="/portal/doctor/medical-reports/new">
+                                  <Link
+                                    to={`/portal/doctor/medical-reports/new?appointmentId=${item._id}`}
+                                  >
                                     <button className="btn btn-primary btn-sm font-normal text-white">
                                       Issue Medical Report
                                     </button>
