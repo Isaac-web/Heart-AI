@@ -1,12 +1,20 @@
 import { StateCreator } from 'zustand';
 
 import { AppDataSlice, StoreState } from './types';
-import { nameSlice } from './entities/names';
+import { appointmentSlice } from './entities/appointmentsSlice';
+import { appointmentDetailSlice } from './details/appointment';
+import { medicalReportSlice } from './entities/medicalReportSlice';
+import { chatSessionsSlice } from './entities/chatSessionsSlice';
 
 export const createDataSlice: StateCreator<StoreState, [], [], AppDataSlice> = (
   ...a
 ) => ({
   entities: {
-    names: nameSlice(...a),
+    appointments: appointmentSlice(...a),
+    medicalReports: medicalReportSlice(...a),
+    chatSessions: chatSessionsSlice(...a),
+  },
+  details: {
+    appointment: appointmentDetailSlice(...a),
   },
 });

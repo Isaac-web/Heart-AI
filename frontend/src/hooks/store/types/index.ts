@@ -7,6 +7,7 @@ import {
   MedicalReportFormData,
   MedicalReportRequest,
   MedicalReportSearchParams,
+  NewChatSessionFormData,
   RegistrationFormData,
   User,
   UsersSearchParams,
@@ -59,7 +60,7 @@ export interface ChatSessionSlice {
   loadingChatSession: boolean;
   deletingChatSession: boolean;
   fetchChatSessions(): Promise<void>;
-  createChatSession(data: { title: string }): Promise<void>;
+  createChatSession(data: NewChatSessionFormData): Promise<void>;
   deleteChatSession(sessionId: string): Promise<void>;
 }
 

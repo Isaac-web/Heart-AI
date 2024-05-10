@@ -28,6 +28,7 @@ export const validateCreateChatMessage = (chatMessage: unknown) => {
   const schema = Joi.object({
     text: Joi.string().min(1).required(),
     chatSessionId: Joi.string().required(),
+    context: Joi.object(),
   });
 
   return schema.validate(chatMessage);

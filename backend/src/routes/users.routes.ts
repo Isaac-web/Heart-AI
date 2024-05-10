@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  deleteUser,
   fetchUsers,
   getUserInfo,
   login,
@@ -15,6 +16,6 @@ router.post('/login', login);
 router.get('/', auth, fetchUsers);
 router.get('/me', auth, getUserInfo);
 router.patch('/me', auth, updateUser);
-router.delete('/me', async (req, res) => {});
+router.delete('/me', auth, deleteUser);
 
 export default router;

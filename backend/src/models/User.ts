@@ -7,10 +7,9 @@ export const User = mongoose.model(
     {
       name: {
         type: String,
-        minlength: 3,
         maxlength: 256,
         trim: true,
-        required: true,
+        default: '',
       },
       email: {
         type: String,
@@ -19,6 +18,23 @@ export const User = mongoose.model(
         unique: true,
         trim: true,
         required: true,
+      },
+      phone: {
+        type: String,
+        maxlength: 15,
+        default: '',
+      },
+      age: {
+        type: Number,
+        min: 0,
+        max: 120,
+        default: 0,
+      },
+      sex: {
+        type: Number,
+        min: 0,
+        max: 1,
+        default: 1,
       },
       password: {
         type: String,
@@ -32,7 +48,8 @@ export const User = mongoose.model(
       },
       userType: {
         type: String,
-        enum: ['patient', 'doctor'],
+        enum: ['patient', 'admin'],
+        default: 'patient',
       },
     },
     { timestamps: true }
@@ -41,11 +58,15 @@ export const User = mongoose.model(
 
 export const validateCreateUser = (user: unknown) => {
   const schema = Joi.object({
-    name: Joi.string().min(3).max(256).required(),
+    name: Joi.string().min(3).max(256),
     email: Joi.string().email().max(256).required(),
+    phone: Joi.string().max(15),
     password: Joi.string().min(7).max(256).required(),
-    userType: Joi.string().min(3).max(10).required(),
+    confirmPassword: Joi.string().min(7).max(256).required(),
+    userType: Joi.string().min(3).max(10),
     imageUrl: Joi.string().min(256).max(1024),
+    sex: Joi.number().min(0).max(1),
+    age: Joi.number().min(0).max(120),
   });
 
   return schema.validate(user);
@@ -54,6 +75,9 @@ export const validateCreateUser = (user: unknown) => {
 export const validateUpdateUser = (user: unknown) => {
   const schema = Joi.object({
     name: Joi.string().min(3).max(256),
+    sex: Joi.number().min(0).max(1),
+    phone: Joi.string().max(15),
+    age: Joi.number().min(0).max(120),
     imageUrl: Joi.string().min(256).max(1024),
   });
 

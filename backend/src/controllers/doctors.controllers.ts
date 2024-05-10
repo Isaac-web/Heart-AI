@@ -41,6 +41,7 @@ export const registerDoctor = async (req: AppRequest, res: AppResponse) => {
 
   res.setHeader('X-AUTH-TOKEN', token).json({
     message: 'Doctor registration was successful.',
+    token,
     data: doctor,
   });
 };
@@ -78,12 +79,47 @@ export const doctorLogin = async (req: AppRequest, res: AppResponse) => {
   });
 };
 
+export const getAllDoctor = async (req: AppRequest, res: AppResponse) => {
+  try {
+    const skip = Number(req.query.skip) || 0;
+    const limit = Number(req.query.limit) || 20;
+    const [doctors, count] = await Promise.all([
+      Doctor.find({}).select('-password'),
+      Doctor.find({}).select('-password').countDocuments(),
+    ]);
+    res.status(200).json({
+      skip,
+      limit,
+      count,
+      data: doctors,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      message: `server error: ${err?.message}`,
+    });
+  }
+};
+
+export const getDoctorById = async (req: AppRequest, res: AppResponse) => {
+  try {
+    const doctor = await Doctor.findById(req.params.id).select('-password');
+    res.status(200).json({
+      data: doctor,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      message: `server error: ${err?.message}`,
+    });
+  }
+};
+
 export const getCurrentDoctor = async (req: AppRequest, res: AppResponse) => {
   const user = req?.user;
-  if (!user)
+
+  if (!user?._id)
     return res.status(401).json({ message: 'Doctor is not logged in.' });
 
-  const doctor = await Doctor.findById(user._id);
+  const doctor = await Doctor.findById(user?._id);
   if (!doctor)
     return res
       .status(404)
@@ -97,38 +133,78 @@ export const getCurrentDoctor = async (req: AppRequest, res: AppResponse) => {
 };
 
 export const updateDoctor = async (req: AppRequest, res: AppResponse) => {
-  const { error } = validateUpdateDoctor(req.body);
-  if (error)
-    return res.status(422).json({
-      message: error.details[0].message,
+  try {
+    const authDoc = req.user;
+
+    !authDoc &&
+      res.status(401).json({
+        message: 'You are not authorized to perform an update on this account.',
+      });
+
+    !req.body &&
+      res.status(400).json({
+        message: 'No data provided.',
+      });
+
+    const { error } = validateUpdateDoctor(req.body);
+    error &&
+      res.status(422).json({
+        message: error.details[0].message,
+      });
+
+    const doctor = await Doctor.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: _.pick(req.body, [
+          'firstName',
+          'lastName',
+          'age',
+          'sex',
+          'phone',
+          'bio',
+          'hospital',
+          'supportingDocumentUrl',
+        ]),
+      },
+      { new: true }
+    );
+
+    if (!doctor)
+      return res
+        .status(404)
+        .json({ message: 'Doctor with the given id could not be found.' });
+
+    doctor.password = '';
+
+    res.json({
+      message: 'User update was successful.',
+      data: doctor,
     });
+  } catch (err: any) {
+    res.status(500).json({
+      message: `server error: ${err?.message}`,
+    });
+  }
+};
 
-  const doctor = await Doctor.findByIdAndUpdate(
-    req.params.id,
-    {
-      $set: _.pick(req.body, [
-        'firstName',
-        'lastName',
-        'age',
-        'sex',
-        'phone',
-        'bio',
-        'hospital',
-        'supportingDocumentUrl',
-      ]),
-    },
-    { new: true }
-  );
+export const deleteDoctor = async (req: AppRequest, res: AppResponse) => {
+  try {
+    const authDoc = req.user;
 
-  if (!doctor)
-    return res
-      .status(404)
-      .json({ message: 'Doctor with the given id could not be found.' });
+    !authDoc &&
+      res.status(401).json({
+        message: 'You are not authorized to delete this account.',
+      });
 
-  doctor.password = '';
+    await Doctor.findByIdAndDelete(authDoc?._id);
 
-  res.json({
-    message: 'User update was successful.',
-    data: doctor,
-  });
+    res.status(200).json({
+      data: {},
+      message: 'Your account has been deleted.',
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      message: `server error: ${err?.message}`,
+    });
+  }
 };

@@ -1,8 +1,12 @@
+import Alert from '@/components/Alert';
 import Form from '@/components/form/Form';
 import FormSubmitButton from '@/components/form/FormSubmitButton';
 import FormTextfield from '@/components/form/FormTextfield';
+import { useAppStore } from '@/store';
+import { RegistrationFormData } from '@/types';
 import { Email, Lock } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
@@ -12,6 +16,55 @@ const validationSchema = Yup.object().shape({
 });
 
 const SignUpPage = () => {
+  const store = useAppStore();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const getError = () => {
+    return store.getError(store.auth.doctor.register.name);
+  };
+
+  const signUpPending = (): boolean => {
+    return Boolean(store.auth.doctor.isPending || store.auth.user.isPending);
+  };
+
+  const getCurrentDoctor = () => {
+    return store.auth.doctor.data;
+  };
+
+  const handleCloseAlert = () => {
+    store.removeError(store.auth.doctor.register.name);
+  };
+
+  const handleDoctorRegistration = async (data: RegistrationFormData) => {
+    await store.auth.doctor.register(data);
+
+    const error = getError();
+    if (!error)
+      navigate(`/onboarding/doctor?doctorId=${getCurrentDoctor()._id}`);
+  };
+
+  const handlePatientRegistration = async (data: RegistrationFormData) => {
+    await store.auth.user.register(data);
+
+    const error = getError();
+    if (!error) navigate(`/onboarding/patient`);
+  };
+
+  const handleSignUp = (data: RegistrationFormData) => {
+    if (location.pathname === '/register/patient') {
+      handlePatientRegistration(data);
+    } else if (location.pathname === '/register/doctor') {
+      handleDoctorRegistration(data);
+    }
+  };
+
+  const getUserType = (): string => {
+    if (location.pathname.startsWith('/register/doctor')) return 'doctor';
+
+    return 'patient';
+  };
+
   return (
     <section className="w-full min-h-screen flex">
       <div className="w-1/2 bg-slate-700"></div>
@@ -28,10 +81,20 @@ const SignUpPage = () => {
               </span>
             </div>
 
+            {getError() && (
+              <div className="mb-5">
+                <Alert
+                  title="Registration failed"
+                  message={getError()?.message || ''}
+                  onClose={handleCloseAlert}
+                />
+              </div>
+            )}
+
             <Form
               initialValues={{ email: '', password: '', confirmPassword: '' }}
               validationSchema={validationSchema}
-              onSubmit={(data) => console.log(data)}
+              onSubmit={handleSignUp}
             >
               <div className=" flex flex-col gap-2">
                 <div>
@@ -47,6 +110,7 @@ const SignUpPage = () => {
                   <FormTextfield
                     label="Password"
                     name="password"
+                    type="password"
                     placeholder="Please enter your password"
                     startAdornment={<Lock fontSize="small" />}
                   />
@@ -55,13 +119,16 @@ const SignUpPage = () => {
                   <FormTextfield
                     label="Confirm Password"
                     name="confirmPassword"
+                    type="password"
                     placeholder="Confirm your password"
                     startAdornment={<Lock fontSize="small" />}
                   />
                 </div>
 
                 <div className="mt-8">
-                  <FormSubmitButton>Register</FormSubmitButton>
+                  <FormSubmitButton loading={signUpPending()}>
+                    Register
+                  </FormSubmitButton>
                 </div>
               </div>
             </Form>
@@ -85,7 +152,10 @@ const SignUpPage = () => {
           <div className="">
             <p className="text-center mb-20 text-sm">
               Already have a Doctor's account?{' '}
-              <Link to="/login" className="text-primary cursor-pointer">
+              <Link
+                to={`/login/${getUserType()}`}
+                className="text-primary cursor-pointer"
+              >
                 Login
               </Link>
             </p>

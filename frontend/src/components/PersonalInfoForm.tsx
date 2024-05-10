@@ -3,6 +3,9 @@ import FormTextfield from './form/FormTextfield';
 import FormSubmitButton from './form/FormSubmitButton';
 import FormSelectInput from './form/FormSelectInput';
 import * as Yup from 'yup';
+import { DoctorUpdateFormData, UserUpdateFormData } from '@/types';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import { useAppStore } from '@/store';
 
 interface PersonalInfoFormProps {
   title?: string;
@@ -11,8 +14,7 @@ interface PersonalInfoFormProps {
 }
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string().min(3).required().label('First name'),
-  lastName: Yup.string().min(3).required().label('Last name'),
+  name: Yup.string().min(3).required().label('Name'),
   age: Yup.number().min(18).max(120).required().label('Age'),
   sex: Yup.string().length(1).required().label('Sex'),
 });
@@ -29,10 +31,40 @@ const PersonalInfoForm = ({
   our community.`,
   onDone,
 }: PersonalInfoFormProps) => {
-  const handleSubmit = () => {
-    // console.log(data);
+  const [searchParams] = useSearchParams();
+  const store = useAppStore();
+  const getError = () => store.getError(store.auth.doctor.update.name);
+  const location = useLocation();
 
-    if (onDone) onDone();
+  const handleDoctorUpdate = async (data: DoctorUpdateFormData) => {
+    const userId = searchParams.get('doctorId');
+
+    if (userId) {
+      await store.auth.doctor.update(userId, data);
+      const error = getError();
+      console.log(error);
+      if (!error) {
+        if (onDone) onDone();
+      }
+    }
+  };
+
+  const handleUpdatePatient = async (data: UserUpdateFormData) => {
+    await store.auth.user.update(data);
+
+    const error = getError();
+
+    if (!error) {
+      if (onDone) onDone();
+    }
+  };
+
+  const handleSubmit = (data: UserUpdateFormData | DoctorUpdateFormData) => {
+    if (location.pathname === '/onboarding/patient') {
+      handleUpdatePatient(data);
+    } else if (location.pathname === '/onboarding/doctor') {
+      handleDoctorUpdate(data);
+    }
   };
 
   return (
@@ -48,20 +80,15 @@ const PersonalInfoForm = ({
         <Form
           validationSchema={validationSchema}
           initialValues={{
-            firstName: '',
-            lastName: '',
-            age: '',
-            sex: '',
+            name: '',
+            age: NaN,
+            sex: NaN,
           }}
           onSubmit={handleSubmit}
         >
           <div className="grid grid-cols-2 gap-5">
-            <div className="col-span-1">
-              <FormTextfield name={'firstName'} placeholder="First Name" />
-            </div>
-
-            <div className="col-span-1">
-              <FormTextfield name={'lastName'} placeholder="Last name" />
+            <div className="col-span-2">
+              <FormTextfield name={'name'} placeholder="Name" />
             </div>
 
             <div className="col-span-1">

@@ -9,7 +9,18 @@ export interface User {
   _id: string;
   name: string;
   email: string;
+  phone: string;
+  age: number;
+  sex: number;
   userType: string;
+  createdAt: string;
+}
+
+export interface UserUpdateFormData {
+  name?: string;
+  age?: number;
+  sex?: number;
+  phone?: string;
 }
 
 export interface UsersSearchParams {
@@ -17,10 +28,20 @@ export interface UsersSearchParams {
 }
 
 export interface RegistrationFormData {
-  name: string;
   email: string;
   password: string;
-  userType: string;
+  confirmPassword: string;
+}
+
+export interface DoctorUpdateFormData {
+  firstName?: string;
+  lastName?: string;
+  age?: number;
+  sex?: number;
+  phone?: string;
+  hospital?: string;
+  supportingDocumentUrl?: string;
+  bio?: string;
 }
 
 export interface APIRequestError {
@@ -30,69 +51,42 @@ export interface APIRequestError {
 }
 
 export interface MedicalReportFormData {
-  doctorId: string;
-  patientId: string;
+  doctor: string;
+  patient: string;
   age: number;
   sex: number;
+  cp: number;
   trestbps: number;
   chol: number;
   fbs: number;
+  restecg: number;
   thalach: number;
   exang: number;
   oldpeak: number;
   slope: number;
   ca: number;
-  cp_1: number;
-  cp_2: number;
-  cp_3: number;
-  restecg_1: number;
-  restecg_2: number;
-  thal_1: number;
-  thal_2: number;
-  thal_3: number;
+  thal: number;
 }
 
 export interface MedicalReport {
   _id: string;
-  patientId: {
-    _id: string;
-    name: string;
-    email: string;
-    userType: string;
-    createdAt: string;
-    updatedAt: string;
-    __v: 0;
-  };
-  doctorId: {
-    _id: string;
-    name: string;
-    email: string;
-    userType: string;
-    createdAt: string;
-    updatedAt: string;
-    __v: 0;
-  };
+  patient: User;
+  doctorId: Doctor;
   age: number;
   sex: number;
+  cp: number;
   trestbps: number;
   chol: number;
   fbs: number;
+  restecg: number;
   thalach: number;
   exang: number;
   oldpeak: number;
   slope: number;
   ca: number;
-  cp_1: number;
-  cp_2: number;
-  cp_3: number;
-  restecg_1: number;
-  restecg_2: number;
-  thal_1: number;
-  thal_2: number;
-  thal_3: number;
+  thal: number;
   cardioStatus: number;
   createdAt: string;
-  updated: string;
 }
 
 export interface MedicalReportSearchParams {
@@ -132,6 +126,11 @@ export interface ChatSession {
   updatedAt: string;
 }
 
+export interface NewChatSessionFormData {
+  title: string;
+  patientId: string;
+}
+
 export interface ChatMessage {
   _id: string;
   text: string;
@@ -157,6 +156,20 @@ export interface ChatMessageResponse {
     updatedAt: string;
   };
   systemMessage: string;
+}
+
+export interface Doctor {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  age: number;
+  sex: number;
+  phone: string;
+  hospital: string;
+  supportingDocumentUrl: string;
+  bio: string;
+  email: string;
+  createdAt: string;
 }
 
 export interface AppTextInputProps {
@@ -189,4 +202,13 @@ export interface Column<T> {
   label: string;
   value: string;
   render?(item: T): ReactNode;
+}
+
+export interface Appointment {
+  _id: string;
+  patient: User;
+  doctor: Doctor;
+  appointmentDate: string;
+  status: number;
+  createdAt: string;
 }
