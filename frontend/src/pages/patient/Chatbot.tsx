@@ -1,5 +1,6 @@
 import { useAppStore } from '@/store';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Chatbot() {
   const store = useAppStore();
@@ -7,13 +8,16 @@ export default function Chatbot() {
   const chatMessages = store.entities.chatMessages;
 
   useEffect(() => {
-    chatMessages.sendChatMessage({
-      chatSessionId: '663df8bd0d1c12bd34a4a777',
-      text: 'Hello World...',
-      context: {},
-    });
-    // chatSessions.fetchChatSession();
+    // chatMessages.sendChatMessage({
+    //   chatSessionId: '663df8bd0d1c12bd34a4a777',
+    //   text: 'Hello World...',
+    //   context: {},
+    // });
+    chatSessions.fetchChatSession();
+    // chatSessions.createChatSession({ title: 'Chat Session 2' });
   }, []);
+
+  console.log(chatSessions.data);
 
   return (
     <div className="flex h-screen">
@@ -27,28 +31,12 @@ export default function Chatbot() {
             <small className="text-gray-600 px-4">Previous 40 days</small>
             <div>
               {chatSessions.data.map((item) => (
-                <p className="py-2 hover:bg-white/5 rounded-sm cursor-pointer px-4">
-                  {item.title}
-                </p>
+                <Link to={`/dashboard/patient/chatbot/${item._id}`}>
+                  <p className="py-2 hover:bg-white/5 rounded-sm cursor-pointer px-4">
+                    {item.title}
+                  </p>
+                </Link>
               ))}
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <small className="text-gray-600 px-4">April</small>
-            <div>
-              <p className="px-2 py-2 hover:bg-white/5 rounded-sm cursor-pointer px-4">
-                wordl trade center...
-              </p>
-              <p className="px-2 py-2 hover:bg-white/5 rounded-sm cursor-pointer px-4">
-                donald trump criticizes...
-              </p>
-              <p className="px-2 py-2 hover:bg-white/5 rounded-sm cursor-pointer px-4">
-                karen white...
-              </p>
-              <p className="px-2 py-2 hover:bg-white/5 rounded-sm cursor-pointer px-4">
-                solomon grandy...
-              </p>
             </div>
           </div>
         </div>

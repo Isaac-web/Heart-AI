@@ -29,8 +29,13 @@ const App = () => {
         {/* <Route path="/dashboard/patient" element={<PatientDashboard />} /> */}
 
         <Route path="/dashboard/patient" element={<PatientDashboard />}>
+          <Route path="chatbot/:sessionId" element={<Chatbot />} />
           <Route path="chatbot" element={<Chatbot />} />
           <Route path="reports" element={<Reports />} />
+          <Route
+            path="/dashboard/patient"
+            element={<Navigate to="/dashboard/patient/chatbot" />}
+          />
         </Route>
 
         {/* <Route path="/doctor/dashboard" element={<DoctorDashboard />} /> */}

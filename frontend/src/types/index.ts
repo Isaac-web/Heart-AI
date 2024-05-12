@@ -128,7 +128,6 @@ export interface ChatSession {
 
 export interface NewChatSessionFormData {
   title: string;
-  patientId: string;
 }
 
 export interface ChatMessage {
