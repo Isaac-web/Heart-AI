@@ -99,7 +99,7 @@ export const chatMessagesSlice: StateCreator<
     } finally {
       set(
         produce((store: StoreState) => {
-          store.entities.chatMessages.loading = true;
+          store.entities.chatMessages.isPending = false;
         })
       );
     }
