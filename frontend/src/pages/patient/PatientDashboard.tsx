@@ -72,7 +72,7 @@ const PatientDashboard = () => {
 
   return (
     <div>
-      <div className="drawer">
+      {/* <div className="drawer">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           <label
@@ -119,7 +119,7 @@ const PatientDashboard = () => {
             ))}
           </ul>
         </div>
-      </div>
+      </div> */}
 
       <Outlet />
     </div>

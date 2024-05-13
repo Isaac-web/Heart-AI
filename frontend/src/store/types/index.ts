@@ -105,7 +105,9 @@ export interface ChatSessionsSlice {
   isPending: boolean;
   data: ChatSession[];
   fetchChatSession(): Promise<void>;
-  createChatSession(data: NewChatSessionFormData): Promise<void>;
+  createChatSession(
+    data: NewChatSessionFormData
+  ): Promise<ChatSession | undefined>;
   deleteChatSession(id: string): Promise<void>;
 }
 
