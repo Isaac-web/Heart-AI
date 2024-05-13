@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Dashboard, DocumentScannerTwoTone, Event } from '@mui/icons-material';
 
 const drawerWidth = 70;
 
-const menu = [
+const doctorMenu = [
   {
     label: 'Overview',
     link: '/portal/doctor',
@@ -35,6 +35,12 @@ const patientMenu = [
 ];
 
 const Sidebar = () => {
+  const location = useLocation();
+
+  const menu = location.pathname.startsWith('/portal/patient')
+    ? patientMenu
+    : doctorMenu;
+
   return (
     <aside
       style={{ width: drawerWidth }}
@@ -51,7 +57,7 @@ const Sidebar = () => {
 
       <div>
         <ul className="menu  rounded-box">
-          {patientMenu.map((m) => (
+          {menu.map((m) => (
             <li>
               <Link to={m.link}>{m.icon}</Link>
             </li>

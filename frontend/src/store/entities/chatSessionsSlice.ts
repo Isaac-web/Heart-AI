@@ -66,6 +66,7 @@ export const chatSessionsSlice: StateCreator<
       return chatSession;
     } catch (err) {
       const message = handleError(err as Error);
+      console.log(message);
 
       get().addError({
         callingFunction: this.createChatSession.name,
