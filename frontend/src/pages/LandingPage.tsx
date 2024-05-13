@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Dialog } from "@headlessui/react";
+// import { useState } from "react";
+// import { Dialog } from "@headlessui/react";
 import Logo from "../assets/images/heart-ai-logo.png";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import hvd from "../assets/images/video/heart_rate.mp4";
 import ProcessCard from "@/components/ProcessCard";
 import aid from "../assets/images/aid.jpg";
@@ -16,8 +16,8 @@ interface NavigationItem {
 const navigation: NavigationItem[] = [];
 
 const NewLandingPage: React.FC = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const navigate = useNavigate();
+  // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // const navigate = useNavigate();
   return (
     <div>
       <div className="relative isolate px-6 pt-5 lg:px-8">
@@ -45,7 +45,7 @@ const NewLandingPage: React.FC = () => {
                 <button
                   type="button"
                   className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-100"
-                  onClick={() => setMobileMenuOpen(true)}
+                  // onClick={() => setMobileMenuOpen(true)}
                 >
                   <span className="sr-only">Open main menu</span>
                   <svg
@@ -85,7 +85,7 @@ const NewLandingPage: React.FC = () => {
                 </a>
               </div>
             </nav>
-            <Dialog
+            {/* <Dialog
               className="lg:hidden"
               open={mobileMenuOpen}
               onClose={setMobileMenuOpen}
@@ -144,7 +144,7 @@ const NewLandingPage: React.FC = () => {
                   </div>
                 </div>
               </Dialog.Panel>
-            </Dialog>
+            </Dialog> */}
           </header>
           <div className="relative z-10">
             {/* Your main content */}
