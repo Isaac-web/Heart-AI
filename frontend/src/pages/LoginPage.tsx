@@ -7,6 +7,7 @@ import { LoginFormData } from '@/types';
 import { Email, Key } from '@mui/icons-material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import doctor from "@/assets/images/doctor.png";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required(),
@@ -78,7 +79,7 @@ const LoginPage = () => {
               <div className="mb-5">
                 <Alert
                   title="Login failed"
-                  message={getError()?.message || ''}
+                  message={getError()?.message || ""}
                   onClose={handleCloseAlert}
                 />
               </div>
@@ -86,8 +87,8 @@ const LoginPage = () => {
 
             <Form
               initialValues={{
-                email: '',
-                password: '',
+                email: "",
+                password: "",
               }}
               onSubmit={handleLogin}
               validationSchema={validationSchema}
@@ -138,7 +139,7 @@ const LoginPage = () => {
 
           <div className="">
             <p className="text-center mb-20 text-sm">
-              Don't have an account yet?{' '}
+              Don't have an account yet?{" "}
               <Link
                 to={`/register/${getUserType()}`}
                 className="text-primary cursor-pointer"
@@ -148,15 +149,17 @@ const LoginPage = () => {
             </p>
 
             <p className="text-center text-xs">
-              By Creating An Account, You agree to our{' '}
-              <span className="text-primary cursor-pointer">terms</span> and{' '}
+              By Creating An Account, You agree to our{" "}
+              <span className="text-primary cursor-pointer">terms</span> and{" "}
               <span className="text-primary cursor-pointer">conditions</span>.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="w-1/2 bg-slate-700"></div>
+      <div className="w-1/2 bg-[#598DFF] p-11">
+        <img src={doctor} alt="" />
+      </div>
     </section>
   );
 };

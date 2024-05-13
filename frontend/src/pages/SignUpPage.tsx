@@ -6,6 +6,7 @@ import { useAppStore } from '@/store';
 import { RegistrationFormData } from '@/types';
 import { getUserId } from '@/utils/auth';
 import { Email, Lock } from '@mui/icons-material';
+import doctor from '@/assets/images/doctor.png'
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -70,7 +71,9 @@ const SignUpPage = () => {
 
   return (
     <section className="w-full min-h-screen flex">
-      <div className="w-1/2 bg-slate-700"></div>
+      <div className="w-1/2 bg-[#598DFF] p-11">
+        <img src={doctor} alt="sfd" />
+      </div>
       <div className="w-1/2  flex justify-center py-10">
         <div className="min-w-[30em] max-w-[30em]">
           <div>
@@ -88,14 +91,14 @@ const SignUpPage = () => {
               <div className="mb-5">
                 <Alert
                   title="Registration failed"
-                  message={getError()?.message || ''}
+                  message={getError()?.message || ""}
                   onClose={handleCloseAlert}
                 />
               </div>
             )}
 
             <Form
-              initialValues={{ email: '', password: '', confirmPassword: '' }}
+              initialValues={{ email: "", password: "", confirmPassword: "" }}
               validationSchema={validationSchema}
               onSubmit={handleSignUp}
             >
@@ -128,7 +131,7 @@ const SignUpPage = () => {
                   />
                 </div>
 
-                <div className="mt-8">
+                <div className="mt-8 -indigo-600">
                   <FormSubmitButton loading={signUpPending()}>
                     Register
                   </FormSubmitButton>
@@ -154,7 +157,7 @@ const SignUpPage = () => {
 
           <div className="">
             <p className="text-center mb-20 text-sm">
-              Already have a Doctor's account?{' '}
+              Already have a Doctor's account?{" "}
               <Link
                 to={`/login/${getUserType()}`}
                 className="text-primary cursor-pointer"
@@ -164,8 +167,8 @@ const SignUpPage = () => {
             </p>
 
             <p className="text-center text-xs">
-              By Creating An Account, You agree to our{' '}
-              <span className="text-primary cursor-pointer">terms</span> and{' '}
+              By Creating An Account, You agree to our{" "}
+              <span className="text-primary cursor-pointer">terms</span> and{" "}
               <span className="text-primary cursor-pointer">conditions</span>.
             </p>
           </div>

@@ -16,6 +16,8 @@ import MedicalReports from './pages/MedicalReports';
 import DoctorPortal from './components/DoctorPortal';
 import NewMedicalReportPage from './pages/NewMedicalReportPage';
 import PatientOnboardingPage from './pages/PatientOnboardingPage';
+import LandingPage from './pages/LandingPage'
+import Auth from './pages/auth/AuthPage';
 
 const App = () => {
   return (
@@ -27,7 +29,8 @@ const App = () => {
         /> */}
         {/* <Route path="/register/doctor" element={<DoctorSignUpPage />} /> */}
         {/* <Route path="/dashboard/patient" element={<PatientDashboard />} /> */}
-
+        <Route index element={<LandingPage/>}></Route>
+        <Route path='/auth' element={<Auth/>}></Route>
         <Route path="/dashboard/patient" element={<PatientDashboard />}>
           <Route path="chatbot/:sessionId" element={<Chatbot />} />
           <Route path="chatbot" element={<Chatbot />} />
