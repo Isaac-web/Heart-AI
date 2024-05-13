@@ -1,3 +1,4 @@
+import DoctorPersonalInfoForm from '@/components/DoctorPersonalInfoForm';
 import OrgainzationInfoForm from '@/components/OrgainzationInfoForm';
 import PersonalInfoForm from '@/components/PersonalInfoForm';
 import PhoneNumberVerificationForm from '@/components/PhoneNumberVerificationForm';
@@ -15,7 +16,7 @@ const DoctorOnboardingPage = () => {
 
   return (
     <section className="py-10 mt-10">
-      {step === 0 && <PersonalInfoForm onDone={handleLastStep} />}
+      {step === 0 && <DoctorPersonalInfoForm onDone={handleLastStep} />}
       {step === 1 && <PhoneNumberVerificationForm onDone={handleLastStep} />}
       {step === 2 && (
         <OrgainzationInfoForm

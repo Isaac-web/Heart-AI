@@ -42,14 +42,6 @@ export interface MedicalReportSlice {
   getCurrentUserMedicalReports(): Promise<void>;
 }
 
-export interface ChatMessagesSlice {
-  chatMessages: ChatMessage[];
-  creatingChatMessages: boolean;
-  loadingChatMessages: boolean;
-  fetchChatMessages(sessionId: string): Promise<void>;
-  sendChatMessage(data: ChatMessageFormData): Promise<void>;
-}
-
 export interface NamesEntity {
   loading: boolean;
   isPending: boolean;
@@ -99,7 +91,6 @@ export interface UserAuth {
   login(data: LoginFormData): Promise<void>;
   register(data: RegistrationFormData): Promise<void>;
   update(data: UserUpdateFormData): Promise<void>;
-  // getCurrentDoctor(): Promise<void>;
 }
 
 export interface AuthSlice {
@@ -114,8 +105,18 @@ export interface ChatSessionsSlice {
   isPending: boolean;
   data: ChatSession[];
   fetchChatSession(): Promise<void>;
-  createChatSession(data: NewChatSessionFormData): Promise<void>;
+  createChatSession(
+    data: NewChatSessionFormData
+  ): Promise<ChatSession | undefined>;
   deleteChatSession(id: string): Promise<void>;
+}
+
+export interface ChatMessagesSlice {
+  loading: boolean;
+  isPending: boolean;
+  data: ChatMessage[];
+  fetchChatMessages(sessionId: string): Promise<void>;
+  sendChatMessage(data: ChatMessageFormData): Promise<void>;
 }
 
 export interface AppDataSlice {
@@ -123,6 +124,7 @@ export interface AppDataSlice {
     appointments: AppointmentEntity;
     medicalReports: MedicalReportEntity;
     chatSessions: ChatSessionsSlice;
+    chatMessages: ChatMessagesSlice;
   };
   details: {
     appointment: AppointmentDetail;
