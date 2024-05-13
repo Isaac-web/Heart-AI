@@ -90,7 +90,7 @@ export const chatMessagesSlice: StateCreator<
           store.entities.chatMessages.data.push(systemMessage);
         })
       );
-    } catch (err) {
+    } catch (err: any) {
       const message = handleError(err as Error);
       get().addError({
         callingFunction: this.sendChatMessage.name,
