@@ -44,11 +44,11 @@ def predict_disease(data:HeartParameter):
 
     prediction = classifier.predict(features)
     confidence:float = abs(classifier.decision_function(features) )
-    confidence_percentage:float = round(confidence *  100, 2)
     
-    if confidence_percentage > 100:
-        confidence_percentage = 100
-        
+    probability = 1 / (1 + np.exp(-confidence))
+    
+    confidence_percentage:float = round(probability, 2)
+    
 
     prediction = prediction[0].item()
 
