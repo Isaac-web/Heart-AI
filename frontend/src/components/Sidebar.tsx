@@ -39,6 +39,12 @@ const patientMenu = [
   },
 ];
 
+const currentUser = {
+  _id: '123',
+  name: 'John doe',
+  email: 'johndoe@gmail.com',
+};
+
 const Sidebar = () => {
   const location = useLocation();
   const store = useAppStore();
@@ -113,11 +119,31 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className="flex justify-center">
-        <div className="avatar">
-          <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+      <div>
+        <div className="px-2">
+          <div className="divider" />
+        </div>
+
+        <div
+          className={`px-5 flex items-center gap-3 ${
+            !store.app.drawerCollapsed ? 'justify-start' : 'justify-center'
+          }`}
+        >
+          <div className="avatar">
+            <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+              {/* <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" /> */}
+              <h3 className="text-xl font-bold w-full h-full bg-primary text-white/70 flex justify-center items-center">
+                {currentUser.name.charAt(0)}
+              </h3>
+            </div>
           </div>
+
+          {!store.app.drawerCollapsed && (
+            <div>
+              <p>{currentUser.name}</p>
+              <p className="text-xs">{currentUser.email}</p>
+            </div>
+          )}
         </div>
       </div>
     </aside>
