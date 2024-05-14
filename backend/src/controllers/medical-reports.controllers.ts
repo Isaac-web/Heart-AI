@@ -47,7 +47,9 @@ export const getMyMedicalReport = async (req: AppRequest, res: Response) => {
       message: 'User is not defined.',
     });
 
-  const medicalReports = await MedicalReport.find({ patientId: user._id });
+  const medicalReports = await MedicalReport.find({ patient: user._id })
+    .populate('patient', '-password')
+    .populate('doctor', '-password');
 
   return res.json({
     message: 'returning multiple medical report to you of a user',

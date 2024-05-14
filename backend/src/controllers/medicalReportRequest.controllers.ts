@@ -84,6 +84,7 @@ export const fetchUserMedicalReportRequest = async (
     data: reportRequests,
   });
 };
+
 export const fetchMedicalReportRequest = async (
   req: AppRequest,
   res: AppResponse
