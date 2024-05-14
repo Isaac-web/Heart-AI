@@ -36,8 +36,9 @@ export const sendMessage = async (req: AppRequest, res: AppResponse) => {
     text: req.body.text,
   });
 
-  const medicalReport =
-    (await MedicalReport.findOne({ patient: user._id })) || {};
+  const medicalReport = chatSession.medicalReport
+    ? await MedicalReport.findById(chatSession.medicalReport)
+    : {};
 
   try {
     const { data: llmChat } = await axios.request({

@@ -10,7 +10,9 @@ const ChatBubble = ({
   time = Date.now().toString(),
 }: ChatBubbleProps) => {
   return (
-    <div className={`chat chat-${type === 'left' ? 'start' : 'end'} max-w-xl`}>
+    <div
+      className={`chat ${type === 'left' ? 'chat-start' : 'chat-end'} max-w-xl`}
+    >
       <div className="chat-bubble">
         <div>{message}</div>
         <div className={`chat-footer opacity-50 text-xs`}>

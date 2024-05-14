@@ -1,5 +1,6 @@
 import {
   Appointment,
+  AppointmentFormData,
   AppointmentsSearchParams,
   ChatMessage,
   ChatMessageFormData,
@@ -33,6 +34,9 @@ export interface AppointmentEntity {
   isPending: boolean;
   data: Appointment[];
   fetchAppointments(params?: AppointmentsSearchParams): Promise<void>;
+  createAppointment(
+    data: AppointmentFormData
+  ): Promise<Appointment | undefined>;
 }
 
 export interface AppointmentDetail {
@@ -50,6 +54,7 @@ export interface MedicalReportEntity {
     data: MedicalReportFormData
   ): Promise<MedicalReport | undefined>;
   fetchMedicalReports(params?: MedicalReportSearchParams): Promise<void>;
+  fetchCurrentUserMedicalReports(): Promise<void>;
 }
 
 export interface MedicalReportDetail {

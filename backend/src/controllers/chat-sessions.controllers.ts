@@ -1,4 +1,4 @@
-import ChatSession from '../models/ChatSession';
+import ChatSession, { validateCreateChatSession } from '../models/ChatSession';
 import { AppRequest, AppResponse } from '../types';
 import { ChatMessage } from '../models/ChatMessage';
 
@@ -11,7 +11,9 @@ export const getMyChatSessions = async (req: AppRequest, res: AppResponse) => {
   try {
     const chatSessions = await ChatSession.find({
       patientId: req.user._id,
-    }).sort({ createdAt: -1 });
+    })
+      .sort({ createdAt: -1 })
+      .populate('medicalReport');
 
     if (!chatSessions) {
       return res.status(400).json({ message: 'Error getting forms' });
@@ -24,6 +26,12 @@ export const getMyChatSessions = async (req: AppRequest, res: AppResponse) => {
 };
 
 export const createChatSession = async (req: AppRequest, res: AppResponse) => {
+  const { error } = validateCreateChatSession(req.body);
+  if (error)
+    return res.status(422).json({
+      message: error.details[0].message,
+    });
+
   if (!req.user)
     return res.status(404).json({
       message: 'user not found',

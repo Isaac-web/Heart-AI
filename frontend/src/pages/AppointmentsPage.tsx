@@ -4,6 +4,7 @@ import AppTextInput from '@/components/AppTextInput';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import { useAppStore } from '@/store';
 import { Appointment } from '@/types';
+import { getUserId } from '@/utils/auth';
 import { Search } from '@mui/icons-material';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -15,7 +16,7 @@ const AppointmentsPage = () => {
   const appointmentDetails = store.details.appointment;
 
   useEffect(() => {
-    store.entities.appointments.fetchAppointments();
+    store.entities.appointments.fetchAppointments({ doctorId: getUserId() });
   }, []);
 
   return (

@@ -70,17 +70,19 @@ const SignUpPage = () => {
 
   return (
     <section className="w-full min-h-screen flex">
-      <div className="w-1/2 bg-slate-700"></div>
-      <div className="w-1/2  flex justify-center py-10">
-        <div className="min-w-[30em] max-w-[30em]">
+      <div className="hidden lg:block w-full lg:w-1/2 bg-slate-700"></div>
+
+      <div className="w-full lg:w-1/2  flex justify-center py-10 ">
+        <div className="min-w-xl max-w-[30em] p-10 lg:p-0 ">
           <div>
             <div className="mb-12 flex flex-col items-start">
               <h3 className="text-2xl font-semibold text-left mb-5 dark:text-white/90">
                 New Account
               </h3>
               <span className="text-sm  text-left w-full">
-                Join our community of healthcare professionals. Sign up below to
-                unlock exclusive features of our AI powered platform.
+                {getUserType() === 'doctor'
+                  ? 'Join our community of healthcare professionals. Sign up below to unlock exclusive features of our AI powered platform.'
+                  : 'Manage your heart health with us! Sign up below for exclusive features on our AI-powered platform.'}
               </span>
             </div>
 
