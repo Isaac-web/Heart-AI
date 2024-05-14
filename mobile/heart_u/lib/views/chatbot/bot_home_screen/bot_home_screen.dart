@@ -33,8 +33,6 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
   Future<void> getData()async {
     prefs = await SharedPreferences.getInstance();
 
-    String _baseUrl = baseUrl;
-
     print("dio initialised");
 
     var token = prefs.getString("token");
@@ -106,8 +104,7 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
         animType: AnimType.rightSlide,
         headerAnimationLoop: true,
         title: 'Error',
-        desc:
-        "Please try again later",
+        desc: e.toString(),
         btnOkOnPress: () {},
         btnOkIcon: Icons.cancel,
         btnOkColor: Colors.red,
@@ -152,15 +149,20 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: EdgeInsets.only(left: 3.h),
-          child: const Text(
-            "Chat with Hearty",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
+        Row(
+          children: [
+            BackButton(),
+            Padding(
+              padding: EdgeInsets.only(left: 3.h),
+              child: const Text(
+                "Chat with Hearty",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
             ),
-          ),
+          ],
         ),
         SizedBox(height: 18.v),
         Container(
@@ -370,6 +372,7 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
 
               print("dio initialised");
 
+
               try {
 
                 setState(() {
@@ -438,8 +441,7 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
                   animType: AnimType.rightSlide,
                   headerAnimationLoop: true,
                   title: 'Error',
-                  desc:
-                  "Please try again later",
+                  desc: e.toString(),
                   btnOkOnPress: () {},
                   btnOkIcon: Icons.cancel,
                   btnOkColor: Colors.red,

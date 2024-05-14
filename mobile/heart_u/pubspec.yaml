@@ -47,6 +47,11 @@ dependencies:
   adaptive_theme: ^3.6.0
   flutter_datetime_picker_plus: ^2.2.0
   fluttertoast: ^8.2.5
+  rive: ^0.13.4
+  flutter_svg: ^1.1.6
+  url_launcher: ^6.1.6
+  vertical_card_pager: ^1.5.0
+  clippy_flutter: ^2.0.0-nullsafety.1
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +79,15 @@ flutter:
   assets:
     - assets/images/
     - assets/icon/
+    - assets/RiveAssets/
+    - assets/avaters/
+    - assets/Fonts/
+    - assets/images/
+    - assets/shapes/
+    - assets/Backgrounds/
+    - assets/icons/
+    - assets/bg/
+    - assets/docs/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -87,7 +101,16 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+    - family: Intel
+      fonts:
+        - asset: assets/Fonts/Inter-Regular.ttf
+        - asset: assets/Fonts/Inter-SemiBold.ttf
+          weight: 600
+    - family: Poppins
+      fonts:
+        - asset: assets/Fonts/Poppins-Bold.ttf
+          weight: 700
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

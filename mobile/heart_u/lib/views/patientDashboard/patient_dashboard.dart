@@ -213,7 +213,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                             image: AssetImage("assets/images/medical.png"),
                           width: 200,
                           height: 450,
-                                        
+
                         ),
                       ),
                     ],
@@ -221,7 +221,8 @@ class _PatientDashboardState extends State<PatientDashboard> {
                 ),
               ),
             )
-                : _buildCourseIntroductList(context),
+                :
+            _buildCourseIntroductList(context),
           ],
         ),
       ),
@@ -605,7 +606,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                                             return CourseintroductlistItemWidget2(
                                               date: sDate,
                                               descrip: datalist2[index]["_id"],
-                                              name: datalist2[index]["name"],
+                                              name: datalist2[index]["firstName"]+" "+datalist2[index]["lastName"],
                                             );
                                           },
                                         ),
@@ -716,7 +717,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                           });
 
                           Navigator.of(context).pushNamedAndRemoveUntil(
-                              AppRoutes.login,
+                              AppRoutes.initialRoute,
                                   (route) => false);
                         }
 

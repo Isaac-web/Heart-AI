@@ -210,7 +210,6 @@ class _LoginScreenState extends State<LoginScreen> {
             prefs.setString('token', token);
             prefs.setString('email', username);
             prefs.setString("password", password);
-            prefs.setBool("isLoggedIn", true);
             prefs.setString("sex", sex.toString());
             prefs.setString("userId", userId);
             prefs.setString("name", name);
@@ -220,6 +219,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
             if (response.statusCode == 200){
 
+              prefs.setBool("isLoggedIn", true);
               setState(() {
                 loading = false;
               });
