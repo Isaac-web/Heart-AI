@@ -62,8 +62,8 @@ const LoginPage = () => {
 
   return (
     <section className="w-full min-h-screen flex">
-      <div className="w-full lg:w-1/2 flex justify-center py-10">
-        <div className="min-w-xl p-10 lg:p-0">
+      <div className="w-full lg:w-1/2 flex flex-col lg:flex-row justify-center py-10">
+        <div className="min-w-[30em] p-10">
           <div>
             <div className="mb-12 flex flex-col items-center">
               <h3 className="text-2xl font-semibold text-center mb-5 dark:text-white/90">
