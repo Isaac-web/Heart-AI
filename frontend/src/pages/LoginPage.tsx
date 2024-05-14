@@ -42,7 +42,7 @@ const LoginPage = () => {
     await store.auth.user.login(data);
     const error = getError();
     if (!error) {
-      navigate('/dashboard/patient', { replace: true });
+      navigate('/portal/patient', { replace: true });
     }
   };
 
@@ -70,7 +70,9 @@ const LoginPage = () => {
                 Login
               </h3>
               <span className="text-sm  text-center w-full">
-                We suggest you use your work email
+                {getUserType() == 'doctor'
+                  ? 'Welcome back! Please sign in below to access your doctor account.'
+                  : 'Welcome back! Please sign in below to access your patient account.'}
               </span>
             </div>
 

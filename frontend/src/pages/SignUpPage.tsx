@@ -79,8 +79,9 @@ const SignUpPage = () => {
                 New Account
               </h3>
               <span className="text-sm  text-left w-full">
-                Join our community of healthcare professionals. Sign up below to
-                unlock exclusive features of our AI powered platform.
+                {getUserType() === 'doctor'
+                  ? 'Join our community of healthcare professionals. Sign up below to unlock exclusive features of our AI powered platform.'
+                  : 'Manage your heart health with us! Sign up below for exclusive features on our AI-powered platform.'}
               </span>
             </div>
 
