@@ -43,25 +43,32 @@ def predict_disease(data:HeartParameter):
     slope,ca,thal]])
 
     prediction = classifier.predict(features)
+    confidence:float = abs(classifier.decision_function(features) )
+    
+    probability = 1 / (1 + np.exp(-confidence))
+    probability_scalar = probability.item()  
+
+    confidence_percentage = (round(probability_scalar, 2))* 100
+    
 
     prediction = prediction[0].item()
 
-    result = ''
+    result:str = ''
 
     details = {
-        "age":age,     
-        "sex": sex, 
-        "chest pain type":cp, 
-        "resting blood pressure": trestbps,
-        "serum colesterol": col,
-        "fasting blood sugar level" : fbs,
-        "resting electrocardiographoc results" : restecg,
-        "maximum heart rate": thalach,
-        "exercise induced agina" : exang,
-        "st depression" : oldpeak,
-        "slope" : slope,
-        "number of major vessels" : ca,
-        "thallium stress test_results" : thal,
+        "age": int(age),     
+        "sex": int(sex), 
+        "chest pain type": int(cp), 
+        "resting blood pressure": int(trestbps),
+        "serum colesterol": int(col),
+        "fasting blood sugar level": int(fbs),
+        "resting electrocardiographoc results": int(restecg),
+        "maximum heart rate": int(thalach),
+        "exercise induced agina": int(exang),
+        "st depression": float(oldpeak),
+        "slope": int(slope),
+        "number of major vessels": int(ca),
+        "thallium stress test_results": int(thal),
     }
 
 
@@ -75,7 +82,8 @@ def predict_disease(data:HeartParameter):
 
     return {
         'status': result,
-        'details': details
+        'details': details,
+        'confidence_level': confidence_percentage
     }
 
 #    Will run on http://127.0.0.1:8000
