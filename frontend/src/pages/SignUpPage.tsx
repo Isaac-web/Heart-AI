@@ -4,6 +4,7 @@ import FormSubmitButton from '@/components/form/FormSubmitButton';
 import FormTextfield from '@/components/form/FormTextfield';
 import { useAppStore } from '@/store';
 import { RegistrationFormData } from '@/types';
+import { getUserId } from '@/utils/auth';
 import { Email, Lock } from '@mui/icons-material';
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -40,8 +41,10 @@ const SignUpPage = () => {
     await store.auth.doctor.register(data);
 
     const error = getError();
-    if (!error)
-      navigate(`/onboarding/doctor?doctorId=${getCurrentDoctor()._id}`);
+    if (!error) {
+      console.log(getUserId());
+      navigate(`/onboarding/doctor?doctorId=${getUserId() as string}`);
+    }
   };
 
   const handlePatientRegistration = async (data: RegistrationFormData) => {

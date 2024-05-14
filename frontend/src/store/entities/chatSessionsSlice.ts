@@ -60,11 +60,13 @@ export const chatSessionsSlice: StateCreator<
 
       set(
         produce((store: StoreState) => {
-          store.entities.chatSessions.data.push(chatSession);
+          store.entities.chatSessions.data.unshift(chatSession);
         })
       );
+      return chatSession;
     } catch (err) {
       const message = handleError(err as Error);
+      console.log(message);
 
       get().addError({
         callingFunction: this.createChatSession.name,
