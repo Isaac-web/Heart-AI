@@ -168,6 +168,7 @@ export default function Chatbot() {
               {getChatSessionMedicalReport() && (
                 <div className="py-5">
                   <Alert
+                    severity="success"
                     title="Medical Report"
                     message={`This chat session is linked to medical report of id: ${
                       getChatSessionMedicalReport()?._id
