@@ -24,7 +24,7 @@ export const medicalReportSlice: StateCreator<
       );
       const medicalReport = await createMedicalReport(data);
 
-      console.log(medicalReport);
+      return medicalReport;
     } catch (err) {
       const message = handleError(err as Error);
 
