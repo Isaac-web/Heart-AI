@@ -43,12 +43,16 @@ def predict_disease(data:HeartParameter):
     slope,ca,thal]])
 
     prediction = classifier.predict(features)
-    confidence = abs(classifier.decision_function(features) )
-    confidence_percentage = round(confidence *  100, 2)
+    confidence:float = abs(classifier.decision_function(features) )
+    confidence_percentage:float = round(confidence *  100, 2)
+    
+    if confidence_percentage > 100:
+        confidence_percentage = 100
+        
 
     prediction = prediction[0].item()
 
-    result = ''
+    result:str = ''
 
     details = {
         "age":age,     
