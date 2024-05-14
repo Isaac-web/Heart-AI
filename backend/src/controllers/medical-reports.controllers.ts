@@ -103,6 +103,8 @@ export const createMedicalReport = async (req: Request, res: Response) => {
       ])
     );
 
+    console.log('Data: ', data);
+
     medicalReport = await MedicalReport.create({
       status: data.status,
       cadioStatus:
@@ -129,7 +131,8 @@ export const createMedicalReport = async (req: Request, res: Response) => {
     });
 
     req.body.cardioStatus = data.status;
-  } catch (err) {
+  } catch (err: any) {
+    console.log('There was an Error: ', err.response);
     return res.status(500).json({
       message: 'Something went wrong.',
     });
