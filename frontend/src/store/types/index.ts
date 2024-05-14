@@ -13,7 +13,6 @@ import {
   RegistrationFormData,
   User,
   UserUpdateFormData,
-  UsersSearchParams,
 } from '@/types';
 
 interface RequestError {
@@ -26,30 +25,6 @@ export interface RequestErrorState {
   addError(error: RequestError): void;
   removeError(callingFunctionName: string): void;
   getError(callingFunctionName: string): RequestError | null;
-}
-
-export interface UsersSlice {
-  users: User[];
-  fetchUsers(params?: UsersSearchParams): Promise<void>;
-}
-
-export interface MedicalReportSlice {
-  medicalReports: MedicalReport[];
-  creatingMedicalReport: boolean;
-  loadingMedicalReports: boolean;
-  fetchMedicalReports(params: MedicalReportSearchParams): Promise<void>;
-  createMedicalReport(data: MedicalReportFormData): Promise<void>;
-  getCurrentUserMedicalReports(): Promise<void>;
-}
-
-export interface NamesEntity {
-  loading: boolean;
-  isPending: boolean;
-  total: number;
-  skip: number;
-  limit: number;
-  data: string[];
-  addData(name: string): void;
 }
 
 export interface AppointmentEntity {
@@ -83,6 +58,25 @@ export interface MedicalReportDetail {
   getMedicalReportById(id: string): Promise<MedicalReport | undefined>;
 }
 
+export interface ChatSessionsSlice {
+  loading: boolean;
+  isPending: boolean;
+  data: ChatSession[];
+  fetchChatSession(): Promise<void>;
+  createChatSession(
+    data: NewChatSessionFormData
+  ): Promise<ChatSession | undefined>;
+  deleteChatSession(id: string): Promise<void>;
+}
+
+export interface ChatMessagesSlice {
+  loading: boolean;
+  isPending: boolean;
+  data: ChatMessage[];
+  fetchChatMessages(sessionId: string): Promise<void>;
+  sendChatMessage(data: ChatMessageFormData): Promise<void>;
+}
+
 export interface DoctorAuth {
   loading: boolean;
   isPending: boolean;
@@ -109,26 +103,7 @@ export interface AuthSlice {
   };
 }
 
-export interface ChatSessionsSlice {
-  loading: boolean;
-  isPending: boolean;
-  data: ChatSession[];
-  fetchChatSession(): Promise<void>;
-  createChatSession(
-    data: NewChatSessionFormData
-  ): Promise<ChatSession | undefined>;
-  deleteChatSession(id: string): Promise<void>;
-}
-
-export interface ChatMessagesSlice {
-  loading: boolean;
-  isPending: boolean;
-  data: ChatMessage[];
-  fetchChatMessages(sessionId: string): Promise<void>;
-  sendChatMessage(data: ChatMessageFormData): Promise<void>;
-}
-
-export interface AppDataSlice {
+export interface DataSlice {
   entities: {
     appointments: AppointmentEntity;
     medicalReports: MedicalReportEntity;
@@ -141,9 +116,13 @@ export interface AppDataSlice {
   };
 }
 
-export type StoreState = RequestErrorState &
-  AuthSlice &
-  UsersSlice &
-  MedicalReportSlice &
-  ChatMessagesSlice &
-  AppDataSlice;
+export interface AppData {
+  app: {
+    drawerCollapsed: boolean;
+    drawerWidth: number;
+    collapseDrawer(): void;
+    expandDrawer(): void;
+  };
+}
+
+export type StoreState = RequestErrorState & AuthSlice & DataSlice & AppData;

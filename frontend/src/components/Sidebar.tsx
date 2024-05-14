@@ -1,7 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Dashboard, DocumentScannerTwoTone, Event } from '@mui/icons-material';
-
-const drawerWidth = 70;
+import {
+  Dashboard,
+  DocumentScannerTwoTone,
+  Event,
+  KeyboardDoubleArrowLeft,
+  KeyboardDoubleArrowRight,
+} from '@mui/icons-material';
+import { useAppStore } from '@/store';
 
 const doctorMenu = [
   {
@@ -36,33 +41,84 @@ const patientMenu = [
 
 const Sidebar = () => {
   const location = useLocation();
+  const store = useAppStore();
 
   const menu = location.pathname.startsWith('/portal/patient')
     ? patientMenu
     : doctorMenu;
 
+  const handleToggleSidebar = () => {
+    if (store.app.drawerCollapsed) {
+      store.app.expandDrawer();
+    } else {
+      store.app.collapseDrawer();
+    }
+  };
+
   return (
     <aside
-      style={{ width: drawerWidth }}
-      className={`h-screen  dark:bg-black/50 fixed overflow-hidden border-r border-base-200`}
+      style={{ width: store.app.drawerWidth }}
+      className={`h-screen py-5 dark:bg-black/50 fixed overflow-hidden border-r border-base-200 flex flex-col justify-between`}
     >
-      <div className="px-3 pt-5 flex items-center gap-3">
-        <div className="w-12 h-12 rounded-md bg-slate-600" />
-        <span className="font-semibold">Heart AI</span>
-      </div>
-
-      <div className="px-2">
-        <div className="divider" />
-      </div>
-
       <div>
-        <ul className="menu  rounded-box">
-          {menu.map((m) => (
-            <li>
-              <Link to={m.link}>{m.icon}</Link>
-            </li>
-          ))}
-        </ul>
+        <div className="px-3 flex items-center gap-3">
+          <div className="w-12 h-12 rounded-md bg-slate-600" />
+          {!store.app.drawerCollapsed && (
+            <span className="font-semibold">Heart AI</span>
+          )}
+        </div>
+
+        <div
+          className={`mt-5 flex justify-${
+            store.app.drawerCollapsed ? 'center' : 'end mr-2'
+          }`}
+        >
+          <button
+            className="btn btn-sm rounded-full"
+            onClick={handleToggleSidebar}
+          >
+            {store.app.drawerCollapsed ? (
+              <KeyboardDoubleArrowRight style={{ fontSize: '1em' }} />
+            ) : (
+              <KeyboardDoubleArrowLeft style={{ fontSize: '1em' }} />
+            )}
+          </button>
+        </div>
+
+        <div className="px-2">
+          <div className="divider" />
+        </div>
+
+        <div>
+          <ul className="menu  rounded-box">
+            {menu.map((m) =>
+              !store.app.drawerCollapsed ? (
+                <li>
+                  <Link to={m.link}>
+                    <span>{m.icon}</span>
+                    <span>{m.label}</span>
+                  </Link>
+                </li>
+              ) : (
+                <li className="z-50">
+                  <Link to={m.link}>
+                    <div className="tooltip tooltip-right " data-tip={m.label}>
+                      {m.icon}
+                    </div>
+                  </Link>
+                </li>
+              )
+            )}
+          </ul>
+        </div>
+      </div>
+
+      <div className="flex justify-center">
+        <div className="avatar">
+          <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+          </div>
+        </div>
       </div>
     </aside>
   );

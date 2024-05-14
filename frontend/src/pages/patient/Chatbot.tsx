@@ -95,7 +95,7 @@ export default function Chatbot() {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen z-10">
       <div className="bg-black/50 text-white w-[17vw] py-4 flex flex-col justify-between gap-5">
         <div className="px-2">
           <button
@@ -147,15 +147,6 @@ export default function Chatbot() {
               ))}
             </div>
           </div>
-        </div>
-
-        <div className="flex gap-2 items-center px-4">
-          <div className="avatar placeholder">
-            <div className="bg-neutral text-neutral-content rounded-full w-12">
-              <span>SY</span>
-            </div>
-          </div>
-          <p>Sausage Yam</p>
         </div>
       </div>
 
