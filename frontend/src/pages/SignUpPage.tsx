@@ -6,6 +6,7 @@ import { useAppStore } from '@/store';
 import { RegistrationFormData } from '@/types';
 import { getUserId } from '@/utils/auth';
 import { Email, Lock } from '@mui/icons-material';
+import doctor from '@/assets/images/doctor.png';
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -130,7 +131,7 @@ const SignUpPage = () => {
                   />
                 </div>
 
-                <div className="mt-8">
+                <div className="mt-8 -indigo-600">
                   <FormSubmitButton loading={signUpPending()}>
                     Register
                   </FormSubmitButton>

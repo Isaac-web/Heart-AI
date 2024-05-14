@@ -7,6 +7,7 @@ import { LoginFormData } from '@/types';
 import { Email, Key } from '@mui/icons-material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import doctor from '@/assets/images/doctor.png';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required(),
@@ -158,7 +159,9 @@ const LoginPage = () => {
         </div>
       </div>
 
-      <div className="w-1/2 bg-slate-700 hidden lg:block"></div>
+      <div className="w-1/2 bg-[#598DFF] p-11">
+        <img src={doctor} alt="" />
+      </div>
     </section>
   );
 };
