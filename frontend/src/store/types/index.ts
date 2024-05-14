@@ -54,6 +54,7 @@ export interface MedicalReportEntity {
     data: MedicalReportFormData
   ): Promise<MedicalReport | undefined>;
   fetchMedicalReports(params?: MedicalReportSearchParams): Promise<void>;
+  fetchCurrentUserMedicalReports(): Promise<void>;
 }
 
 export interface MedicalReportDetail {

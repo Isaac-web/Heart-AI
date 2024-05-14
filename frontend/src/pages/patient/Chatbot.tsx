@@ -20,6 +20,14 @@ export default function Chatbot() {
   const chatSessions = store.entities.chatSessions;
   const chatMessages = store.entities.chatMessages;
 
+  const getChatSessionMedicalReport = () => {
+    const currentChatSession = chatSessions.data.filter(
+      (ch) => ch._id === sessionId
+    )[0];
+    if (currentChatSession && currentChatSession.medicalReport)
+      return currentChatSession.medicalReport;
+  };
+
   useEffect(() => {
     chatSessions.fetchChatSession();
     if (sessionId) chatMessages.fetchChatMessages(sessionId);
@@ -157,6 +165,17 @@ export default function Chatbot() {
             ref={chatMessagesContainerRef}
           >
             <div className="px-4 lg:px-0 py-5 flex flex-col justify-between w-full max-w-xl margin-x-auto">
+              {getChatSessionMedicalReport() && (
+                <div className="py-5">
+                  <Alert
+                    title="Medical Report"
+                    message={`This chat session is linked to medical report of id: ${
+                      getChatSessionMedicalReport()?._id
+                    }`}
+                  />
+                </div>
+              )}
+
               <div className="pb-32">
                 {chatMessages.data.map((chat, index) => (
                   <ChatBubble

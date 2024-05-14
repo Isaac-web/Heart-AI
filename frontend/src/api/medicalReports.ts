@@ -30,6 +30,8 @@ export const getCurrentUserMedicalReports = async () => {
     '/medical-reports/me'
   );
 
+  console.log(resData);
+
   return resData.data;
 };
 

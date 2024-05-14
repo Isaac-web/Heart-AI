@@ -17,15 +17,7 @@ const AppointmentsPage = () => {
 
   useEffect(() => {
     store.entities.appointments.fetchAppointments({ doctorId: getUserId() });
-
-    // appointments.createAppointment({
-    //   doctorId: '664134a5bb72b62941e6c54e',
-    //   patientId: '663e27208f92941a8c6f2068',
-    //   appointmentDate: new Date(Date.now() + 10000).toISOString(),
-    // });
   }, []);
-
-  console.log(store.getError(appointments.createAppointment.name));
 
   return (
     <section className="container">

@@ -101,6 +101,7 @@ export interface ChatSession {
   _id: string;
   patientId: string;
   title: string;
+  medicalReport?: MedicalReport;
   createdAt: string;
   updatedAt: string;
 }
