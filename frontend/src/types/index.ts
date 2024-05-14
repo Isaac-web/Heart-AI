@@ -68,24 +68,49 @@ export interface MedicalReportFormData {
   thal: number;
 }
 
+// export interface MedicalReport {
+//   _id: string;
+//   patient: User;
+//   doctorId: Doctor;
+//   age: number;
+//   sex: number;
+//   cp: number;
+//   trestbps: number;
+//   chol: number;
+//   fbs: number;
+//   restecg: number;
+//   thalach: number;
+//   exang: number;
+//   oldpeak: number;
+//   slope: number;
+//   ca: number;
+//   thal: number;
+//   cardioStatus: number;
+//   createdAt: string;
+// }
+
 export interface MedicalReport {
   _id: string;
-  patient: User;
-  doctorId: Doctor;
-  age: number;
-  sex: number;
-  cp: number;
-  trestbps: number;
-  chol: number;
-  fbs: number;
-  restecg: number;
-  thalach: number;
-  exang: number;
-  oldpeak: number;
-  slope: number;
-  ca: number;
-  thal: number;
   cardioStatus: number;
+  status: string;
+  confidenceLevel: number;
+  patient: User;
+  doctor: Doctor;
+  details: {
+    age: number;
+    sex: number;
+    chestPainType: number;
+    restingBloodPressure: number;
+    serumColesterol: number;
+    fastingBloodSugarLevel: number;
+    restingElectrocardiographocResults: number;
+    maximumHeartRate: number;
+    exerciseInducedAngina: number;
+    stDepression: number;
+    slope: number;
+    numberOfMajorVessels: number;
+    thalliumStressTestResults: number;
+  };
   createdAt: string;
 }
 

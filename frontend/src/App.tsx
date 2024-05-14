@@ -14,6 +14,7 @@ import MedicalReports from "./pages/MedicalReports";
 import DoctorPortal from "./components/DoctorPortal";
 import NewMedicalReportPage from "./pages/NewMedicalReportPage";
 import PatientOnboardingPage from "./pages/PatientOnboardingPage";
+import MedicalReportDetails from "./pages/MedicalReportDetails";
 
 const App = () => {
   return (
@@ -53,7 +54,7 @@ const App = () => {
             />
             <Route
               path="/portal/doctor/medical-reports/:id"
-              element={<>Report Details</>}
+              element={<MedicalReportDetails />}
             />
             <Route
               path="/portal/doctor/medical-reports"

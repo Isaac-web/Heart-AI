@@ -64,7 +64,7 @@ const columns: Column<MedicalReport>[] = [
     label: 'Cadio Status',
     value: 'cadioStatus',
     render(report) {
-      const isHealthy = !report.cardioStatus;
+      const isHealthy = report.cardioStatus;
 
       return (
         <div

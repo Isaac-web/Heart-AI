@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           debugShowFloatingThemeButton: true,
           initial: AdaptiveThemeMode.light,
           builder: (theme, darkTheme) => MaterialApp(
-            theme: theme,
+            theme:  theme,
             darkTheme: darkTheme,
             title: 'heartAI',
             debugShowCheckedModeBanner: false,
@@ -38,3 +38,11 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+const defaultInputBorder = OutlineInputBorder(
+  borderRadius: BorderRadius.all(Radius.circular(16)),
+  borderSide: BorderSide(
+    color: Color(0xFFDEE3F2),
+    width: 1,
+  ),
+);

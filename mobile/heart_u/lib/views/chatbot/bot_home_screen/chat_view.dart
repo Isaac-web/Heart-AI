@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:chatview/chatview.dart';
 import 'package:dio/dio.dart';
@@ -17,7 +18,8 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  AppTheme theme = LightTheme();
+
+  AppTheme theme =  LightTheme();
   bool isDarkTheme = false;
 
   final Dio dio = Dio();
@@ -39,8 +41,25 @@ class _ChatScreenState extends State<ChatScreen> {
     ],
   );
 
+  Future<void> getTheme() async {
+    final savedThemeMode = await AdaptiveTheme.getThemeMode();
+    print("color is $savedThemeMode");
+
+    if (savedThemeMode == AdaptiveThemeMode.dark){
+      setState(() {
+         theme =  DarkTheme();
+      });
+    } else {
+      setState(() {
+        theme =  LightTheme();
+      });
+    }
+  }
+
   @override
   void initState() {
+
+    getTheme();
 
    _chatController.initialMessageList.clear();
 
@@ -316,6 +335,9 @@ class _ChatScreenState extends State<ChatScreen> {
     print(token);
     print(widget.chatContext);
 
+    print(sessionId);
+
+
     print("dio initialised");
 
     try {
@@ -328,7 +350,7 @@ class _ChatScreenState extends State<ChatScreen> {
         data: {
           "text" : message,
           "chatSessionId": sessionId == "" ? randomNumber.toString()
-              : sessionId,
+              : sessionId ?? randomNumber.toString(),
           "context": widget.chatContext ?? {"subject":"heart diseases"},
         },
         options: Options(
