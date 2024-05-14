@@ -5,13 +5,7 @@ export const Doctor = mongoose.model(
   'Doctor',
   new mongoose.Schema(
     {
-      firstName: {
-        type: String,
-        maxlength: 256,
-        default: '',
-        trim: true,
-      },
-      lastName: {
+      name: {
         type: String,
         maxlength: 256,
         default: '',
@@ -86,8 +80,7 @@ export const validateDoctorLogin = (credentials: unknown) => {
 
 export const validateUpdateDoctor = (data: unknown) => {
   const schema = Joi.object({
-    firstName: Joi.string().max(256),
-    lastName: Joi.string().max(256),
+    name: Joi.string().max(256),
     age: Joi.string().max(256),
     sex: Joi.number().min(0).max(1),
     phone: Joi.string().min(3).max(15),

@@ -1,5 +1,6 @@
 import {
   Appointment,
+  AppointmentsSearchParams,
   ChatMessage,
   ChatMessageFormData,
   ChatSession,
@@ -31,7 +32,7 @@ export interface AppointmentEntity {
   loading: boolean;
   isPending: boolean;
   data: Appointment[];
-  fetchAppointments(): Promise<void>;
+  fetchAppointments(params?: AppointmentsSearchParams): Promise<void>;
 }
 
 export interface AppointmentDetail {

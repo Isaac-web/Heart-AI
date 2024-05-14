@@ -3,8 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 export interface BaseUser {
   _id: string;
   email: string;
-  password: string;
-  imageUrl?: string;
+  userType?: string;
 }
 
 export interface User extends BaseUser {}

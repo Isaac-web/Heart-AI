@@ -7,6 +7,7 @@ import {
   KeyboardDoubleArrowRight,
 } from '@mui/icons-material';
 import { useAppStore } from '@/store';
+import { getUserId } from '@/utils/auth';
 
 const doctorMenu = [
   {
@@ -119,33 +120,44 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div>
-        <div className="px-2">
-          <div className="divider" />
-        </div>
-
-        <div
-          className={`px-5 flex items-center gap-3 ${
-            !store.app.drawerCollapsed ? 'justify-start' : 'justify-center'
-          }`}
-        >
-          <div className="avatar">
-            <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-              {/* <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" /> */}
-              <h3 className="text-xl font-bold w-full h-full bg-primary text-white/70 flex justify-center items-center">
-                {currentUser.name.charAt(0)}
-              </h3>
-            </div>
+      {getUserId() && (
+        <div>
+          <div className="px-2">
+            <div className="divider" />
           </div>
 
-          {!store.app.drawerCollapsed && (
-            <div>
-              <p>{currentUser.name}</p>
-              <p className="text-xs">{currentUser.email}</p>
+          <div
+            className={`px-5 flex items-center gap-3 ${
+              !store.app.drawerCollapsed ? 'justify-start' : 'justify-center'
+            }`}
+          >
+            <div className="avatar">
+              <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                {/* <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" /> */}
+                <h3 className="text-xl font-bold w-full h-full bg-primary text-white/70 flex justify-center items-center">
+                  {currentUser.name.charAt(0)}
+                </h3>
+              </div>
             </div>
-          )}
+
+            {!store.app.drawerCollapsed && (
+              <div className="flex flex-col gap-2">
+                <p>{currentUser.name}</p>
+                <p className="text-xs">{currentUser.email}</p>
+                <button
+                  className="btn btn-xs"
+                  onClick={() => {
+                    localStorage.clear();
+                    window.location.assign('/login/doctor');
+                  }}
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </aside>
   );
 };

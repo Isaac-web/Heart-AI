@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import { Request, Response } from 'express';
-import MedicalReport, {
+import {
+  MedicalReport,
   validateCreateMedicalReport,
-  validateUpdateMedicalReport,
 } from '../models/MedicalReport';
 import { User } from '../models/User';
 import { AppRequest } from '../types';
@@ -12,15 +12,16 @@ import { MedicalReportRequest } from '../models/MedicalReportRequest';
 import { Doctor } from '../models/Doctor';
 
 export const getMedicalReport = async (req: Request, res: Response) => {
-  const medicalReport = await MedicalReport.findById(req.params.id);
+  const medicalReport = await MedicalReport.findById(req.params.id)
+    .populate('patient', '-password')
+    .populate('doctor', '-password');
   if (!medicalReport)
     return res.status(404).json({
       message: 'Could not find medical report with the given id.',
     });
 
   return res.json({
-    successful: true,
-    message: 'returning a single medical report to you of a user',
+    data: medicalReport,
   });
 };
 
@@ -81,11 +82,7 @@ export const createMedicalReport = async (req: Request, res: Response) => {
       .status(404)
       .json({ message: 'Doctor with the given Id cannot be found.' });
 
-  if (existingReport)
-    return res.status(400).json({
-      message: 'Medical report already exists from this doctor.',
-    });
-
+  let medicalReport: any = null;
   try {
     const { data } = await axios.post(
       config.get('predictionModelUrl'),
@@ -106,38 +103,36 @@ export const createMedicalReport = async (req: Request, res: Response) => {
       ])
     );
 
-    if (data.prediction !== 'Your heart is fine, you do not have heart disease')
-      req.body.cardioStatus = 1;
+    medicalReport = await MedicalReport.create({
+      status: data.status,
+      cadioStatus:
+        data.status === 'Unfortunately, you have heart disease' ? 1 : 0,
+      confidenceLevel: Math.floor(Math.random() * 101),
+      patient: req.body.patient,
+      doctor: req.body.doctor,
+      details: {
+        age: data.details['age'],
+        sex: data.details['sex'],
+        chestPainType: data.details['chest pain type'],
+        restingBloodPressure: data.details['resting blood pressure'],
+        serumColesterol: data.details['serum colesterol'],
+        fastingBloodSugarLevel: data.details['fasting blood sugar level'],
+        restingElectrocardiographocResults:
+          data.details['resting electrocardiographoc results'],
+        maximumHeartRate: data.details['maximum heart rate'],
+        exerciseInducedAngina: data.details['exercise induced agina'],
+        stDepression: data.details['st depression'],
+        slope: data.details['slope'],
+        numberOfMajorVessels: data.details['number of major vessels'],
+        thalliumStressTestResults: data.details['thallium stress test_results'],
+      },
+    });
+
+    req.body.cardioStatus = data.status;
   } catch (err) {
     return res.status(500).json({
       message: 'Something went wrong.',
     });
-  }
-
-  const medicalReport = await MedicalReport.create(
-    _.pick(req.body, [
-      'patient',
-      'doctor',
-      'age',
-      'sex',
-      'cp',
-      'trestbps',
-      'chol',
-      'fbs',
-      'restecg',
-      'thalach',
-      'exang',
-      'oldpeak',
-      'slope',
-      'ca',
-      'thal',
-      'cardioStatus',
-    ])
-  );
-
-  if (reportRequest) {
-    reportRequest.status = 1;
-    await reportRequest.save();
   }
 
   patient.password = '';
@@ -153,7 +148,7 @@ export const createMedicalReport = async (req: Request, res: Response) => {
 };
 
 export const updateMedicalReport = async (req: Request, res: Response) => {
-  const { error } = validateUpdateMedicalReport(req.body);
+  const { error } = req.body;
   if (error)
     return res.status(422).json({
       message: error.details[0].message,

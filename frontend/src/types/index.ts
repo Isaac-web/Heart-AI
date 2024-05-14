@@ -236,3 +236,7 @@ export interface Appointment {
   status: number;
   createdAt: string;
 }
+
+export interface AppointmentsSearchParams {
+  doctorId?: string;
+}
