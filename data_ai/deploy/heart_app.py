@@ -43,7 +43,8 @@ def predict_disease(data:HeartParameter):
     slope,ca,thal]])
 
     prediction = classifier.predict(features)
-    confidence = classifier.decision_function(features) 
+    confidence = abs(classifier.decision_function(features) )
+    confidence_percentage = round(confidence *  100, 2)
 
     prediction = prediction[0].item()
 
@@ -77,7 +78,7 @@ def predict_disease(data:HeartParameter):
     return {
         'status': result,
         'details': details,
-        'confidence_level': confidence
+        'confidence_level': confidence_percentage
     }
 
 #    Will run on http://127.0.0.1:8000
