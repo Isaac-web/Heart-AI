@@ -10,8 +10,9 @@ import '../../../core/utils/constants.dart';
 class CourseintroductlistItemWidget2 extends StatefulWidget {
   String descrip;
   String name;
+  String date;
   CourseintroductlistItemWidget2({super.key, required this.descrip,
-    required this.name});
+    required this.name, required this.date});
 
   @override
   State<CourseintroductlistItemWidget2> createState() => _CourseintroductlistItemWidget2State();
@@ -36,6 +37,9 @@ class _CourseintroductlistItemWidget2State extends State<CourseintroductlistItem
 
             print("dio initialised");
 
+            var date = widget.date;
+            print("Date is $date");
+
             var token = prefs.getString("token");
 
             try {
@@ -44,12 +48,13 @@ class _CourseintroductlistItemWidget2State extends State<CourseintroductlistItem
                 loading = true;
               });
 
-              print("session creation initialised");
+              print("appointment initialised");
               Response response = await dio.post(
                 "${baseUrl}api/medical-reports/requests",
                 data: {
                   "patientId" : prefs.getString("userId"),
                   "doctorId" : widget.descrip,
+                  "appointmentDate": widget.date,
                 },
                 options: Options(
                   headers: {
@@ -86,7 +91,6 @@ class _CourseintroductlistItemWidget2State extends State<CourseintroductlistItem
                 //
                 // prefs.setString('sessionId', sessionId);
                 // prefs.setString('patientId', patientId);
-
 
               }else {
                 setState(() {

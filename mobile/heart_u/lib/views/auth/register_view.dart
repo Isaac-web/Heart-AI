@@ -1,7 +1,12 @@
 
+import 'dart:ui';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:heart_u/views/auth/widgets/heading_text.dart';
+import 'package:rive/rive.dart';
 import 'package:widget_loading/widget_loading.dart';
 import '../../core/app_export.dart';
 import '../../core/utils/constants.dart';
@@ -9,6 +14,8 @@ import '../../theme/custom_button_style.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_feild.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+
+import '../onboarding/widget/custom_input.dart';
 
 class RegisterUserScreen extends StatefulWidget {
   const RegisterUserScreen({super.key});
@@ -26,168 +33,269 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 
   TextEditingController repeatPasswordController = TextEditingController();
 
+  TextEditingController phoneController = TextEditingController();
+
+  TextEditingController ageController = TextEditingController();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final Dio dio = Dio();
 
   var loading = false;
 
+  int selectedOption = 1;
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    passwordController.dispose();
+    repeatPasswordController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
+    ageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Form(
-          key: _formKey,
-          child: SizedBox(
-            width: double.maxFinite,
-            child: Column(
-              children: [
-                SizedBox(height: 22.v),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12.h),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 11.h),
-                            child: FadeInLeft(
-                              duration: const Duration(milliseconds: 1000),
-                              child: const Text(
-                                "HeartAI",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30,
-                                ),
-                              ),
-                            ),
-                          ),
+        body: Stack(
+          children: [
+            Positioned(
+                width: MediaQuery.of(context).size.width * 1.7,
+                bottom: 200,
+                left: 100,
+                child: Image.asset('assets/Backgrounds/Spline.png')),
+            const RiveAnimation.asset('assets/RiveAssets/shapes.riv'),
+            GestureDetector(
+              onTap: ()=>Navigator.pop(context),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.arrow_back_ios_new,
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: 0,
+                horizontal: 50,
+              ),
+              child: MainHeading(
+                title: "HeartAI",
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+              child: ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: 16,
+                    sigmaY: 16,
+                  ),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 20,
+                      ),
+                      child: Form(
+                        key: _formKey,
+                        child: SizedBox(
+                          width: double.maxFinite,
+                          child: Column(
+                            children: [
+                              SizedBox(height: 22.v),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 12.h),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
 
-                          Bounce(
-                            duration: const Duration(milliseconds: 1000),
-                            child: Image(
-                              height: 300.v,
-                                image: const AssetImage("assets/images/Frame5.png")
-                            ),
+                                        Bounce(
+                                          duration: const Duration(milliseconds: 1000),
+                                          child: Image(
+                                              height: 300.v,
+                                              image: const AssetImage("assets/images/Frame5.png")
+                                          ),
+                                        ),
+                                        SizedBox(height: 11.v),
+                                        FadeInUp(
+                                            duration: const Duration(milliseconds: 1000),
+                                            child: _buildName(context)
+                                        ),
+                                        SizedBox(height: 18.v),
+                                        FadeInUp(
+                                            duration: const Duration(milliseconds: 1000),
+                                            child: _buildLName(context)
+                                        ),
+                                        SizedBox(height: 18.v),
+                                        FadeInUp(
+                                            duration: const Duration(milliseconds: 1000),
+                                            child: _buildAge(context)
+                                        ),
+                                        SizedBox(height: 18.v),
+                                        FadeInUp(
+                                          duration: const Duration(milliseconds: 1000),
+                                          child: Column(
+                                              children: <Widget>[
+                                                ListTile(
+                                                    title: const Text('Male'),
+                                                    leading: Radio<int>(
+                                                      value: 1,
+                                                      groupValue: selectedOption,
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          selectedOption = value!;
+                                                          print(selectedOption);
+                                                        });
+                                                      },
+                                                    )
+                                                ),
+                                                ListTile(
+                                                  title: const Text('Female'),
+                                                  leading: Radio<int>(
+                                                    value: 0,
+                                                    groupValue: selectedOption,
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        selectedOption = value!;
+                                                        print(selectedOption);
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              ]
+                                          ),
+                                        ),
+
+
+                                        FadeInUp(
+                                            duration: const Duration(milliseconds: 1000),
+                                            child: _buildUserName(context)
+                                        ),
+                                        SizedBox(height: 18.v),
+                                        FadeInUp(
+                                            duration: const Duration(milliseconds: 1000),
+                                            child: _buildPassword(context)
+                                        ),
+                                        SizedBox(height: 18.v),
+                                        FadeInUp(
+                                            duration: const Duration(milliseconds: 1000),
+                                            child: _buildRepeatPassword(context)
+                                        ),
+                                        SizedBox(height: 35.v),
+                                        FadeInRight(
+                                            duration: const Duration(milliseconds: 1000),
+                                            child: CircularWidgetLoading(
+                                                loading: loading,
+                                                child: _buildSigninas(context))
+                                        ),
+                                        SizedBox(height: 10.v),
+                                        TextButton(
+                                          onPressed: (){
+                                            Navigator.of(context).pushNamed(
+                                                AppRoutes.initialRoute);
+                                          },
+                                          child: const Text(
+                                            "Login",
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        )
+                                        // FadeInLeft(
+                                        //     duration: const Duration(milliseconds: 1000),
+                                        //     child: _buildSigninas1(context)
+                                        // )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
-                          SizedBox(height: 11.v),
-                          FadeInUp(
-                              duration: const Duration(milliseconds: 1000),
-                              child: _buildName(context)
-                          ),
-                          SizedBox(height: 18.v),
-                          FadeInUp(
-                              duration: const Duration(milliseconds: 1000),
-                              child: _buildUserName(context)
-                          ),
-                          SizedBox(height: 18.v),
-                          FadeInUp(
-                              duration: const Duration(milliseconds: 1000),
-                              child: _buildPassword(context)
-                          ),
-                          SizedBox(height: 18.v),
-                          FadeInUp(
-                              duration: const Duration(milliseconds: 1000),
-                              child: _buildRepeatPassword(context)
-                          ),
-                          SizedBox(height: 35.v),
-                          FadeInRight(
-                              duration: const Duration(milliseconds: 1000),
-                              child: CircularWidgetLoading(
-                                loading: loading,
-                                  child: _buildSigninas(context))
-                          ),
-                          SizedBox(height: 10.v),
-                          TextButton(
-                            onPressed: (){
-                              Navigator.of(context).pushNamed(
-                                  AppRoutes.login);
-                            },
-                            child: const Text(
-                              "Login",
-                              textAlign: TextAlign.left,
-                            ),
-                          )
-                          // FadeInLeft(
-                          //     duration: const Duration(milliseconds: 1000),
-                          //     child: _buildSigninas1(context)
-                          // )
-                        ],
+                        ),
                       ),
                     ),
                   ),
-                )
-              ],
+                ),
+              ),
             ),
-          ),
+          ]
         ),
-      ),
+        ),
     );
   }
 
   /// Section Widget
   Widget _buildName(BuildContext context) {
-    return CustomTextFormField(
+    return InputCustomizado(
       controller: nameController,
-      hintText: "Enter full Name",
-      textStyle: TextStyle(
-          color: Colors.grey[700]
+      hint: 'Enter full name',
+
+    );
+  }
+
+  /// Section Widget
+  Widget _buildLName(BuildContext context) {
+    return InputCustomizado(
+      controller: phoneController,
+      hint: 'Enter Phone number',
+      icon: const Icon(Icons.phone),
+      style: const TextStyle(
+        color: Colors.black
       ),
-      borderDecoration: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4.h),
-        borderSide: const BorderSide(color: Color(0xff204099), width: 0.0),
+    );
+  }
+
+  Widget _buildAge(BuildContext context) {
+    return InputCustomizado(
+      controller: ageController,
+      hint: 'Enter age',
+      icon: const Icon(Icons.child_care),
+      style: const TextStyle(
+          color: Colors.black
       ),
     );
   }
 
   /// Section Widget
   Widget _buildUserName(BuildContext context) {
-    return CustomTextFormField(
-      textInputType: TextInputType.emailAddress,
+    return InputCustomizado(
       controller: emailController,
-      hintText: "Enter email",
-      textStyle: TextStyle(
-          color: Colors.grey[700]
-      ),
-      borderDecoration: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4.h),
-        borderSide: const BorderSide(color: Color(0xff204099), width: 0.0),
+      hint: 'Enter email',
+      icon: const Icon(Icons.email),
+      style: const TextStyle(
+          color: Colors.black
       ),
     );
   }
 
   /// Section Widget
   Widget _buildPassword(BuildContext context) {
-    return CustomTextFormField(
+    return InputCustomizado(
       controller: passwordController,
-      hintText: "Enter password",
-      textInputAction: TextInputAction.done,
-      textInputType: TextInputType.visiblePassword,
-      obscureText: true,
-      textStyle:TextStyle(
-          color: Colors.grey[700]
-      ),
-      borderDecoration: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4.h),
-        borderSide: const BorderSide(color: Color(0xff204099), width: 0.0),
+      hint: 'Enter password',
+      icon: const Icon(Icons.lock),
+      style: const TextStyle(
+          color: Colors.black
       ),
     );
   }
 
   Widget _buildRepeatPassword(BuildContext context) {
-    return CustomTextFormField(
+    return InputCustomizado(
       controller: repeatPasswordController,
-      hintText: "Repeat password",
-      textInputAction: TextInputAction.done,
-      textInputType: TextInputType.visiblePassword,
-      obscureText: true,
-      textStyle:TextStyle(
-          color: Colors.grey[700]
-      ),
-      borderDecoration: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4.h),
-        borderSide: const BorderSide(color: Color(0xff204099), width: 0.0),
+      hint: 'Confirm password',
+      icon: const Icon(Icons.lock),
+      style: const TextStyle(
+          color: Colors.black
       ),
     );
   }
@@ -199,9 +307,12 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
         String password = passwordController.text;
         String email = emailController.text;
         String name = nameController.text;
+        String phone = phoneController.text;
         String repeatPass = repeatPasswordController.text;
+        String age = ageController.text;
         if (password.isEmpty || name.isEmpty ||
-            email.isEmpty || repeatPass.isEmpty){
+            email.isEmpty || repeatPass.isEmpty || phone.isEmpty
+            || age.isEmpty){
 
           AwesomeDialog(
             context: context,
@@ -247,7 +358,10 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 "name": name ,
                 "email" : email,
                 "password": password,
-                "userType": "patient"
+                "phone": phone,
+                "age": age,
+                "confirmPassword": repeatPass,
+                "sex": selectedOption.toString(),
               },
               options: Options(
                 responseType: ResponseType.json,
@@ -272,8 +386,16 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 loading = false;
               });
 
+              Fluttertoast.showToast(
+                  msg: "✔️ Account created successfully",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  fontSize: 16.0
+              );
+
               Navigator.of(context).pushNamedAndRemoveUntil(
-                  AppRoutes.login, (route) => false);
+                  AppRoutes.initialRoute, (route) => false);
 
             }else {
               setState(() {
@@ -351,3 +473,5 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 //   );
 // }
 }
+
+enum BestTutorSite { javatpoint, w3schools, tutorialandexample }

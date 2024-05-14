@@ -1,7 +1,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:heart_u/core/app_export.dart';
 import 'package:heart_u/views/patientDashboard/widget/courseintroductlist_item_widget.dart';
 import 'package:heart_u/views/patientDashboard/widget/courseintroductlist_item_widget2.dart';
@@ -28,6 +31,8 @@ class _PatientDashboardState extends State<PatientDashboard> {
   TextEditingController searchController = TextEditingController();
 
   TextEditingController userNameController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+
 
   final Dio dio = Dio();
 
@@ -36,6 +41,8 @@ class _PatientDashboardState extends State<PatientDashboard> {
   var show = false;
   var datalist;
   var datalist2;
+  var isEmpty = true;
+  int selectedOption = 1;
 
   late SharedPreferences prefs;
   Future<void> getData()async {
@@ -52,19 +59,6 @@ class _PatientDashboardState extends State<PatientDashboard> {
       });
 
       print("detail retrieval initialised");
-      Response response = await dio.get(
-        "${baseUrl}api/users/me",
-        data: {
-          "email" : prefs.getString("email"),
-          "password": prefs.getString("password"),
-        },
-        options: Options(
-          headers: {
-            "Authorization": "Bearer ${token!}"
-          },
-          validateStatus: (_) => true,
-        ),
-      );
 
       Response response2 = await dio.get(
         "${baseUrl}api/medical-reports/me",
@@ -78,12 +72,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
 
       Response response3 = await dio.get(
-        "${baseUrl}api/users?userType=doctor",
-        data: {
-          "name": "userType",
-          "value": "doctor",
-          "isPath": false,
-        },
+        "${baseUrl}api/doctors",
         options: Options(
           headers: {
             "Authorization": "Bearer $token"
@@ -96,82 +85,18 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
       print('Response: ${response2.data}');
 
-      print('Response: ${response.data}');
 
-
-      if (response3.statusCode == 200){
+      if (response3.statusCode == 200 && response2.statusCode == 200){
         setState(() {
           loading = false;
           datalist2 = response3.data["data"] as List;
-        });
-      }else {
-        setState(() {
-          loading = false;
-        });
-        AwesomeDialog(
-          context: context,
-          dialogType: DialogType.error,
-          animType: AnimType.rightSlide,
-          headerAnimationLoop: true,
-          title: 'Error',
-          desc:
-          'Please try again later',
-          btnOkOnPress: () {},
-          btnOkIcon: Icons.cancel,
-          btnOkColor: Colors.red,
-        ).show();
-      }
-
-      if (response2.statusCode == 200){
-
-        setState(() {
           datalist = response2.data["data"] as List;
+          if (datalist.isEmpty) {
+            isEmpty = true;
+          } else {
+            isEmpty = false;
+          }
         });
-
-        setState(() {
-          loading = false;
-        });
-
-        final jsonData = response.data;
-
-        final name = jsonData['data']['name'];
-        final patientId = jsonData['data']['_id'];
-
-        prefs.setString("userId", patientId);
-        prefs.setString("name", name);
-
-      }else {
-        setState(() {
-          loading = false;
-        });
-        AwesomeDialog(
-          context: context,
-          dialogType: DialogType.error,
-          animType: AnimType.rightSlide,
-          headerAnimationLoop: true,
-          title: 'Error',
-          desc:
-          'Please try again later',
-          btnOkOnPress: () {},
-          btnOkIcon: Icons.cancel,
-          btnOkColor: Colors.red,
-        ).show();
-      }
-
-      if (response.statusCode == 200){
-
-        setState(() {
-          loading = false;
-        });
-
-        final jsonData = response.data;
-
-        final name = jsonData['data']['name'];
-        final patientId = jsonData['data']['_id'];
-
-        prefs.setString("userId", patientId);
-        prefs.setString("name", name);
-
       }else {
         setState(() {
           loading = false;
@@ -200,8 +125,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
         animType: AnimType.rightSlide,
         headerAnimationLoop: true,
         title: 'Error',
-        desc:
-        "Please try again later",
+        desc: e.toString(),
         btnOkOnPress: () {},
         btnOkIcon: Icons.cancel,
         btnOkColor: Colors.red,
@@ -266,6 +190,38 @@ class _PatientDashboardState extends State<PatientDashboard> {
               ],
             ),
             SizedBox(height: 16.v),
+            isEmpty ?
+            Bounce(
+              duration: const Duration(milliseconds: 1000),
+              child:  Padding(
+                padding: const EdgeInsets.fromLTRB(10.0,50,10,10),
+                child: CircularWidgetLoading(
+                  loading: loading,
+                  child: const Column(
+                    children: [
+                      Text(
+                        "Book an appointment to start your journey",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      SingleChildScrollView(
+                        child: Image(
+                            image: AssetImage("assets/images/medical.png"),
+                          width: 200,
+                          height: 450,
+
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+                :
             _buildCourseIntroductList(context),
           ],
         ),
@@ -309,21 +265,34 @@ class _PatientDashboardState extends State<PatientDashboard> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Text(
+                    const Text(
                       'Patient Details',
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
                     ),
                     const SizedBox(height: 15,),
-
                     Text(
-                      'Name: ${prefs.getString("name")}',
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      "Id: ${prefs.getString("userId")}",
                     ),
                     const SizedBox(height: 10,),
-
+                    Text(
+                      'Name: ${prefs.getString("name")}',
+                    ),
+                    const SizedBox(height: 10,),
+                    Text(
+                      'Age: ${prefs.getString("age")}',
+                    ),
+                    const SizedBox(height: 10,),Text(
+                      'Phone: ${prefs.getString("phone")}',
+                    ),
+                    const SizedBox(height: 10,),Text(
+                      'Sex: ${prefs.getString("sex") == "1" ? "Male" : "Female"}',
+                    ),
+                    const SizedBox(height: 10,),
                     Text(
                       'Email: ${prefs.getString("email")}',
-                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
 
                     const SizedBox(height: 20,),
@@ -342,6 +311,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
                     AnimatedButton(
                       isFixedHeight: false,
+                      icon: Icons.cloud_upload,
                       text: 'Update details',
                       color: const Color(0xff204099),
                       pressEvent: () {
@@ -370,7 +340,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                                 const SizedBox(height: 10,),
 
                                 Text(
-                                  'Enter name',
+                                  'Enter details',
                                   style: Theme.of(context).textTheme.titleLarge,
                                 ),
                                 const SizedBox(
@@ -390,12 +360,69 @@ class _PatientDashboardState extends State<PatientDashboard> {
                                       ),
                                     )
                                 ),
+                                const SizedBox(height: 10,),
+                                Material(
+                                    elevation: 0,
+                                    color: Colors.blueGrey.withAlpha(40),
+                                    child: CustomTextFormField(
+                                      controller: ageController,
+                                      hintText: "Enter Your update age",
+                                      textInputAction: TextInputAction.done,
+                                      textInputType: TextInputType.number,
+                                      obscureText: false,
+                                      textStyle:TextStyle(
+                                          color: Colors.grey[700]
+                                      ),
+                                    )
+                                ),
+                                const SizedBox(height: 10,),
+                                Column(
+                                    children: <Widget>[
+                                      ListTile(
+                                          title: const Text('Male'),
+                                          leading: Radio<int>(
+                                            value: 1,
+                                            groupValue: selectedOption,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                selectedOption = value!;
+                                                Fluttertoast.showToast(
+                                                    msg: "✔️ Male selected",
+                                                    toastLength: Toast.LENGTH_SHORT,
+                                                    gravity: ToastGravity.CENTER,
+                                                    timeInSecForIosWeb: 1,
+                                                    fontSize: 16.0
+                                                );
+                                                print(selectedOption);
+                                              });
+                                            },
+                                          )
+                                      ),
+                                      ListTile(
+                                        title: const Text('Female'),
+                                        leading: Radio<int>(
+                                          value: 0,
+                                          groupValue: selectedOption,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              selectedOption = value!;
+                                              Fluttertoast.showToast(
+                                                  msg: "✔️ Female Selected",
+                                                  toastLength: Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.CENTER,
+                                                  timeInSecForIosWeb: 1,
+                                                  fontSize: 16.0
+                                              );
+                                              print(selectedOption);
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ]
+                                ),
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                CircularWidgetLoading(
-                                    loading: isLoading,
-                                    child: const Text(".")),
 
                                 const SizedBox()  ,
 
@@ -420,6 +447,8 @@ class _PatientDashboardState extends State<PatientDashboard> {
                                         "${baseUrl}api/users/me",
                                         data: {
                                           "name" : userNameController.text,
+                                          "age": ageController.text.toString(),
+                                          "sex": selectedOption.toString(),
                                         },
                                         options: Options(
                                           headers: {
@@ -433,8 +462,22 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
                                       if (response.statusCode == 200){
 
+                                        Fluttertoast.showToast(
+                                            msg: "✔️ Details updated successfully",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            timeInSecForIosWeb: 1,
+                                            fontSize: 16.0
+                                        );
+
                                         prefs.setString("name",
                                             userNameController.text);
+
+                                        prefs.setString("age",
+                                            ageController.text.toString());
+
+                                        prefs.setString("sex",
+                                            userNameController.text.toString());
 
                                         setState(() {
                                           isLoading = false;
@@ -481,143 +524,176 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
                     AnimatedButton(
                       isFixedHeight: false,
-                      text: 'Request report',
+                      text: 'Book an appointment',
+                      icon: Icons.calendar_month_outlined,
                       color: const Color(0xff204099),
                       pressEvent: () {
-                        AwesomeDialog(
-                          context: context,
-                          animType: AnimType.scale,
-                          headerAnimationLoop: true,
-                          dialogType: DialogType.question,
-                          keyboardAware: true,
-                          body: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: <Widget>[
-                                Visibility(
-                                  visible: show,
-                                  child: const Text(
-                                    'Error: Please try again later',
-                                    style: TextStyle(
+
+                        var sDate = "date";
+
+                        DatePicker.showDatePicker(context,
+                          showTitleActions: true,
+                          minTime: DateTime.now(),
+                          maxTime: DateTime(2030, 1, 1),
+                          onChanged: (date) {
+                            setState(() {
+                              sDate = date.toString().
+                              substring(0, date.toString()
+                                  .indexOf(' '));
+                            });
+                            print('change $date');
+                            print('change $sDate');
+                          },
+                          onConfirm: (date) {
+                            setState(() {
+                              sDate = date.toString().
+                              substring(0, date.toString()
+                                  .indexOf(' '));
+                            });
+                            print('confirm $date');
+                            print('change $sDate');
+
+                            AwesomeDialog(
+                              context: context,
+                              animType: AnimType.scale,
+                              headerAnimationLoop: true,
+                              dialogType: DialogType.question,
+                              keyboardAware: true,
+                              body: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: <Widget>[
+                                    Visibility(
+                                      visible: show,
+                                      child: const Text(
+                                        'Error: Please try again later',
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.red
+                                        ),
+                                      ),
+                                    ),
+
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Text(
+                                      'Select doctor',
+                                      style: TextStyle(
                                         fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.red
+                                      ),
                                     ),
-                                  ),
-                                ),
-
-                                const SizedBox(height: 10,),
-
-                                Text(
-                                  'Select doctor',
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Material(
-                                  elevation: 0,
-                                  color: Colors.blueGrey.withAlpha(40),
-                                  child:  SizedBox(
-                                    height: double.maxFinite,
-                                    width: double.maxFinite,
-                                    child: ListView.separated(
-                                      physics: const BouncingScrollPhysics(),
-                                      shrinkWrap: false,
-                                      separatorBuilder: (context, index) {
-                                        return SizedBox(
-                                          height: 16.v,
-                                        );
-                                      },
-                                      itemCount: datalist2 == null ? 0 :  datalist2.length,
-                                      itemBuilder: (context, index) {
-                                        return CourseintroductlistItemWidget2(
-                                            descrip: datalist2[index]["_id"],
-                                          name: datalist2[index]["name"],
-                                        );
-                                      },
+                                    const SizedBox(
+                                      height: 5,
                                     ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
+                                    Material(
+                                      elevation: 0,
+                                      color: Colors.blueGrey.withAlpha(40),
+                                      child:  SizedBox(
+                                        height: double.maxFinite,
+                                        width: double.maxFinite,
+                                        child: ListView.separated(
+                                          physics: const BouncingScrollPhysics(),
+                                          shrinkWrap: false,
+                                          separatorBuilder: (context, index) {
+                                            return SizedBox(
+                                              height: 16.v,
+                                            );
+                                          },
+                                          itemCount: datalist2 == null ? 0 :  datalist2.length,
+                                          itemBuilder: (context, index) {
+                                            return CourseintroductlistItemWidget2(
+                                              date: sDate,
+                                              descrip: datalist2[index]["_id"],
+                                              name: datalist2[index]["firstName"]+" "+datalist2[index]["lastName"],
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
 
-                                // AnimatedButton(
-                                //   isFixedHeight: false,
-                                //   text: 'Send Request',
-                                //   pressEvent: () async {
-                                //
-                                //     String _baseUrl = baseUrl;
-                                //
-                                //     print("dio initialised");
-                                //
-                                //     var token = prefs.getString("token");
-                                //
-                                //     try {
-                                //
-                                //       setState(() {
-                                //         isLoading = false;
-                                //       });
-                                //
-                                //       print("session creation initialised");
-                                //       Response response = await dio.post(
-                                //         "${_baseUrl}api/medical-reports/requests",
-                                //         data: {
-                                //           "patientId" : prefs.getString("userId"),
-                                //           "doctorId" : docId,
-                                //         },
-                                //         options: Options(
-                                //           headers: {
-                                //             "Authorization": "Bearer ${token!}"
-                                //           },
-                                //           validateStatus: (_) => true,
-                                //         ),
-                                //       );
-                                //
-                                //       print('Response: ${response.data}');
-                                //
-                                //       if (response.statusCode == 200){
-                                //
-                                //
-                                //         setState(() {
-                                //           isLoading = false;
-                                //         });
-                                //
-                                //         // final jsonData = response.data;
-                                //         // final sessionId = jsonData['data']['_id'];
-                                //         // final patientId = jsonData['data']['patientId'];
-                                //         //
-                                //         // prefs.setString('sessionId', sessionId);
-                                //         // prefs.setString('patientId', patientId);
-                                //
-                                //
-                                //       }else {
-                                //         setState(() {
-                                //           isLoading = false;
-                                //         });
-                                //
-                                //         setState(() {
-                                //           show = true;
-                                //         });
-                                //       }
-                                //
-                                //     } catch (e) {
-                                //       setState(() {
-                                //         isLoading = false;
-                                //       });
-                                //       setState(() {
-                                //         show = true;
-                                //       });
-                                //       print('Error sending message: $e');
-                                //     }
-                                //
-                                //   },
-                                // ),
-                              ],
-                            ),
-                          ),
-                        ).show();
+                                    // AnimatedButton(
+                                    //   isFixedHeight: false,
+                                    //   text: 'Send Request',
+                                    //   pressEvent: () async {
+                                    //
+                                    //     String _baseUrl = baseUrl;
+                                    //
+                                    //     print("dio initialised");
+                                    //
+                                    //     var token = prefs.getString("token");
+                                    //
+                                    //     try {
+                                    //
+                                    //       setState(() {
+                                    //         isLoading = false;
+                                    //       });
+                                    //
+                                    //       print("session creation initialised");
+                                    //       Response response = await dio.post(
+                                    //         "${_baseUrl}api/medical-reports/requests",
+                                    //         data: {
+                                    //           "patientId" : prefs.getString("userId"),
+                                    //           "doctorId" : docId,
+                                    //         },
+                                    //         options: Options(
+                                    //           headers: {
+                                    //             "Authorization": "Bearer ${token!}"
+                                    //           },
+                                    //           validateStatus: (_) => true,
+                                    //         ),
+                                    //       );
+                                    //
+                                    //       print('Response: ${response.data}');
+                                    //
+                                    //       if (response.statusCode == 200){
+                                    //
+                                    //
+                                    //         setState(() {
+                                    //           isLoading = false;
+                                    //         });
+                                    //
+                                    //         // final jsonData = response.data;
+                                    //         // final sessionId = jsonData['data']['_id'];
+                                    //         // final patientId = jsonData['data']['patientId'];
+                                    //         //
+                                    //         // prefs.setString('sessionId', sessionId);
+                                    //         // prefs.setString('patientId', patientId);
+                                    //
+                                    //
+                                    //       }else {
+                                    //         setState(() {
+                                    //           isLoading = false;
+                                    //         });
+                                    //
+                                    //         setState(() {
+                                    //           show = true;
+                                    //         });
+                                    //       }
+                                    //
+                                    //     } catch (e) {
+                                    //       setState(() {
+                                    //         isLoading = false;
+                                    //       });
+                                    //       setState(() {
+                                    //         show = true;
+                                    //       });
+                                    //       print('Error sending message: $e');
+                                    //     }
+                                    //
+                                    //   },
+                                    // ),
+                                  ],
+                                ),
+                              ),
+                            ).show();
+                          },
+                        );
+
 
                       },
                     ),
@@ -626,6 +702,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
                     AnimatedButton(
                       isFixedHeight: false,
+                      icon: Icons.logout_outlined,
                       text: 'Log Out',
                       color: const Color(0xff204099),
                       pressEvent: () async {
@@ -640,7 +717,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                           });
 
                           Navigator.of(context).pushNamedAndRemoveUntil(
-                              AppRoutes.login,
+                              AppRoutes.initialRoute,
                                   (route) => false);
                         }
 
@@ -679,7 +756,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
           itemCount: datalist == null ? 0 :  datalist.length,
           itemBuilder: (context, index) {
             return CourseintroductlistItemWidget(
-              descrip: datalist[index].toString(),
+              chatContext: datalist[index],
               docId: datalist[index]["doctorId"].toString(),
               id: datalist[index]["patientId"].toString(),
               reportId: datalist[index]["_id"].toString(),

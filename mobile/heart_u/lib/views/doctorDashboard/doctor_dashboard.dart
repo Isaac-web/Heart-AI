@@ -56,10 +56,10 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                 child: FloatingActionButton.extended(
                     backgroundColor: const Color.fromRGBO(82, 170, 94, 1.0),
                     onPressed: (){
-                      Navigator.push<dynamic>(
-                        context,
-                        MaterialPageRoute<dynamic>(builder: (BuildContext context) => const DoctorForm()), //if you want to disable back feature set to false
-                      );
+                      // Navigator.push<dynamic>(
+                      //   context,
+                      //   MaterialPageRoute<dynamic>(builder: (BuildContext context) => const DoctorForm()), //if you want to disable back feature set to false
+                      // );
                     },
                     label: const Text("Diagnose"),
                     icon: const Icon(Icons.medication, color: Colors.white, size: 25,)
