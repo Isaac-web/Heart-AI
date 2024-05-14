@@ -16,7 +16,7 @@ export const appointmentSlice: StateCreator<
   limit: 0,
   total: 0,
   data: [],
-  async fetchAppointments() {
+  async fetchAppointments(params = {}) {
     try {
       get().removeError(this.fetchAppointments.name);
 
@@ -26,7 +26,7 @@ export const appointmentSlice: StateCreator<
         })
       );
 
-      const data = await fetchAppointments();
+      const data = await fetchAppointments(params);
 
       set(
         produce((store: StoreState) => {
