@@ -7,29 +7,29 @@ import * as Yup from 'yup';
 import heartPulzeAnimation from '../assets/animations/heart-pulze-animation.json';
 import { MedicalReportFormData } from '@/types';
 import { useAppStore } from '@/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import Alert from '@/components/Alert';
 
 const validationSchema = Yup.object().shape({
-  age: Yup.number().required().min(16).label('Age'),
+  age: Yup.number().min(16).max(120).required().label('Age'),
   sex: Yup.number()
     .min(0, "Sex must be either 'Male' or 'Female'")
     .max(1, "Sex must be either 'Male' or 'Female'")
     .required()
     .label('Sex'),
-  trestbps: Yup.number().required().label('trestbps'),
-  chol: Yup.number().required().label('Cholestrol Level'),
-  fbs: Yup.number().required().label('fbs'),
-  thalach: Yup.number().required().label('thalach'),
-  exang: Yup.number().required().label('exang'),
-  oldpeak: Yup.number().required().label('oldpeak'),
-  slope: Yup.number().required().label('slope'),
-  ca: Yup.number().required().label('ca'),
-  cp: Yup.number().required().label('cp'),
-  restecg: Yup.number().required().label('restecg'),
-  thal: Yup.number().required().label('thal'),
+  trestbps: Yup.number().min(94).max(200).required().label('trestbps'),
+  chol: Yup.number().min(120).max(570).required().label('Cholestrol Level'),
+  fbs: Yup.number().min(0).max(1).required().label('Fasting Blood Suger Level'),
+  thalach: Yup.number().min(60).max(220).required().label('thalach'),
+  exang: Yup.number().min(0).max(1).required().label('exang'),
+  oldpeak: Yup.number().min(0).max(7).required().label('oldpeak'),
+  slope: Yup.number().min(0).max(2).required().label('slope'),
+  ca: Yup.number().min(0).max(4).required().label('ca'),
+  cp: Yup.number().min(0).max(3).required().label('cp'),
+  restecg: Yup.number().min(0).max(2).required().label('restecg'),
+  thal: Yup.number().min(0).max(3).required().label('thal'),
 });
 
 const NewMedicalReportPage = () => {
@@ -38,14 +38,42 @@ const NewMedicalReportPage = () => {
   const appointment = store.details.appointment;
   const medicalReports = store.entities.medicalReports;
   const appointmentId = searchParams.get('appointmentId') as string;
-
   const navigate = useNavigate();
 
-  const ensureMedicalReports = () => {
+  const [formData, setFormData] = useState<MedicalReportFormData>({
+    doctor: '',
+    patient: '',
+    age: 0,
+    sex: 0,
+    cp: 0,
+    trestbps: 0,
+    chol: 0,
+    fbs: 0,
+    restecg: 0,
+    thalach: 0,
+    exang: 0,
+    oldpeak: 0,
+    slope: 0,
+    ca: 0,
+    thal: 0,
+  });
+
+  const ensureMedicalReports = async () => {
     const { data } = appointment;
     if (!data.doctor._id || !data.patient._id)
-      if (appointmentId)
-        store.details.appointment.getAppointmentById(appointmentId);
+      if (appointmentId) {
+        const appointment = await store.details.appointment.getAppointmentById(
+          appointmentId
+        );
+
+        if (appointment) {
+          setFormData({
+            ...formData,
+            sex: appointment.patient.sex,
+            age: appointment.patient.age,
+          });
+        }
+      }
   };
 
   const getError = () => {
@@ -62,16 +90,19 @@ const NewMedicalReportPage = () => {
     ensureMedicalReports();
   }, []);
 
-  const handleIssueMedicalReport = (data: MedicalReportFormData) => {
+  const handleIssueMedicalReport = async (data: MedicalReportFormData) => {
     data.doctor = appointment.data.doctor._id;
     data.patient = appointment.data.patient._id;
 
-    store.entities.medicalReports.createMedicalReport(data);
+    const medicalReport =
+      await store.entities.medicalReports.createMedicalReport(data);
 
     const error = getError();
-    // if (!error) navigate(``);
 
-    //Navigate to report details page
+    if (!error) {
+      if (medicalReport)
+        navigate(`/portal/doctor/medical-reports/${medicalReport._id}`);
+    }
   };
 
   return (
@@ -91,23 +122,8 @@ const NewMedicalReportPage = () => {
       ) : (
         <div className="mb-10">
           <Form
-            initialValues={{
-              doctor: '',
-              patient: '',
-              age: NaN,
-              sex: NaN,
-              cp: NaN,
-              trestbps: NaN,
-              chol: NaN,
-              fbs: NaN,
-              restecg: NaN,
-              thalach: NaN,
-              exang: NaN,
-              oldpeak: NaN,
-              slope: NaN,
-              ca: NaN,
-              thal: NaN,
-            }}
+            enableReinitialize
+            initialValues={formData}
             validationSchema={validationSchema}
             onSubmit={handleIssueMedicalReport}
           >
@@ -127,41 +143,122 @@ const NewMedicalReportPage = () => {
                 />
               </div>
               <div className="col-span-1">
-                <FormTextfield name="trestbps" label="trestbps" type="number" />
-              </div>
-              <div className="col-span-1">
                 <FormTextfield
-                  name="chol"
-                  label="Cholestrol Level"
+                  name="trestbps"
+                  label="Resting Blood Presure"
                   type="number"
                 />
               </div>
               <div className="col-span-1">
-                <FormTextfield name="fbs" label="fbs" type="number" />
+                <FormTextfield
+                  name="chol"
+                  label="Serum Cholestrol Level"
+                  type="number"
+                />
               </div>
               <div className="col-span-1">
-                <FormTextfield name="thalach" label="thalach" type="number" />
+                <FormSelectInput
+                  name="fbs"
+                  label="Fasting Blood Suger Level"
+                  placeholder="Select One"
+                  options={[
+                    { label: 'True', value: '1' },
+                    { label: 'False', value: '0' },
+                  ]}
+                />
               </div>
               <div className="col-span-1">
-                <FormTextfield name="exang" label="exang" type="number" />
+                <FormTextfield
+                  name="thalach"
+                  label="Maximum Heart Rate"
+                  type="number"
+                />
               </div>
               <div className="col-span-1">
-                <FormTextfield name="oldpeak" label="oldpeak" type="number" />
+                <FormSelectInput
+                  name="exang"
+                  label="Exercise Induced Angina"
+                  placeholder="Select One"
+                  options={[
+                    { label: 'False', value: '0' },
+                    { label: 'True', value: '1' },
+                  ]}
+                />
               </div>
               <div className="col-span-1">
-                <FormTextfield name="slope" label="slope" type="number" />
+                <FormTextfield
+                  name="oldpeak"
+                  label="ST Depression"
+                  type="number"
+                />
               </div>
               <div className="col-span-1">
-                <FormTextfield name="ca" label="ca" type="number" />
+                <FormSelectInput
+                  name="slope"
+                  label="Slope"
+                  placeholder="Select One"
+                  options={[
+                    { label: 'Up Sloping', value: '0' },
+                    { label: 'Flat Sloping', value: '1' },
+                    { label: 'Down Sloping', value: '2' },
+                  ]}
+                />
               </div>
               <div className="col-span-1">
-                <FormTextfield name="cp" label="CP" type="number" />
+                <FormSelectInput
+                  name="ca"
+                  label="#Major Blood Vessels"
+                  placeholder="Select One"
+                  options={[
+                    { label: '0', value: '0' },
+                    { label: '1', value: '1' },
+                    { label: '2', value: '2' },
+                    { label: '3', value: '3' },
+                    { label: '4', value: '4' },
+                  ]}
+                />
               </div>
               <div className="col-span-1">
-                <FormTextfield name="restecg" label="restecg" type="number" />
+                <FormSelectInput
+                  name="cp"
+                  label="Chest Pain Type"
+                  placeholder="Select One"
+                  options={[
+                    { label: 'Typical Angina Pain', value: '0' },
+                    { label: 'Atypical Angina Pain', value: '1' },
+                    { label: 'Non-Anginal Pain', value: '2' },
+                    { label: 'Asymptomatic', value: '3' },
+                  ]}
+                />
               </div>
               <div className="col-span-1">
-                <FormTextfield name="thal" label="thal" type="number" />
+                <FormSelectInput
+                  name="restecg"
+                  label="Resting Ecg"
+                  placeholder="Select One"
+                  options={[
+                    { label: 'Normal', value: '0' },
+                    { label: 'Having ST-T wave abnormality', value: '1' },
+                    {
+                      label:
+                        ' Showing probable or definite left ventricular hypertrophy',
+                      value: '2',
+                    },
+                  ]}
+                />
+              </div>
+              <div className="col-span-1">
+                <FormSelectInput
+                  name="thal"
+                  label="Thallium Stress Result"
+                  placeholder="Select One"
+                  options={[
+                    { label: 'Normal', value: '0' },
+                    { label: 'Fixed Defect', value: '1' },
+                    { label: 'Reversible defect', value: '2' },
+                    { label: 'Not Described', value: '3' },
+                  ]}
+                />
               </div>
             </div>
 

@@ -63,15 +63,24 @@ export interface AppointmentDetail {
   loading: boolean;
   isPending: boolean;
   data: Appointment;
-  getAppointmentById(id: string): Promise<void>;
+  getAppointmentById(id: string): Promise<Appointment | undefined>;
 }
 
 export interface MedicalReportEntity {
   loading: boolean;
   isPending: boolean;
   data: MedicalReport[];
-  createMedicalReport(data: MedicalReportFormData): Promise<void>;
+  createMedicalReport(
+    data: MedicalReportFormData
+  ): Promise<MedicalReport | undefined>;
   fetchMedicalReports(params?: MedicalReportSearchParams): Promise<void>;
+}
+
+export interface MedicalReportDetail {
+  loading: boolean;
+  isPending: boolean;
+  data: MedicalReport;
+  getMedicalReportById(id: string): Promise<MedicalReport | undefined>;
 }
 
 export interface DoctorAuth {
@@ -128,6 +137,7 @@ export interface AppDataSlice {
   };
   details: {
     appointment: AppointmentDetail;
+    medicalReport: MedicalReportDetail;
   };
 }
 

@@ -6,6 +6,7 @@ import { appointmentDetailSlice } from './details/appointment';
 import { medicalReportSlice } from './entities/medicalReportSlice';
 import { chatSessionsSlice } from './entities/chatSessionsSlice';
 import { chatMessagesSlice } from './entities/chatMessagesSlice';
+import { medicalReportDetailSlice } from './details/medicalReport';
 
 export const createDataSlice: StateCreator<StoreState, [], [], AppDataSlice> = (
   ...a
@@ -18,5 +19,6 @@ export const createDataSlice: StateCreator<StoreState, [], [], AppDataSlice> = (
   },
   details: {
     appointment: appointmentDetailSlice(...a),
+    medicalReport: medicalReportDetailSlice(...a),
   },
 });
