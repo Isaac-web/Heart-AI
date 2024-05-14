@@ -77,7 +77,7 @@ def predict_disease(data:HeartParameter):
     return {
         'status': result,
         'details': details,
-        'confidence': confidence
+        'confidence_level': confidence
     }
 
 #    Will run on http://127.0.0.1:8000
