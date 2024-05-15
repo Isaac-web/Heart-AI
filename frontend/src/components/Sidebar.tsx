@@ -5,6 +5,7 @@ import {
   Event,
   KeyboardDoubleArrowLeft,
   KeyboardDoubleArrowRight,
+  PeopleOutline,
 } from '@mui/icons-material';
 import { useAppStore } from '@/store';
 import { getUserId } from '@/utils/auth';
@@ -24,6 +25,11 @@ const doctorMenu = [
     label: 'Medical Reports',
     link: '/portal/doctor/medical-reports',
     icon: <DocumentScannerTwoTone />,
+  },
+  {
+    label: 'All Patients',
+    link: '/portal/doctor/patients',
+    icon: <PeopleOutline />,
   },
 ];
 
@@ -148,7 +154,7 @@ const Sidebar = () => {
                   className="btn btn-xs"
                   onClick={() => {
                     localStorage.clear();
-                    window.location.assign('/login/doctor');
+                    window.location.assign('/auth');
                   }}
                 >
                   Logout

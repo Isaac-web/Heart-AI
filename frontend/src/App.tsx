@@ -17,6 +17,7 @@ import PatientOnboardingPage from './pages/PatientOnboardingPage';
 import MedicalReportDetails from './pages/MedicalReportDetails';
 import LandingPage from './pages/LandingPage';
 import Auth from './pages/auth/AuthPage';
+import PatientsPage from './pages/PatientsPage';
 
 const App = () => {
   return (
@@ -81,6 +82,7 @@ const App = () => {
               path="/portal/doctor/medical-reports"
               element={<MedicalReports />}
             />
+            <Route path="/portal/doctor/patients" element={<PatientsPage />} />
             <Route
               path="/portal/doctor/medical-reports/new"
               element={<NewMedicalReportPage />}

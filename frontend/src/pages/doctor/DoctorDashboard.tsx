@@ -14,7 +14,11 @@ const DoctorDashboard = () => {
   const appointmentDetails = store.details.appointment;
 
   useEffect(() => {
-    store.entities.appointments.fetchAppointments({ doctorId: getUserId() });
+    store.analytics.doctor.loadAnalytics();
+    store.entities.appointments.fetchAppointments({
+      doctorId: getUserId(),
+      status: 0,
+    });
   }, []);
 
   return (
@@ -25,23 +29,23 @@ const DoctorDashboard = () => {
       <div className="grid grid-cols-3 gap-5 mb-14">
         <div className="col-span-1">
           <DashboardCard
-            title="Pending Reports"
-            description="Pending reports"
-            value="17"
+            title="Appointments"
+            description="Some patients need a medical report"
+            value={store.analytics.doctor.data.numberOfPendingAppointments.toString()}
           />
         </div>
         <div className="col-span-1">
           <DashboardCard
             title="Medical Reports"
             description="Issued medical reports"
-            value="13"
+            value={store.analytics.doctor.data.numberOfUnHealthyReports.toString()}
           />
         </div>
         <div className="col-span-1">
           <DashboardCard
             title="Patients"
             description="Patients with heart diseases"
-            value={'4'}
+            value={store.analytics.doctor.data.numberOfHealthyReports.toString()}
           />
         </div>
       </div>
@@ -49,7 +53,8 @@ const DoctorDashboard = () => {
       <div className="mb-10">
         <h2 className="text-3xl mb-2">Appointments</h2>
         <p className="text-sm mb">
-          4 users are booking an appointment with you for a medical report.
+          {store.analytics.doctor.data.numberOfPendingAppointments} users are
+          booking an appointment with you for a medical report.
         </p>
       </div>
 

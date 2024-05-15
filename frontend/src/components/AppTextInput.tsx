@@ -10,6 +10,7 @@ const AppTextInput = ({
   endAdornment = null,
   error = false,
   onChange,
+  onKeyDown,
 }: AppTextInputProps) => {
   return (
     <label className="form-control w-full">
@@ -33,6 +34,7 @@ const AppTextInput = ({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          onKeyDown={onKeyDown}
         />
         {endAdornment && <span>{endAdornment}</span>}
       </div>

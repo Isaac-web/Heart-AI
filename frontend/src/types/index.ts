@@ -1,4 +1,9 @@
-import { ChangeEvent, InputHTMLAttributes, ReactNode } from "react";
+import {
+  ChangeEvent,
+  InputHTMLAttributes,
+  KeyboardEvent,
+  ReactNode,
+} from "react";
 
 export interface LoginFormData {
   email: string;
@@ -25,6 +30,7 @@ export interface UserUpdateFormData {
 
 export interface UsersSearchParams {
   userType?: string;
+  name?: string;
 }
 
 export interface RegistrationFormData {
@@ -162,6 +168,7 @@ export interface AppTextInputProps {
   startAdornment?: ReactNode;
   endAdornment?: ReactNode;
   onChange?(e: ChangeEvent<HTMLInputElement>): void;
+  onKeyDown?(e: KeyboardEvent<HTMLInputElement>): void;
 }
 
 interface SelectOption {
@@ -201,4 +208,11 @@ export interface AppointmentFormData {
 
 export interface AppointmentsSearchParams {
   doctorId?: string;
+  status?: number;
+}
+
+export interface DoctorDashboardSummary {
+  numberOfPendingAppointments: number;
+  numberOfHealthyReports: number;
+  numberOfUnHealthyReports: number;
 }

@@ -6,6 +6,7 @@ import {
   ChatMessageFormData,
   ChatSession,
   Doctor,
+  DoctorDashboardSummary,
   DoctorUpdateFormData,
   LoginFormData,
   MedicalReport,
@@ -15,6 +16,7 @@ import {
   RegistrationFormData,
   User,
   UserUpdateFormData,
+  UsersSearchParams,
 } from '@/types';
 
 interface RequestError {
@@ -83,6 +85,13 @@ export interface ChatMessagesSlice {
   sendChatMessage(data: ChatMessageFormData): Promise<void>;
 }
 
+export interface PatientsSlice {
+  loading: boolean;
+  isPending: boolean;
+  data: User[];
+  fetchPatients(params?: UsersSearchParams): Promise<void>;
+}
+
 export interface DoctorAuth {
   loading: boolean;
   isPending: boolean;
@@ -115,6 +124,7 @@ export interface DataSlice {
     medicalReports: MedicalReportEntity;
     chatSessions: ChatSessionsSlice;
     chatMessages: ChatMessagesSlice;
+    patients: PatientsSlice;
   };
   details: {
     appointment: AppointmentDetail;
@@ -131,4 +141,18 @@ export interface AppData {
   };
 }
 
-export type StoreState = RequestErrorState & AuthSlice & DataSlice & AppData;
+export interface Analytics {
+  analytics: {
+    doctor: {
+      loading: boolean;
+      data: DoctorDashboardSummary;
+      loadAnalytics(): Promise<void>;
+    };
+  };
+}
+
+export type StoreState = RequestErrorState &
+  AuthSlice &
+  DataSlice &
+  AppData &
+  Analytics;

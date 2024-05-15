@@ -92,12 +92,13 @@ export const fetchMedicalReportRequest = async (
   const skip = Number(req.query.skip) || 0;
   const limit = Number(req.query.limit) || 20;
 
-  const filter: { doctor?: string; patient?: string } = {};
+  const filter: { doctor?: string; patient?: string; status?: number } = {};
 
-  const { doctorId, patientId } = req.query;
+  const { doctorId, patientId, status } = req.query;
 
   if (doctorId) filter.doctor = doctorId as string;
   if (patientId) filter.patient = patientId as string;
+  if (status) filter.status = Number(status);
 
   const [reportRequests, count] = await Promise.all([
     MedicalReportRequest.find(filter)
