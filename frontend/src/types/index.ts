@@ -1,4 +1,4 @@
-import { ChangeEvent, InputHTMLAttributes, ReactNode } from 'react';
+import { ChangeEvent, InputHTMLAttributes, ReactNode } from "react";
 
 export interface LoginFormData {
   email: string;
@@ -95,6 +95,7 @@ export interface MedicalReport {
 
 export interface MedicalReportSearchParams {
   doctorId?: string;
+  patientId?: string;
 }
 
 export interface ChatSession {
