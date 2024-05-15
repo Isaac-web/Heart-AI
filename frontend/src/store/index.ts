@@ -1,3 +1,4 @@
+import { createAnalyticsSlice } from './analytics/index';
 import { createAppDataSlice } from './app/index';
 import { create } from 'zustand';
 import { StoreState } from './types';
@@ -10,4 +11,5 @@ export const useAppStore = create<StoreState>()((...a) => ({
   ...createAuthSlice(...a),
   ...createDataSlice(...a),
   ...createAppDataSlice(...a),
+  ...createAnalyticsSlice(...a),
 }));

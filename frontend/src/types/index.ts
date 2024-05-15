@@ -200,4 +200,11 @@ export interface AppointmentFormData {
 
 export interface AppointmentsSearchParams {
   doctorId?: string;
+  status?: number;
+}
+
+export interface DoctorDashboardSummary {
+  numberOfPendingAppointments: number;
+  numberOfHealthyReports: number;
+  numberOfUnHealthyReports: number;
 }
