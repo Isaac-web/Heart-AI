@@ -15,10 +15,7 @@ interface OrganizationInfoForm {
 const validationSchema = () =>
   Yup.object().shape({
     hospital: Yup.string().max(256).required().label('Hospital'),
-    supportingDocumentUrl: Yup.string()
-      .max(1024)
-      .required()
-      .label('Medical License'),
+    supportingDocumentUrl: Yup.string().max(1024).label('Medical License'),
   });
 
 const OrgainzationInfoForm = ({
@@ -65,12 +62,12 @@ const OrgainzationInfoForm = ({
               <FormTextfield name="hospital" placeholder="Hospital" />
             </div>
 
-            <div className="w-full">
+            {/* <div className="w-full">
               <FormTextfield
                 name="supportingDocumentUrl"
                 placeholder="Medical Licence"
               />
-            </div>
+            </div> */}
 
             <div className="col-span-2 flex justify-end">
               <FormSubmitButton>Finish</FormSubmitButton>

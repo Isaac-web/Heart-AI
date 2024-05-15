@@ -4,9 +4,12 @@ import FormSubmitButton from '@/components/form/FormSubmitButton';
 import FormTextfield from '@/components/form/FormTextfield';
 import { useAppStore } from '@/store';
 import { LoginFormData } from '@/types';
-import { Email, Key } from '@mui/icons-material';
+import { Email, FormatQuote, Key } from '@mui/icons-material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import loginImage from '../assets/images/doctor-background-2.jpg';
+import googleIcon from '../assets/images/google.png';
+import appleIcon from '../assets/images/apple-logo.png';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required(),
@@ -27,7 +30,7 @@ const LoginPage = () => {
   };
 
   const isPending = (): boolean => {
-    return store.auth.doctor.isPending;
+    return store.auth.doctor.isPending || store.auth.user.isPending;
   };
 
   const handleDoctorLogin = async (data: LoginFormData) => {
@@ -62,7 +65,7 @@ const LoginPage = () => {
 
   return (
     <section className="w-full min-h-screen flex">
-      <div className="w-full lg:w-1/2 flex flex-col lg:flex-row justify-center py-10">
+      <div className="w-full lg:w-1/2 flex flex-col lg:flex-row justify-center py-20">
         <div className="min-w-[30em] p-10 lg:p-0">
           <div>
             <div className="mb-12 flex flex-col items-center">
@@ -129,11 +132,17 @@ const LoginPage = () => {
             </div>
 
             <div className="flex gap-5 mb-10">
-              <button className="text-center flex-1  btn btn-outline ">
-                Continue with Google
+              <button className="text-center flex-1 flex items-center justify-center  btn btn-outline ">
+                <div>
+                  <img className="h-6 w-6" src={googleIcon} />
+                </div>
+                <div>Continue with Google</div>
               </button>
-              <button className="text-center flex-1  btn btn-outline">
-                Continue with Apple
+              <button className="text-center flex-1 flex items-center justify-center  btn btn-outline ">
+                <div>Continue with Apple</div>
+                <div>
+                  <img className="h-6 w-6" src={appleIcon} />
+                </div>
               </button>
             </div>
           </div>
@@ -158,7 +167,43 @@ const LoginPage = () => {
         </div>
       </div>
 
-      <div className="w-1/2 bg-slate-700 hidden lg:block"></div>
+      <div
+        className="w-1/2 bg-slate-700 hidden lg:block relative"
+        style={{
+          backgroundImage: `url('${loginImage}')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div
+          className="w-full h-full flex items-end"
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+        >
+          <div
+            className="w-full h-3/6 bg-gradient-to-b px-10 lg:px-16"
+            style={{
+              background:
+                'linear-gradient(rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9))',
+            }}
+          >
+            <div className="max-w-xl">
+              <div className="text-white -ml-2">
+                <FormatQuote fontSize="large" />
+              </div>
+              <p className="text-white/70 text-lg">
+                Nurture your heart; it's the essence of life. Feed it with love,
+                exercise, and good nutrition, for a heart cared for, gives life
+                abundantly.
+              </p>
+              <div className="divider" />
+              <div>
+                <p className="text-xl text-white/80">Dr. Mehmet Oz</p>
+                <p className="text-sm">cardiothoracic surgeon</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

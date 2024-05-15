@@ -4,9 +4,8 @@ import AppTextInput from '@/components/AppTextInput';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import { useAppStore } from '@/store';
 import { Column, User } from '@/types';
-import { getUserId } from '@/utils/auth';
 import { Favorite, HeartBroken, Search } from '@mui/icons-material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const columns: Column<User>[] = [
@@ -95,8 +94,8 @@ const columns: Column<User>[] = [
     value: 'details',
     render(user) {
       return (
-        <Link to={`/portal/doctor/medical-reports/${''}`}>
-          <button className="btn btn-ghost btn-xs">details</button>
+        <Link to={`/portal/doctor/medical-reports/new?patientId=${user._id}`}>
+          <button className="btn btn-ghost btn-xs">Issue Report</button>
         </Link>
       );
     },
@@ -105,15 +104,11 @@ const columns: Column<User>[] = [
 
 const MedicalReports = () => {
   const store = useAppStore();
-  const medicalReports = store.entities.medicalReports;
+  const [search, setSearch] = useState('');
   const patients = store.entities.patients;
 
   useEffect(() => {
-    const userId = getUserId();
-    store.entities.patients.fetchPatients();
-    store.entities.medicalReports.fetchMedicalReports({
-      doctorId: userId,
-    });
+    store.entities.patients.fetchPatients({ name: search });
   }, []);
 
   return (
@@ -127,6 +122,14 @@ const MedicalReports = () => {
           <AppTextInput
             startAdornment={<Search />}
             placeholder="Search by patient name..."
+            value={search}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && search)
+                store.entities.patients.fetchPatients({ name: search });
+            }}
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
           />
         </div>
       </div>

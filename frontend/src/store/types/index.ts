@@ -16,6 +16,7 @@ import {
   RegistrationFormData,
   User,
   UserUpdateFormData,
+  UsersSearchParams,
 } from '@/types';
 
 interface RequestError {
@@ -88,7 +89,7 @@ export interface PatientsSlice {
   loading: boolean;
   isPending: boolean;
   data: User[];
-  fetchPatients(): Promise<void>;
+  fetchPatients(params?: UsersSearchParams): Promise<void>;
 }
 
 export interface DoctorAuth {

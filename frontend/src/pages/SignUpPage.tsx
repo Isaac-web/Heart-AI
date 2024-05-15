@@ -5,8 +5,8 @@ import FormTextfield from '@/components/form/FormTextfield';
 import { useAppStore } from '@/store';
 import { RegistrationFormData } from '@/types';
 import { getUserId } from '@/utils/auth';
-import { Email, Lock } from '@mui/icons-material';
-import doctor from '@/assets/images/doctor.png';
+import { Email, FormatQuote, Lock } from '@mui/icons-material';
+import signUpPage from '../assets/images/doctor-background-2.jpg';
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -71,9 +71,45 @@ const SignUpPage = () => {
 
   return (
     <section className="w-full min-h-screen flex">
-      <div className="hidden lg:block w-full lg:w-1/2 bg-slate-700"></div>
+      <div
+        className="w-1/2 bg-slate-700 hidden lg:block relative"
+        style={{
+          backgroundImage: `url('${signUpPage}')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div
+          className="w-full h-full flex items-end"
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+        >
+          <div
+            className="w-full h-4/6 bg-gradient-to-b px-10 lg:px-16"
+            style={{
+              background:
+                'linear-gradient(rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9))',
+            }}
+          >
+            <div className="max-w-xl">
+              <div className="text-white -ml-2">
+                <FormatQuote fontSize="large" />
+              </div>
+              <p className="text-white/70 text-lg">
+                Nurture your heart; it's the essence of life. Feed it with love,
+                exercise, and good nutrition, for a heart cared for, gives life
+                abundantly.
+              </p>
+              <div className="divider" />
+              <div>
+                <p className="text-xl text-white/80">Dr. Mehmet Oz</p>
+                <p className="text-sm">cardiothoracic surgeon</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <div className="w-full lg:w-1/2  flex justify-center py-10 ">
+      <div className="w-full lg:w-1/2  flex justify-center py-20 ">
         <div className="min-w-xl max-w-[30em] p-10 lg:p-0 ">
           <div>
             <div className="mb-12 flex flex-col items-start">

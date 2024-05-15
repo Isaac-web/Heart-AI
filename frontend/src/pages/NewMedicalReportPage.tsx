@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import Alert from '@/components/Alert';
+import { getUserId } from '@/utils/auth';
 
 const validationSchema = Yup.object().shape({
   age: Yup.number().min(16).max(120).required().label('Age'),
@@ -38,6 +39,7 @@ const NewMedicalReportPage = () => {
   const appointment = store.details.appointment;
   const medicalReports = store.entities.medicalReports;
   const appointmentId = searchParams.get('appointmentId') as string;
+  const patientId = searchParams.get('patientId') as string;
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<MedicalReportFormData>({
@@ -91,8 +93,10 @@ const NewMedicalReportPage = () => {
   }, []);
 
   const handleIssueMedicalReport = async (data: MedicalReportFormData) => {
-    data.doctor = appointment.data.doctor._id;
-    data.patient = appointment.data.patient._id;
+    data.doctor = appointment.data.doctor._id || getUserId();
+    data.patient = appointment.data.patient._id
+      ? appointment.data.patient._id
+      : patientId;
 
     const medicalReport =
       await store.entities.medicalReports.createMedicalReport(data);
