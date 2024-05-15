@@ -1,6 +1,45 @@
-import { DownloadIcon, FullScreenIcon, ShareIcon } from "@/components/Icons";
+import { FileIcon } from "@/components/Icons";
+
+import { useAppStore } from "@/store";
+import { getUserId } from "@/utils/auth";
+import { useEffect, useState } from "react";
+import sample_reports from "./sample_reports";
+import ReportCard from "./ReportCard";
+
+import appConfig from "../../../app.config.json";
 
 const Reports = () => {
+  const store = useAppStore();
+  const [allUserReports, setAllUserReports] = useState<any>([]);
+  const [currentReportOnView, setCurrentReportOnView] = useState("");
+  const [doctorsList, setDoctorsList] = useState([]);
+  const [selectedDoctorId, setSelectedDoctorId] = useState(null);
+  const [appointmentDate, setAppointmentDate] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  // const { id: reportId } = useParams();
+  // const medicalReport = store.details.medicalReport;
+
+  const medicalReports = store.entities.medicalReports;
+
+  useEffect(() => {
+    // store.entities.medicalReports.fetchMedicalReports({
+    //   patientId: getUserId(),
+    //   doctorId: store.auth.doctor?.id,
+    // });
+
+    (async () => {
+      // doctors
+      const doctors = await fetch(`${appConfig.baseUrl}doctors`);
+
+      const doctors_json = await doctors.json();
+
+      setDoctorsList(doctors_json.data);
+
+      // reports
+      store.entities.medicalReports.fetchCurrentUserMedicalReports();
+    })();
+  }, []);
+
   return (
     <div className="flex h-screen">
       <div className="bg-black/50 text-white w-[22vw] py-4 flex flex-col justify-between gap-5 px-3">
@@ -11,19 +50,88 @@ const Reports = () => {
           Request New Report
         </button>
         <dialog id="my_modal_1" className="modal">
-          <div className="modal-box">
-            <h3 className="font-bold text-lg">Requesting Report Request</h3>
-
-            <span className="loading loading-spinner text-accent my-5"></span>
-            <div className="modal-action">
-              <form method="dialog">
-                <button className="btn">Close</button>
-              </form>
+          <div className="modal-box relative flex flex-col">
+            <div>
+              <h3 className="font-bold text-lg">Select Doctor</h3>
+              <div className="modal-action absolute top-[-5%] right-5">
+                <form method="dialog">
+                  <button className="btn">x</button>
+                </form>
+              </div>
             </div>
+
+            <div className="py-10 w-full">
+              <div>
+                <small className="mb-2 inline-block">Doctor</small>
+                <select
+                  className="select select-bordered w-full"
+                  onChange={(e) => setSelectedDoctorId(e.target.value)}
+                >
+                  <option disabled selected hidden>
+                    selected doctor
+                  </option>
+                  {doctorsList.map((doctor: any) => (
+                    <option
+                      key={doctor._id}
+                      value={doctor._id}
+                      className="w-full"
+                    >
+                      {doctor.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mt-4">
+                <small className="mb-2 inline-block">Appointment Date</small>
+                <input
+                  onChange={(e) => setAppointmentDate(e.target.value)}
+                  type="datetime-local"
+                  className="px-4 py-3 w-full bg-transparent border border-slate-200/10 rounded-lg"
+                  min={new Date().toISOString().split(".")[0]}
+                />
+              </div>
+            </div>
+
+            <button
+              className="btn bg-green-500 text-white"
+              disabled={selectedDoctorId === null || appointmentDate === null}
+              onClick={async () => {
+                setIsLoading(true);
+                const res = await store.entities.appointments.createAppointment(
+                  {
+                    doctorId: selectedDoctorId,
+                    patientId: getUserId(),
+                    appointmentDate: appointmentDate,
+                  }
+                );
+
+                if (res) {
+                  alert("Medical Report Request Sent");
+                } else {
+                  alert("something went wrong; try again later");
+                }
+                document.getElementById("my_modal_1").close();
+                setIsLoading(false);
+              }}
+            >
+              Request
+            </button>
+            {isLoading && (
+              <span className="loading loading-spinner text-accent my-5"></span>
+            )}
           </div>
         </dialog>
-        <label className="input input-bordered flex items-center gap-2">
-          <input type="text" className="grow" placeholder="Search Reports" />
+        {/* <label className="input input-bordered flex items-center gap-2">
+          <input
+            type="text"
+            className="grow"
+            placeholder="Search Reports"
+            onChange={(e) => console.log(e.target.value)}
+
+            // min={new Date().toISOString().split(".")[0]}
+            // min="2024-05-01T00:00"
+            // max="2025-05-01T00:00"
+          />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -36,160 +144,41 @@ const Reports = () => {
               clipRule="evenodd"
             />
           </svg>
-        </label>
+        </label> */}
 
-        <div className=" grow flex flex-col gap-7">
+        <div className=" grow flex flex-col gap-7 overflow-y-auto">
           <div className="flex flex-col gap-2">
-            <small className="text-gray-600 px-4">Pending</small>
             <div className="w-full">
-              <p className="px-2 py-2 hover:bg-white/5 rounded-sm cursor-pointer px-4 flex justify-between hover:bg-white/5 cursor-not-allowed">
-                <p className="text-slate-500">Report 1</p>
-                <small className="text-gray-600">21/12/2024</small>
-              </p>
-              <p className="px-2 py-2 hover:bg-white/5 rounded-sm cursor-pointer px-4 flex justify-between hover:bg-white/5 cursor-not-allowed">
-                <p className="text-slate-500">Report 2</p>
-                <small className="text-gray-600">21/12/2024</small>
-              </p>
+              {medicalReports.data.map((report, index) => (
+                <p
+                  className="px-2 py-4 rounded-sm hover:bg-white/5 rounded-sm cursor-pointer flex justify-between hover:bg-white/5"
+                  onClick={() => setCurrentReportOnView(report._id)}
+                >
+                  <div className="flex gap-2 items-center">
+                    <small className="text-slate-500">
+                      <FileIcon />
+                    </small>
+                    <p className="text-white">Report {index + 1}</p>
+                  </div>
+                  <small className="text-gray-600">
+                    {report.createdAt.slice(0, 10)}
+                  </small>
+                </p>
+              ))}
             </div>
           </div>
-
-          <div className="flex flex-col gap-2">
-            <small className="text-gray-600 px-4">April</small>
-            <div className="w-full">
-              <p className="px-2 py-2 hover:bg-white/5 rounded-sm cursor-pointer px-4 flex justify-between hover:bg-white/5">
-                <p className="text-white">Report 1</p>
-                <small className="text-gray-600">21/12/2024</small>
-              </p>
-              <p className="px-2 py-2 hover:bg-white/5 rounded-sm cursor-pointer px-4 flex justify-between hover:bg-white/5">
-                <p className="text-white">Report 2</p>
-                <small className="text-gray-600">21/12/2024</small>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex gap-2 items-center px-4">
-          <div className="avatar placeholder">
-            <div className="bg-neutral text-neutral-content rounded-full w-12">
-              <span>SY</span>
-            </div>
-          </div>
-          <p>Sausage Yam</p>
         </div>
       </div>
       <div className="grow flex justify-center">
-        <div className="px-4 py-8 flex flex-col justify-between w-[50%] margin-x-auto">
-          <div className="w-[35vw] h-[90vh] bg-transparent border border-slate-600 rounded-md p-5">
-            <div className="flex gap-4 mb-4">
-              <div className="stat-figure text-secondary">
-                <div className="avatar online">
-                  <div className="w-16 rounded-full">
-                    <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-                  </div>
-                </div>
-              </div>
-              <h1 className="text-2xl text-center py-4 font-medium">
-                Mr. Bones Takiy
-              </h1>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="table">
-                {/* head */}
-                {/* <thead>
-                  <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Job</th>
-                    <th>Favorite Color</th>
-                  </tr>
-                </thead> */}
-                <tbody>
-                  {/* row 1 */}
-                  <tr className="bg-base-200 border-b border-gray-800/30">
-                    <td>Issued By</td>
-                    <td>Dr. Sven Hagerty</td>
-                    <td>Blue</td>
-                  </tr>
-                  {/* row 2 */}
-                  <tr className="bg-base-200 border-b border-gray-800/30">
-                    <td>Date</td>
-                    <td>21st May 2024</td>
-                    <td>Purple</td>
-                  </tr>
-                  {/* row 3 */}
-                  <tr className="bg-base-200">
-                    <td>ID</td>
-                    <td>1s67dk99036fkdd6d</td>
-                    <td>Red</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            {/* <div className="mt-5">
-              <h2>Cardio Health - 55%</h2>
-              <progress
-                className="progress progress-primary w-56"
-                value="100"
-                max="100"
-              ></progress>
-            </div> */}
-            <div className="stats shadow w-full my-4">
-              <div className="stat">
-                <div className="stat-title">Heart Rate</div>
-                <div className="stat-value text-primary">100ms</div>
-                <div className="stat-desc">21% decrement</div>
-              </div>
-
-              <div className="stat">
-                <div className="stat-title">Page Views</div>
-                <div className="stat-value text-secondary">88%</div>
-                <div className="stat-desc">21% improvement</div>
-              </div>
-
-              <div className="stat">
-                <div className="stat-title">Condition</div>
-                <div className="stat-value text-accent">NEG</div>
-                <div className="stat-desc">No heart disease</div>
-              </div>
-            </div>
-            <div className="flex justify-between mb-4">
-              <div className="bg-slate-500/10 w-full p-4 rounded-md flex flex-col gap-2">
-                <p>
-                  Healthline{" "}
-                  <div className="badge badge-primary text-white">67%</div>
-                </p>
-                <progress
-                  className="progress progress-primary w-56"
-                  value="100"
-                  max="100"
-                ></progress>
-              </div>
-              {/* <div className="bg-slate-500/10 w-28 h-32 p-4 rounded-md"></div> */}
-              {/* <div className="bg-slate-500/10 w-28 h-32 p-4 rounded-md"></div> */}
-              {/* <div className="bg-slate-500/10 w-28 h-32 p-4 rounded-md"></div> */}
-            </div>
-            <div className="bg-slate-500/10 p-4">
-              <h2 className="text-xl">Summary</h2>
-              <p className="text-md opacity-70">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Sapiente, tempora fugit incidunt exercitationem ratione
-                assumenda molestias doloribus labore, architecto similique aut
-                tenetur officiis sit atque quam magnam voluptas aperiam esse?
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="absolute top-[5%] left-[82%] flex flex-col gap-3">
-          <div className="bg-slate-500/10 rounded-full p-4 hover:bg-slate-700 cursor-pointer">
-            <DownloadIcon />
-          </div>
-          <div className="bg-slate-500/10 rounded-full p-4 hover:bg-slate-700 cursor-pointer">
-            <FullScreenIcon />
-          </div>
-          <div className="bg-slate-500/10 rounded-full p-4 hover:bg-slate-700 cursor-pointer">
-            <ShareIcon />
-          </div>
-        </div>
+        {medicalReports.loading ? (
+          <>loading</>
+        ) : (
+          <ReportCard
+            reportDetails={medicalReports.data.find(
+              (r) => r._id === currentReportOnView
+            )}
+          />
+        )}
       </div>
     </div>
   );

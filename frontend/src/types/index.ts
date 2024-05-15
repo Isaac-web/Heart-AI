@@ -3,7 +3,7 @@ import {
   InputHTMLAttributes,
   KeyboardEvent,
   ReactNode,
-} from 'react';
+} from "react";
 
 export interface LoginFormData {
   email: string;
@@ -101,6 +101,7 @@ export interface MedicalReport {
 
 export interface MedicalReportSearchParams {
   doctorId?: string;
+  patientId?: string;
 }
 
 export interface ChatSession {
