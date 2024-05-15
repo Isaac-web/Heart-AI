@@ -53,7 +53,8 @@ const DoctorDashboard = () => {
       <div className="mb-10">
         <h2 className="text-3xl mb-2">Appointments</h2>
         <p className="text-sm mb">
-          4 users are booking an appointment with you for a medical report.
+          {store.analytics.doctor.data.numberOfPendingAppointments} users are
+          booking an appointment with you for a medical report.
         </p>
       </div>
 

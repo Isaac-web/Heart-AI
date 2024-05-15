@@ -11,7 +11,7 @@ export const patientsSlice: StateCreator<StoreState, [], [], PatientsSlice> = (
   loading: false,
   isPending: false,
   data: [],
-  async fetchPatients() {
+  async fetchPatients(params = {}) {
     get().removeError(this.fetchPatients.name);
 
     set(
@@ -20,7 +20,7 @@ export const patientsSlice: StateCreator<StoreState, [], [], PatientsSlice> = (
       })
     );
     try {
-      const patients = await fetchUsers();
+      const patients = await fetchUsers(params);
       set(
         produce((store: StoreState) => {
           store.entities.patients.data = patients;
