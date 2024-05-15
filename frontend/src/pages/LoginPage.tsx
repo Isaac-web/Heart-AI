@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import loginImage from '../assets/images/doctor-background-2.jpg';
 import googleIcon from '../assets/images/google.png';
 import appleIcon from '../assets/images/apple-logo.png';
+import appLogo from '../assets/images/heart-ai-logo.png';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required(),
@@ -68,11 +69,11 @@ const LoginPage = () => {
       <div className="w-full lg:w-1/2 flex flex-col lg:flex-row justify-center py-20">
         <div className="min-w-[30em] p-10 lg:p-0">
           <div>
-            <div className="mb-12 flex flex-col items-center">
-              <h3 className="text-2xl font-semibold text-center mb-5 dark:text-white/90">
+            <div className="mb-12 flex flex-col items-start">
+              <h3 className="text-2xl font-semibold  mb-5 dark:text-white/90">
                 Login
               </h3>
-              <span className="text-sm  text-center w-full">
+              <span className="text-sm  w-full">
                 {getUserType() == 'doctor'
                   ? 'Welcome back! Please sign in below to access your doctor account.'
                   : 'Welcome back! Please sign in below to access your patient account.'}
@@ -145,6 +146,10 @@ const LoginPage = () => {
                 </div>
               </button>
             </div>
+            <p className="text-xs text-center mb-10 -mt-5">
+              Please note that Login with Google and Apple are not available
+              yet.
+            </p>
           </div>
 
           <div className="">
@@ -180,12 +185,16 @@ const LoginPage = () => {
           style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
         >
           <div
-            className="w-full h-3/6 bg-gradient-to-b px-10 lg:px-16"
+            className="w-full h-4/6 bg-gradient-to-b px-10 lg:px-16"
             style={{
               background:
                 'linear-gradient(rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9))',
             }}
           >
+            <div>
+              <img className="w-16 h-16 -ml-2" src={appLogo} />
+            </div>
+
             <div className="max-w-xl">
               <div className="text-white -ml-2">
                 <FormatQuote fontSize="large" />
