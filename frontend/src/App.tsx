@@ -54,7 +54,14 @@ const App = () => {
           <Route path="/portal/patient" element={<PatientDashboard />}>
             <Route
               path="/portal/patient/medical-reports/:id"
-              element={<>Report Details</>}
+              element={
+                <div>
+                  <h1 className="text-center text-3xl font-bold">
+                    Report Details
+                  </h1>
+                  <p>Report Details</p>
+                </div>
+              }
             />
             <Route path="chatbot/:sessionId" element={<Chatbot />} />
             <Route path="chatbot" element={<Chatbot />} />

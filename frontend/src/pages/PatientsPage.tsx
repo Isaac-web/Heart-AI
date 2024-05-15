@@ -27,13 +27,10 @@ const columns: Column<User>[] = [
       return (
         <div className="flex items-center gap-3">
           <div className="avatar">
-            <div className="mask mask-squircle w-12 h-12">
-              <img
-                src={
-                  'https://img.daisyui.com/tailwind-css-component-profile-2@56w.png'
-                }
-                alt="User Avatar"
-              />
+            <div className="avatar placeholder">
+              <div className="bg-neutral text-neutral-content rounded-full w-16">
+                <span className="text-xl">{patient.name.charAt(0)}</span>
+              </div>
             </div>
           </div>
           <div>
@@ -45,46 +42,30 @@ const columns: Column<User>[] = [
     },
   },
   {
-    label: 'Date Issued',
+    label: 'Age',
     value: 'createdAt',
     render(patient) {
       return (
         <div>
-          {new Date(patient.createdAt).toLocaleTimeString()}
-          <br />
-          <span className="badge badge-ghost badge-sm">
-            {new Date(patient.createdAt).toLocaleDateString()}
-          </span>
+          {patient.sex ? (patient.sex === 1 ? 'Male' : 'Female') : 'N/A'}
         </div>
       );
     },
   },
   {
-    label: 'Cadio Status',
-    value: 'cadioStatus',
+    label: 'Gender',
+    value: 'sex',
     render(patient) {
-      const isHealthy = 0;
-
+      return <div>{patient.sex || 'N/A'}</div>;
+    },
+  },
+  {
+    label: 'Phone',
+    value: 'phone',
+    render(patient) {
       return (
-        <div
-          className={`w-[10em] px-5 py-2 rounded-full flex gap-2 items-center justify-center border ${
-            isHealthy ? 'border-success' : 'border-error'
-          }`}
-        >
-          <div>
-            {isHealthy ? (
-              <Favorite className="text-success" />
-            ) : (
-              <HeartBroken className="text-error" />
-            )}
-          </div>
-          <div className="text-xs">
-            {isHealthy ? (
-              <span className="text-success">Healthy</span>
-            ) : (
-              <span className="text-error">Not Healthy</span>
-            )}
-          </div>
+        <div className={``}>
+          <span>{patient.phone}</span>
         </div>
       );
     },
@@ -145,9 +126,7 @@ const MedicalReports = () => {
           <AppTable<User> columns={columns} data={patients.data} />
         )}
       </div>
-      <div>
-        <AppPagination />
-      </div>
+      <div>{/* <AppPagination /> */}</div>
     </section>
   );
 };

@@ -154,7 +154,7 @@ const Sidebar = () => {
                   className="btn btn-xs"
                   onClick={() => {
                     localStorage.clear();
-                    window.location.assign('/auth');
+                    window.location.assign('/');
                   }}
                 >
                   Logout

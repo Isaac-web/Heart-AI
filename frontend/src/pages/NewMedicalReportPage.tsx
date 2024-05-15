@@ -46,7 +46,7 @@ const NewMedicalReportPage = () => {
     doctor: '',
     patient: '',
     age: 0,
-    sex: 0,
+    sex: 1,
     cp: 0,
     trestbps: 0,
     chol: 0,
@@ -105,7 +105,9 @@ const NewMedicalReportPage = () => {
 
     if (!error) {
       if (medicalReport)
-        navigate(`/portal/doctor/medical-reports/${medicalReport._id}`);
+        navigate(`/portal/doctor/medical-reports/${medicalReport._id}`, {
+          replace: true,
+        });
     }
   };
 

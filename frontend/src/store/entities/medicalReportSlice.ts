@@ -54,6 +54,8 @@ export const medicalReportSlice: StateCreator<
       );
       const data = await fetchMedicalReports(params);
 
+      console.log(data);
+
       set(
         produce((store: StoreState) => {
           store.entities.medicalReports.data = data;

@@ -11,9 +11,33 @@ const MedicalReportDetails = () => {
     if (reportId) medicalReport.getMedicalReportById(reportId);
   }, []);
 
-  console.log(medicalReport.data);
+  return (
+    <div className="p-10">
+      <h1 className="text-center text-3xl font-bold mb-5">
+        Medical Report Details
+      </h1>
+      <p className="text-xs text-center">
+        This page is still under development
+      </p>
 
-  return <div>MedicalReportDetails</div>;
+      {medicalReport.loading ? (
+        <p>Loading Cadio Status...</p>
+      ) : (
+        <p
+          className="text-center py-20"
+          style={{
+            color:
+              medicalReport.data.status ===
+              'Your heart is fine, you do not have heart disease'
+                ? 'green'
+                : 'red',
+          }}
+        >
+          {medicalReport.data.status}
+        </p>
+      )}
+    </div>
+  );
 };
 
 export default MedicalReportDetails;

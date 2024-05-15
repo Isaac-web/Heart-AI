@@ -76,7 +76,7 @@ export interface MedicalReportFormData {
 
 export interface MedicalReport {
   _id: string;
-  cardioStatus: number;
+  cadioStatus: number;
   status: string;
   confidenceLevel: number;
   patient: User;
