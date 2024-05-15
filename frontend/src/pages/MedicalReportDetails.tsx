@@ -1,6 +1,6 @@
-import { useAppStore } from '@/store';
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useAppStore } from "@/store";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const MedicalReportDetails = () => {
   const store = useAppStore();
