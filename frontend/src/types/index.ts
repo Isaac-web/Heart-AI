@@ -3,7 +3,7 @@ import {
   InputHTMLAttributes,
   KeyboardEvent,
   ReactNode,
-} from "react";
+} from 'react';
 
 export interface LoginFormData {
   email: string;
@@ -76,7 +76,7 @@ export interface MedicalReportFormData {
 
 export interface MedicalReport {
   _id: string;
-  cardioStatus: number;
+  cadioStatus: number;
   status: string;
   confidenceLevel: number;
   patient: User;
@@ -115,6 +115,7 @@ export interface ChatSession {
 
 export interface NewChatSessionFormData {
   title: string;
+  medicalReport?: string;
 }
 
 export interface ChatMessage {
@@ -146,8 +147,7 @@ export interface ChatMessageResponse {
 
 export interface Doctor {
   _id: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   age: number;
   sex: number;
   phone: string;

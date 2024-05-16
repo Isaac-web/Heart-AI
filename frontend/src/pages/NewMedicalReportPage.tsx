@@ -4,7 +4,6 @@ import FormSubmitButton from '@/components/form/FormSubmitButton';
 import FormTextfield from '@/components/form/FormTextfield';
 import Lottie from 'react-lottie';
 import * as Yup from 'yup';
-import heartPulzeAnimation from '../assets/animations/heart-pulze-animation.json';
 import { MedicalReportFormData } from '@/types';
 import { useAppStore } from '@/store';
 import { useEffect, useState } from 'react';
@@ -12,6 +11,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import Alert from '@/components/Alert';
 import { getUserId } from '@/utils/auth';
+import heartPulzeAnimation from '../assets/animations/heart-pulze-animation.json';
 
 const validationSchema = Yup.object().shape({
   age: Yup.number().min(16).max(120).required().label('Age'),
@@ -46,7 +46,7 @@ const NewMedicalReportPage = () => {
     doctor: '',
     patient: '',
     age: 0,
-    sex: 0,
+    sex: 1,
     cp: 0,
     trestbps: 0,
     chol: 0,
@@ -105,7 +105,9 @@ const NewMedicalReportPage = () => {
 
     if (!error) {
       if (medicalReport)
-        navigate(`/portal/doctor/medical-reports/${medicalReport._id}`);
+        navigate(`/portal/doctor/medical-reports/${medicalReport._id}`, {
+          replace: true,
+        });
     }
   };
 

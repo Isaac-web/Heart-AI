@@ -1,6 +1,7 @@
-import { useAppStore } from "@/store";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useAppStore } from '@/store';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import ReportCard from './patient/ReportCard';
 
 const MedicalReportDetails = () => {
   const store = useAppStore();
@@ -11,9 +12,25 @@ const MedicalReportDetails = () => {
     if (reportId) medicalReport.getMedicalReportById(reportId);
   }, []);
 
-  console.log(medicalReport.data);
+  return (
+    <section className="p-10  w-full">
+      <div className="justify-center mx-auto max-w-3xl">
+        <div>
+          <h1 className="text-left text-3xl font-bold mb-5">
+            Medical Report Details
+          </h1>
+        </div>
 
-  return <div>MedicalReportDetails</div>;
+        {medicalReport.loading ? (
+          <>loading</>
+        ) : (
+          <div>
+            <ReportCard report={medicalReport.data} />
+          </div>
+        )}
+      </div>
+    </section>
+  );
 };
 
 export default MedicalReportDetails;

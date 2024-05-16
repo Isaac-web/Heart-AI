@@ -1,101 +1,125 @@
-import { DownloadIcon, FullScreenIcon, ShareIcon } from "@/components/Icons";
-import { Doctor, User } from "@/types";
+import { useAppStore } from '@/store';
+import { MedicalReport } from '@/types';
+import { Message, PersonOutline } from '@mui/icons-material';
+import Lottie from 'react-lottie';
+import { useNavigate } from 'react-router-dom';
+import heartPulzeAnimation from '../../assets/animations/heart-pulze-animation.json';
 
-interface ReportDetails {
-  _id: string;
-  cardioStatus: number;
-  status: string;
-  confidenceLevel: number;
-  patient: User;
-  doctor: Doctor;
-  details: {
-    age: number;
-    sex: number;
-    chestPainType: number;
-    restingBloodPressure: number;
-    serumColesterol: number;
-    fastingBloodSugarLevel: number;
-    restingElectrocardiographocResults: number;
-    maximumHeartRate: number;
-    exerciseInducedAngina: number;
-    stDepression: number;
-    slope: number;
-    numberOfMajorVessels: number;
-    thalliumStressTestResults: number;
-  };
-  createdAt: string;
+interface ReportCardProps {
+  report: MedicalReport;
 }
 
-const ReportCard = (props: { reportDetails: any }) => {
-  console.log(props.reportDetails);
+const ReportCard = ({ report }: ReportCardProps) => {
+  const navigate = useNavigate();
+  const store = useAppStore();
+  const chatSessions = store.entities.chatSessions;
 
-  //   const {
-  //     patient,
-  //     doctor,
-  //     details,
-  //     _id,
-  //     createdAt,
-  //     status,
-  //     confidenceLevel,
-  //     cardioStatus,
-  //   } = props.reportDetails;
+  const getCreateSessionError = () => {
+    return store.getError(chatSessions.createChatSession.name);
+  };
+
+  const handleStartChart = async () => {
+    await chatSessions.fetchChatSession();
+
+    const chatSession = await chatSessions.createChatSession({
+      title: `Chat Session ${chatSessions.data.length}`,
+      medicalReport: report._id,
+    });
+
+    const error = getCreateSessionError();
+    if (error) return console.log(error);
+
+    if (chatSession) navigate(`/portal/patient/chatbot/${chatSession._id}`);
+  };
+
+  if (!report)
+    return (
+      <section className="w-full h-full flex items-center justify-center">
+        Select a medical report.
+      </section>
+    );
+
+  const radialStyle = {
+    '--value': `${report.confidenceLevel}`,
+    '--size': '6rem',
+    '--thickness': '5px',
+  } as { [key: string]: string };
 
   return (
-    <div className="relative">
-      <div className="px-4 py-8 flex flex-col justify-between w-[50%] margin-x-auto relative">
-        <div className="w-[35vw] h-[90vh] bg-transparent border border-slate-600 rounded-md p-5">
-          {props.reportDetails && (
+    <div className="relative w-full">
+      <div className="px-4 py-8 flex flex-col justify-between w-full margin-x-auto relative">
+        <div className="w-full h-[90vh] bg-transparent rounded-md p-5">
+          {report && (
             <>
-              {" "}
-              <div className="flex gap-4 mb-4">
-                {/* <div className="stat-figure text-secondary">
-                  <div className="avatar online">
-                    <div className="w-16 rounded-full">
-                      <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10">
+                <div className="flex items-end gap-x-2">
+                  <div className="w-full md:w-auto">
+                    <div
+                      className="radial-progress"
+                      style={radialStyle}
+                      role="progressbar"
+                    >
+                      <div>
+                        <Lottie
+                          // speed={2000}
+                          options={{
+                            loop: false,
+                            autoplay: true,
+                            animationData: heartPulzeAnimation,
+                            rendererSettings: {
+                              preserveAspectRatio: 'xMidYMid slice',
+                            },
+                          }}
+                          height={60}
+                          width={60}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div> */}
-                <h1 className="text-2xl text-center py-4 font-medium">
-                  {props.reportDetails.patient.name}
-                </h1>
+                  <div className="pb-1">
+                    <p className="text-2xl font-bold">
+                      {report.confidenceLevel}%
+                    </p>
+                    <p className="text-xs">Confidence Level</p>
+                  </div>
+                </div>
+
+                <div className="w-full md:w-auto">
+                  <button
+                    className="btn btn-secondary btn-md text-white/90 btn-outline rounded-full"
+                    onClick={handleStartChart}
+                  >
+                    <span>
+                      <Message />
+                    </span>
+                    <span>Start Conversation</span>
+                  </button>
+                </div>
               </div>
-              <div className="overflow-x-auto">
-                <table className="table">
+
+              <div className="overflow-x-auto mb-10">
+                <table className="table rounded-lg overflow-hidden">
                   <tbody>
-                    {/* row 1 */}
                     <tr className="bg-base-200 border-b border-gray-800/30">
-                      <td>Issued By</td>
+                      <td>Date Issued</td>
                       <td></td>
-                      <td>{props.reportDetails.doctor.name}</td>
+                      <td>{report.createdAt.split('T')[0]}</td>
                     </tr>
-                    {/* row 2 */}
-                    <tr className="bg-base-200 border-b border-gray-800/30">
-                      <td>Date</td>
-                      <td></td>
-                      <td>{props.reportDetails.createdAt.split("T")[0]}</td>
-                    </tr>
-                    {/* row 3 */}
+
                     <tr className="bg-base-200">
-                      <td>ID</td>
+                      <td>Report Id</td>
                       <td></td>
-                      <td>{props.reportDetails._id}</td>
+                      <td>{report._id}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              {/* <div className="mt-5">
-              <h2>Cardio Health - 55%</h2>
-              <progress
-                className="progress progress-primary w-56"
-                value="100"
-                max="100"
-              ></progress>
-            </div> */}
-              <div className="stats shadow w-full my-4">
+
+              <div className="stats shadow w-full my-4 mb-10">
                 <div className="stat">
                   <div className="stat-title">Heart Rate</div>
                   <div className="stat-value text-primary">
-                    {props.reportDetails.details.maximumHeartRate}
+                    {report.details.maximumHeartRate}
                   </div>
                   <div className="stat-desc">21% decrement</div>
                 </div>
@@ -103,7 +127,7 @@ const ReportCard = (props: { reportDetails: any }) => {
                 <div className="stat">
                   <div className="stat-title">Cardio Status</div>
                   <div className="stat-value text-secondary">
-                    {props.reportDetails.cadioStatus}
+                    {report.cadioStatus}
                   </div>
                   <div className="stat-desc">21% improvement</div>
                 </div>
@@ -111,56 +135,92 @@ const ReportCard = (props: { reportDetails: any }) => {
                 <div className="stat">
                   <div className="stat-title">Staus</div>
                   <div className="stat-value text-accent">
-                    {props.reportDetails.status.includes("fine")
-                      ? "NEG"
-                      : "POS"}
+                    {report.status.includes('fine') ? 'NEG' : 'POS'}
                   </div>
                   <div className="stat-desc">
-                    {props.reportDetails.status.includes("fine")
-                      ? "Negative"
-                      : "Positive"}
+                    {report.status.includes('fine') ? 'Negative' : 'Positive'}
                   </div>
                 </div>
               </div>
-              <div className="flex justify-between mb-4">
-                <div className="bg-slate-500/10 w-full p-4 rounded-md flex flex-col gap-2">
-                  <p>
-                    Confidence Level{" "}
-                    <div className="badge badge-primary text-white">
-                      {props.reportDetails.confidenceLevel}%
+
+              <div className="mb-10">
+                <h3 className="text-xl mb-2">Patient Details</h3>
+                <div className="flex justify-between mb-4">
+                  <div className="bg-base-200 dark:bg-slate-500/10 w-full p-4 rounded-md flex items-start gap-2">
+                    <div>
+                      <div className="bg-neutral text-neutral-content rounded-full w-20 h-20 flex justify-center items-center">
+                        <PersonOutline fontSize="large" />
+                      </div>
                     </div>
-                  </p>
-                  <progress
-                    className="progress progress-primary w-56"
-                    value={props.reportDetails.confidenceLevel}
-                    max="100"
-                  ></progress>
+                    <div className="mt-1">
+                      <p className="text-xl mb-2">
+                        <span>{report.patient.name}</span>
+                      </p>
+                      <p className="text-xs">
+                        <span className="font-semibold">Email : </span>
+                        <span>{report.patient.email}</span>
+                      </p>
+                      <p className="text-xs">
+                        <span className="font-semibold">Phone : </span>
+                        <span>{report.patient.phone}</span>
+                      </p>
+                      <p className="text-xs">
+                        <span className="font-semibold">Sex : </span>
+                        <span>
+                          {report.patient.sex === 1 ? 'Male' : 'Female'}
+                        </span>
+                      </p>
+                      <p className="text-xs">
+                        <span className="font-semibold">Age : </span>
+                        <span>{report.patient.age}</span>
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                {/* <div className="bg-slate-500/10 w-28 h-32 p-4 rounded-md"></div> */}
-                {/* <div className="bg-slate-500/10 w-28 h-32 p-4 rounded-md"></div> */}
-                {/* <div className="bg-slate-500/10 w-28 h-32 p-4 rounded-md"></div> */}
               </div>
+
+              <div className="mb-10">
+                <h3 className="text-xl mb-2">Doctor Details</h3>
+                <div className="flex justify-between mb-4">
+                  <div className="bg-base-200 dark:bg-slate-500/10 w-full p-4 rounded-md flex items-start gap-2">
+                    <div>
+                      <div className="bg-neutral text-neutral-content rounded-full w-20 h-20 flex justify-center items-center">
+                        <PersonOutline fontSize="large" />
+                      </div>
+                    </div>
+                    <div className="mt-1">
+                      <p className="text-xl mb-2">
+                        <span>{report.doctor.name || 'N/A'}</span>
+                      </p>
+                      <p className="text-xs">
+                        <span className="font-semibold">Email : </span>
+                        <span>{report.doctor.email}</span>
+                      </p>
+                      <p className="text-xs">
+                        <span className="font-semibold">Phone : </span>
+                        <span>{report.doctor.phone}</span>
+                      </p>
+                      <p className="text-xs">
+                        <span className="font-semibold">Hosptial : </span>
+                        <span>{report.doctor.hospital}</span>
+                      </p>
+                      <p className="text-xs">
+                        <span className="font-semibold">Age : </span>
+                        <span>{report.patient.age}</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div className="bg-slate-500/10 p-4">
                 <h2 className="text-xl">Summary</h2>
-                <p className="text-md opacity-70">
-                  {props.reportDetails.status}
-                </p>
+                <p className="text-md opacity-70">{report.status}</p>
               </div>
             </>
           )}
         </div>
       </div>
-      {/* <div className="absolute top-[4%] left-[102%] flex flex-col gap-3">
-        <div className="bg-slate-500/10 rounded-full p-4 hover:bg-slate-700 cursor-pointer">
-          <DownloadIcon />
-        </div>
-        <div className="bg-slate-500/10 rounded-full p-4 hover:bg-slate-700 cursor-pointer">
-          <FullScreenIcon />
-        </div>
-        <div className="bg-slate-500/10 rounded-full p-4 hover:bg-slate-700 cursor-pointer">
-          <ShareIcon />
-        </div>
-      </div> */}
     </div>
   );
 };
