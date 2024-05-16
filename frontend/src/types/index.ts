@@ -115,6 +115,7 @@ export interface ChatSession {
 
 export interface NewChatSessionFormData {
   title: string;
+  medicalReport?: string;
 }
 
 export interface ChatMessage {
@@ -146,8 +147,7 @@ export interface ChatMessageResponse {
 
 export interface Doctor {
   _id: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   age: number;
   sex: number;
   phone: string;

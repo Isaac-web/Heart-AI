@@ -68,7 +68,7 @@ const App = () => {
             <Route path="reports" element={<Reports />} />
             <Route
               path="/portal/patient"
-              element={<Navigate to="/portal/patient/chatbot" />}
+              element={<Navigate to="/portal/patient/reports" />}
             />
           </Route>
 

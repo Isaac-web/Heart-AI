@@ -160,7 +160,6 @@ const Chatbot = () => {
           )}
         </div>
       </div>
-
       <div className="flex flex-col justify-between grow items-center">
         <div className="grow text-white py-10 self-start">
           {sessionId ? (

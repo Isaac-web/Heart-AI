@@ -1,6 +1,7 @@
 import { useAppStore } from '@/store';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import ReportCard from './patient/ReportCard';
 
 const MedicalReportDetails = () => {
   const store = useAppStore();
@@ -21,26 +22,12 @@ const MedicalReportDetails = () => {
       </p>
 
       {medicalReport.loading ? (
-        <p>Loading Cadio Status...</p>
+        <p className="text-center">Loading Cadio Status...</p>
       ) : (
-        <p
-          className="text-center py-20"
-          style={{
-            color:
-              medicalReport.data.status ===
-              'Your heart is fine, you do not have heart disease'
-                ? 'green'
-                : 'red',
-          }}
-        >
-          {medicalReport.data.status}
-        </p>
+        <div className="flex justify-center max-w-xl">
+          <ReportCard report={medicalReport.data} />
+        </div>
       )}
-
-      <div>Basic Details</div>
-      <div>Patient</div>
-      <div>Doctor</div>
-      <div>Doctor Final Verdict</div>
     </section>
   );
 };
