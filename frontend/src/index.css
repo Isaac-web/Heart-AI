@@ -14,17 +14,19 @@
 
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 10px;
+  height: 10px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #555;
+  background: #222;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #222;
+  background: #555;
+  border-radius: 3px;
 }
 
 /* Handle on hover */

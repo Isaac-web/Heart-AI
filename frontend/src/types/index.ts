@@ -3,7 +3,7 @@ import {
   InputHTMLAttributes,
   KeyboardEvent,
   ReactNode,
-} from "react";
+} from 'react';
 
 export interface LoginFormData {
   email: string;

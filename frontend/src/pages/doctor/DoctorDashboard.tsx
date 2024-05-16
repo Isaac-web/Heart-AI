@@ -36,15 +36,15 @@ const DoctorDashboard = () => {
         </div>
         <div className="col-span-1">
           <DashboardCard
-            title="Medical Reports"
-            description="Issued medical reports"
+            title="Unhealthy Patients"
+            description="Medical reports of unhealthy cadio status"
             value={store.analytics.doctor.data.numberOfUnHealthyReports.toString()}
           />
         </div>
         <div className="col-span-1">
           <DashboardCard
-            title="Patients"
-            description="Patients with heart diseases"
+            title="Healthy Patients"
+            description="Medical report of healthy cadio Status"
             value={store.analytics.doctor.data.numberOfHealthyReports.toString()}
           />
         </div>

@@ -1,6 +1,6 @@
-import { useAppStore } from "@/store";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useAppStore } from '@/store';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 const MedicalReportDetails = () => {
   const store = useAppStore();
@@ -12,7 +12,7 @@ const MedicalReportDetails = () => {
   }, []);
 
   return (
-    <div className="p-10">
+    <section className="p-10">
       <h1 className="text-center text-3xl font-bold mb-5">
         Medical Report Details
       </h1>
@@ -36,7 +36,12 @@ const MedicalReportDetails = () => {
           {medicalReport.data.status}
         </p>
       )}
-    </div>
+
+      <div>Basic Details</div>
+      <div>Patient</div>
+      <div>Doctor</div>
+      <div>Doctor Final Verdict</div>
+    </section>
   );
 };
 
