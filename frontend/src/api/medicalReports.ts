@@ -2,6 +2,7 @@ import {
   MedicalReport,
   MedicalReportFormData,
   MedicalReportSearchParams,
+  MedicalReportUpdateFormData,
 } from '@/types';
 import { apiClient } from './apiClient';
 
@@ -38,6 +39,18 @@ export const getCurrentUserMedicalReports = async () => {
 export const getMedicalReportById = async (id: string) => {
   const { data: resData } = await apiClient.get<{ data: MedicalReport }>(
     `/medical-reports/${id}`
+  );
+
+  return resData.data;
+};
+
+export const updateMedicalReport = async (
+  id: string,
+  data: MedicalReportUpdateFormData
+) => {
+  const { data: resData } = await apiClient.patch<{ data: MedicalReport }>(
+    `/medical-reports/${id}`,
+    data
   );
 
   return resData.data;
