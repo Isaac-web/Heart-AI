@@ -79,6 +79,10 @@ export const createMedicalReport = async (req: Request, res: Response) => {
       .status(404)
       .json({ message: 'Patient with the given Id cannot be found.' });
 
+  if (patient.age < 16)
+    return res.json({ message: 'Minimum age for patient is 16.' });
+  req.body.age = patient.age || 18;
+
   if (!doctor)
     return res
       .status(404)
@@ -105,13 +109,11 @@ export const createMedicalReport = async (req: Request, res: Response) => {
       ])
     );
 
-    console.log('Data: ', data);
-
     medicalReport = await MedicalReport.create({
       status: data.status,
       cadioStatus:
         data.status === 'Unfortunately, you have heart disease' ? 1 : 0,
-      confidenceLevel: Math.floor(Math.random() * 101),
+      confidenceLevel: Math.round(Number(data.confidence_level)),
       patient: req.body.patient,
       doctor: req.body.doctor,
       details: {
