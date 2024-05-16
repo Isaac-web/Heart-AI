@@ -12,6 +12,7 @@ import {
   MedicalReport,
   MedicalReportFormData,
   MedicalReportSearchParams,
+  MedicalReportUpdateFormData,
   NewChatSessionFormData,
   RegistrationFormData,
   User,
@@ -64,6 +65,10 @@ export interface MedicalReportDetail {
   isPending: boolean;
   data: MedicalReport;
   getMedicalReportById(id: string): Promise<MedicalReport | undefined>;
+  updateMedicalReport(
+    id: string,
+    data: MedicalReportUpdateFormData
+  ): Promise<MedicalReport | undefined>;
 }
 
 export interface ChatSessionsSlice {

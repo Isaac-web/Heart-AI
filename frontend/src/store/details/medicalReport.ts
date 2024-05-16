@@ -1,7 +1,10 @@
 import { StateCreator } from 'zustand';
 import { produce } from 'immer';
 import { MedicalReportDetail, StoreState } from '../types';
-import { getMedicalReportById } from '@/api/medicalReports';
+import {
+  getMedicalReportById,
+  updateMedicalReport,
+} from '@/api/medicalReports';
 import { handleError } from '@/utils/errorHandler';
 
 export const medicalReportDetailSlice: StateCreator<
@@ -14,7 +17,7 @@ export const medicalReportDetailSlice: StateCreator<
   isPending: false,
   data: {
     _id: '',
-    cardioStatus: 0,
+    cadioStatus: 0,
     status: '',
     confidenceLevel: 0,
     patient: {
@@ -29,8 +32,7 @@ export const medicalReportDetailSlice: StateCreator<
     },
     doctor: {
       _id: '',
-      firstName: '',
-      lastName: '',
+      name: '',
       age: 0,
       sex: 0,
       email: '',
@@ -55,6 +57,7 @@ export const medicalReportDetailSlice: StateCreator<
       numberOfMajorVessels: 0,
       thalliumStressTestResults: 0,
     },
+    finalVerdict: '',
     createdAt: '',
   },
   async getMedicalReportById(id) {
@@ -86,6 +89,39 @@ export const medicalReportDetailSlice: StateCreator<
       set(
         produce((store: StoreState) => {
           store.details.medicalReport.loading = false;
+        })
+      );
+    }
+  },
+  async updateMedicalReport(id, data) {
+    get().removeError(this.updateMedicalReport.name);
+
+    try {
+      set(
+        produce((store: StoreState) => {
+          store.details.medicalReport.isPending = true;
+        })
+      );
+
+      const medicalReport = await updateMedicalReport(id, data);
+
+      set(
+        produce((store: StoreState) => {
+          store.details.medicalReport.data = medicalReport;
+        })
+      );
+
+      return medicalReport;
+    } catch (err) {
+      const message = handleError(err as Error);
+      get().addError({
+        callingFunction: this.updateMedicalReport.name,
+        message,
+      });
+    } finally {
+      set(
+        produce((store: StoreState) => {
+          store.details.medicalReport.isPending = false;
         })
       );
     }
