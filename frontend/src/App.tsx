@@ -18,17 +18,12 @@ import MedicalReportDetails from './pages/MedicalReportDetails';
 import LandingPage from './pages/LandingPage';
 import Auth from './pages/auth/AuthPage';
 import PatientsPage from './pages/PatientsPage';
+import PatientReportDetailsPage from './pages/PatientReportDetailsPage';
 
 const App = () => {
   return (
     <main>
       <Routes>
-        {/* <Route
-          path="/doctor/onboarding"
-          element={<DoctorOnboardPerfonalInforPage />}
-        /> */}
-        {/* <Route path="/register/doctor" element={<DoctorSignUpPage />} /> */}
-        {/* <Route path="/dashboard/patient" element={<PatientDashboard />} /> */}
         <Route index element={<LandingPage />}></Route>
         <Route path="/auth" element={<Auth />}></Route>
         <Route path="/dashboard/patient" element={<PatientDashboard />}>
@@ -41,7 +36,6 @@ const App = () => {
           />
         </Route>
 
-        {/* <Route path="/doctor/dashboard" element={<DoctorDashboard />} /> */}
         <Route path="/doctor/onboarding" element={<DoctorOnboardingPage />} />
         <Route path="/onboarding/doctor" element={<DoctorOnboardingPage />} />
         <Route path="/onboarding/patient" element={<PatientOnboardingPage />} />
@@ -65,7 +59,12 @@ const App = () => {
             />
             <Route path="chatbot/:sessionId" element={<Chatbot />} />
             <Route path="chatbot" element={<Chatbot />} />
-            <Route path="reports" element={<Reports />} />
+            <Route path="reports" element={<PatientReportDetailsPage />}>
+              <Route
+                path="/portal/patient/reports/:id"
+                element={<MedicalReportDetails />}
+              />
+            </Route>
             <Route
               path="/portal/patient"
               element={<Navigate to="/portal/patient/reports" />}

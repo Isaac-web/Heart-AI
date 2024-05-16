@@ -61,7 +61,7 @@ const ReportCard = ({ report }: ReportCardProps) => {
                     >
                       <div>
                         <Lottie
-                          speed={2000}
+                          // speed={2000}
                           options={{
                             loop: false,
                             autoplay: true,

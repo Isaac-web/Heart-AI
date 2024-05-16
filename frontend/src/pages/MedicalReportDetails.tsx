@@ -13,21 +13,22 @@ const MedicalReportDetails = () => {
   }, []);
 
   return (
-    <section className="p-10">
-      <h1 className="text-center text-3xl font-bold mb-5">
-        Medical Report Details
-      </h1>
-      <p className="text-xs text-center">
-        This page is still under development
-      </p>
-
-      {medicalReport.loading ? (
-        <p className="text-center">Loading Cadio Status...</p>
-      ) : (
-        <div className="flex justify-center max-w-xl">
-          <ReportCard report={medicalReport.data} />
+    <section className="p-10  w-full">
+      <div className="justify-center mx-auto max-w-3xl">
+        <div>
+          <h1 className="text-left text-3xl font-bold mb-5">
+            Medical Report Details
+          </h1>
         </div>
-      )}
+
+        {medicalReport.loading ? (
+          <>loading</>
+        ) : (
+          <div>
+            <ReportCard report={medicalReport.data} />
+          </div>
+        )}
+      </div>
     </section>
   );
 };
