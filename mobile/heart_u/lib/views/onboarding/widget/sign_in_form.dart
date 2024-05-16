@@ -309,7 +309,7 @@ class _SignInFormState extends State<SignInForm> {
                         signIn(context);
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFF77D8E),
+                          backgroundColor:Color(0xff204099),
                           minimumSize: const Size(double.infinity, 56),
                           shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
@@ -319,9 +319,12 @@ class _SignInFormState extends State<SignInForm> {
                                   bottomLeft: Radius.circular(25)))),
                       icon: const Icon(
                         CupertinoIcons.arrow_right,
-                        color: Color(0xFFFE0037),
+                        color: Colors.white,
                       ),
-                      label: const Text("Sign In")),
+                      label: const Text("Sign In",
+                      style: TextStyle(
+                        color: Colors.white
+                      ),)),
                 )
               ],
 

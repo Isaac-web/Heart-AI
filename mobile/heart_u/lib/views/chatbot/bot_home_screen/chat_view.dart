@@ -26,7 +26,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   final currentUser = ChatUser(
     id: '1',
-    name: 'Flutter',
+    name: 'Me',
     profilePhoto: Data.profileImage,
   );
   final _chatController = ChatController(

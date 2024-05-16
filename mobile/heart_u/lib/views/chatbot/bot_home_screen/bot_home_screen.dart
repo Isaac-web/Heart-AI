@@ -254,104 +254,110 @@ class _BotHomeScreenState extends State<BotHomeScreen> {
     return Expanded(
       child: CircularWidgetLoading(
         loading: isLoading,
-        child: ListView.separated(
-          shrinkWrap: false,
-          separatorBuilder: (context, index) {
-            return SizedBox(
-              height: 10.v,
-            );
+        child: RefreshIndicator(
+          onRefresh: ()async{
+            getData();
           },
-          itemCount: dataList == null ? 0 :  dataList.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () async {
-                prefs.setString("sessionId", dataList[index]["_id"]);
-                prefs.setString("patientId", dataList[index]["patientId"]);
+          child: ListView.separated(
+            physics: const AlwaysScrollableScrollPhysics(),
+            shrinkWrap: false,
+            separatorBuilder: (context, index) {
+              return SizedBox(
+                height: 10.v,
+              );
+            },
+            itemCount: dataList == null ? 0 :  dataList.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () async {
+                  prefs.setString("sessionId", dataList[index]["_id"]);
+                  prefs.setString("patientId", dataList[index]["patientId"]);
 
-                try{
+                  try{
 
-                  String sessionId = dataList[index]["_id"];
-                  prefs = await SharedPreferences.getInstance();
+                    String sessionId = dataList[index]["_id"];
+                    prefs = await SharedPreferences.getInstance();
 
-                  var token = prefs.getString("token");
-
-                  setState(() {
-                    isLoading = true;
-                  });
-
-                  print("session messages retrieval initialised");
-                  Response response = await dio.get(
-                    "${baseUrl}api/chat-messages/$sessionId",
-                    options: Options(
-                      headers: {
-                        "Authorization": "Bearer ${token!}"
-                      },
-                      validateStatus: (_) => true,
-                    ),
-                  );
-
-                  print('Response: ${response.data}');
-
-                  if (response.statusCode == 200){
+                    var token = prefs.getString("token");
 
                     setState(() {
-                        isLoading = false;
+                      isLoading = true;
                     });
 
-                    var messages = response.data["data"] as List;
+                    print("session messages retrieval initialised");
+                    Response response = await dio.get(
+                      "${baseUrl}api/chat-messages/$sessionId",
+                      options: Options(
+                        headers: {
+                          "Authorization": "Bearer ${token!}"
+                        },
+                        validateStatus: (_) => true,
+                      ),
+                    );
 
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ChatScreen(sessionMessages: messages,))
-                      );
+                    print('Response: ${response.data}');
 
-                  } else{
+                    if (response.statusCode == 200){
 
-                    setState(() {
-                        isLoading = false;
-                    });
+                      setState(() {
+                          isLoading = false;
+                      });
 
-                     AwesomeDialog(
-                      context: context,
-                      dialogType: DialogType.error,
-                      animType: AnimType.rightSlide,
-                      headerAnimationLoop: true,
-                      title: 'Error',
-                      desc:
-                      'An error occurred while fetching messages. Please try again later',
-                      btnOkOnPress: () {},
-                      btnOkIcon: Icons.cancel,
-                      btnOkColor: Colors.red,
-                    ).show();
+                      var messages = response.data["data"] as List;
+
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ChatScreen(sessionMessages: messages,))
+                        );
+
+                    } else{
+
+                      setState(() {
+                          isLoading = false;
+                      });
+
+                       AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.error,
+                        animType: AnimType.rightSlide,
+                        headerAnimationLoop: true,
+                        title: 'Error',
+                        desc:
+                        'An error occurred while fetching messages. Please try again later',
+                        btnOkOnPress: () {},
+                        btnOkIcon: Icons.cancel,
+                        btnOkColor: Colors.red,
+                      ).show();
+                    }
+
+
+                  } catch (e){
+                    print('Response: $e');
+
+                      setState(() {
+                          isLoading = false;
+                      });
+                    AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.error,
+                        animType: AnimType.rightSlide,
+                        headerAnimationLoop: true,
+                        title: 'Error',
+                        desc:
+                        'Please try again later',
+                        btnOkOnPress: () {},
+                        btnOkIcon: Icons.cancel,
+                        btnOkColor: Colors.red,
+                      ).show();
+
                   }
-
-
-                } catch (e){
-                  print('Response: $e');
-
-                    setState(() {
-                        isLoading = false;
-                    });
-                  AwesomeDialog(
-                      context: context,
-                      dialogType: DialogType.error,
-                      animType: AnimType.rightSlide,
-                      headerAnimationLoop: true,
-                      title: 'Error',
-                      desc:
-                      'Please try again later',
-                      btnOkOnPress: () {},
-                      btnOkIcon: Icons.cancel,
-                      btnOkColor: Colors.red,
-                    ).show();
-
-                }
-              },
-              child: RecentchatlistItemWidget(
-                date: dataList[index]["createdAt"],
-                title: dataList[index]["title"],
-              ),
-            );
-          },
+                },
+                child: RecentchatlistItemWidget(
+                  date: dataList[index]["createdAt"],
+                  title: dataList[index]["title"],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

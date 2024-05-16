@@ -70,8 +70,7 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                   Stack(
                     children: [
                       Hero(
-                        tag: (data["doctor"]["firstName"]).toUpperCase()+" "+
-                            (data["doctor"]["lastName"]).toUpperCase(),
+                        tag: (data["doctor"]["name"]).toUpperCase(),
                         child: Image.asset(
                           image,
                           fit: BoxFit.fitWidth,
@@ -177,8 +176,7 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                                                   left: 20,
                                                   right: 20,
                                                   bottom: 30),
-                                              child: Text((data["doctor"]["firstName"]).toUpperCase()+" "+
-                                                  (data["doctor"]["lastName"]).toUpperCase()+"\n"+
+                                              child: Text((data["doctor"]["name"]).toUpperCase()+"\n"+
                                                   (data["doctor"]["hospital"]).toUpperCase() ==
                                                   "" ? "HOSPITAL NOT PROVIDED" :
                                               (data["doctor"]["hospital"]).toUpperCase()+"\n"+
@@ -224,8 +222,7 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                                 height: 10,
                               ),
                               Text(
-                                (data["doctor"]["firstName"]).toUpperCase()+" "+
-                                    (data["doctor"]["lastName"]).toUpperCase(),
+                                (data["doctor"]["name"]).toUpperCase(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge

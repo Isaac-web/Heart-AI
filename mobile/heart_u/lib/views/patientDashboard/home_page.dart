@@ -1,27 +1,24 @@
 import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:circular_seek_bar/circular_seek_bar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:heart_u/views/patientDashboard/detail_page.dart';
-import 'package:heart_u/views/patientDashboard/widget/data.dart';
 import 'package:heart_u/views/patientDashboard/widget/extension.dart';
 import 'package:heart_u/views/patientDashboard/widget/light_color.dart';
+import 'package:heart_u/views/patientDashboard/widget/numbers_widget.dart';
 import 'package:heart_u/views/patientDashboard/widget/text_style.dart';
 import 'package:heart_u/views/patientDashboard/widget/theme.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vertical_card_pager/vertical_card_pager.dart';
 import 'package:widget_loading/widget_loading.dart';
-
 import '../../core/utils/constants.dart';
 import '../../core/utils/image_constant.dart';
 import '../../routes/app_routes.dart';
-import '../appointments/constant/constant.dart';
 import '../chatbot/bot_home_screen/chat_view.dart' as path;
-import 'model/doctor_model.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -31,7 +28,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late List<DoctorModel> doctorDataList;
 
   var loading = false;
   late SharedPreferences prefs;
@@ -122,7 +118,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     getData();
-    doctorDataList = doctorMapList.map((x) => DoctorModel.fromJson(x)).toList();
     super.initState();
   }
 
@@ -224,92 +219,47 @@ class _HomePageState extends State<HomePage> {
               itemCount: datalist == null ? 0 : datalist.length,
               itemBuilder: (context, index) {
                 return _categoryCard(
-                  datalist[index]["cardioStatus"].toString() == "0"
-                      ? "No disease"
-                      : "Presence of disease",
+                  datalist[index]["status"].toString(),
                   "Read more...",
                   chatContext: datalist[index],
-                  docId: datalist[index]["doctorId"].toString(),
-                  id: datalist[index]["patientId"].toString(),
+                  name: datalist[index]["doctor"]["name"].toString(),
+                  hospital: datalist[index]["doctor"]["hospital"].toString(),
                   reportId: datalist[index]["_id"].toString(),
-                  date: datalist[index]["createdAt"].toString(),
-                  age: datalist[index]["age"].toString(),
-                  sex: datalist[index]["sex"].toString() == "0"
-                      ? "male"
-                      : "female",
-                  trestbps: datalist[index]["trestbps"].toString(),
-                  chol: datalist[index]["chol"].toString(),
-                  fbs: datalist[index]["fbs"].toString() == "0"
+                  date: datalist[index]["createdAt"].toString().substring(0,
+                      datalist[index]["createdAt"].toString().indexOf('T')),
+                  trestbps: datalist[index]["details"]["restingBloodPressure"].toString(),
+                  chol: datalist[index]["details"]["serumColesterol"].toString(),
+                  fbs: datalist[index]["details"]["fastingBloodSugarLevel"].toString() == "0"
                       ? "false"
                       : "true",
-                  thalach: datalist[index]["thalach"].toString(),
+                  thalach: datalist[index]["details"]["maximumHeartRate"].toString(),
                   exang:
-                      datalist[index]["exang"].toString() == "0" ? "No" : "Yes",
-                  oldPeak: datalist[index]["oldpeak"].toString(),
+                      datalist[index]["details"]["exerciseInducedAngina"].
+                      toString() == "0" ? "No" : "Yes",
+                  oldPeak: datalist[index]["details"]["stDepression"].toString(),
                   slope: datalist[index]["slope"].toString() == "0"
                       ? "Upsloping"
-                      : datalist[index]["slope"].toString() == "1"
+                      : datalist[index]["details"]["slope"].toString() == "1"
                           ? "flat"
                           : "Downsloping",
-                  ca: datalist[index]["ca"].toString(),
-                  cp_1: datalist[index]["cp_1"].toString() == "0"
-                      ? "Typical angina"
-                      : datalist[index]["cp_1"].toString() == "1"
-                          ? "Atypical angina"
-                          : datalist[index]["cp_1"].toString() == "2"
-                              ? "Non-anginal pain"
-                              : "Asymptomatic",
-                  cp_2: datalist[index]["cp_2"].toString() == "0"
-                      ? "Typical angina"
-                      : datalist[index]["cp_2"].toString() == "1"
-                          ? "Atypical angina"
-                          : datalist[index]["cp_2"].toString() == "2"
-                              ? "Non-anginal pain"
-                              : "Asymptomatic",
-                  cp_3: datalist[index]["cp_3"].toString() == "0"
+                  ca: datalist[index]["details"]["numberOfMajorVessels"].toString(),
+                  cp: datalist[index]["details"]["chestPainType"].toString() == "0"
                       ? "Typical angina"
                       : datalist[index]["cp_3"].toString() == "1"
                           ? "Atypical angina"
                           : datalist[index]["cp_3"].toString() == "2"
                               ? "Non-anginal pain"
                               : "Asymptomatic",
-                  restecg_1: datalist[index]["restecg_1"].toString() == "0"
+                  restecg: datalist[index]["restecg_1"].toString() == "0"
                       ? "Normal"
                       : datalist[index]["restecg_1"].toString() == "1"
                           ? "having ST-T wave abnormality"
                           : "Showing probable or definite "
                               "left ventricular hypertrophy",
-                  restecg_2: datalist[index]["restecg_2"].toString() == "0"
-                      ? "Normal"
-                      : datalist[index]["restecg_2"].toString() == "1"
-                          ? "having ST-T wave abnormality"
-                          : "Showing probable or definite "
-                              "left ventricular hypertrophy",
-                  thal_1: datalist[index]["thal_1"].toString() == "0"
-                      ? "Normal"
-                      : datalist[index]["thal_1"].toString() == "1"
-                          ? "Fixed defect"
-                          : datalist[index]["thal_1"].toString() == "2"
-                              ? "Reversible defect"
-                              : "Not described",
-                  thal_2: datalist[index]["thal_2"].toString() == "0"
-                      ? "Normal"
-                      : datalist[index]["thal_2"].toString() == "1"
-                          ? "Fixed defect"
-                          : datalist[index]["thal_2"].toString() == "2"
-                              ? "Reversible defect"
-                              : "Not described",
-                  thal_3: datalist[index]["thal_3"].toString() == "0"
-                      ? "Normal"
-                      : datalist[index]["thal_3"].toString() == "1"
-                          ? "Fixed defect"
-                          : datalist[index]["thal_3"].toString() == "2"
-                              ? "Reversible defect"
-                              : "Not described",
-                  status: datalist[index]["cardioStatus"].toString() == "0"
-                      ? "No disease"
-                      : "Presence of disease",
+                  status: datalist[index]["status"],
                   color: randomColor2(),
+                  confidencLevel: datalist[index]["confidenceLevel"].toDouble(),
+                  cardioStatus: datalist[index]["cadioStatus"].toString(),
                 );
               },
             ),
@@ -319,17 +269,19 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  final ValueNotifier<double> _valueNotifier = ValueNotifier(0);
+
   Widget _categoryCard(
     String title,
     String subtitle, {
     required Color color,
     required var chatContext,
-    required String id,
-    required String docId,
-    required String reportId,
-    required String date,
-    required String age,
-    required String sex,
+        required String cardioStatus,
+        required String reportId,
+        required String name,
+        required String hospital,
+        required String date,
+        required double confidencLevel,
     required String trestbps,
     required String chol,
     required String fbs,
@@ -338,14 +290,8 @@ class _HomePageState extends State<HomePage> {
     required String oldPeak,
     required String slope,
     required String ca,
-    required String cp_1,
-    required String cp_2,
-    required String cp_3,
-    required String restecg_1,
-    required String restecg_2,
-    required String thal_1,
-    required String thal_2,
-    required String thal_3,
+    required String cp,
+    required String restecg,
     required String status,
   }) {
     TextStyle titleStyle = TextStyles.title.bold.white;
@@ -355,29 +301,18 @@ class _HomePageState extends State<HomePage> {
       subtitleStyle = TextStyles.bodySm.bold.white;
     }
 
-    String report = "Patient Id: $id \n"
-        "Doctor Id: $docId \n"
-        "Report Id: $reportId \n"
-        "Date: $date \n"
-        "age: $age \n"
-        "Sex: $sex  \n\n"
-        "Resting blood pressure in mm Hg: $trestbps \n\n"
-        "Serum cholesterol in mg/dl: $chol \n\n"
-        "Fasting blood sugar level, categorized as above 120 mg/dl: $fbs \n\n"
-        "Maximum heart rate achieved during a stress test: $thalach \n\n"
-        "Exercise-induced angina: $exang \n\n"
-        "T depression induced by exercise relative to rest: $oldPeak \n\n"
-        "slope of the peak exercise ST segment: $slope \n\n"
-        "Number of major vessels (0-4) colored by fluoroscopy: $ca \n\n"
-        "chest pain type 1: $cp_1 \n\n"
-        "chest pain type 2: $cp_2 \n\n"
-        "chest pain type 3: $cp_3 \n\n"
-        "Resting electrocardiographic results 1: $restecg_1 \n\n"
-        "Resting electrocardiographic results 2: $restecg_2 \n\n"
-        "Thallium stress test results 1: $thal_1 \n\n"
-        "Thallium stress test results 2: $thal_2 \n\n"
-        "Thallium stress test results 3: $thal_3 \n\n"
-        "Status: $status \n";
+    String report =
+        "Resting blood pressure is $trestbps, "
+        "Serum cholesterol is $chol, "
+        "Fasting blood sugar level is $fbs, "
+        "Maximum heart rate is $thalach, "
+        "Exercise-induced angina is $exang, "
+        "T depression is $oldPeak."
+        "slope of the peak exercise ST segment is $slope, "
+        "Number of major vessels (0-4) colored by fluoroscopy is/are $ca, "
+        "chest pain type is $cp, "
+        "Resting electrocardiograph results is $restecg. \n\n"
+        "Status: $status.";
 
     return FadeInRight(
       duration: const Duration(milliseconds: 1000),
@@ -436,6 +371,7 @@ class _HomePageState extends State<HomePage> {
           ).ripple(() {
             showModalBottomSheet(
                 context: context,
+                showDragHandle: true,
                 builder: (context) {
                   return Container(
                     decoration: const BoxDecoration(
@@ -453,24 +389,180 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.bold)),
                           ),
-                          const Divider(
-                            thickness: 2,
-                            color: LightColor.grey,
-                          ),
-                          ListTile(
-                            title: Text(
-                              report,
-                              style: const TextStyle(
-                                  fontSize: 17.0,
-                                  fontWeight: FontWeight.normal,
-                                  letterSpacing: 1.0),
-                              textAlign: TextAlign.left,
+
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.3),
+                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                    offset: Offset(4, 4),
+                                    blurRadius: 10,
+                                    color: LightColor.grey.withOpacity(.5),
+                                  ),
+                                  BoxShadow(
+                                    offset: Offset(-3, 0),
+                                    blurRadius: 15,
+                                    color: LightColor.grey.withOpacity(.1),
+                                  )
+                                ],
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.only(left: 8.0, right: 50),
+                                        child: Text("ISSUED BY"),
+                                      ),
+                                      Text("Dr. ${name.toUpperCase()}",),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.only(left: 8.0, right: 100),
+                                        child: Text("AT"),
+                                      ),
+                                      Text(hospital.toUpperCase(),),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.only(left: 8.0, right: 100),
+                                        child: Text("ON"),
+                                      ),
+                                      Text(date,),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          const Divider(
-                            thickness: 2,
-                            color: LightColor.grey,
+
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              padding: EdgeInsets.only(top: 10),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.3),
+                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                    offset: Offset(4, 4),
+                                    blurRadius: 10,
+                                    color: LightColor.grey.withOpacity(.5),
+                                  ),
+                                  BoxShadow(
+                                    offset: Offset(-3, 0),
+                                    blurRadius: 15,
+                                    color: LightColor.grey.withOpacity(.1),
+                                  )
+                                ],
+                              ),
+                              child: CircularSeekBar(
+                                width: double.infinity,
+                                height: 150,
+                                interactive: false,
+                                progress: confidencLevel,
+                                barWidth: 8,
+                                startAngle: 45,
+                                sweepAngle: 270,
+                                strokeCap: StrokeCap.butt,
+                                progressGradientColors: const [Colors.red, Colors.orange, Colors.yellow, Colors.green, Colors.blue, Colors.indigo, Colors.purple],
+                                innerThumbRadius: 5,
+                                innerThumbStrokeWidth: 3,
+                                innerThumbColor: Colors.white,
+                                outerThumbRadius: 5,
+                                outerThumbStrokeWidth: 10,
+                                outerThumbColor: Colors.blueAccent,
+                                dashWidth: 1,
+                                dashGap: 2,
+                                animation: true,
+                                curves: Curves.bounceOut,
+                                valueNotifier: _valueNotifier,
+                                child: Center(
+                                  child: ValueListenableBuilder(
+                                      valueListenable: _valueNotifier,
+                                      builder: (_, double value, __) => Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text('${value.round()}%',),
+                                          const Text('Confidence Level',),
+                                        ],
+                                      )),
+                                ),
+                              ),
+                            ),
                           ),
+
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.3),
+                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                    offset: Offset(4, 4),
+                                    blurRadius: 10,
+                                    color: LightColor.grey.withOpacity(.5),
+                                  ),
+                                  BoxShadow(
+                                    offset: Offset(-3, 0),
+                                    blurRadius: 15,
+                                    color: LightColor.grey.withOpacity(.1),
+                                  )
+                                ],
+                              ),
+                              child: NumbersWidget(
+                                heartRate: thalach,
+                                cardioStatus: cardioStatus,),
+                            ),
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.3),
+                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                    offset: Offset(4, 4),
+                                    blurRadius: 10,
+                                    color: LightColor.grey.withOpacity(.5),
+                                  ),
+                                  BoxShadow(
+                                    offset: Offset(-3, 0),
+                                    blurRadius: 15,
+                                    color: LightColor.grey.withOpacity(.1),
+                                  )
+                                ],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text("Summery",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold
+                                    ),
+                                  ),
+                                  Text(report)
+                                ],
+                              ),
+                            ),
+                          ),
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
@@ -726,7 +818,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            title: Text("${"Dr. " + doctor["firstName"]} " + doctor["lastName"],
+            title: Text("${"Dr. " + doctor["name"]} ",
                 style: TextStyles.title.bold),
             subtitle: Text(
               doctor["hospital"] ?? "",

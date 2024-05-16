@@ -8,9 +8,7 @@ import 'package:heart_u/views/appointments/page/detail_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vertical_card_pager/vertical_card_pager.dart';
 import 'package:widget_loading/widget_loading.dart';
-
 import '../../core/utils/constants.dart';
-import 'model/champion.dart';
 
 class AppointmentsPage extends StatefulWidget {
   @override
@@ -124,25 +122,35 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final champions = championsMap.values.toList();
 
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const BackButton(),
-                Padding(
-                  padding: EdgeInsets.only(left: 3.h),
-                  child: const Text(
-                    "Appointments",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                Row(
+                  children: [
+                    const BackButton(),
+                    Padding(
+                      padding: EdgeInsets.only(left: 3.h),
+                      child: const Text(
+                        "Appointments",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
+
+                IconButton(
+                    onPressed: (){
+                      getData();
+                    },
+                    icon: const Icon(Icons.refresh))
               ],
             ),
             Expanded(
@@ -156,17 +164,12 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                         backgroundColor: Colors.white.withOpacity(0.3)),
                     titles: datalist
                         .map<String>((e) =>
-                            (e["doctor"]['firstName'] as String).toUpperCase() +
-                            ' ' +
-                            (e["doctor"]['lastName'] as String).toUpperCase())
+                            (e["doctor"]["name"] as String).toUpperCase() )
                         .toList(),
                     images: datalist
                         .map<Widget>((e) => Hero(
-                              tag: (e["doctor"]['firstName'] as String)
-                                      .toUpperCase() +
-                                  ' ' +
-                                  (e["doctor"]['lastName'] as String)
-                                      .toUpperCase(),
+                              tag: (e["doctor"]["name"] as String)
+                                      .toUpperCase() ,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(20.0),
                                 child: Image.asset(

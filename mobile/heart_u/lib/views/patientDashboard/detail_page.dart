@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +9,6 @@ import 'package:heart_u/views/patientDashboard/widget/theme.dart';
 import 'package:rive/rive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
 import '../../core/utils/constants.dart';
 import '../onboarding/widget/sign_in_form.dart';
 
@@ -63,12 +60,11 @@ class _DetailPageState extends State<DetailPage> {
       titleStyle = TextStyles.title.copyWith(fontSize: 23).bold;
     }
     return Scaffold(
-      backgroundColor: LightColor.extraLightBlue,
       body: SafeArea(
         bottom: false,
         child: Stack(
           children: <Widget>[
-            Image.asset("assets/docs/doc.png", height: MediaQuery.of(context).size.width * 0.75,),
+            Image.asset("assets/docs/doc.png", height: MediaQuery.of(context).size.width * 0.8,),
             DraggableScrollableSheet(
               maxChildSize: .8,
               initialChildSize: .6,
@@ -77,11 +73,11 @@ class _DetailPageState extends State<DetailPage> {
                 return Container(
                   height: AppTheme.fullHeight(context) * .5,
                   padding: const EdgeInsets.only(left:19,right:19,top: 16),//symmetric(horizontal: 19, vertical: 16),
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30)),
-                    color: Colors.white,
+                    color: Colors.white.withOpacity(1),
                   ),
                   child: SingleChildScrollView(
                     physics: BouncingScrollPhysics(),
@@ -95,7 +91,7 @@ class _DetailPageState extends State<DetailPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                "${"Dr. "+widget.model["firstName"]} "+widget.model["lastName"],
+                                "${"Dr. "+widget.model["name"]}",
                                 style: titleStyle,
                               ),
                               const SizedBox(
@@ -159,125 +155,155 @@ class _DetailPageState extends State<DetailPage> {
           ],
         ),
       ),
-      bottomNavigationBar:   Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          Container(
-            height: 45,
-            width: 45,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: LightColor.grey.withAlpha(150)
+      bottomNavigationBar:   Container(
+        margin: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: LightColor.grey.withAlpha(150)
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Container(
+              height: 45,
+              width: 45,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: LightColor.grey.withAlpha(150)
+              ),
+              child: Icon(Icons.call, color: Colors.white,),
+            ).ripple((){
+              launchUrlString("tel://"+widget.model["phone"]);
+            }, borderRadius:BorderRadius.circular(10), ),
+            const SizedBox(
+              width: 10,
             ),
-            child: Icon(Icons.call, color: Colors.white,),
-          ).ripple((){
-            launchUrlString("tel://"+widget.model["phone"]);
-          }, borderRadius:BorderRadius.circular(10), ),
-          const SizedBox(
-            width: 10,
-          ),
-          Container(
-            height: 45,
-            width: 45,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: LightColor.grey.withAlpha(150)
+            Container(
+              height: 45,
+              width: 45,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: LightColor.grey.withAlpha(150)
+              ),
+              child: Icon(Icons.chat_bubble, color: Colors.white,),
+            ).ripple((){
+              launchUrlString("mailto:"+widget.model["email"]);
+            }, borderRadius:BorderRadius.circular(10), ),
+            SizedBox(
+              width: 10,
             ),
-            child: Icon(Icons.chat_bubble, color: Colors.white,),
-          ).ripple((){
-            launchUrlString("mailto:"+widget.model["email"]);
-          }, borderRadius:BorderRadius.circular(10), ),
-          SizedBox(
-            width: 10,
-          ),
-          TextButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty
-                  .all(LightColor.purple),
-            ),
-            onPressed: () {
+            TextButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty
+                    .all(LightColor.purple),
+              ),
+              onPressed: () {
 
-              var sDate = "date";
+                var sDate = "date";
 
-              DatePicker.showDatePicker(context,
-                showTitleActions: true,
-                minTime: DateTime.now(),
-                maxTime: DateTime(2030, 1, 1),
-                onChanged: (date) {
-                  setState(() {
-                    sDate = date.toString().
-                    substring(0, date.toString()
-                        .indexOf(' '));
-                  });
-                  print('change $date');
-                  print('change $sDate');
-                },
-                onConfirm: (date) async {
-                  setState(() {
-                    sDate = date.toString().
-                    substring(0, date.toString()
-                        .indexOf(' '));
-                  });
-                  print('confirm $date');
-                  print('change $sDate');
-
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
-
-                  print("dio initialised");
-
-                  print("Date is $sDate");
-
-                  var token = prefs.getString("token");
-
-                  try {
-
+                DatePicker.showDatePicker(context,
+                  showTitleActions: true,
+                  minTime: DateTime.now(),
+                  maxTime: DateTime(2030, 1, 1),
+                  onChanged: (date) {
                     setState(() {
-                      isShowLoading = true;
-                      isShowConfetti = true;
+                      sDate = date.toString().
+                      substring(0, date.toString()
+                          .indexOf(' '));
                     });
+                    print('change $date');
+                    print('change $sDate');
+                  },
+                  onConfirm: (date) async {
+                    setState(() {
+                      sDate = date.toString().
+                      substring(0, date.toString()
+                          .indexOf(' '));
+                    });
+                    print('confirm $date');
+                    print('change $sDate');
 
-                    print("appointment initialised");
-                    Response response = await dio.post(
-                      "${baseUrl}api/medical-reports/requests",
-                      data: {
-                        "patientId" : prefs.getString("userId"),
-                        "doctorId" : widget.model["_id"],
-                        "appointmentDate": sDate,
-                      },
-                      options: Options(
-                        headers: {
-                          "Authorization": "Bearer ${token!}"
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                    print("dio initialised");
+
+                    print("Date is $sDate");
+
+                    var token = prefs.getString("token");
+
+                    try {
+
+                      setState(() {
+                        isShowLoading = true;
+                        isShowConfetti = true;
+                      });
+
+                      print("appointment initialised");
+                      Response response = await dio.post(
+                        "${baseUrl}api/medical-reports/requests",
+                        data: {
+                          "patientId" : prefs.getString("userId"),
+                          "doctorId" : widget.model["_id"],
+                          "appointmentDate": sDate,
                         },
-                        validateStatus: (_) => true,
-                      ),
-                    );
+                        options: Options(
+                          headers: {
+                            "Authorization": "Bearer ${token!}"
+                          },
+                          validateStatus: (_) => true,
+                        ),
+                      );
 
-                    print('Response: ${response.data}');
+                      print('Response: ${response.data}');
 
-                    if (response.statusCode == 200){
+                      if (response.statusCode == 200){
 
 
-                      check.fire();
-                      Future.delayed(Duration(seconds: 2), () {
-                        setState(() {
-                          isShowLoading = false;
+                        check.fire();
+                        Future.delayed(Duration(seconds: 2), () {
+                          setState(() {
+                            isShowLoading = false;
+                          });
+                          confetti.fire();
                         });
-                        confetti.fire();
-                      });
 
-                      Future.delayed(Duration(milliseconds: 2500),(){
-                        AwesomeDialog(
-                          context: context,
-                          dialogType: DialogType.success,
-                          animType: AnimType.rightSlide,
-                          headerAnimationLoop: true,
-                          title: 'Success',
-                          desc: "Request successfully sent",
-                          btnOkOnPress: () {},
-                        ).show();
-                      });
+                        Future.delayed(Duration(milliseconds: 2500),(){
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.success,
+                            animType: AnimType.rightSlide,
+                            headerAnimationLoop: true,
+                            title: 'Success',
+                            desc: "Request successfully sent",
+                            btnOkOnPress: () {},
+                          ).show();
+                        });
 
-                    }else {
+                      }else {
+                        error.fire();
+                        Future.delayed(Duration(seconds: 2), () {
+                          setState(() {
+                            isShowLoading = false;
+                          });
+                        });
+
+                        Future.delayed(Duration(milliseconds: 2500),(){
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.error,
+                            animType: AnimType.rightSlide,
+                            headerAnimationLoop: true,
+                            title: 'Error',
+                            desc: response.data["message"],
+                            btnOkOnPress: () {},
+                            btnOkIcon: Icons.cancel,
+                            btnOkColor: Colors.red,
+                          ).show();
+                        });
+                      }
+
+                    } catch (e) {
+
                       error.fire();
                       Future.delayed(Duration(seconds: 2), () {
                         setState(() {
@@ -285,6 +311,7 @@ class _DetailPageState extends State<DetailPage> {
                         });
                       });
 
+                      print('Error sending message: $e');
                       Future.delayed(Duration(milliseconds: 2500),(){
                         AwesomeDialog(
                           context: context,
@@ -292,7 +319,7 @@ class _DetailPageState extends State<DetailPage> {
                           animType: AnimType.rightSlide,
                           headerAnimationLoop: true,
                           title: 'Error',
-                          desc: response.data["message"],
+                          desc: e.toString(),
                           btnOkOnPress: () {},
                           btnOkIcon: Icons.cancel,
                           btnOkColor: Colors.red,
@@ -300,43 +327,19 @@ class _DetailPageState extends State<DetailPage> {
                       });
                     }
 
-                  } catch (e) {
+                  },
+                );
 
-                    error.fire();
-                    Future.delayed(Duration(seconds: 2), () {
-                      setState(() {
-                        isShowLoading = false;
-                      });
-                    });
-
-                    print('Error sending message: $e');
-                    Future.delayed(Duration(milliseconds: 2500),(){
-                      AwesomeDialog(
-                        context: context,
-                        dialogType: DialogType.error,
-                        animType: AnimType.rightSlide,
-                        headerAnimationLoop: true,
-                        title: 'Error',
-                        desc: e.toString(),
-                        btnOkOnPress: () {},
-                        btnOkIcon: Icons.cancel,
-                        btnOkColor: Colors.red,
-                      ).show();
-                    });
-                  }
-
-                },
-              );
-
-            },
-            child: const Text("Make an appointment",
-              style: TextStyle(
-                  color: Colors.white
-              ),
-            ).p(8),
-          ),
-        ],
-      ).vP16,
+              },
+              child: const Text("Make an appointment",
+                style: TextStyle(
+                    color: Colors.white
+                ),
+              ).p(8),
+            ),
+          ],
+        ).vP16,
+      ),
     );
   }
 }

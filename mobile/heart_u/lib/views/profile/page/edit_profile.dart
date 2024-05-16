@@ -1,9 +1,11 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rive/rive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:widget_loading/widget_loading.dart';
 
 import '../../../core/utils/constants.dart';
 import '../../onboarding/widget/sign_in_form.dart';
@@ -29,23 +31,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
 
-  bool isShowLoading = false;
-  bool isShowConfetti = false;
-
-  late SMITrigger check;
-  late SMITrigger error;
-  late SMITrigger reset;
-
-  late SMITrigger confetti;
+  bool loading = false;
 
   final Dio dio = Dio();
-
-  StateMachineController getRiveController(Artboard artboard) {
-    StateMachineController? controller =
-    StateMachineController.fromArtboard(artboard, "State Machine 1");
-    artboard.addController(controller!);
-    return controller;
-  }
 
   User user = UserPreferences.myUser;
 
@@ -110,154 +98,141 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ]
         ),
 
-        isShowLoading
-            ? CustomPositioned(
-            child: RiveAnimation.asset(
-              "assets/RiveAssets/check.riv",
-              onInit: (artboard) {
-                StateMachineController controller =
-                getRiveController(artboard);
-                check = controller.findSMI("Check") as SMITrigger;
-                error = controller.findSMI("Error") as SMITrigger;
-                reset = controller.findSMI("Reset") as SMITrigger;
-              },
-            ))
-            : const SizedBox(),
-        isShowConfetti
-            ? CustomPositioned(
-            child: Transform.scale(
-              scale: 6,
-              child: RiveAnimation.asset(
-                "assets/RiveAssets/confetti.riv",
-                onInit: (artboard) {
-                  StateMachineController controller =
-                  getRiveController(artboard);
-                  confetti =
-                  controller.findSMI("Trigger explosion") as SMITrigger;
-                },
-              ),
-            ))
-            : const SizedBox(),
-
         const SizedBox(height: 10),
 
-        ElevatedButton.icon(
-            onPressed: () async {
-                print("dio initialised");
-                SharedPreferences prefs = await SharedPreferences.getInstance();
+        CircularWidgetLoading(
+          loading: loading,
+          child: ElevatedButton.icon(
+              onPressed: () async {
+                  print("dio initialised");
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
 
-                var token = prefs.getString("token");
+                  var token = prefs.getString("token");
 
-                try {
+                  if (nameController.text.isEmpty || ageController.text.isEmpty)
+                    {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.warning,
+                        headerAnimationLoop: true,
+                        animType: AnimType.bottomSlide,
+                        title: 'Enter credentials',
+                        desc: 'Enter your details to update account',
+                        buttonsTextStyle: const TextStyle(color: Colors.black),
+                        showCloseIcon: true,
+                        btnOkOnPress: () {},
+                      ).show();
+                    } else{
 
-                  setState(() {
-                    isShowLoading = true;
-                    isShowConfetti = true;
-                  });
+                    try {
 
-                  print("session creation initialised");
-                  Response response = await dio.patch(
-                    "${baseUrl}api/users/me",
-                    data: {
-                      "name" : nameController.text,
-                      "age": ageController.text.toString(),
-                      "sex": selectedOption.toString(),
-                    },
-                    options: Options(
-                      headers: {
-                        "Authorization": "Bearer ${token!}"
-                      },
-                      validateStatus: (_) => true,
-                    ),
-                  );
-
-                  print('Response: ${response.data}');
-
-                  if (response.statusCode == 200){
-
-                    Fluttertoast.showToast(
-                        msg: "✔️ Details updated successfully",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        timeInSecForIosWeb: 1,
-                        fontSize: 16.0
-                    );
-
-                    prefs.setString("name",
-                        nameController.text);
-
-                    prefs.setString("age",
-                        ageController.text.toString());
-
-                    prefs.setString("sex",
-                        selectedOption.toString());
-
-                    check.fire();
-                    Future.delayed(Duration(seconds: 2), () {
                       setState(() {
-                        isShowLoading = false;
+                        loading = true;
                       });
-                      confetti.fire();
-                    });
 
-                    // final jsonData = response.data;
-                    // final sessionId = jsonData['data']['_id'];
-                    // final patientId = jsonData['data']['patientId'];
-                    //
-                    // prefs.setString('sessionId', sessionId);
-                    // prefs.setString('patientId', patientId);
+                      print("session creation initialised");
+                      Response response = await dio.patch(
+                        "${baseUrl}api/users/me",
+                        data: {
+                          "name" : nameController.text,
+                          "age": ageController.text.toString(),
+                          "sex": selectedOption.toString(),
+                        },
+                        options: Options(
+                          headers: {
+                            "Authorization": "Bearer ${token!}"
+                          },
+                          validateStatus: (_) => true,
+                        ),
+                      );
+
+                      print('Response: ${response.data}');
+
+                      if (response.statusCode == 200){
+
+                        Fluttertoast.showToast(
+                            msg: "✔️ Details updated successfully",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            fontSize: 16.0
+                        );
+
+                        prefs.setString("name",
+                            nameController.text);
+
+                        prefs.setString("age",
+                            ageController.text.toString());
+
+                        prefs.setString("sex",
+                            selectedOption.toString());
+
+                        setState(() {
+                          loading = false;
+                        });
 
 
-                  }else {
-                    error.fire();
-                    Future.delayed(Duration(seconds: 2), () {
+                        // final jsonData = response.data;
+                        // final sessionId = jsonData['data']['_id'];
+                        // final patientId = jsonData['data']['patientId'];
+                        //
+                        // prefs.setString('sessionId', sessionId);
+                        // prefs.setString('patientId', patientId);
+
+
+                      }else {
+
+                        setState(() {
+                          loading = false;
+                        });
+
+                        Fluttertoast.showToast(
+                            msg: " ❌ Details update failed",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            fontSize: 16.0
+                        );
+                      }
+
+                    } catch (e) {
+
                       setState(() {
-                        isShowLoading = false;
+                        loading = false;
                       });
-                    });
 
-                    Fluttertoast.showToast(
-                        msg: " ❌ Details updated failed",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        timeInSecForIosWeb: 1,
-                        fontSize: 16.0
-                    );
+                      Fluttertoast.showToast(
+                          msg: " ❌ Details update failed",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          fontSize: 16.0
+                      );
+
+                      print('Error sending message: $e');
+                    }
+
                   }
 
-                } catch (e) {
-                  error.fire();
-                  Future.delayed(Duration(seconds: 2), () {
-                    setState(() {
-                      isShowLoading = false;
-                    });
-                  });
-
-                  Fluttertoast.showToast(
-                      msg: " ❌ Details updated failed",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER,
-                      timeInSecForIosWeb: 1,
-                      fontSize: 16.0
-                  );
-
-                  print('Error sending message: $e');
-                }
-
-              },
-            style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFF77D8E),
-                minimumSize: const Size(double.infinity, 56),
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(25),
-                        bottomRight: Radius.circular(25),
-                        bottomLeft: Radius.circular(25)))),
-            icon: const Icon(
-              Icons.save,
-            ),
-            label: const Text("Save")),
+                },
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xff204099),
+                  minimumSize: const Size(double.infinity, 56),
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(25),
+                          bottomRight: Radius.circular(25),
+                          bottomLeft: Radius.circular(25)))),
+              icon: const Icon(
+                Icons.save,
+                color: Colors.white,
+              ),
+              label: const Text("Save",
+              style: TextStyle(
+                color: Colors.white
+              ),)),
+        ),
       ],
     ),
   );

@@ -54,6 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
               initShare();
             },
             child: ListView(
+              scrollDirection: Axis.vertical,
               physics: BouncingScrollPhysics(),
               children: [
                 ProfileWidget(
