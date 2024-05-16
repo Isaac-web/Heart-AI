@@ -33,16 +33,24 @@ const PersonalInfoForm = ({
 }: PersonalInfoFormProps) => {
   const [searchParams] = useSearchParams();
   const store = useAppStore();
-  const getError = () => store.getError(store.auth.doctor.update.name);
   const location = useLocation();
+
+  const getDoctorUpdateError = () =>
+    store.getError(store.auth.doctor.update.name);
+
+  const getPatientUpdateError = () =>
+    store.getError(store.auth.user.update.name);
+
+  const isPending = (): boolean => {
+    return store.auth.doctor.isPending || store.auth.user.isPending;
+  };
 
   const handleDoctorUpdate = async (data: DoctorUpdateFormData) => {
     const userId = searchParams.get('doctorId');
 
     if (userId) {
       await store.auth.doctor.update(userId, data);
-      const error = getError();
-      console.log(error);
+      const error = getDoctorUpdateError();
       if (!error) {
         if (onDone) onDone();
       }
@@ -52,7 +60,7 @@ const PersonalInfoForm = ({
   const handleUpdatePatient = async (data: UserUpdateFormData) => {
     await store.auth.user.update(data);
 
-    const error = getError();
+    const error = getPatientUpdateError();
 
     if (!error) {
       if (onDone) onDone();
@@ -107,7 +115,9 @@ const PersonalInfoForm = ({
             </div>
 
             <div className="col-span-2 flex justify-end">
-              <FormSubmitButton className="w-28">Continue</FormSubmitButton>
+              <FormSubmitButton className="w-28" loading={isPending()}>
+                Continue
+              </FormSubmitButton>
             </div>
           </div>
         </Form>

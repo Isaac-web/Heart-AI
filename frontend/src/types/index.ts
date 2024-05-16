@@ -1,4 +1,9 @@
-import { ChangeEvent, InputHTMLAttributes, ReactNode } from 'react';
+import {
+  ChangeEvent,
+  InputHTMLAttributes,
+  KeyboardEvent,
+  ReactNode,
+} from 'react';
 
 export interface LoginFormData {
   email: string;
@@ -25,6 +30,7 @@ export interface UserUpdateFormData {
 
 export interface UsersSearchParams {
   userType?: string;
+  name?: string;
 }
 
 export interface RegistrationFormData {
@@ -70,7 +76,7 @@ export interface MedicalReportFormData {
 
 export interface MedicalReport {
   _id: string;
-  cardioStatus: number;
+  cadioStatus: number;
   status: string;
   confidenceLevel: number;
   patient: User;
@@ -95,6 +101,7 @@ export interface MedicalReport {
 
 export interface MedicalReportSearchParams {
   doctorId?: string;
+  patientId?: string;
 }
 
 export interface ChatSession {
@@ -108,6 +115,7 @@ export interface ChatSession {
 
 export interface NewChatSessionFormData {
   title: string;
+  medicalReport?: string;
 }
 
 export interface ChatMessage {
@@ -139,8 +147,7 @@ export interface ChatMessageResponse {
 
 export interface Doctor {
   _id: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   age: number;
   sex: number;
   phone: string;
@@ -161,6 +168,7 @@ export interface AppTextInputProps {
   startAdornment?: ReactNode;
   endAdornment?: ReactNode;
   onChange?(e: ChangeEvent<HTMLInputElement>): void;
+  onKeyDown?(e: KeyboardEvent<HTMLInputElement>): void;
 }
 
 interface SelectOption {
@@ -200,4 +208,11 @@ export interface AppointmentFormData {
 
 export interface AppointmentsSearchParams {
   doctorId?: string;
+  status?: number;
+}
+
+export interface DoctorDashboardSummary {
+  numberOfPendingAppointments: number;
+  numberOfHealthyReports: number;
+  numberOfUnHealthyReports: number;
 }

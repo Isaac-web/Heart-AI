@@ -44,6 +44,10 @@ const PhoneNumberVerificationForm = ({
     }
   };
 
+  const isPending = (): boolean => {
+    return store.auth.doctor.isPending || store.auth.user.isPending;
+  };
+
   const handleSubmit = (data: UserUpdateFormData | DoctorUpdateFormData) => {
     if (location.pathname === '/onboarding/patient') {
       handleUpdatePatient(data);
@@ -75,7 +79,10 @@ const PhoneNumberVerificationForm = ({
             <FormTextfield name="phone" placeholder="Input Your Phone Number" />
           </div>
 
-          <FormSubmitButton className="btn btn-primary w-full">
+          <FormSubmitButton
+            className="btn btn-primary w-full"
+            loading={isPending()}
+          >
             Verify
           </FormSubmitButton>
         </div>

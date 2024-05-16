@@ -5,6 +5,9 @@ import {
   Event,
   KeyboardDoubleArrowLeft,
   KeyboardDoubleArrowRight,
+  PeopleOutline,
+  QuestionAnswer,
+  ReceiptLong,
 } from '@mui/icons-material';
 import { useAppStore } from '@/store';
 import { getUserId } from '@/utils/auth';
@@ -25,18 +28,23 @@ const doctorMenu = [
     link: '/portal/doctor/medical-reports',
     icon: <DocumentScannerTwoTone />,
   },
+  {
+    label: 'All Patients',
+    link: '/portal/doctor/patients',
+    icon: <PeopleOutline />,
+  },
 ];
 
 const patientMenu = [
   {
     label: 'Medical Reports',
-    link: '/portal/patient/chatbot',
-    icon: <Dashboard />,
+    link: '/portal/patient/reports',
+    icon: <ReceiptLong />,
   },
   {
     label: 'Appointments',
     link: '/portal/patient/chatbot',
-    icon: <Event />,
+    icon: <QuestionAnswer />,
   },
 ];
 
@@ -148,7 +156,7 @@ const Sidebar = () => {
                   className="btn btn-xs"
                   onClick={() => {
                     localStorage.clear();
-                    window.location.assign('/login/doctor');
+                    window.location.assign('/');
                   }}
                 >
                   Logout

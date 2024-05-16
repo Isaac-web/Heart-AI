@@ -16,7 +16,10 @@ const AppointmentsPage = () => {
   const appointmentDetails = store.details.appointment;
 
   useEffect(() => {
-    store.entities.appointments.fetchAppointments({ doctorId: getUserId() });
+    store.entities.appointments.fetchAppointments({
+      doctorId: getUserId(),
+      status: 0,
+    });
   }, []);
 
   return (

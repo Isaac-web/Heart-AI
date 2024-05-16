@@ -7,6 +7,7 @@ import { medicalReportSlice } from './entities/medicalReportSlice';
 import { chatSessionsSlice } from './entities/chatSessionsSlice';
 import { chatMessagesSlice } from './entities/chatMessagesSlice';
 import { medicalReportDetailSlice } from './details/medicalReport';
+import { patientsSlice } from './entities/patientsSlice';
 
 export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
   ...a
@@ -16,6 +17,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
     medicalReports: medicalReportSlice(...a),
     chatSessions: chatSessionsSlice(...a),
     chatMessages: chatMessagesSlice(...a),
+    patients: patientsSlice(...a),
   },
   details: {
     appointment: appointmentDetailSlice(...a),

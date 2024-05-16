@@ -161,7 +161,7 @@ export default function Chatbot() {
       {sessionId && (
         <>
           <div
-            className="grow flex justify-center max-h-screen overflow-y-auto"
+            className="grow flex justify-center max-h-screen overflow-y-auto relative"
             ref={chatMessagesContainerRef}
           >
             <div className="px-4 lg:px-0 py-5 flex flex-col justify-between w-full max-w-xl margin-x-auto">
@@ -200,7 +200,6 @@ export default function Chatbot() {
                 )}
               </div>
             </div>
-
             <div className="flex justify-center  items-center px-4 lg:px-0 py-5 fixed bottom-0 w-full max-w-xl p-5">
               <form
                 onSubmit={handleSubmit}
