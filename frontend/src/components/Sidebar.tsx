@@ -11,6 +11,7 @@ import {
 } from '@mui/icons-material';
 import { useAppStore } from '@/store';
 import { getUserId } from '@/utils/auth';
+import appLogo from '../assets/images/heart-ai-logo.png';
 
 const doctorMenu = [
   {
@@ -77,7 +78,9 @@ const Sidebar = () => {
     >
       <div>
         <div className="px-3 flex items-center gap-3">
-          <div className="w-12 h-12 rounded-md bg-slate-600" />
+          <div className="min-w-12 min-h-12 max-w-12 max-h-12 rounded-md bg-slate-600/10">
+            <img src={appLogo} />
+          </div>
           {!store.app.drawerCollapsed && (
             <span className="font-semibold">Heart AI</span>
           )}

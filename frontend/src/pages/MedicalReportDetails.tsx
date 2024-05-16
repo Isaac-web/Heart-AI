@@ -56,7 +56,7 @@ const MedicalReportDetails = () => {
         </div>
 
         {medicalReport.loading ? (
-          <p className="text-sm text-center">loading</p>
+          <p className="text-sm text-center">Loading medical report...</p>
         ) : (
           <div>
             <ReportCard report={medicalReport.data} />

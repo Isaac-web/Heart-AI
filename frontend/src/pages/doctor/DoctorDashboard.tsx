@@ -1,6 +1,7 @@
 import AppPagination from '@/components/AppPagination';
 import AppTable from '@/components/AppTable';
 import DashboardCard from '@/components/DashboardCard';
+import JSONToPDF from '@/components/JSONToPDF';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import { useAppStore } from '@/store';
 import { Appointment } from '@/types';
@@ -23,6 +24,7 @@ const DoctorDashboard = () => {
 
   return (
     <section className="container">
+      <JSONToPDF/>
       <div className="mb-14">
         <h1 className="text-3xl font-semibold">Overview</h1>
       </div>

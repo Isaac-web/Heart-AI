@@ -107,12 +107,12 @@ const PersonalInfoForm = ({
               <FormSelectInput name="sex" placeholder="Sex" options={options} />
             </div>
 
-            <div className="col-span-2">
+            {/* <div className="col-span-2">
               <textarea
                 className="textarea textarea-bordered w-full text-md"
                 placeholder="Bio"
               ></textarea>
-            </div>
+            </div> */}
 
             <div className="col-span-2 flex justify-end">
               <FormSubmitButton className="w-28" loading={isPending()}>
