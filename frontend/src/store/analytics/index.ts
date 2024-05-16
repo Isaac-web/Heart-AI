@@ -1,15 +1,13 @@
-import { StateCreator } from 'zustand';
-import { Analytics, StoreState } from '../types';
-import { loadDoctorAnalytics } from '@/api/analytics';
-import { handleError } from '@/utils/errorHandler';
-import { produce } from 'immer';
+import { StateCreator } from "zustand";
+import { Analytics, StoreState } from "../types";
+import { loadDoctorAnalytics } from "@/api/analytics";
+import { handleError } from "@/utils/errorHandler";
+import { produce } from "immer";
 
-export const createAnalyticsSlice: StateCreator<
-  StoreState,
-  [],
-  [],
-  Analytics
-> = (set, get) => ({
+const createAnalyticsSlice: StateCreator<StoreState, [], [], Analytics> = (
+  set,
+  get
+) => ({
   analytics: {
     doctor: {
       loading: false,
@@ -50,3 +48,5 @@ export const createAnalyticsSlice: StateCreator<
     },
   },
 });
+
+export { createAnalyticsSlice };
