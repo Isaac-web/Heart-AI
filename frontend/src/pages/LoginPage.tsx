@@ -42,7 +42,7 @@ const LoginPage = () => {
     await store.auth.user.login(data);
     const error = getError();
     if (!error) {
-      navigate('/dashboard/patient', { replace: true });
+      navigate('/portal/patient', { replace: true });
     }
   };
 
@@ -62,15 +62,17 @@ const LoginPage = () => {
 
   return (
     <section className="w-full min-h-screen flex">
-      <div className="w-full lg:w-1/2 flex justify-center py-10">
-        <div className="min-w-[30em]">
+      <div className="w-full lg:w-1/2 flex flex-col lg:flex-row justify-center py-10">
+        <div className="min-w-[30em] p-10 lg:p-0">
           <div>
             <div className="mb-12 flex flex-col items-center">
               <h3 className="text-2xl font-semibold text-center mb-5 dark:text-white/90">
                 Login
               </h3>
               <span className="text-sm  text-center w-full">
-                We suggest you use your work email
+                {getUserType() == 'doctor'
+                  ? 'Welcome back! Please sign in below to access your doctor account.'
+                  : 'Welcome back! Please sign in below to access your patient account.'}
               </span>
             </div>
 
@@ -156,7 +158,7 @@ const LoginPage = () => {
         </div>
       </div>
 
-      <div className="w-1/2 bg-slate-700"></div>
+      <div className="w-1/2 bg-slate-700 hidden lg:block"></div>
     </section>
   );
 };

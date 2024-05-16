@@ -30,5 +30,15 @@ export const getCurrentUserMedicalReports = async () => {
     '/medical-reports/me'
   );
 
+  console.log(resData);
+
+  return resData.data;
+};
+
+export const getMedicalReportById = async (id: string) => {
+  const { data: resData } = await apiClient.get<{ data: MedicalReport }>(
+    `/medical-reports/${id}`
+  );
+
   return resData.data;
 };

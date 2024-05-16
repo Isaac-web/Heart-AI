@@ -156,8 +156,7 @@ export const updateDoctor = async (req: AppRequest, res: AppResponse) => {
       req.params.id,
       {
         $set: _.pick(req.body, [
-          'firstName',
-          'lastName',
+          'name',
           'age',
           'sex',
           'phone',

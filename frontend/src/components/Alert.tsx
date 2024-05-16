@@ -3,19 +3,28 @@ import React, { ReactNode } from 'react';
 
 interface AppAlertProps {
   message: string;
+  severity?: 'error' | 'success';
   onClose?(): void;
   icon?: ReactNode;
   title?: string;
 }
 
-const Alert = ({ message, icon, title, onClose }: AppAlertProps) => {
+const Alert = ({
+  message,
+  icon,
+  severity = 'error',
+  title,
+  onClose,
+}: AppAlertProps) => {
   return (
     <div role="alert" className="alert shadow-lg">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
-        className="stroke-error shrink-0 w-6 h-6"
+        className={`${
+          severity === 'error' ? 'stroke-error' : 'stroke-success'
+        } shrink-0 w-6 h-6`}
       >
         <path
           strokeLinecap="round"

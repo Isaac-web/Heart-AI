@@ -70,22 +70,26 @@ export interface MedicalReportFormData {
 
 export interface MedicalReport {
   _id: string;
-  patient: User;
-  doctorId: Doctor;
-  age: number;
-  sex: number;
-  cp: number;
-  trestbps: number;
-  chol: number;
-  fbs: number;
-  restecg: number;
-  thalach: number;
-  exang: number;
-  oldpeak: number;
-  slope: number;
-  ca: number;
-  thal: number;
   cardioStatus: number;
+  status: string;
+  confidenceLevel: number;
+  patient: User;
+  doctor: Doctor;
+  details: {
+    age: number;
+    sex: number;
+    chestPainType: number;
+    restingBloodPressure: number;
+    serumColesterol: number;
+    fastingBloodSugarLevel: number;
+    restingElectrocardiographocResults: number;
+    maximumHeartRate: number;
+    exerciseInducedAngina: number;
+    stDepression: number;
+    slope: number;
+    numberOfMajorVessels: number;
+    thalliumStressTestResults: number;
+  };
   createdAt: string;
 }
 
@@ -93,35 +97,11 @@ export interface MedicalReportSearchParams {
   doctorId?: string;
 }
 
-export interface MedicalReportRequest {
-  _id: string;
-  patientId: {
-    _id: string;
-    name: string;
-    email: string;
-    userType: string;
-    createdAt: string;
-    updatedAt: string;
-    __v: 0;
-  };
-  doctorId: {
-    _id: string;
-    name: string;
-    email: string;
-    userType: string;
-    createdAt: string;
-    updatedAt: string;
-    __v: 0;
-  };
-  status: 0;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface ChatSession {
   _id: string;
   patientId: string;
   title: string;
+  medicalReport?: MedicalReport;
   createdAt: string;
   updatedAt: string;
 }
@@ -210,4 +190,14 @@ export interface Appointment {
   appointmentDate: string;
   status: number;
   createdAt: string;
+}
+
+export interface AppointmentFormData {
+  patientId: string;
+  doctorId: string;
+  appointmentDate: string;
+}
+
+export interface AppointmentsSearchParams {
+  doctorId?: string;
 }

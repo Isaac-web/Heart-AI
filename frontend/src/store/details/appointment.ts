@@ -18,8 +18,11 @@ export const appointmentDetailSlice: StateCreator<
       _id: '',
       name: '',
       email: '',
+      sex: 0,
+      age: 0,
+      phone: '',
+      userType: '',
       createdAt: '',
-      updatedAt: '',
     },
     doctor: {
       _id: '',
@@ -35,7 +38,9 @@ export const appointmentDetailSlice: StateCreator<
       createdAt: '',
       updatedAt: '',
     },
+    status: 0,
     appointmentDate: '',
+    createdAt: '',
   },
   async getAppointmentById(id) {
     try {
@@ -53,6 +58,8 @@ export const appointmentDetailSlice: StateCreator<
           store.details.appointment.data = data;
         })
       );
+
+      return data;
     } catch (err) {
       const message = handleError(err as Error);
       get().addError({
