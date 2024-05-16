@@ -31,7 +31,7 @@ const PatientReportDetailsPage = () => {
 
   return (
     <div className="flex min-h-screen max-w-screen overflow-hidden">
-      <div className="bg-black/50 text-white w-[250px] py-4 flex flex-col justify-between gap-5 px-3">
+      <div className="bg-black/50 text-white w-[280px] py-4 flex flex-col justify-between gap-5 px-3 max-h-screen overflow-auto">
         <button
           className="btn bg-gradient-to-r from-[#4851FF] to-[#F02AA6] rounded-full text-white px-4 py-2 font-light active:scale-[.98] active:duration-75 hover:scale-[1.02] ease-in-out"
           onClick={() => document.getElementById('my_modal_1').showModal()}

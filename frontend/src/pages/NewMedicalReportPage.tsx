@@ -46,7 +46,7 @@ const NewMedicalReportPage = () => {
     doctor: '',
     patient: '',
     age: 0,
-    sex: 1,
+    sex: '' as unknown as number,
     cp: 0,
     trestbps: 0,
     chol: 0,
@@ -144,7 +144,7 @@ const NewMedicalReportPage = () => {
                   placeholder="Select One"
                   options={[
                     { label: 'Male', value: '1' },
-                    { label: 'Female', value: '2' },
+                    { label: 'Female', value: '0' },
                   ]}
                 />
               </div>

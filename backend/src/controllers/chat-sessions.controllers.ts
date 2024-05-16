@@ -51,6 +51,7 @@ export const createChatSession = async (req: AppRequest, res: AppResponse) => {
   const createdChatSession = await ChatSession.create({
     patientId: req.user._id,
     title: req.body.title,
+    medicalReport: req.body.medicalReport,
   });
 
   return res.json({

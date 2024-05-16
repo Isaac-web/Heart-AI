@@ -48,7 +48,7 @@ const ReportCard = ({ report }: ReportCardProps) => {
   return (
     <div className="relative w-full">
       <div className="px-4 py-8 flex flex-col justify-between w-full margin-x-auto relative">
-        <div className="w-full h-[90vh] bg-transparent rounded-md p-5">
+        <div className="w-full bg-transparent rounded-md p-5">
           {report && (
             <>
               <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10">
@@ -153,7 +153,7 @@ const ReportCard = ({ report }: ReportCardProps) => {
                       </div>
                     </div>
                     <div className="mt-1">
-                      <p className="text-xl mb-2">
+                      <p className="text-xl mb-1">
                         <span>{report.patient.name}</span>
                       </p>
                       <p className="text-xs">
@@ -189,7 +189,7 @@ const ReportCard = ({ report }: ReportCardProps) => {
                       </div>
                     </div>
                     <div className="mt-1">
-                      <p className="text-xl mb-2">
+                      <p className="text-xl mb-1">
                         <span>{report.doctor.name || 'N/A'}</span>
                       </p>
                       <p className="text-xs">
@@ -204,19 +204,19 @@ const ReportCard = ({ report }: ReportCardProps) => {
                         <span className="font-semibold">Hosptial : </span>
                         <span>{report.doctor.hospital}</span>
                       </p>
-                      <p className="text-xs">
-                        <span className="font-semibold">Age : </span>
-                        <span>{report.patient.age}</span>
-                      </p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-slate-500/10 p-4">
-                <h2 className="text-xl">Summary</h2>
-                <p className="text-md opacity-70">{report.status}</p>
-              </div>
+              {report.finalVerdict ? (
+                <div>
+                  <h2 className="text-xl mb-2">Final Verdict</h2>
+                  <div className="bg-slate-500/10 p-4 rounded-lg">
+                    <p className="text-md opacity-70">{report.finalVerdict}</p>
+                  </div>
+                </div>
+              ) : null}
             </>
           )}
         </div>

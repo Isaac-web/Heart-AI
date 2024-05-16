@@ -74,6 +74,21 @@ export interface MedicalReportFormData {
   thal: number;
 }
 
+export interface MedicalReportUpdateFormData {
+  cp?: number;
+  trestbps?: number;
+  chol?: number;
+  fbs?: number;
+  restecg?: number;
+  thalach?: number;
+  exang?: number;
+  oldpeak?: number;
+  slope?: number;
+  ca?: number;
+  thal?: number;
+  finalVerdict?: string;
+}
+
 export interface MedicalReport {
   _id: string;
   cadioStatus: number;
@@ -96,6 +111,7 @@ export interface MedicalReport {
     numberOfMajorVessels: number;
     thalliumStressTestResults: number;
   };
+  finalVerdict: string;
   createdAt: string;
 }
 
