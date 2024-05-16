@@ -59,7 +59,7 @@ export interface APIRequestError {
 export interface MedicalReportFormData {
   doctor: string;
   patient: string;
-  age: number;
+  age?: number;
   sex: number;
   cp: number;
   trestbps: number;

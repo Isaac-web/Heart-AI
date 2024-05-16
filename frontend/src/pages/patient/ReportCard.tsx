@@ -1,6 +1,6 @@
 import { useAppStore } from '@/store';
 import { MedicalReport } from '@/types';
-import { Message, PersonOutline } from '@mui/icons-material';
+import { Favorite, Message, PersonOutline } from '@mui/icons-material';
 import Lottie from 'react-lottie';
 import { useNavigate } from 'react-router-dom';
 import heartPulzeAnimation from '../../assets/animations/heart-pulze-animation.json';
@@ -38,6 +38,12 @@ const ReportCard = ({ report }: ReportCardProps) => {
         Select a medical report.
       </section>
     );
+
+  const getUserType = () => {
+    return location.pathname.startsWith('/portal/doctor')
+      ? 'doctor'
+      : 'patient';
+  };
 
   const radialStyle = {
     '--value': `${report.confidenceLevel}`,
@@ -84,17 +90,19 @@ const ReportCard = ({ report }: ReportCardProps) => {
                   </div>
                 </div>
 
-                <div className="w-full md:w-auto">
-                  <button
-                    className="btn btn-secondary btn-md text-white/90 btn-outline rounded-full"
-                    onClick={handleStartChart}
-                  >
-                    <span>
-                      <Message />
-                    </span>
-                    <span>Start Conversation</span>
-                  </button>
-                </div>
+                {getUserType() === 'patient' ? (
+                  <div className="w-full md:w-auto">
+                    <button
+                      className="btn btn-secondary btn-md text-white/90 btn-outline rounded-full"
+                      onClick={handleStartChart}
+                    >
+                      <span>
+                        <Message />
+                      </span>
+                      <span>Start Conversation</span>
+                    </button>
+                  </div>
+                ) : null}
               </div>
 
               <div className="overflow-x-auto mb-10">
@@ -127,13 +135,13 @@ const ReportCard = ({ report }: ReportCardProps) => {
                 <div className="stat">
                   <div className="stat-title">Cardio Status</div>
                   <div className="stat-value text-secondary">
-                    {report.cadioStatus}
+                    <Favorite />
                   </div>
                   <div className="stat-desc">21% improvement</div>
                 </div>
 
                 <div className="stat">
-                  <div className="stat-title">Staus</div>
+                  <div className="stat-title">Status</div>
                   <div className="stat-value text-accent">
                     {report.status.includes('fine') ? 'NEG' : 'POS'}
                   </div>
@@ -211,7 +219,7 @@ const ReportCard = ({ report }: ReportCardProps) => {
 
               {report.finalVerdict ? (
                 <div>
-                  <h2 className="text-xl mb-2">Final Verdict</h2>
+                  <h2 className="text-xl mb-2">Doctor's Remarks</h2>
                   <div className="bg-slate-500/10 p-4 rounded-lg">
                     <p className="text-md opacity-70">{report.finalVerdict}</p>
                   </div>

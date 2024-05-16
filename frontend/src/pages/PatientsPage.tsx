@@ -1,10 +1,9 @@
-import AppPagination from '@/components/AppPagination';
 import AppTable from '@/components/AppTable';
 import AppTextInput from '@/components/AppTextInput';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import { useAppStore } from '@/store';
 import { Column, User } from '@/types';
-import { Favorite, HeartBroken, Search } from '@mui/icons-material';
+import { Search } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -45,18 +44,14 @@ const columns: Column<User>[] = [
     label: 'Age',
     value: 'createdAt',
     render(patient) {
-      return (
-        <div>
-          {patient.sex ? (patient.sex === 1 ? 'Male' : 'Female') : 'N/A'}
-        </div>
-      );
+      return <div>{patient.age || 'N/A'}</div>;
     },
   },
   {
     label: 'Gender',
     value: 'sex',
     render(patient) {
-      return <div>{patient.sex || 'N/A'}</div>;
+      return <div>{patient.sex === 0 ? 'Female' : 'Male'}</div>;
     },
   },
   {
@@ -76,7 +71,9 @@ const columns: Column<User>[] = [
     render(user) {
       return (
         <Link to={`/portal/doctor/medical-reports/new?patientId=${user._id}`}>
-          <button className="btn btn-ghost btn-xs">Issue Report</button>
+          <button className="btn btn-ghost btn-xs btn-outline border-primary text-primary">
+            Issue Report
+          </button>
         </Link>
       );
     },
@@ -120,7 +117,7 @@ const MedicalReports = () => {
           <LoadingIndicator />
         ) : !patients.data.length ? (
           <div className="py-10">
-            <p className="text-center">No Medical Report</p>
+            <p className="text-center">No patient has signed up yet.</p>
           </div>
         ) : (
           <AppTable<User> columns={columns} data={patients.data} />

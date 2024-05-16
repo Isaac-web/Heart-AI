@@ -14,7 +14,6 @@ import { getUserId } from '@/utils/auth';
 import heartPulzeAnimation from '../assets/animations/heart-pulze-animation.json';
 
 const validationSchema = Yup.object().shape({
-  age: Yup.number().min(16).max(120).required().label('Age'),
   sex: Yup.number()
     .min(0, "Sex must be either 'Male' or 'Female'")
     .max(1, "Sex must be either 'Male' or 'Female'")
@@ -45,7 +44,6 @@ const NewMedicalReportPage = () => {
   const [formData, setFormData] = useState<MedicalReportFormData>({
     doctor: '',
     patient: '',
-    age: 0,
     sex: '' as unknown as number,
     cp: 0,
     trestbps: 0,
@@ -134,10 +132,7 @@ const NewMedicalReportPage = () => {
             onSubmit={handleIssueMedicalReport}
           >
             <div className="grid grid-cols-2 gap-x-5 gap-y-1 mb-5">
-              <div className="col-span-1">
-                <FormTextfield name="age" label="Age" type="number" />
-              </div>
-              <div className="col-span-1">
+              <div className="col-span-2">
                 <FormSelectInput
                   name="sex"
                   label="Sex"
@@ -303,30 +298,36 @@ const NewMedicalReportPage = () => {
       {medicalReports.isPending && (
         <div
           className="fixed h-screen bg-black/60 flex flex-col gap-5 justify-center items-center"
-          style={{ top: 0, left: '240px', width: 'calc(100% - 240px)' }}
+          style={{
+            top: 0,
+            left: store.app.drawerWidth,
+            width: `calc(100% - ${store.app.drawerWidth}px)`,
+          }}
         >
-          <div>
-            <Lottie
-              options={{
-                loop: true,
-                autoplay: true,
-                animationData: heartPulzeAnimation,
-                rendererSettings: {
-                  preserveAspectRatio: 'xMidYMid slice',
-                },
-              }}
-              height={150}
-              width={150}
-            />
-          </div>
-          <div className="max-w-md -mt-6">
-            <p className="text-sm text-center text-white/90">
-              Please wait... We're analyzing your cardiovascular data to provide
-              an accurate prediction.
-            </p>
-          </div>
-          <div>
-            <button className="btn w-32">Cancel</button>
+          <div className="flex gap-5 flex-col items-center justify-center bg-white/10 backdrop-blur-sm pb-10 rounded-2xl">
+            <div>
+              <Lottie
+                options={{
+                  loop: true,
+                  autoplay: true,
+                  animationData: heartPulzeAnimation,
+                  rendererSettings: {
+                    preserveAspectRatio: 'xMidYMid slice',
+                  },
+                }}
+                height={150}
+                width={150}
+              />
+            </div>
+            <div className="max-w-md -mt-6">
+              <p className="text-sm text-center text-white/90">
+                Please wait... <br /> We're analyzing your cardiovascular data
+                to provide an accurate prediction.
+              </p>
+            </div>
+            <div>
+              <button className="btn w-32 text-warn">Cancel</button>
+            </div>
           </div>
         </div>
       )}
