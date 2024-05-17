@@ -33,7 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
     sex = prefs.getString("sex").toString();
     age = prefs.getString("age").toString();
     id = prefs.getString("userId").toString();
-    fSex = sex == "1" ? "Male" : "Female";
+    fSex = sex == "0" ? "Male" : "Female";
   });
   }
 

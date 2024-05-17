@@ -18,10 +18,10 @@ class _NumbersWidgetState extends State<NumbersWidget> {
     children: <Widget>[
       buildButton(context, widget.heartRate, 'Heart Rate', LightColor.purple),
       buildDivider(),
-      buildButton(context, widget.cardioStatus, 'Cardio Status', Colors.pinkAccent),
+      buildButton(context, widget.cardioStatus == "1" ? "💔" : "💚", 'Cardio Status', Colors.pinkAccent),
       buildDivider(),
-      buildButton(context, widget.cardioStatus == "1" ? "Abnormal" : "Normal",
-          'Status', Colors.green[600]!),
+      buildButton(context, widget.cardioStatus == "1" ? "Unhealthy" : "Healthy",
+          'Status', widget.cardioStatus == "1" ? Colors.red : Colors.green[600]!),
     ],
   );
 

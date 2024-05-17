@@ -249,7 +249,7 @@ class _CourseintroductlistItemWidgetState extends State<CourseintroductlistItemW
               prefs.setString('patientId', patientId);
 
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ChatScreen(chatContext:  widget.chatContext,)));
+                  builder: (context) => ChatScreen()));
 
             }else {
               setState(() {

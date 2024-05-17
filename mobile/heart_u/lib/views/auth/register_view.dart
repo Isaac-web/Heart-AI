@@ -281,6 +281,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     return InputCustomizado(
       controller: passwordController,
       hint: 'Enter password',
+      obscure: true,
       icon: const Icon(Icons.lock),
       style: const TextStyle(
           color: Colors.black
@@ -292,6 +293,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     return InputCustomizado(
       controller: repeatPasswordController,
       hint: 'Confirm password',
+      obscure: true,
       icon: const Icon(Icons.lock),
       style: const TextStyle(
           color: Colors.black

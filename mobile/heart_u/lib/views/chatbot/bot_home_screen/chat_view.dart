@@ -9,9 +9,8 @@ import '../../../core/utils/constants.dart';
 import '../data.dart';
 
 class ChatScreen extends StatefulWidget {
-  var chatContext;
   List? sessionMessages;
-  ChatScreen({super.key, this.chatContext, this.sessionMessages});
+  ChatScreen({super.key, this.sessionMessages});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -333,9 +332,8 @@ class _ChatScreenState extends State<ChatScreen> {
     String? sessionId = prefs.getString('sessionId');
 
     print(token);
-    print(widget.chatContext);
 
-    print(sessionId);
+    print("session Id is "+sessionId!);
 
 
     print("dio initialised");
@@ -351,7 +349,6 @@ class _ChatScreenState extends State<ChatScreen> {
           "text" : message,
           "chatSessionId": sessionId == "" ? randomNumber.toString()
               : sessionId ?? randomNumber.toString(),
-          "context": widget.chatContext ?? {"subject":"heart diseases"},
         },
         options: Options(
           headers: {

@@ -28,7 +28,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   var loading = false;
   late SharedPreferences prefs;
   final Dio dio = Dio();
@@ -225,25 +224,35 @@ class _HomePageState extends State<HomePage> {
                   name: datalist[index]["doctor"]["name"].toString(),
                   hospital: datalist[index]["doctor"]["hospital"].toString(),
                   reportId: datalist[index]["_id"].toString(),
-                  date: datalist[index]["createdAt"].toString().substring(0,
-                      datalist[index]["createdAt"].toString().indexOf('T')),
-                  trestbps: datalist[index]["details"]["restingBloodPressure"].toString(),
-                  chol: datalist[index]["details"]["serumColesterol"].toString(),
-                  fbs: datalist[index]["details"]["fastingBloodSugarLevel"].toString() == "0"
+                  date: datalist[index]["createdAt"].toString().substring(
+                      0, datalist[index]["createdAt"].toString().indexOf('T')),
+                  trestbps: datalist[index]["details"]["restingBloodPressure"]
+                      .toString(),
+                  chol:
+                      datalist[index]["details"]["serumColesterol"].toString(),
+                  fbs: datalist[index]["details"]["fastingBloodSugarLevel"]
+                              .toString() ==
+                          "0"
                       ? "false"
                       : "true",
-                  thalach: datalist[index]["details"]["maximumHeartRate"].toString(),
-                  exang:
-                      datalist[index]["details"]["exerciseInducedAngina"].
-                      toString() == "0" ? "No" : "Yes",
-                  oldPeak: datalist[index]["details"]["stDepression"].toString(),
+                  thalach:
+                      datalist[index]["details"]["maximumHeartRate"].toString(),
+                  exang: datalist[index]["details"]["exerciseInducedAngina"]
+                              .toString() ==
+                          "0"
+                      ? "No"
+                      : "Yes",
+                  oldPeak:
+                      datalist[index]["details"]["stDepression"].toString(),
                   slope: datalist[index]["slope"].toString() == "0"
                       ? "Upsloping"
                       : datalist[index]["details"]["slope"].toString() == "1"
                           ? "flat"
                           : "Downsloping",
-                  ca: datalist[index]["details"]["numberOfMajorVessels"].toString(),
-                  cp: datalist[index]["details"]["chestPainType"].toString() == "0"
+                  ca: datalist[index]["details"]["numberOfMajorVessels"]
+                      .toString(),
+                  cp: datalist[index]["details"]["chestPainType"].toString() ==
+                          "0"
                       ? "Typical angina"
                       : datalist[index]["cp_3"].toString() == "1"
                           ? "Atypical angina"
@@ -276,12 +285,12 @@ class _HomePageState extends State<HomePage> {
     String subtitle, {
     required Color color,
     required var chatContext,
-        required String cardioStatus,
-        required String reportId,
-        required String name,
-        required String hospital,
-        required String date,
-        required double confidencLevel,
+    required String cardioStatus,
+    required String reportId,
+    required String name,
+    required String hospital,
+    required String date,
+    required double confidencLevel,
     required String trestbps,
     required String chol,
     required String fbs,
@@ -301,8 +310,7 @@ class _HomePageState extends State<HomePage> {
       subtitleStyle = TextStyles.bodySm.bold.white;
     }
 
-    String report =
-        "Resting blood pressure is $trestbps, "
+    String report = "Resting blood pressure is $trestbps, "
         "Serum cholesterol is $chol, "
         "Fasting blood sugar level is $fbs, "
         "Maximum heart rate is $thalach, "
@@ -389,14 +397,14 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.bold)),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Container(
                               padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.3),
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
                                     offset: Offset(4, 4),
@@ -416,44 +424,53 @@ class _HomePageState extends State<HomePage> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       const Padding(
-                                        padding: EdgeInsets.only(left: 8.0, right: 50),
+                                        padding: EdgeInsets.only(
+                                            left: 8.0, right: 50),
                                         child: Text("ISSUED BY"),
                                       ),
-                                      Text("Dr. ${name.toUpperCase()}",),
+                                      Text(
+                                        "Dr. ${name.toUpperCase()}",
+                                      ),
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       const Padding(
-                                        padding: EdgeInsets.only(left: 8.0, right: 100),
+                                        padding: EdgeInsets.only(
+                                            left: 8.0, right: 100),
                                         child: Text("AT"),
                                       ),
-                                      Text(hospital.toUpperCase(),),
+                                      Text(
+                                        hospital.toUpperCase(),
+                                      ),
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       const Padding(
-                                        padding: EdgeInsets.only(left: 8.0, right: 100),
+                                        padding: EdgeInsets.only(
+                                            left: 8.0, right: 100),
                                         child: Text("ON"),
                                       ),
-                                      Text(date,),
+                                      Text(
+                                        date,
+                                      ),
                                     ],
                                   ),
                                 ],
                               ),
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Container(
                               padding: EdgeInsets.only(top: 10),
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.3),
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
                                     offset: Offset(4, 4),
@@ -476,7 +493,15 @@ class _HomePageState extends State<HomePage> {
                                 startAngle: 45,
                                 sweepAngle: 270,
                                 strokeCap: StrokeCap.butt,
-                                progressGradientColors: const [Colors.red, Colors.orange, Colors.yellow, Colors.green, Colors.blue, Colors.indigo, Colors.purple],
+                                progressGradientColors: const [
+                                  Colors.red,
+                                  Colors.orange,
+                                  Colors.yellow,
+                                  Colors.green,
+                                  Colors.blue,
+                                  Colors.indigo,
+                                  Colors.purple
+                                ],
                                 innerThumbRadius: 5,
                                 innerThumbStrokeWidth: 3,
                                 innerThumbColor: Colors.white,
@@ -492,24 +517,28 @@ class _HomePageState extends State<HomePage> {
                                   child: ValueListenableBuilder(
                                       valueListenable: _valueNotifier,
                                       builder: (_, double value, __) => Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text('${value.round()}%',),
-                                          const Text('Confidence Level',),
-                                        ],
-                                      )),
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                '${value.round()}%',
+                                              ),
+                                              const Text(
+                                                'Confidence Level',
+                                              ),
+                                            ],
+                                          )),
                                 ),
                               ),
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Container(
                               padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.3),
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
                                     offset: Offset(4, 4),
@@ -525,17 +554,18 @@ class _HomePageState extends State<HomePage> {
                               ),
                               child: NumbersWidget(
                                 heartRate: thalach,
-                                cardioStatus: cardioStatus,),
+                                cardioStatus: cardioStatus,
+                              ),
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Container(
                               padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.3),
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
                                     offset: Offset(4, 4),
@@ -552,17 +582,16 @@ class _HomePageState extends State<HomePage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text("Summery",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold
-                                    ),
+                                  const Text(
+                                    "Summery",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text(report)
                                 ],
                               ),
                             ),
                           ),
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
@@ -611,6 +640,7 @@ class _HomePageState extends State<HomePage> {
                                       data: {
                                         "title":
                                             "Result ${reportId} chat $randomNumber",
+                                        "medicalReport": reportId,
                                       },
                                       options: Options(
                                         headers: {
@@ -638,9 +668,7 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  path.ChatScreen(
-                                                    chatContext: chatContext,
-                                                  )));
+                                                  path.ChatScreen()));
                                     } else {
                                       setState(() {
                                         loading = false;
@@ -711,15 +739,14 @@ class _HomePageState extends State<HomePage> {
         ).hP16,
         CircularWidgetLoading(
           loading: loading,
-          child:
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: datalist2 == null ? 0 :  datalist2.length,
-              itemBuilder: (context, index) {
-                return _doctorTile(
-                    datalist2[index]
-                );
-              }
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.4,
+            child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: datalist2 == null ? 0 : datalist2.length,
+                itemBuilder: (context, index) {
+                  return _doctorTile(datalist2[index]);
+                }),
           ),
           // Container(
           //   width: AppTheme.fullWidth(context),
