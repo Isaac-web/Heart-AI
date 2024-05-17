@@ -14,11 +14,6 @@ import { getUserId } from '@/utils/auth';
 import heartPulzeAnimation from '../assets/animations/heart-pulze-animation.json';
 
 const validationSchema = Yup.object().shape({
-  // sex: Yup.number()
-  //   .min(0, "Sex must be either 'Male' or 'Female'")
-  //   .max(1, "Sex must be either 'Male' or 'Female'")
-  //   .required()
-  //   .label('Sex'),
   trestbps: Yup.number().min(94).max(200).required().label('trestbps'),
   chol: Yup.number().min(120).max(570).required().label('Cholestrol Level'),
   fbs: Yup.number().min(0).max(1).required().label('Fasting Blood Suger Level'),
@@ -132,17 +127,6 @@ const NewMedicalReportPage = () => {
             onSubmit={handleIssueMedicalReport}
           >
             <div className="grid grid-cols-2 gap-x-5 gap-y-1 mb-5">
-              {/* <div className="col-span-2">
-                <FormSelectInput
-                  name="sex"
-                  label="Sex"
-                  placeholder="Select One"
-                  options={[
-                    { label: 'Male', value: '1' },
-                    { label: 'Female', value: '0' },
-                  ]}
-                />
-              </div> */}
               <div className="col-span-1">
                 <FormTextfield
                   name="trestbps"
@@ -305,6 +289,12 @@ const NewMedicalReportPage = () => {
           }}
         >
           <div className="flex gap-5 flex-col items-center justify-center bg-white/10 backdrop-blur-sm pb-10 rounded-2xl">
+            <div className=" w-full p-5">
+              <h3 className="text-center text-xl font-semibold text-white/90">
+                Processing Medical Report
+              </h3>
+              <div className="divider w-full" />
+            </div>
             <div>
               <Lottie
                 options={{
@@ -319,10 +309,10 @@ const NewMedicalReportPage = () => {
                 width={150}
               />
             </div>
-            <div className="max-w-md -mt-6">
-              <p className="text-sm text-center text-white/90 p-5">
-                Please wait... <br /> We're analyzing your cardiovascular data
-                to provide an accurate prediction.
+            <div className="max-w-md -mt-6 p-10">
+              <p className="text-center text-white/90 text-xs">
+                Just a moment, we're analyzing your cardiovascular data to
+                provide an accurate prediction.
               </p>
             </div>
             <div>

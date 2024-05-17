@@ -6,6 +6,12 @@ import LoadingIndicator from '@/components/LoadingIndicator';
 import { useAppStore } from '@/store';
 import { Appointment } from '@/types';
 import { getUserId } from '@/utils/auth';
+import {
+  Favorite,
+  HeartBroken,
+  InsertInvitation,
+  Person,
+} from '@mui/icons-material';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -34,6 +40,7 @@ const DoctorDashboard = () => {
             title="Appointments"
             description="Some patients need a medical report"
             value={store.analytics.doctor.data.numberOfPendingAppointments.toString()}
+            icon={<InsertInvitation className="text-primary" />}
           />
         </div>
         <div className="col-span-1">
@@ -41,6 +48,7 @@ const DoctorDashboard = () => {
             title="Unhealthy Patients"
             description="Medical reports of unhealthy cadio status"
             value={store.analytics.doctor.data.numberOfUnHealthyReports.toString()}
+            icon={<HeartBroken className="text-error/50" />}
           />
         </div>
         <div className="col-span-1">
@@ -48,6 +56,7 @@ const DoctorDashboard = () => {
             title="Healthy Patients"
             description="Medical report of healthy cadio Status"
             value={store.analytics.doctor.data.numberOfHealthyReports.toString()}
+            icon={<Favorite className="text-success" />}
           />
         </div>
       </div>

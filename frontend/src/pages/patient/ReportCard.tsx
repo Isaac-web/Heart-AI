@@ -144,7 +144,11 @@ const ReportCard = ({ report }: ReportCardProps) => {
 
                 <div className="stat">
                   <div className="stat-title">Status</div>
-                  <div className="stat-value text-accent">
+                  <div
+                    className={`stat-value ${
+                      report.cadioStatus ? 'text-error' : 'text-accent'
+                    }`}
+                  >
                     {report.status.includes('fine') ? 'Healthy' : 'Unhealthy'}
                   </div>
                   <div className="stat-desc">

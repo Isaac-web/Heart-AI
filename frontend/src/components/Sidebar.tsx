@@ -6,11 +6,11 @@ import {
   KeyboardDoubleArrowLeft,
   KeyboardDoubleArrowRight,
   PeopleOutline,
+  PersonOutline,
   QuestionAnswer,
   ReceiptLong,
 } from '@mui/icons-material';
 import { useAppStore } from '@/store';
-import { getUserId } from '@/utils/auth';
 import appLogo from '../assets/images/heart-ai-logo.png';
 import { useEffect } from 'react';
 
@@ -74,8 +74,6 @@ const Sidebar = () => {
     if (getUserType() === 'patient') return store.auth.user.loading;
     return store.auth.doctor.loading;
   };
-
-  console.log(userLoading());
 
   const getCurrentUser = () => {
     const currentUser = {
@@ -172,7 +170,7 @@ const Sidebar = () => {
           </div>
 
           {userLoading() ? (
-            'loading...'
+            <p className="text-xs text-center">loading...</p>
           ) : (
             <div
               className={`px-5 flex items-center gap-3 ${
@@ -181,9 +179,12 @@ const Sidebar = () => {
             >
               <div className="avatar">
                 <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                  <h3 className="text-xl font-bold w-full h-full bg-primary text-white/70 flex justify-center items-center">
+                  {/* <h3 className="text-xl font-bold w-full h-full bg-primary text-white/70 flex justify-center items-center">
                     {getCurrentUser()?.name?.charAt(0)}
-                  </h3>
+                  </h3> */}
+                  <div className="text-xl font-bold w-full h-full bg-primary text-white/70 flex justify-center items-center">
+                    <PersonOutline className="" />
+                  </div>
                 </div>
               </div>
 
