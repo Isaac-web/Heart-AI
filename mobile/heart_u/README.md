@@ -62,6 +62,12 @@ flutter run
 5. Landing Page
 6. chatbot HomePage
 7. chatbot chatScreen
+8. Doctor detail and appointment booking
+9. Appointment
+10. Appointment details
+11. report details
+12. profile page
+13. profile edit
 
 ## Screenshots
 
