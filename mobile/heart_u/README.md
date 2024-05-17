@@ -25,25 +25,25 @@ Run the following commands from your terminal t run app:
 flutter run
 
 ## Dependancies
-  cupertino_icons: ^1.0.6
-  animate_do: ^3.3.4
-  cached_network_image: ^3.3.1
-  chatview: ^1.3.1
-  awesome_dialog: ^3.2.0
-  dio: ^5.4.3+1
-  widget_loading: ^0.4.0
-  shared_preferences: ^2.2.3
-  share_plus: ^9.0.0
-  flutter_launcher_icons: ^0.13.1
-  adaptive_theme: ^3.6.0
-  flutter_datetime_picker_plus: ^2.2.0
-  fluttertoast: ^8.2.5
-  rive: ^0.13.4
-  flutter_svg: ^1.1.6
-  url_launcher: ^6.1.6
-  vertical_card_pager: ^1.5.0
-  clippy_flutter: ^2.0.0-nullsafety.1
-  circular_seek_bar: ^1.1.0
+  1. cupertino_icons: ^1.0.6
+  2. animate_do: ^3.3.4
+  3. cached_network_image: ^3.3.1
+  4. chatview: ^1.3.1
+  5. awesome_dialog: ^3.2.0
+  6. dio: ^5.4.3+1
+  7. widget_loading: ^0.4.0
+  8. shared_preferences: ^2.2.3
+  9. share_plus: ^9.0.0
+  10. flutter_launcher_icons: ^0.13.1
+  11. adaptive_theme: ^3.6.0
+  12. flutter_datetime_picker_plus: ^2.2.0
+  13. fluttertoast: ^8.2.5
+  14. rive: ^0.13.4
+  15. flutter_svg: ^1.1.6
+  16. url_launcher: ^6.1.6
+  17. vertical_card_pager: ^1.5.0
+  18. clippy_flutter: ^2.0.0-nullsafety.1
+  19. circular_seek_bar: ^1.1.0
   
 ## Key Features
 1. Chatbot :
