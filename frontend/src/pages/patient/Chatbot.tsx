@@ -9,6 +9,8 @@ import Form from '@/components/form/Form';
 import FormSubmitButton from '@/components/form/FormSubmitButton';
 import Alert from '@/components/Alert';
 import { NewChatSessionFormData } from '@/types';
+import { shortenString } from '@/utils/stringUtils';
+import CircularProgress from '@/components/CircularProgress';
 
 export default function Chatbot() {
   const [message, setMessage] = useState('');
@@ -136,14 +138,19 @@ export default function Chatbot() {
           <div className="flex flex-col gap-2">
             <small className="text-gray-600 px-4">Previous 40 days</small>
             <div>
-              {chatSessions.isPending && (
-                <div className="skeleton w-full h-10 rounded-lg" />
+              {chatSessions.loading && (
+                <div className="flex items-center justify-center gap-1 dark:text-white/40">
+                  <div className="mt-1">
+                    <CircularProgress />
+                  </div>
+                  <p className="text-sm text-center">Loading...</p>
+                </div>
               )}
 
               {chatSessions.data.map((item) => (
                 <Link to={`/portal/patient/chatbot/${item._id}`} key={item._id}>
                   <div className="py-2 hover:bg-white/5 cursor-pointer px-4 rounded-lg flex justify-between">
-                    <p>{item.title}</p>
+                    <p className="text-sm">{shortenString(item.title, 20)}</p>
                     <button
                       className="opacity-5 hover:opacity-75"
                       onClick={() => handleDeleteChatSession(item._id)}

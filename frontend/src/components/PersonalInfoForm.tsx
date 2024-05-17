@@ -89,8 +89,8 @@ const PersonalInfoForm = ({
           validationSchema={validationSchema}
           initialValues={{
             name: '',
-            age: NaN,
-            sex: NaN,
+            age: '' as unknown as number,
+            sex: '' as unknown as number,
           }}
           onSubmit={handleSubmit}
         >

@@ -1,9 +1,10 @@
 import { useAppStore } from '@/store';
 import { MedicalReport } from '@/types';
-import { Favorite, Message, PersonOutline } from '@mui/icons-material';
+import { Message, PersonOutline } from '@mui/icons-material';
 import Lottie from 'react-lottie';
 import { useNavigate } from 'react-router-dom';
 import heartPulzeAnimation from '../../assets/animations/heart-pulze-animation.json';
+import CircularProgress from '@/components/CircularProgress';
 
 interface ReportCardProps {
   report: MedicalReport;
@@ -22,7 +23,7 @@ const ReportCard = ({ report }: ReportCardProps) => {
     await chatSessions.fetchChatSession();
 
     const chatSession = await chatSessions.createChatSession({
-      title: `Chat Session ${chatSessions.data.length}`,
+      title: `Chat Session ${Date.now().toString().slice(-5)}`,
       medicalReport: report._id,
     });
 
@@ -67,7 +68,6 @@ const ReportCard = ({ report }: ReportCardProps) => {
                     >
                       <div>
                         <Lottie
-                          // speed={2000}
                           options={{
                             loop: false,
                             autoplay: true,
@@ -97,7 +97,11 @@ const ReportCard = ({ report }: ReportCardProps) => {
                       onClick={handleStartChart}
                     >
                       <span>
-                        <Message />
+                        {chatSessions.isPending ? (
+                          <CircularProgress />
+                        ) : (
+                          <Message />
+                        )}
                       </span>
                       <span>Start Conversation</span>
                     </button>
@@ -154,7 +158,7 @@ const ReportCard = ({ report }: ReportCardProps) => {
                   <div className="stat-desc">
                     {report.status.includes('fine')
                       ? 'Heart is fine.'
-                      : 'Heart is not in good shape'}
+                      : 'Heart is not in good shape.'}
                   </div>
                 </div>
               </div>

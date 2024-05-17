@@ -11,8 +11,9 @@ import {
   ReceiptLong,
 } from '@mui/icons-material';
 import { useAppStore } from '@/store';
-import appLogo from '../assets/images/heart-ai-logo.png';
+// import appLogo from '../assets/images/heart-ai-logo.png';
 import { useEffect } from 'react';
+import appLogo from '../assets/images/logo-white.png';
 
 const doctorMenu = [
   {
@@ -110,12 +111,12 @@ const Sidebar = () => {
     >
       <div>
         <div className="px-3 flex items-center gap-3">
-          <div className="min-w-12 min-h-12 max-w-12 max-h-12 rounded-md bg-slate-600/10">
+          <div className="min-w-12 min-h-12 p-2 max-w-12 max-h-12 rounded-md bg-black/40">
             <img src={appLogo} />
           </div>
-          {!store.app.drawerCollapsed && (
-            <span className="font-semibold">Heart AI</span>
-          )}
+          {/* {!store.app.drawerCollapsed && (
+            <span className="font-bold">Heart AI</span>
+          )} */}
         </div>
 
         <div

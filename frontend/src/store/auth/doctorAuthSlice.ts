@@ -97,6 +97,12 @@ export const doctorAuthSlice: StateCreator<StoreState, [], [], DoctorAuth> = (
     try {
       get().removeError(this.register.name);
 
+      set(
+        produce((store: StoreState) => {
+          store.auth.doctor.isPending = true;
+        })
+      );
+
       const res = await updateDoctor(doctorId, data);
       set(
         produce((store: StoreState) => {
@@ -109,6 +115,12 @@ export const doctorAuthSlice: StateCreator<StoreState, [], [], DoctorAuth> = (
         callingFunction: this.register.name,
         message,
       });
+    } finally {
+      set(
+        produce((store: StoreState) => {
+          store.auth.doctor.isPending = false;
+        })
+      );
     }
   },
   async getCurrentDoctor() {
