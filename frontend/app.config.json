@@ -1,3 +1,4 @@
 {
-	"baseUrl": "http://localhost:5000/api"
+  "baseUrl": "http://localhost:5000/api",
+  "baseUrl_local": "http://localhost:5000/api"
 }

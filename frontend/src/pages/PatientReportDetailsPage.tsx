@@ -3,14 +3,14 @@ import { FileIcon } from '@/components/Icons';
 import { useAppStore } from '@/store';
 import { getUserId } from '@/utils/auth';
 import { useEffect, useState } from 'react';
-import ReportCard from './ReportCard';
+import appConfig from '../../app.config.json';
 
-import appConfig from '../../../app.config.json';
 import { Close } from '@mui/icons-material';
+import { Outlet, useNavigate } from 'react-router-dom';
 
-const Reports = () => {
+const PatientReportDetailsPage = () => {
   const store = useAppStore();
-  const [currentReportOnView, setCurrentReportOnView] = useState('');
+  const navigate = useNavigate();
   const [doctorsList, setDoctorsList] = useState([]);
   const [selectedDoctorId, setSelectedDoctorId] = useState(null);
   const [appointmentDate, setAppointmentDate] = useState(null);
@@ -30,8 +30,8 @@ const Reports = () => {
   }, []);
 
   return (
-    <div className="flex min-h-screen">
-      <div className="bg-black/50 text-white w-[250px] py-4 flex flex-col justify-between gap-5 px-3">
+    <div className="flex min-h-screen max-w-screen overflow-hidden">
+      <div className="bg-black/50 text-white min-w-[260px] py-4 flex flex-col justify-between gap-5 px-3 max-h-screen overflow-auto">
         <button
           className="btn bg-gradient-to-r from-[#4851FF] to-[#F02AA6] rounded-full text-white px-4 py-2 font-light active:scale-[.98] active:duration-75 hover:scale-[1.02] ease-in-out"
           onClick={() => document.getElementById('my_modal_1').showModal()}
@@ -118,8 +118,10 @@ const Reports = () => {
             <div className="w-full">
               {medicalReports.data.map((report, index) => (
                 <p
-                  className="px-2 py-4 hover:bg-white/5 rounded-lg cursor-pointer flex justify-between hover:bg-white/5"
-                  onClick={() => setCurrentReportOnView(report._id)}
+                  className="px-2 py-4 rounded-lg cursor-pointer flex justify-between hover:bg-white/5"
+                  onClick={() =>
+                    navigate(`/portal/patient/reports/${report._id}`)
+                  }
                 >
                   <div className="flex gap-2 items-center">
                     <small className="text-slate-500">
@@ -136,19 +138,12 @@ const Reports = () => {
           </div>
         </div>
       </div>
-      <div className="grow flex justify-center mx-auto max-w-3xl">
-        {medicalReports.loading ? (
-          <>loading</>
-        ) : (
-          <ReportCard
-            report={medicalReports.data.find(
-              (r) => r._id === currentReportOnView
-            )}
-          />
-        )}
+
+      <div className="max-h-screen w-full overflow-auto">
+        <Outlet />
       </div>
     </div>
   );
 };
 
-export default Reports;
+export default PatientReportDetailsPage;

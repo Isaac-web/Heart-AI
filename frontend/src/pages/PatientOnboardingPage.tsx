@@ -9,7 +9,7 @@ const PatientOnboardingPage = () => {
 
   const handleNextStep = () => {
     if (step < 1) setstep((prev) => prev + 1);
-    else navigate('/dashboard/patient');
+    else navigate('/portal/patient');
   };
 
   return (

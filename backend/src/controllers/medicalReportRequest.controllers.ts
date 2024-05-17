@@ -24,6 +24,7 @@ export const createMedicalReportRequest = async (
     MedicalReportRequest.findOne({
       patient: req.body.patientId,
       doctor: req.body.doctorId,
+      status: 0,
     }),
   ]);
 
@@ -37,10 +38,10 @@ export const createMedicalReportRequest = async (
       .status(404)
       .json({ message: 'Doctor with the given Id cannot be found.' });
 
-  // if (existingRequest)
-  //   return res.status(400).json({
-  //     message: 'There is already an appointment with this doctor.',
-  //   });
+  if (existingRequest)
+    return res.status(400).json({
+      message: 'There is already an active appointment with this doctor.',
+    });
 
   const medicalReportRequest = await MedicalReportRequest.create({
     doctor: req.body.doctorId,
@@ -92,12 +93,13 @@ export const fetchMedicalReportRequest = async (
   const skip = Number(req.query.skip) || 0;
   const limit = Number(req.query.limit) || 20;
 
-  const filter: { doctor?: string; patient?: string } = {};
+  const filter: { doctor?: string; patient?: string; status?: number } = {};
 
-  const { doctorId, patientId } = req.query;
+  const { doctorId, patientId, status } = req.query;
 
   if (doctorId) filter.doctor = doctorId as string;
   if (patientId) filter.patient = patientId as string;
+  if (status) filter.status = Number(status);
 
   const [reportRequests, count] = await Promise.all([
     MedicalReportRequest.find(filter)

@@ -1,6 +1,11 @@
 import { StateCreator } from 'zustand';
 import { StoreState, UserAuth } from '../types';
-import { loginUser, registerUser } from '@/api/auth';
+import {
+  getCurrentUser,
+  loginUser,
+  registerUser,
+  updateUser,
+} from '@/api/auth';
 import { handleError } from '@/utils/errorHandler';
 import { produce } from 'immer';
 
@@ -26,7 +31,7 @@ export const userAuthSlice: StateCreator<StoreState, [], [], UserAuth> = (
 
       set(
         produce((store: StoreState) => {
-          store.auth.doctor.isPending = true;
+          store.auth.user.isPending = true;
         })
       );
 
@@ -48,18 +53,23 @@ export const userAuthSlice: StateCreator<StoreState, [], [], UserAuth> = (
     } finally {
       set(
         produce((store: StoreState) => {
-          store.auth.doctor.isPending = false;
+          store.auth.user.isPending = false;
         })
       );
     }
   },
   async register(data) {
+    set(
+      produce((store: StoreState) => {
+        store.auth.user.isPending = true;
+      })
+    );
+
     try {
       get().removeError(this.register.name);
 
       const res = await registerUser(data);
       localStorage.setItem('auth-token', res.token);
-      console.log(res.data);
       set(
         produce((store: StoreState) => {
           store.auth.user.data = res.data;
@@ -71,53 +81,75 @@ export const userAuthSlice: StateCreator<StoreState, [], [], UserAuth> = (
         callingFunction: this.register.name,
         message,
       });
+    } finally {
+      set(
+        produce((store: StoreState) => {
+          store.auth.user.isPending = false;
+        })
+      );
     }
   },
-  async update() {
+  async update(data) {
     get().removeError(this.register.name);
 
-    // try {
+    set(
+      produce((store: StoreState) => {
+        store.auth.user.isPending = true;
+      })
+    );
 
-    //   const res = await updateDoctor(doctorId, data);
-    //   set(
-    //     produce((store: StoreState) => {
-    //       store.auth.doctor.data = res.data;
-    //     })
-    //   );
-    // } catch (err) {
-    //   const message = handleError(err as Error);
-    //   get().addError({
-    //     callingFunction: this.register.name,
-    //     message,
-    //   });
-    // }
+    try {
+      const res = await updateUser(data);
+
+      set(
+        produce((store: StoreState) => {
+          store.auth.user.data = res.data;
+        })
+      );
+    } catch (err) {
+      const message = handleError(err as Error);
+      get().addError({
+        callingFunction: this.register.name,
+        message,
+      });
+    } finally {
+      set(
+        produce((store: StoreState) => {
+          store.auth.user.isPending = false;
+        })
+      );
+    }
   },
-  async getCurrentDoctor() {
-    // try {
-    //   get().removeError(this.getCurrentDoctor.name);
-    //   set(
-    //     produce((store: StoreState) => {
-    //       store.auth.doctor.loading = true;
-    //     })
-    //   );
-    //   const currentDoctor = await getCurrentDoctor();
-    //   set(
-    //     produce((store: StoreState) => {
-    //       store.auth.doctor.data = currentDoctor;
-    //     })
-    //   );
-    // } catch (err) {
-    //   const message = handleError(err as Error);
-    //   get().addError({
-    //     callingFunction: this.getCurrentDoctor.name,
-    //     message,
-    //   });
-    // } finally {
-    //   set(
-    //     produce((store: StoreState) => {
-    //       store.auth.doctor.loading = false;
-    //     })
-    //   );
-    // }
+  async getCurrentUser() {
+    get().removeError(this.getCurrentUser.name);
+
+    set(
+      produce((store: StoreState) => {
+        store.auth.user.loading = true;
+      })
+    );
+
+    try {
+      const user = await getCurrentUser();
+
+      set(
+        produce((store: StoreState) => {
+          store.auth.user.data = user;
+        })
+      );
+    } catch (err) {
+      const message = handleError(err as Error);
+
+      get().addError({
+        callingFunction: this.getCurrentUser.name,
+        message,
+      });
+    } finally {
+      set(
+        produce((store: StoreState) => {
+          store.auth.user.loading = false;
+        })
+      );
+    }
   },
 });

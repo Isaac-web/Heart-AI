@@ -70,6 +70,7 @@ export const createMedicalReport = async (req: Request, res: Response) => {
     MedicalReportRequest.findOne({
       doctorId: req.body.doctorId,
       patientId: req.body.patientId,
+      status: 0,
     }),
     MedicalReport.findOne(_.pick(req.body, ['patient', 'doctor'])),
   ]);
@@ -78,6 +79,11 @@ export const createMedicalReport = async (req: Request, res: Response) => {
     return res
       .status(404)
       .json({ message: 'Patient with the given Id cannot be found.' });
+
+  if (patient.age < 16)
+    return res.json({ message: 'Minimum age for patient is 16.' });
+  req.body.age = patient.age || 18;
+  req.body.sex = patient.sex || 1;
 
   if (!doctor)
     return res
@@ -105,13 +111,11 @@ export const createMedicalReport = async (req: Request, res: Response) => {
       ])
     );
 
-    console.log('Data: ', data);
-
     medicalReport = await MedicalReport.create({
       status: data.status,
       cadioStatus:
         data.status === 'Unfortunately, you have heart disease' ? 1 : 0,
-      confidenceLevel: Math.floor(Math.random() * 101),
+      confidenceLevel: Math.round(Number(data.confidence_level)),
       patient: req.body.patient,
       doctor: req.body.doctor,
       details: {
@@ -131,6 +135,20 @@ export const createMedicalReport = async (req: Request, res: Response) => {
         thalliumStressTestResults: data.details['thallium stress test_results'],
       },
     });
+
+    // console.log(reportRequest?._id);
+
+    if (reportRequest) {
+      await MedicalReportRequest.findByIdAndUpdate(
+        reportRequest._id,
+        {
+          $set: {
+            status: 1,
+          },
+        },
+        { new: true }
+      );
+    }
 
     req.body.cardioStatus = data.status;
   } catch (err: any) {
@@ -163,25 +181,18 @@ export const updateMedicalReport = async (req: Request, res: Response) => {
     req.params.id,
     {
       $set: _.pick(req.body, [
-        'age',
-        'sex',
-        'cp_1',
-        'cp_2',
-        'cp_3',
+        'cp',
         'trestbps',
         'chol',
         'fbs',
+        'restecg',
         'thalach',
         'exang',
         'oldpeak',
         'slope',
         'ca',
-        'thal_1',
-        'thal_2',
-        'thal_3',
-        'restecg_1',
-        'restecg_2',
-        'restecg_3',
+        'thal',
+        'finalVerdict',
       ]),
     },
     { new: true }

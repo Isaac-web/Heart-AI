@@ -4,6 +4,7 @@ import {
   LoginFormData,
   RegistrationFormData,
   User,
+  UserUpdateFormData,
 } from '@/types';
 import { apiClient } from './apiClient';
 
@@ -25,17 +26,6 @@ export const registerUser = async (data: RegistrationFormData) => {
 
   return resData;
 };
-
-// export const updateUser = async (
-//   doctorId: string,
-//   data: DoctorUpdateFormData
-// ) => {
-//   const { data: resData } = await apiClient.patch<{
-//     data: Doctor;
-//   }>(`/doctors/${doctorId}`, data);
-
-//   return resData;
-// };
 
 export const loginDoctor = async (data: LoginFormData) => {
   const { data: resData } = await apiClient.post<{
@@ -78,4 +68,12 @@ export const getCurrentUser = async () => {
   const { data: resData } = await apiClient.get<{ data: User }>('/users/me');
 
   return resData.data;
+};
+
+export const updateUser = async (data: UserUpdateFormData) => {
+  const { data: resData } = await apiClient.patch<{
+    data: User;
+  }>(`/users/me`, data);
+
+  return resData;
 };

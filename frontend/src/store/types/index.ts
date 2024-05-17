@@ -6,15 +6,18 @@ import {
   ChatMessageFormData,
   ChatSession,
   Doctor,
+  DoctorDashboardSummary,
   DoctorUpdateFormData,
   LoginFormData,
   MedicalReport,
   MedicalReportFormData,
   MedicalReportSearchParams,
+  MedicalReportUpdateFormData,
   NewChatSessionFormData,
   RegistrationFormData,
   User,
   UserUpdateFormData,
+  UsersSearchParams,
 } from '@/types';
 
 interface RequestError {
@@ -62,6 +65,10 @@ export interface MedicalReportDetail {
   isPending: boolean;
   data: MedicalReport;
   getMedicalReportById(id: string): Promise<MedicalReport | undefined>;
+  updateMedicalReport(
+    id: string,
+    data: MedicalReportUpdateFormData
+  ): Promise<MedicalReport | undefined>;
 }
 
 export interface ChatSessionsSlice {
@@ -83,6 +90,13 @@ export interface ChatMessagesSlice {
   sendChatMessage(data: ChatMessageFormData): Promise<void>;
 }
 
+export interface PatientsSlice {
+  loading: boolean;
+  isPending: boolean;
+  data: User[];
+  fetchPatients(params?: UsersSearchParams): Promise<void>;
+}
+
 export interface DoctorAuth {
   loading: boolean;
   isPending: boolean;
@@ -100,6 +114,7 @@ export interface UserAuth {
   login(data: LoginFormData): Promise<void>;
   register(data: RegistrationFormData): Promise<void>;
   update(data: UserUpdateFormData): Promise<void>;
+  getCurrentUser(): Promise<void>;
 }
 
 export interface AuthSlice {
@@ -115,6 +130,7 @@ export interface DataSlice {
     medicalReports: MedicalReportEntity;
     chatSessions: ChatSessionsSlice;
     chatMessages: ChatMessagesSlice;
+    patients: PatientsSlice;
   };
   details: {
     appointment: AppointmentDetail;
@@ -131,4 +147,18 @@ export interface AppData {
   };
 }
 
-export type StoreState = RequestErrorState & AuthSlice & DataSlice & AppData;
+export interface Analytics {
+  analytics: {
+    doctor: {
+      loading: boolean;
+      data: DoctorDashboardSummary;
+      loadAnalytics(): Promise<void>;
+    };
+  };
+}
+
+export type StoreState = RequestErrorState &
+  AuthSlice &
+  DataSlice &
+  AppData &
+  Analytics;

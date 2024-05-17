@@ -17,8 +17,7 @@ export const doctorAuthSlice: StateCreator<StoreState, [], [], DoctorAuth> = (
   isPending: false,
   data: {
     _id: '',
-    firstName: '',
-    lastName: '',
+    name: '',
     age: 0,
     sex: 0,
     phone: '',
@@ -66,6 +65,12 @@ export const doctorAuthSlice: StateCreator<StoreState, [], [], DoctorAuth> = (
     try {
       get().removeError(this.register.name);
 
+      set(
+        produce((store: StoreState) => {
+          store.auth.doctor.isPending = true;
+        })
+      );
+
       const res = await registerDoctor(data);
       localStorage.setItem('auth-token', res.token);
       console.log(res.data);
@@ -80,6 +85,12 @@ export const doctorAuthSlice: StateCreator<StoreState, [], [], DoctorAuth> = (
         callingFunction: this.register.name,
         message,
       });
+    } finally {
+      set(
+        produce((store: StoreState) => {
+          store.auth.doctor.isPending = false;
+        })
+      );
     }
   },
   async update(doctorId, data) {

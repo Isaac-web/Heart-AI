@@ -1,10 +1,17 @@
 import AppPagination from '@/components/AppPagination';
 import AppTable from '@/components/AppTable';
 import DashboardCard from '@/components/DashboardCard';
+import JSONToPDF from '@/components/JSONToPDF';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import { useAppStore } from '@/store';
 import { Appointment } from '@/types';
 import { getUserId } from '@/utils/auth';
+import {
+  Favorite,
+  HeartBroken,
+  InsertInvitation,
+  Person,
+} from '@mui/icons-material';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -14,34 +21,42 @@ const DoctorDashboard = () => {
   const appointmentDetails = store.details.appointment;
 
   useEffect(() => {
-    store.entities.appointments.fetchAppointments({ doctorId: getUserId() });
+    store.analytics.doctor.loadAnalytics();
+    store.entities.appointments.fetchAppointments({
+      doctorId: getUserId(),
+      status: 0,
+    });
   }, []);
 
   return (
     <section className="container">
+      {/* <JSONToPDF/> */}
       <div className="mb-14">
         <h1 className="text-3xl font-semibold">Overview</h1>
       </div>
       <div className="grid grid-cols-3 gap-5 mb-14">
         <div className="col-span-1">
           <DashboardCard
-            title="Pending Reports"
-            description="Pending reports"
-            value="17"
+            title="Appointments"
+            description="Some patients need a medical report"
+            value={store.analytics.doctor.data.numberOfPendingAppointments.toString()}
+            icon={<InsertInvitation className="text-primary" />}
           />
         </div>
         <div className="col-span-1">
           <DashboardCard
-            title="Medical Reports"
-            description="Issued medical reports"
-            value="13"
+            title="Unhealthy Patients"
+            description="Medical reports of unhealthy cadio status"
+            value={store.analytics.doctor.data.numberOfUnHealthyReports.toString()}
+            icon={<HeartBroken className="text-error/50" />}
           />
         </div>
         <div className="col-span-1">
           <DashboardCard
-            title="Patients"
-            description="Patients with heart diseases"
-            value={'4'}
+            title="Healthy Patients"
+            description="Medical report of healthy cadio Status"
+            value={store.analytics.doctor.data.numberOfHealthyReports.toString()}
+            icon={<Favorite className="text-success" />}
           />
         </div>
       </div>
@@ -49,7 +64,8 @@ const DoctorDashboard = () => {
       <div className="mb-10">
         <h2 className="text-3xl mb-2">Appointments</h2>
         <p className="text-sm mb">
-          4 users are booking an appointment with you for a medical report.
+          {store.analytics.doctor.data.numberOfPendingAppointments} users are
+          booking an appointment with you for a medical report.
         </p>
       </div>
 
@@ -79,13 +95,12 @@ const DoctorDashboard = () => {
                   return (
                     <div className="flex items-center gap-3">
                       <div className="avatar">
-                        <div className="mask mask-squircle w-12 h-12">
-                          <img
-                            src={
-                              'https://img.daisyui.com/tailwind-css-component-profile-2@56w.png'
-                            }
-                            alt="Avatar Tailwind CSS Component"
-                          />
+                        <div className="avatar placeholder">
+                          <div className="bg-neutral text-neutral-content rounded-full w-16">
+                            <span className="text-xl">
+                              {item.patient.name.charAt(0)}
+                            </span>
+                          </div>
                         </div>
                       </div>
                       <div>
@@ -135,7 +150,7 @@ const DoctorDashboard = () => {
                         <div className="drawer-content">
                           <label
                             htmlFor="my-drawer-4"
-                            className="btn btn-ghost btn-xs z-10"
+                            className="btn btn-ghost btn-xs z-10 btn-outline"
                             onClick={() => {
                               store.details.appointment.getAppointmentById(
                                 item._id

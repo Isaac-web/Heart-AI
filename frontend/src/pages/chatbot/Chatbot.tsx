@@ -95,13 +95,13 @@ const Chatbot = () => {
 
   return (
     <div className="flex bg-[#111] w-full h-auto overflow-y-auto">
-      <div className="bg-[rgba(178,178,238,0.03)] h-screen text-white min-w-[16vw] w-[25%] overflow-auto">
+      <div className="bg-[rgba(178,178,238,0.03)] h-screen text-white min-w-[280] w-[25%] overflow-auto">
         <div>
           <div
             className="w-full py-4 flex justify-between px-6 items-center hover:bg-[rgba(178,178,238,0.1)] cursor-pointer"
             onClick={() => setShowInput(!showInput)}
           >
-            <p>new chat</p>
+            <p>{showInput ? 'close' : 'new chat'}</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -160,7 +160,6 @@ const Chatbot = () => {
           )}
         </div>
       </div>
-
       <div className="flex flex-col justify-between grow items-center">
         <div className="grow text-white py-10 self-start">
           {sessionId ? (

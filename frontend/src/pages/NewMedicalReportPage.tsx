@@ -4,21 +4,16 @@ import FormSubmitButton from '@/components/form/FormSubmitButton';
 import FormTextfield from '@/components/form/FormTextfield';
 import Lottie from 'react-lottie';
 import * as Yup from 'yup';
-import heartPulzeAnimation from '../assets/animations/heart-pulze-animation.json';
 import { MedicalReportFormData } from '@/types';
 import { useAppStore } from '@/store';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import Alert from '@/components/Alert';
+import { getUserId } from '@/utils/auth';
+import heartPulzeAnimation from '../assets/animations/heart-pulze-animation.json';
 
 const validationSchema = Yup.object().shape({
-  age: Yup.number().min(16).max(120).required().label('Age'),
-  sex: Yup.number()
-    .min(0, "Sex must be either 'Male' or 'Female'")
-    .max(1, "Sex must be either 'Male' or 'Female'")
-    .required()
-    .label('Sex'),
   trestbps: Yup.number().min(94).max(200).required().label('trestbps'),
   chol: Yup.number().min(120).max(570).required().label('Cholestrol Level'),
   fbs: Yup.number().min(0).max(1).required().label('Fasting Blood Suger Level'),
@@ -38,13 +33,13 @@ const NewMedicalReportPage = () => {
   const appointment = store.details.appointment;
   const medicalReports = store.entities.medicalReports;
   const appointmentId = searchParams.get('appointmentId') as string;
+  const patientId = searchParams.get('patientId') as string;
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<MedicalReportFormData>({
     doctor: '',
     patient: '',
-    age: 0,
-    sex: 0,
+    // sex: '' as unknown as number,
     cp: 0,
     trestbps: 0,
     chol: 0,
@@ -91,8 +86,10 @@ const NewMedicalReportPage = () => {
   }, []);
 
   const handleIssueMedicalReport = async (data: MedicalReportFormData) => {
-    data.doctor = appointment.data.doctor._id;
-    data.patient = appointment.data.patient._id;
+    data.doctor = appointment.data.doctor._id || (getUserId() as string);
+    data.patient = appointment.data.patient._id
+      ? appointment.data.patient._id
+      : patientId;
 
     const medicalReport =
       await store.entities.medicalReports.createMedicalReport(data);
@@ -101,7 +98,9 @@ const NewMedicalReportPage = () => {
 
     if (!error) {
       if (medicalReport)
-        navigate(`/portal/doctor/medical-reports/${medicalReport._id}`);
+        navigate(`/portal/doctor/medical-reports/${medicalReport._id}`, {
+          replace: true,
+        });
     }
   };
 
@@ -128,20 +127,6 @@ const NewMedicalReportPage = () => {
             onSubmit={handleIssueMedicalReport}
           >
             <div className="grid grid-cols-2 gap-x-5 gap-y-1 mb-5">
-              <div className="col-span-1">
-                <FormTextfield name="age" label="Age" type="number" />
-              </div>
-              <div className="col-span-1">
-                <FormSelectInput
-                  name="sex"
-                  label="Sex"
-                  placeholder="Select One"
-                  options={[
-                    { label: 'Male', value: '1' },
-                    { label: 'Female', value: '2' },
-                  ]}
-                />
-              </div>
               <div className="col-span-1">
                 <FormTextfield
                   name="trestbps"
@@ -297,30 +282,42 @@ const NewMedicalReportPage = () => {
       {medicalReports.isPending && (
         <div
           className="fixed h-screen bg-black/60 flex flex-col gap-5 justify-center items-center"
-          style={{ top: 0, left: '240px', width: 'calc(100% - 240px)' }}
+          style={{
+            top: 0,
+            left: store.app.drawerWidth,
+            width: `calc(100% - ${store.app.drawerWidth}px)`,
+          }}
         >
-          <div>
-            <Lottie
-              options={{
-                loop: true,
-                autoplay: true,
-                animationData: heartPulzeAnimation,
-                rendererSettings: {
-                  preserveAspectRatio: 'xMidYMid slice',
-                },
-              }}
-              height={150}
-              width={150}
-            />
-          </div>
-          <div className="max-w-md -mt-6">
-            <p className="text-sm text-center text-white/90">
-              Please wait... We're analyzing your cardiovascular data to provide
-              an accurate prediction.
-            </p>
-          </div>
-          <div>
-            <button className="btn w-32">Cancel</button>
+          <div className="flex gap-5 flex-col items-center justify-center bg-white/10 backdrop-blur-sm pb-10 rounded-2xl">
+            <div className=" w-full p-5">
+              <h3 className="text-center text-xl font-semibold text-white/90">
+                Processing Medical Report
+              </h3>
+              <div className="divider w-full" />
+            </div>
+            <div>
+              <Lottie
+                options={{
+                  loop: true,
+                  autoplay: true,
+                  animationData: heartPulzeAnimation,
+                  rendererSettings: {
+                    preserveAspectRatio: 'xMidYMid slice',
+                  },
+                }}
+                height={150}
+                width={150}
+              />
+            </div>
+            <div className="max-w-md -mt-6 p-10">
+              <p className="text-center text-white/90 text-xs">
+                Just a moment, we're analyzing your cardiovascular data to
+                provide an accurate prediction.
+              </p>
+            </div>
+            <div>
+              <button className="btn w-32 text-warn">Cancel</button>
+            </div>
           </div>
         </div>
       )}
