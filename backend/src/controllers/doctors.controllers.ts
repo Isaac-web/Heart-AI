@@ -133,23 +133,18 @@ export const getCurrentDoctor = async (req: AppRequest, res: AppResponse) => {
 };
 
 export const updateDoctor = async (req: AppRequest, res: AppResponse) => {
+  const { error } = validateUpdateDoctor(req.body);
+  if (error)
+    return res.status(422).json({
+      message: error.details[0].message,
+    });
+
   try {
     const authDoc = req.user;
 
     !authDoc &&
       res.status(401).json({
         message: 'You are not authorized to perform an update on this account.',
-      });
-
-    !req.body &&
-      res.status(400).json({
-        message: 'No data provided.',
-      });
-
-    const { error } = validateUpdateDoctor(req.body);
-    error &&
-      res.status(422).json({
-        message: error.details[0].message,
       });
 
     const doctor = await Doctor.findByIdAndUpdate(
@@ -176,7 +171,7 @@ export const updateDoctor = async (req: AppRequest, res: AppResponse) => {
     doctor.password = '';
 
     res.json({
-      message: 'User update was successful.',
+      message: 'Doctor update was successful.',
       data: doctor,
     });
   } catch (err: any) {
