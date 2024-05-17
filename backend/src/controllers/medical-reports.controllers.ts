@@ -70,6 +70,7 @@ export const createMedicalReport = async (req: Request, res: Response) => {
     MedicalReportRequest.findOne({
       doctorId: req.body.doctorId,
       patientId: req.body.patientId,
+      status: 0,
     }),
     MedicalReport.findOne(_.pick(req.body, ['patient', 'doctor'])),
   ]);
@@ -82,6 +83,7 @@ export const createMedicalReport = async (req: Request, res: Response) => {
   if (patient.age < 16)
     return res.json({ message: 'Minimum age for patient is 16.' });
   req.body.age = patient.age || 18;
+  req.body.sex = patient.sex || 1;
 
   if (!doctor)
     return res
@@ -133,6 +135,20 @@ export const createMedicalReport = async (req: Request, res: Response) => {
         thalliumStressTestResults: data.details['thallium stress test_results'],
       },
     });
+
+    // console.log(reportRequest?._id);
+
+    if (reportRequest) {
+      await MedicalReportRequest.findByIdAndUpdate(
+        reportRequest._id,
+        {
+          $set: {
+            status: 1,
+          },
+        },
+        { new: true }
+      );
+    }
 
     req.body.cardioStatus = data.status;
   } catch (err: any) {

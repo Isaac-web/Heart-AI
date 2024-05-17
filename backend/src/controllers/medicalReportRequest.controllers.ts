@@ -24,6 +24,7 @@ export const createMedicalReportRequest = async (
     MedicalReportRequest.findOne({
       patient: req.body.patientId,
       doctor: req.body.doctorId,
+      status: 0,
     }),
   ]);
 
@@ -37,10 +38,10 @@ export const createMedicalReportRequest = async (
       .status(404)
       .json({ message: 'Doctor with the given Id cannot be found.' });
 
-  // if (existingRequest)
-  //   return res.status(400).json({
-  //     message: 'There is already an appointment with this doctor.',
-  //   });
+  if (existingRequest)
+    return res.status(400).json({
+      message: 'There is already an active appointment with this doctor.',
+    });
 
   const medicalReportRequest = await MedicalReportRequest.create({
     doctor: req.body.doctorId,

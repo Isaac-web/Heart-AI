@@ -86,7 +86,7 @@ const MedicalReports = () => {
   const patients = store.entities.patients;
 
   useEffect(() => {
-    store.entities.patients.fetchPatients({ name: search });
+    store.entities.patients.fetchPatients();
   }, []);
 
   return (

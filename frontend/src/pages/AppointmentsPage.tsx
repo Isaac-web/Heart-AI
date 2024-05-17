@@ -63,13 +63,12 @@ const AppointmentsPage = () => {
                   return (
                     <div className="flex items-center gap-3">
                       <div className="avatar">
-                        <div className="mask mask-squircle w-12 h-12">
-                          <img
-                            src={
-                              'https://img.daisyui.com/tailwind-css-component-profile-2@56w.png'
-                            }
-                            alt="Avatar Tailwind CSS Component"
-                          />
+                        <div className="avatar placeholder">
+                          <div className="bg-neutral text-neutral-content rounded-full w-16">
+                            <span className="text-xl">
+                              {item.patient.name.charAt(0)}
+                            </span>
+                          </div>
                         </div>
                       </div>
                       <div>
@@ -119,7 +118,7 @@ const AppointmentsPage = () => {
                         <div className="drawer-content">
                           <label
                             htmlFor="my-drawer-4"
-                            className="btn btn-ghost btn-xs z-10"
+                            className="btn btn-ghost btn-xs btn-outline z-10"
                             onClick={() => {
                               store.details.appointment.getAppointmentById(
                                 item._id

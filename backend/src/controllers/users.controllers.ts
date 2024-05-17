@@ -46,10 +46,13 @@ export const registerUser = async (req: AppRequest, res: AppResponse) => {
 
   await user.save();
 
+  const token = jwt.sign({ _id: user._id }, `${process.env.JWT_SECRET}`);
+
   user.password = '';
 
   return res.json({
     message: 'User registration was successful.',
+    token,
     data: user,
   });
 };

@@ -114,6 +114,7 @@ export interface UserAuth {
   login(data: LoginFormData): Promise<void>;
   register(data: RegistrationFormData): Promise<void>;
   update(data: UserUpdateFormData): Promise<void>;
+  getCurrentUser(): Promise<void>;
 }
 
 export interface AuthSlice {
