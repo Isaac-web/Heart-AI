@@ -86,10 +86,11 @@ flutter run
 
 <img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/ff9a1b0e-161f-471b-b77e-f8c006255b2b" width="100" heigth="200">
 
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/fed6249b-1c7e-4603-8502-f740f34cb1d0" width="100" heigth="200">
+
 <img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/8884cc2d-1b39-4c4f-8660-243174f71c5e" width="100" heigth="200">
 
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/c2963f9b-831e-4b14-ab60-7c310ce168fd" width="100" heigth="200">
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/c2963f9b-831e-4b14-ab60-7c310ce168fd" width="100" heigth="200">
+![IMG-20240517-WA0021]()
 
 ## Video demo
 
