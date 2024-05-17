@@ -1,4 +1,4 @@
 {
-  "baseUrl": "https://heart-disease-prediction-group-2-ky21.onrender.com/api",
+  "baseUrl": "http://localhost:5000/api",
   "baseUrl_local": "http://localhost:5000/api"
 }

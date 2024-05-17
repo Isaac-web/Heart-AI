@@ -14,11 +14,11 @@ import { getUserId } from '@/utils/auth';
 import heartPulzeAnimation from '../assets/animations/heart-pulze-animation.json';
 
 const validationSchema = Yup.object().shape({
-  sex: Yup.number()
-    .min(0, "Sex must be either 'Male' or 'Female'")
-    .max(1, "Sex must be either 'Male' or 'Female'")
-    .required()
-    .label('Sex'),
+  // sex: Yup.number()
+  //   .min(0, "Sex must be either 'Male' or 'Female'")
+  //   .max(1, "Sex must be either 'Male' or 'Female'")
+  //   .required()
+  //   .label('Sex'),
   trestbps: Yup.number().min(94).max(200).required().label('trestbps'),
   chol: Yup.number().min(120).max(570).required().label('Cholestrol Level'),
   fbs: Yup.number().min(0).max(1).required().label('Fasting Blood Suger Level'),
@@ -44,7 +44,7 @@ const NewMedicalReportPage = () => {
   const [formData, setFormData] = useState<MedicalReportFormData>({
     doctor: '',
     patient: '',
-    sex: '' as unknown as number,
+    // sex: '' as unknown as number,
     cp: 0,
     trestbps: 0,
     chol: 0,
@@ -91,7 +91,7 @@ const NewMedicalReportPage = () => {
   }, []);
 
   const handleIssueMedicalReport = async (data: MedicalReportFormData) => {
-    data.doctor = appointment.data.doctor._id || getUserId();
+    data.doctor = appointment.data.doctor._id || (getUserId() as string);
     data.patient = appointment.data.patient._id
       ? appointment.data.patient._id
       : patientId;
@@ -132,7 +132,7 @@ const NewMedicalReportPage = () => {
             onSubmit={handleIssueMedicalReport}
           >
             <div className="grid grid-cols-2 gap-x-5 gap-y-1 mb-5">
-              <div className="col-span-2">
+              {/* <div className="col-span-2">
                 <FormSelectInput
                   name="sex"
                   label="Sex"
@@ -142,7 +142,7 @@ const NewMedicalReportPage = () => {
                     { label: 'Female', value: '0' },
                   ]}
                 />
-              </div>
+              </div> */}
               <div className="col-span-1">
                 <FormTextfield
                   name="trestbps"
@@ -320,7 +320,7 @@ const NewMedicalReportPage = () => {
               />
             </div>
             <div className="max-w-md -mt-6">
-              <p className="text-sm text-center text-white/90">
+              <p className="text-sm text-center text-white/90 p-5">
                 Please wait... <br /> We're analyzing your cardiovascular data
                 to provide an accurate prediction.
               </p>

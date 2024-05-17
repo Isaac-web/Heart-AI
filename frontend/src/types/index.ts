@@ -60,7 +60,7 @@ export interface MedicalReportFormData {
   doctor: string;
   patient: string;
   age?: number;
-  sex: number;
+  sex?: number;
   cp: number;
   trestbps: number;
   chol: number;

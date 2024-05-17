@@ -24,7 +24,7 @@ const DoctorDashboard = () => {
 
   return (
     <section className="container">
-      <JSONToPDF/>
+      {/* <JSONToPDF/> */}
       <div className="mb-14">
         <h1 className="text-3xl font-semibold">Overview</h1>
       </div>
@@ -141,7 +141,7 @@ const DoctorDashboard = () => {
                         <div className="drawer-content">
                           <label
                             htmlFor="my-drawer-4"
-                            className="btn btn-ghost btn-xs z-10"
+                            className="btn btn-ghost btn-xs z-10 btn-outline"
                             onClick={() => {
                               store.details.appointment.getAppointmentById(
                                 item._id

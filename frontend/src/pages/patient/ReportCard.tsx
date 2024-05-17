@@ -129,24 +129,28 @@ const ReportCard = ({ report }: ReportCardProps) => {
                   <div className="stat-value text-primary">
                     {report.details.maximumHeartRate}
                   </div>
-                  <div className="stat-desc">21% decrement</div>
+                  <div className="stat-desc">Millimeters of mercury</div>
                 </div>
 
                 <div className="stat">
-                  <div className="stat-title">Cardio Status</div>
+                  <div className="stat-title">Cholestrol Level</div>
                   <div className="stat-value text-secondary">
-                    <Favorite />
+                    {report.details.serumColesterol}
                   </div>
-                  <div className="stat-desc">21% improvement</div>
+                  <div className="stat-desc">
+                    Milligrams of cholesterol per dL
+                  </div>
                 </div>
 
                 <div className="stat">
                   <div className="stat-title">Status</div>
                   <div className="stat-value text-accent">
-                    {report.status.includes('fine') ? 'NEG' : 'POS'}
+                    {report.status.includes('fine') ? 'Healthy' : 'Unhealthy'}
                   </div>
                   <div className="stat-desc">
-                    {report.status.includes('fine') ? 'Negative' : 'Positive'}
+                    {report.status.includes('fine')
+                      ? 'Heart is fine.'
+                      : 'Heart is not in good shape'}
                   </div>
                 </div>
               </div>
