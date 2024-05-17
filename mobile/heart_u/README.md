@@ -64,7 +64,6 @@ flutter run
 7. chatbot chatScreen
 
 ## Screenshots
-![IMG-20240517-WA0025]()
 
 <img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/28adc4c0-d338-4c5d-a936-5973b4c7b830" width="100" heigth="200">
 
@@ -89,8 +88,6 @@ flutter run
 <img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/fed6249b-1c7e-4603-8502-f740f34cb1d0" width="100" heigth="200">
 
 <img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/8884cc2d-1b39-4c4f-8660-243174f71c5e" width="100" heigth="200">
-
-![IMG-20240517-WA0021]()
 
 ## Video demo
 
