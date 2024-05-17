@@ -39,7 +39,6 @@ const NewMedicalReportPage = () => {
   const [formData, setFormData] = useState<MedicalReportFormData>({
     doctor: '',
     patient: '',
-    // sex: '' as unknown as number,
     cp: 0,
     trestbps: 0,
     chol: 0,
@@ -111,8 +110,8 @@ const NewMedicalReportPage = () => {
           New Medical Report
         </h1>
         <p className="text-sm mb-8">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est possimus
-          debitis aspernatur, eos dolorem voluptatem corporis non quidem vitae.
+          Please fill out the following form with the required data to to
+          continue.
         </p>
       </div>
 

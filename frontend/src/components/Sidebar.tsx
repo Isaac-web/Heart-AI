@@ -18,7 +18,7 @@ import appLogo from '../assets/images/logo-white.png';
 const doctorMenu = [
   {
     label: 'Overview',
-    link: '/portal/doctor',
+    link: '/portal/doctor/overview',
     icon: <Dashboard />,
   },
   {
@@ -144,18 +144,32 @@ const Sidebar = () => {
           <ul className="menu  rounded-box">
             {menu.map((m) =>
               !store.app.drawerCollapsed ? (
-                <li>
-                  <Link to={m.link}>
+                <li className="mb-1">
+                  <Link
+                    to={m.link}
+                    className={
+                      location.pathname.startsWith(m.link)
+                        ? 'bg-white/5'
+                        : 'bg-white/0'
+                    }
+                  >
                     <span>{m.icon}</span>
                     <span>{m.label}</span>
                   </Link>
                 </li>
               ) : (
-                <li className="z-50">
-                  <Link to={m.link}>
-                    <div className="tooltip tooltip-right " data-tip={m.label}>
-                      {m.icon}
-                    </div>
+                <li className="z-50 mb-1">
+                  <Link
+                    to={m.link}
+                    className={
+                      location.pathname.startsWith(m.link)
+                        ? 'bg-white/5'
+                        : 'bg-white/0'
+                    }
+                  >
+                    {/* <div className="tooltip tooltip-right " data-tip={"m.label"}> */}
+                    {m.icon}
+                    {/* </div> */}
                   </Link>
                 </li>
               )
