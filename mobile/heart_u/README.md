@@ -91,11 +91,7 @@ flutter run
 
 ## Video demo
 
-https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/c034a89d-52a0-49da-96cc-b24ad1ea0766
 
-https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/d0d737b3-cddd-4ccc-bbb0-39d8d124c862
-
-https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/c79f1bf8-de5f-439c-be92-ed748acdcc6b
 
 ## Conclusion
 
