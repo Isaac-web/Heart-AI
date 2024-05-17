@@ -107,21 +107,29 @@ Run the following commands from your terminal:
   - Testing performed on various screen sizes and resolutions to ensure responsiveness.
 
  ## Ui Snippets
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/4dcf47fb-8b27-45db-954b-2fb3b1ff9a1b" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/28adc4c0-d338-4c5d-a936-5973b4c7b830" width="100" heigth="200">
 
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/04fc01e4-40ec-4d99-b8ae-45c6e10d5727" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/45445a29-6323-4c76-87fb-5700334a597d" width="100" heigth="200">
 
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/2bd5a1e9-1fd5-4f1c-9e3d-113fb99adaf4" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/ce2898dd-c7d6-418a-b625-9e6fae21dbe6" width="100" heigth="200">
 
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/46f69f06-ea1f-4458-adbf-b08290d17a43" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/b22c7959-4221-40f3-9850-2182693c9e8f" width="100" heigth="200">
 
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/c3dbeb1e-b604-4f33-93a3-1a0547ebf00c" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/0b56bb2e-5600-4b4e-bfff-9370d483ac09" width="100" heigth="200">
 
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/39b76901-558e-4728-8646-2c23f7912c61" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/b1ab5888-389e-48b1-af7a-9b1ecb68217c" width="100" heigth="200">
 
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/06fb1b4b-eff4-4f18-9e28-63da8609f75d" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/72f39db4-f218-4bbb-b907-31aaf76ee3cd" width="100" heigth="200">
 
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/37e68684-458e-43ac-be86-5088441221b7" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/c2963f9b-831e-4b14-ab60-7c310ce168fd" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/a1f017e3-f868-42c4-8163-61ba447deb6b" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/ff9a1b0e-161f-471b-b77e-f8c006255b2b" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/fed6249b-1c7e-4603-8502-f740f34cb1d0" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/8884cc2d-1b39-4c4f-8660-243174f71c5e" width="100" heigth="200">
     
 ## Conclusion
 HeartAI represents a paradigm shift in predictive healthcare, empowering individuals to take control of their heart health through data-driven insights and expert guidance. With its user-friendly interface, robust architecture, and emphasis on privacy and security, HeartAI is poised to revolutionize the way we approach preventive healthcare in the digital age.
