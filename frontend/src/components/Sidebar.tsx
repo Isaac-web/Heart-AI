@@ -44,7 +44,7 @@ const patientMenu = [
     icon: <ReceiptLong />,
   },
   {
-    label: 'Appointments',
+    label: 'Chatbot',
     link: '/portal/patient/chatbot',
     icon: <QuestionAnswer />,
   },
