@@ -91,7 +91,9 @@ const columns: Column<MedicalReport>[] = [
     render(item) {
       return (
         <Link to={`/portal/doctor/medical-reports/${item._id}`}>
-          <button className="btn btn-ghost btn-xs">details</button>
+          <button className="btn btn-ghost btn-xs btn-primary btn-outline">
+            details
+          </button>
         </Link>
       );
     },
