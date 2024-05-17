@@ -9,11 +9,7 @@ Also you must have flutter and dart extensions installed in the editor
 
 1. https://github.com/dzeble/Heart-Disease-Prediction-Group-2.git to clone this repo
 2. 'flutter pub get' in the project root directory to install all the required dependencies.
-<<<<<<< HEAD
 
-=======
-   
->>>>>>> 2df53e1b78e8b2a6b806f002ef7d77526a237b7e
 A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
@@ -29,17 +25,26 @@ Run the following commands from your terminal t run app:
 flutter run
 
 ## Dependancies
-1. cupertino_icons: ^1.0.6
-2. animate_do: ^3.3.4
-3. cached_network_image: ^3.3.1
-4. chatview: ^1.3.1
-5. awesome_dialog: ^3.2.0
-6. dio: ^5.4.3+1
-7. widget_loading: ^0.4.0
-8. shared_preferences: ^2.2.3
-9. share_plus: ^9.0.0
-10. flutter_launcher_icons: ^0.13.1
-
+  cupertino_icons: ^1.0.6
+  animate_do: ^3.3.4
+  cached_network_image: ^3.3.1
+  chatview: ^1.3.1
+  awesome_dialog: ^3.2.0
+  dio: ^5.4.3+1
+  widget_loading: ^0.4.0
+  shared_preferences: ^2.2.3
+  share_plus: ^9.0.0
+  flutter_launcher_icons: ^0.13.1
+  adaptive_theme: ^3.6.0
+  flutter_datetime_picker_plus: ^2.2.0
+  fluttertoast: ^8.2.5
+  rive: ^0.13.4
+  flutter_svg: ^1.1.6
+  url_launcher: ^6.1.6
+  vertical_card_pager: ^1.5.0
+  clippy_flutter: ^2.0.0-nullsafety.1
+  circular_seek_bar: ^1.1.0
+  
 ## Key Features
 1. Chatbot :
    Users can interact with the chatbot to learn more about their health results.      The chatbot provides personalized insights and guidance based on the report.
@@ -59,22 +64,32 @@ flutter run
 7. chatbot chatScreen
 
 ## Screenshots
+![IMG-20240517-WA0025]()
 
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/4dcf47fb-8b27-45db-954b-2fb3b1ff9a1b" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/28adc4c0-d338-4c5d-a936-5973b4c7b830" width="100" heigth="200">
 
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/04fc01e4-40ec-4d99-b8ae-45c6e10d5727" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/45445a29-6323-4c76-87fb-5700334a597d" width="100" heigth="200">
 
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/2bd5a1e9-1fd5-4f1c-9e3d-113fb99adaf4" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/ce2898dd-c7d6-418a-b625-9e6fae21dbe6" width="100" heigth="200">
 
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/46f69f06-ea1f-4458-adbf-b08290d17a43" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/b22c7959-4221-40f3-9850-2182693c9e8f" width="100" heigth="200">
 
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/c3dbeb1e-b604-4f33-93a3-1a0547ebf00c" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/0b56bb2e-5600-4b4e-bfff-9370d483ac09" width="100" heigth="200">
 
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/39b76901-558e-4728-8646-2c23f7912c61" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/b1ab5888-389e-48b1-af7a-9b1ecb68217c" width="100" heigth="200">
 
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/06fb1b4b-eff4-4f18-9e28-63da8609f75d" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/72f39db4-f218-4bbb-b907-31aaf76ee3cd" width="100" heigth="200">
 
-<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/37e68684-458e-43ac-be86-5088441221b7" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/c2963f9b-831e-4b14-ab60-7c310ce168fd" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/a1f017e3-f868-42c4-8163-61ba447deb6b" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/ff9a1b0e-161f-471b-b77e-f8c006255b2b" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/8884cc2d-1b39-4c4f-8660-243174f71c5e" width="100" heigth="200">
+
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/c2963f9b-831e-4b14-ab60-7c310ce168fd" width="100" heigth="200">
+<img src="https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/c2963f9b-831e-4b14-ab60-7c310ce168fd" width="100" heigth="200">
 
 ## Video demo
 
