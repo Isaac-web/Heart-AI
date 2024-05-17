@@ -103,6 +103,10 @@ https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/21c86
 https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/72282e48-8708-4824-bc6b-7b5f8846ee36
 
 
+https://github.com/dzeble/Heart-Disease-Prediction-Group-2/assets/83512618/b2a01e23-12d1-4b12-b79e-e267edc9bf93
+
+
+
 ## Conclusion
 
 HeartAI represents a paradigm shift in predictive healthcare, empowering individuals to take control of their heart health through data-driven insights and expert guidance. With its user-friendly interface, robust architecture, and emphasis on privacy and security, HeartAI is poised to revolutionize the way we approach preventive healthcare in the digital age.
