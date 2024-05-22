@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Dialog } from '@headlessui/react';
-import Logo from '../assets/images/logo.png';
+import Logo from '../assets/images/logo-white.png';
 import { useNavigate } from 'react-router-dom';
 import hvd from '../assets/video/heart_rate.mp4';
 import ProcessCard from '@/components/ProcessCard';
@@ -38,7 +38,7 @@ const NewLandingPage: React.FC = () => {
               <div className="flex lg:flex-1">
                 <a href="#" className="-m-1.5 p-1.5">
                   <span className="sr-only">HeartAi</span>
-                  <img className="h-12 w-auto bg-white" src={Logo} alt="" />
+                  <img className="h-12 w-auto" src={Logo} alt="" />
                 </a>
               </div>
               <div className="flex lg:hidden">

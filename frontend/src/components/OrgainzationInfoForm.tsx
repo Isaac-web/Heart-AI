@@ -5,6 +5,7 @@ import FormSubmitButton from './form/FormSubmitButton';
 import FormTextfield from './form/FormTextfield';
 import { useAppStore } from '@/store';
 import * as Yup from 'yup';
+import FormSelectInput from './form/FormSelectInput';
 
 interface OrganizationInfoForm {
   title?: string;
@@ -59,7 +60,16 @@ const OrgainzationInfoForm = ({
         >
           <div className="flex flex-col gap-y-8">
             <div className="w-full">
-              <FormTextfield name="hospital" placeholder="Hospital" />
+              <FormSelectInput
+                name="hospital"
+                placeholder="Hospital"
+                options={[
+                  {
+                    label: '37 Military Hospital',
+                    value: '37 Military Hospital',
+                  },
+                ]}
+              />
             </div>
 
             {/* <div className="w-full">

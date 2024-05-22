@@ -1,6 +1,6 @@
-import { CircularProgress, useTheme } from '@mui/material';
 import { useFormikContext } from 'formik';
 import { ReactNode } from 'react';
+import CircularProgress from '../CircularProgress';
 
 interface FormSubmitButtonProps {
   children: ReactNode;
@@ -14,7 +14,6 @@ const FormSubmitButton = ({
   className,
 }: FormSubmitButtonProps) => {
   const { handleSubmit } = useFormikContext();
-  const theme = useTheme();
 
   return (
     <button
@@ -22,14 +21,7 @@ const FormSubmitButton = ({
       type="submit"
       onClick={() => handleSubmit()}
     >
-      {!loading ? (
-        children
-      ) : (
-        <CircularProgress
-          sx={{ color: theme.palette.common.white }}
-          size="1.8em"
-        />
-      )}
+      {!loading ? children : <CircularProgress />}
     </button>
   );
 };

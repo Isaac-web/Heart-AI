@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import MedicalSvg from './MedicalSvg';
 import ChatThread from './ChatThread';
-import { useAppStore } from '@/hooks/store';
+// import { useAppStore } from '@/hooks/store';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import { enqueueSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { Delete } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import ChatbotResults from './ChatbotResults';
 import ChatbotGreet from './ChatbotGreet';
+import { useAppStore } from '@/store';
 
 const Chatbot = () => {
   const [showInput, setShowInput] = useState(false);
@@ -18,8 +19,10 @@ const Chatbot = () => {
   const navigate = useNavigate();
   const { sessionId } = useParams();
 
+  const chatSessions = store.entities.chatSessions;
+
   const checkError = () => {
-    const error = store.getError(store.createChatSession.name);
+    const error = store.getError(chatSessions.createChatSession.name);
     return error;
   };
 
@@ -30,7 +33,7 @@ const Chatbot = () => {
       enqueueSnackbar('Title cannot be empty.', { variant: 'error' });
     //show snackbar if title is emtpy
 
-    await store.createChatSession({ title });
+    await chatSessions.createChatSession({ title });
     //create and store chat session in the app data store
 
     if (checkError()) {

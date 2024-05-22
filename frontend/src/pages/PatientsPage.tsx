@@ -51,7 +51,7 @@ const columns: Column<User>[] = [
     label: 'Gender',
     value: 'sex',
     render(patient) {
-      return <div>{patient.sex === 0 ? 'Female' : 'Male'}</div>;
+      return <div>{patient.sex === 1 ? 'Female' : 'Male'}</div>;
     },
   },
   {
