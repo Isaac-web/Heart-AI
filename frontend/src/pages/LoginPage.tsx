@@ -10,7 +10,7 @@ import * as Yup from 'yup';
 import loginImage from '../assets/images/doctor-background-2.jpg';
 import googleIcon from '../assets/images/google.png';
 import appleIcon from '../assets/images/apple-logo.png';
-import appLogo from '../assets/images/heart-ai-logo.png';
+import appLogo from '../assets/images/logo-white.png';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required(),

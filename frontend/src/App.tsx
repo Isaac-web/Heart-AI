@@ -3,7 +3,7 @@ import Reports from './pages/patient/Reports';
 
 import PatientDashboard from './pages/patient/PatientDashboard';
 
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import DoctorOnboardingPage from './pages/DoctorOnboardingPage';
@@ -19,8 +19,16 @@ import LandingPage from './pages/LandingPage';
 import Auth from './pages/auth/AuthPage';
 import PatientsPage from './pages/PatientsPage';
 import PatientReportDetailsPage from './pages/PatientReportDetailsPage';
+import { useEffect } from 'react';
 
 const App = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
+
+
   return (
     <main>
       <Routes>

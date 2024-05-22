@@ -83,7 +83,7 @@ const PhoneNumberVerificationForm = ({
             className="btn btn-primary w-full"
             loading={isPending()}
           >
-            Verify
+            Continue
           </FormSubmitButton>
         </div>
       </Form>

@@ -8,6 +8,8 @@ import FormSubmitButton from '@/components/form/FormSubmitButton';
 import { Edit } from '@mui/icons-material';
 import { MedicalReportUpdateFormData } from '@/types';
 import * as Yup from 'yup';
+import Alert from '@/components/Alert';
+import CircularProgress from '@/components/CircularProgress';
 
 const validationSchema = Yup.object({
   finalVerdict: Yup.string().required(),
@@ -21,6 +23,10 @@ const MedicalReportDetails = () => {
 
   const getMedicalReportUpdateError = () => {
     return store.getError(medicalReport.updateMedicalReport.name);
+  };
+
+  const getMedicalReportLoadError = () => {
+    return store.getError(medicalReport.getMedicalReportById.name);
   };
 
   const getUserType = () => {
@@ -46,17 +52,34 @@ const MedicalReportDetails = () => {
     if (reportId) medicalReport.getMedicalReportById(reportId);
   }, [reportId]);
 
+  if (getMedicalReportLoadError())
+    return (
+      <div className="p-20 max-w-lg mx-auto">
+        <Alert
+          title="Could not load medical report details."
+          message={getMedicalReportLoadError()?.message || ''}
+        />
+      </div>
+    );
+
   return (
     <section className="w-full py-10">
       <div className="justify-center mx-auto max-w-3xl">
-        <div className="px-9">
-          <h1 className="text-left text-3xl font-bold mb-5">
-            Medical Report Details
-          </h1>
-        </div>
+        {!medicalReport.loading && medicalReport.data._id && (
+          <div className="px-9">
+            <h1 className="text-left text-3xl font-bold mb-5">
+              Medical Report Details
+            </h1>
+          </div>
+        )}
 
         {medicalReport.loading ? (
-          <p className="text-sm text-center">Loading medical report...</p>
+          <div className="flex items-center justify-center gap-1">
+            <div className="mt-1">
+              <CircularProgress />
+            </div>
+            <p className="text-sm text-center">Loading medical report...</p>
+          </div>
         ) : (
           <div>
             <ReportCard report={medicalReport.data} />
@@ -70,7 +93,7 @@ const MedicalReportDetails = () => {
                 >
                   <div className="mb-4">
                     <FormTextfield
-                      placeholder="Enter final verdict here..."
+                      placeholder="Enter your remarks here..."
                       name={'finalVerdict'}
                     />
                   </div>

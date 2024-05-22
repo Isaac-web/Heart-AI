@@ -7,7 +7,7 @@ import { RegistrationFormData } from '@/types';
 import { getUserId } from '@/utils/auth';
 import { Email, FormatQuote, Lock } from '@mui/icons-material';
 import signUpPage from '../assets/images/doctor-background-2.jpg';
-import appLogo from '../assets/images/heart-ai-logo.png';
+import appLogo from '../assets/images/logo-white.png';
 import googleIcon from '../assets/images/google.png';
 import appleIcon from '../assets/images/apple-logo.png';
 

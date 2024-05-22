@@ -11,13 +11,14 @@ import {
   ReceiptLong,
 } from '@mui/icons-material';
 import { useAppStore } from '@/store';
-import appLogo from '../assets/images/heart-ai-logo.png';
+// import appLogo from '../assets/images/heart-ai-logo.png';
 import { useEffect } from 'react';
+import appLogo from '../assets/images/logo-white.png';
 
 const doctorMenu = [
   {
     label: 'Overview',
-    link: '/portal/doctor',
+    link: '/portal/doctor/overview',
     icon: <Dashboard />,
   },
   {
@@ -110,11 +111,11 @@ const Sidebar = () => {
     >
       <div>
         <div className="px-3 flex items-center gap-3">
-          <div className="min-w-12 min-h-12 max-w-12 max-h-12 rounded-md bg-slate-600/10">
+          <div className="min-w-12 min-h-12 p-2 max-w-12 max-h-12 rounded-md bg-black/40">
             <img src={appLogo} />
           </div>
           {!store.app.drawerCollapsed && (
-            <span className="font-semibold">Heart AI</span>
+            <span className="font-bold">HEART AI</span>
           )}
         </div>
 
@@ -143,18 +144,32 @@ const Sidebar = () => {
           <ul className="menu  rounded-box">
             {menu.map((m) =>
               !store.app.drawerCollapsed ? (
-                <li>
-                  <Link to={m.link}>
+                <li className="mb-1">
+                  <Link
+                    to={m.link}
+                    className={
+                      location.pathname.startsWith(m.link)
+                        ? 'bg-white/5'
+                        : 'bg-white/0'
+                    }
+                  >
                     <span>{m.icon}</span>
                     <span>{m.label}</span>
                   </Link>
                 </li>
               ) : (
-                <li className="z-50">
-                  <Link to={m.link}>
-                    <div className="tooltip tooltip-right " data-tip={m.label}>
-                      {m.icon}
-                    </div>
+                <li className="z-50 mb-1">
+                  <Link
+                    to={m.link}
+                    className={
+                      location.pathname.startsWith(m.link)
+                        ? 'bg-white/5'
+                        : 'bg-white/0'
+                    }
+                  >
+                    {/* <div className="tooltip tooltip-right " data-tip={"m.label"}> */}
+                    {m.icon}
+                    {/* </div> */}
                   </Link>
                 </li>
               )

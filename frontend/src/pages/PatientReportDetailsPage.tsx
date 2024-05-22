@@ -5,8 +5,9 @@ import { getUserId } from '@/utils/auth';
 import { useEffect, useState } from 'react';
 import appConfig from '../../app.config.json';
 
-import { Close } from '@mui/icons-material';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Close, InfoOutlined } from '@mui/icons-material';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import CircularProgress from '@/components/CircularProgress';
 
 const PatientReportDetailsPage = () => {
   const store = useAppStore();
@@ -15,6 +16,7 @@ const PatientReportDetailsPage = () => {
   const [selectedDoctorId, setSelectedDoctorId] = useState(null);
   const [appointmentDate, setAppointmentDate] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { id: reportId } = useParams();
 
   const medicalReports = store.entities.medicalReports;
 
@@ -116,24 +118,39 @@ const PatientReportDetailsPage = () => {
         <div className=" grow flex flex-col gap-7 overflow-y-auto">
           <div className="flex flex-col gap-2">
             <div className="w-full">
-              {medicalReports.data.map((report, index) => (
-                <p
-                  className="px-2 py-4 rounded-lg cursor-pointer flex justify-between hover:bg-white/5"
-                  onClick={() =>
-                    navigate(`/portal/patient/reports/${report._id}`)
-                  }
-                >
-                  <div className="flex gap-2 items-center">
-                    <small className="text-slate-500">
-                      <FileIcon />
-                    </small>
-                    <p className="text-sm">Report {index + 1}</p>
+              {medicalReports.loading ? (
+                <div className="flex items-center justify-center gap-1 dark:text-white/40">
+                  <div className="mt-1">
+                    <CircularProgress />
                   </div>
-                  <small className="text-gray-600">
-                    {report.createdAt.slice(0, 10)}
-                  </small>
+                  <p className="text-sm text-center">Loading...</p>
+                </div>
+              ) : !medicalReports.data.length ? (
+                <p className="text-sm text-center text-white/70">
+                  You have no medical reports yet.
                 </p>
-              ))}
+              ) : (
+                medicalReports.data.map((report, index) => (
+                  <p
+                    className={`px-2 py-4 rounded-lg cursor-pointer flex justify-between hover:bg-white/5 ${
+                      report._id === reportId ? 'bg-white/5' : 'bg-white/0'
+                    }`}
+                    onClick={() =>
+                      navigate(`/portal/patient/reports/${report._id}`)
+                    }
+                  >
+                    <div className="flex gap-2 items-center">
+                      <small className="text-slate-500">
+                        <FileIcon />
+                      </small>
+                      <p className="text-sm">Report {index + 1}</p>
+                    </div>
+                    <small className="text-gray-600">
+                      {report.createdAt.slice(0, 10)}
+                    </small>
+                  </p>
+                ))
+              )}
             </div>
           </div>
         </div>
@@ -141,6 +158,33 @@ const PatientReportDetailsPage = () => {
 
       <div className="max-h-screen w-full overflow-auto">
         <Outlet />
+
+        {medicalReports.data.length && !reportId ? (
+          <div className="text-center pt-32 flex flex-col items-center justify-center">
+            <div>
+              <InfoOutlined fontSize="large" color="info" />
+            </div>
+            <h3 className="text-xl font-semibold">Nothing Selected</h3>
+            <p className="text-sm">Please select a medical report</p>
+          </div>
+        ) : null}
+
+        <>
+          {!medicalReports.loading &&
+          !reportId &&
+          !medicalReports.data.length ? (
+            <div className="text-center pt-32 flex flex-col items-center justify-center max-w-sm mx-auto">
+              <div>
+                <InfoOutlined fontSize="large" color="info" />
+              </div>
+              <h3 className="text-xl font-semibold">No Medical Reports Yet</h3>
+              <p className="text-xs">
+                If you need a medical report, you can reach out to a doctor on
+                our platform by clicking on the 'Request medical report button'.
+              </p>
+            </div>
+          ) : null}
+        </>
       </div>
     </div>
   );
