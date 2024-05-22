@@ -93,7 +93,7 @@ const MedicalReportDetails = () => {
                 >
                   <div className="mb-4">
                     <FormTextfield
-                      placeholder="Enter final verdict here..."
+                      placeholder="Enter your remarks here..."
                       name={'finalVerdict'}
                     />
                   </div>

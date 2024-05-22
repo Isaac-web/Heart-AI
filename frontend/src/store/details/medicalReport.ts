@@ -107,7 +107,8 @@ export const medicalReportDetailSlice: StateCreator<
 
       set(
         produce((store: StoreState) => {
-          store.details.medicalReport.data = medicalReport;
+          store.details.medicalReport.data.finalVerdict =
+            medicalReport.finalVerdict;
         })
       );
 

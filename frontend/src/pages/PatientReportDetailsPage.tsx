@@ -132,7 +132,9 @@ const PatientReportDetailsPage = () => {
               ) : (
                 medicalReports.data.map((report, index) => (
                   <p
-                    className="px-2 py-4 rounded-lg cursor-pointer flex justify-between hover:bg-white/5"
+                    className={`px-2 py-4 rounded-lg cursor-pointer flex justify-between hover:bg-white/5 ${
+                      report._id === reportId ? 'bg-white/5' : 'bg-white/0'
+                    }`}
                     onClick={() =>
                       navigate(`/portal/patient/reports/${report._id}`)
                     }

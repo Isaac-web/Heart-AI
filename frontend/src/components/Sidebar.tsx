@@ -114,9 +114,9 @@ const Sidebar = () => {
           <div className="min-w-12 min-h-12 p-2 max-w-12 max-h-12 rounded-md bg-black/40">
             <img src={appLogo} />
           </div>
-          {/* {!store.app.drawerCollapsed && (
-            <span className="font-bold">Heart AI</span>
-          )} */}
+          {!store.app.drawerCollapsed && (
+            <span className="font-bold">HEART AI</span>
+          )}
         </div>
 
         <div

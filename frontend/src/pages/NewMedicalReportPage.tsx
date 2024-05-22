@@ -129,7 +129,7 @@ const NewMedicalReportPage = () => {
               <div className="col-span-1">
                 <FormTextfield
                   name="trestbps"
-                  label="Resting Blood Presure"
+                  label="Resting Blood Pressure"
                   type="number"
                 />
               </div>
@@ -143,11 +143,11 @@ const NewMedicalReportPage = () => {
               <div className="col-span-1">
                 <FormSelectInput
                   name="fbs"
-                  label="Fasting Blood Suger Level"
+                  label="Fasting Blood Sugar Level"
                   placeholder="Select One"
                   options={[
-                    { label: 'True', value: '1' },
                     { label: 'False', value: '0' },
+                    { label: 'True', value: '1' },
                   ]}
                 />
               </div>

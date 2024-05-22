@@ -20,8 +20,8 @@ const validationSchema = Yup.object().shape({
 });
 
 const options = [
-  { label: 'Male', value: '1' },
-  { label: 'Female', value: '0' },
+  { label: 'Male', value: '0' },
+  { label: 'Female', value: '1' },
 ];
 
 const PersonalInfoForm = ({
