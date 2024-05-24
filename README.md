@@ -55,6 +55,13 @@ The HeartAI Backend serves as the core infrastructure of the HeartAI system, han
 # Web app
  A web app for Doctors to send reports and prediction results to patients.
 
+ ### Web app Components:
+ - **Doctor's Portal**:
+    Allows users to register or sign in to view pending report requests in the form of booked appointments.  The doctor gets to see all patients, all generated reports and the healthy and unhealthy patients .Doctors are able to issue reportrequests by selecting  patient and typing in patient heart details to generate a report.
+
+- **Patient's Portal**
+  Patient signs up or signs in to be able to book for appointments from available doctors in system, view generated reports and also chat with bot concerning report.
+
 ### Compomemts
 -  **Header**: Displays the HeartAI logo and a "Login" button for access.
 - **Hero Section** : Welcomes users to the application and provides an overview of its purpose.
