@@ -93,8 +93,7 @@ The HeartAI Mobile Application allows users to have access to heart disease pred
 ## Features
 - **Mobile Chatbot**: ntegration of the AI chatbot into a mobile-friendly interface for seamless interaction.
 - **Dashboard**: Visual representation of user health data and heart disease risk predictions.
-- **Notification System**: Reminders for medication, appointments, and health check-ups to promote proactive health management.
-- **Secure Access**: Biometric authentication and encrypted data transmission ensure secure access to sensitive health information.
+- **Book Appointment**: Reservation for medication, appointments, and health check-ups to promote proactive health management.
 
 ### Technologies used
 - **Fluttere**: Dart framework for building native mobile applications.
