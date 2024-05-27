@@ -97,18 +97,22 @@ The HeartAI Mobile Application allows users to have access to heart disease pred
 - **Secure Access**: Biometric authentication and encrypted data transmission ensure secure access to sensitive health information.
 
 ### Technologies used
-- **React Native**: JavaScript framework for building native mobile applications.
-- **Expo**: Development platform for building React Native applications.
-- **Firebase**: Backend services for mobile and web applications, including authentication and real-time database.
-- **Redux**: State management library for JavaScript applications.
-- **Axios**: Promise-based HTTP client for making requests from the mobile app to the server.
+- **Fluttere**: Dart framework for building native mobile applications.
+- **animate_do**
+- **chatview**
+- **awesome_dialog**
+- **dio**: Promise-based HTTP client for making requests from the mobile app to the server.
+- **widget_loading**
+- **shared_preferences**
+- **adaptive_theme**
+- **rive**
 
 ### Getting Started
 Run the following commands from your terminal:
-1. https://github.com/dzeble/Heart-Disease-Prediction-Group-2.git to clone this repo
-2. 'flutter pub get' in the project root directory to install all the required dependencies.
+1. `git clone` https://github.com/dzeble/Heart-Disease-Prediction-Group-2.git to clone this repo
+2. `flutter pub get` in the project root directory to install all the required dependencies.
 3. From your terminal, run `flutter run`.
-`
+
  ### Testing
   - Compatible with iOS and Android devices.
   - Testing performed on various screen sizes and resolutions to ensure responsiveness.
