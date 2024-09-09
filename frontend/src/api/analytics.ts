@@ -1,4 +1,3 @@
-import { Appointment, AppointmentsSearchParams } from '@/types';
 import { apiClient } from './apiClient';
 
 const url = '/analytics/doctor-summary';

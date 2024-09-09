@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Dialog } from '@headlessui/react';
 import Logo from '../assets/images/logo-white.png';
-import { useNavigate } from 'react-router-dom';
 import hvd from '../assets/video/heart_rate.mp4';
 import ProcessCard from '@/components/ProcessCard';
 import aid from '../assets/images/aid.jpg';
@@ -17,7 +16,7 @@ const navigation: NavigationItem[] = [];
 
 const NewLandingPage: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const navigate = useNavigate();
+
   return (
     <div className="bg-white">
       <div className="relative isolate px-6 pt-5 lg:px-8">

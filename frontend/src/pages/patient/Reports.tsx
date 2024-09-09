@@ -7,16 +7,19 @@ import ReportCard from './ReportCard';
 
 import appConfig from '../../../app.config.json';
 import { Close } from '@mui/icons-material';
+import { Doctor, MedicalReport } from '@/types';
 
 const Reports = () => {
   const store = useAppStore();
   const [currentReportOnView, setCurrentReportOnView] = useState('');
   const [doctorsList, setDoctorsList] = useState([]);
-  const [selectedDoctorId, setSelectedDoctorId] = useState(null);
-  const [appointmentDate, setAppointmentDate] = useState(null);
+  const [selectedDoctorId, setSelectedDoctorId] = useState('');
+  const [appointmentDate, setAppointmentDate] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const medicalReports = store.entities.medicalReports;
+
+  const dialog = document.getElementById('my_modal_1') as HTMLDialogElement;
 
   useEffect(() => {
     medicalReports.fetchCurrentUserMedicalReports();
@@ -34,7 +37,7 @@ const Reports = () => {
       <div className="bg-black/50 text-white w-[250px] py-4 flex flex-col justify-between gap-5 px-3">
         <button
           className="btn bg-gradient-to-r from-[#4851FF] to-[#F02AA6] rounded-full text-white px-4 py-2 font-light active:scale-[.98] active:duration-75 hover:scale-[1.02] ease-in-out"
-          onClick={() => document.getElementById('my_modal_1').showModal()}
+          onClick={() => dialog?.showModal()}
         >
           Request New Report
         </button>
@@ -56,12 +59,14 @@ const Reports = () => {
                 <small className="mb-2 inline-block">Doctor</small>
                 <select
                   className="select select-bordered w-full"
-                  onChange={(e) => setSelectedDoctorId(e.target.value)}
+                  onChange={(e) => {
+                    if (e.target.value) setSelectedDoctorId(e?.target?.value);
+                  }}
                 >
                   <option disabled selected hidden>
                     selected doctor
                   </option>
-                  {doctorsList.map((doctor: any) => (
+                  {doctorsList.map((doctor: Doctor) => (
                     <option
                       key={doctor._id}
                       value={doctor._id}
@@ -91,7 +96,7 @@ const Reports = () => {
                 const res = await store.entities.appointments.createAppointment(
                   {
                     doctorId: selectedDoctorId,
-                    patientId: getUserId(),
+                    patientId: getUserId() ?? '',
                     appointmentDate: appointmentDate,
                   }
                 );
@@ -101,7 +106,7 @@ const Reports = () => {
                 } else {
                   alert('something went wrong; try again later');
                 }
-                document.getElementById('my_modal_1').close();
+                dialog?.close();
                 setIsLoading(false);
               }}
             >
@@ -118,7 +123,7 @@ const Reports = () => {
             <div className="w-full">
               {medicalReports.data.map((report, index) => (
                 <p
-                  className="px-2 py-4 hover:bg-white/5 rounded-lg cursor-pointer flex justify-between hover:bg-white/5"
+                  className="px-2 py-4 rounded-lg cursor-pointer flex justify-between hover:bg-white/5"
                   onClick={() => setCurrentReportOnView(report._id)}
                 >
                   <div className="flex gap-2 items-center">
@@ -141,9 +146,11 @@ const Reports = () => {
           <>loading</>
         ) : (
           <ReportCard
-            report={medicalReports.data.find(
-              (r) => r._id === currentReportOnView
-            )}
+            report={
+              medicalReports.data.find(
+                (r) => r._id === currentReportOnView
+              ) as MedicalReport
+            }
           />
         )}
       </div>

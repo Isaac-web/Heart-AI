@@ -8,17 +8,20 @@ import appConfig from '../../app.config.json';
 import { Close, InfoOutlined } from '@mui/icons-material';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import CircularProgress from '@/components/CircularProgress';
+import { Doctor } from '@/types';
 
 const PatientReportDetailsPage = () => {
   const store = useAppStore();
   const navigate = useNavigate();
   const [doctorsList, setDoctorsList] = useState([]);
-  const [selectedDoctorId, setSelectedDoctorId] = useState(null);
-  const [appointmentDate, setAppointmentDate] = useState(null);
+  const [selectedDoctorId, setSelectedDoctorId] = useState('');
+  const [appointmentDate, setAppointmentDate] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { id: reportId } = useParams();
 
   const medicalReports = store.entities.medicalReports;
+
+  const dialog = document.getElementById('my_modal_1') as HTMLDialogElement;
 
   useEffect(() => {
     medicalReports.fetchCurrentUserMedicalReports();
@@ -36,7 +39,7 @@ const PatientReportDetailsPage = () => {
       <div className="bg-black/50 text-white min-w-[260px] py-4 flex flex-col justify-between gap-5 px-3 max-h-screen overflow-auto">
         <button
           className="btn bg-gradient-to-r from-[#4851FF] to-[#F02AA6] rounded-full text-white px-4 py-2 font-light active:scale-[.98] active:duration-75 hover:scale-[1.02] ease-in-out"
-          onClick={() => document.getElementById('my_modal_1').showModal()}
+          onClick={() => dialog.showModal()}
         >
           Request New Report
         </button>
@@ -58,12 +61,14 @@ const PatientReportDetailsPage = () => {
                 <small className="mb-2 inline-block">Doctor</small>
                 <select
                   className="select select-bordered w-full"
-                  onChange={(e) => setSelectedDoctorId(e.target.value)}
+                  onChange={(e) => {
+                    if (e.target.value) setSelectedDoctorId(e.target.value);
+                  }}
                 >
                   <option disabled selected hidden>
                     selected doctor
                   </option>
-                  {doctorsList.map((doctor: any) => (
+                  {doctorsList.map((doctor: Doctor) => (
                     <option
                       key={doctor._id}
                       value={doctor._id}
@@ -93,7 +98,7 @@ const PatientReportDetailsPage = () => {
                 const res = await store.entities.appointments.createAppointment(
                   {
                     doctorId: selectedDoctorId,
-                    patientId: getUserId(),
+                    patientId: getUserId() ?? '',
                     appointmentDate: appointmentDate,
                   }
                 );
@@ -103,7 +108,7 @@ const PatientReportDetailsPage = () => {
                 } else {
                   alert('something went wrong; try again later');
                 }
-                document.getElementById('my_modal_1').close();
+                dialog?.close();
                 setIsLoading(false);
               }}
             >
@@ -180,7 +185,7 @@ const PatientReportDetailsPage = () => {
               <h3 className="text-xl font-semibold">No Medical Reports Yet</h3>
               <p className="text-xs">
                 If you need a medical report, you can reach out to a doctor on
-                our platform by clicking on the 'Request medical report button'.
+                our platform by clicking on the 'Request New Report' button.
               </p>
             </div>
           ) : null}

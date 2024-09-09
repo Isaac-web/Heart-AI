@@ -1,21 +1,4 @@
-import logo from '../assets/images/heart-ai-logo.png';
-import { useLocation } from 'react-router-dom';
-
 const Header = () => {
-  const location = useLocation();
-
-  const handleLogout = () => {
-    localStorage.clear();
-    window.location.assign('/login');
-  };
-
-  const isAuthPage = () => {
-    const pathname = location.pathname;
-    return pathname === '/login' || pathname === '/register';
-  };
-
-  const drawerWidth = 60;
-
   return (
     <>
       {/* <div

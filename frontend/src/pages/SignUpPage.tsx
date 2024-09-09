@@ -33,10 +33,6 @@ const SignUpPage = () => {
     return Boolean(store.auth.doctor.isPending || store.auth.user.isPending);
   };
 
-  const getCurrentDoctor = () => {
-    return store.auth.doctor.data;
-  };
-
   const handleCloseAlert = () => {
     store.removeError(store.auth.doctor.register.name);
   };

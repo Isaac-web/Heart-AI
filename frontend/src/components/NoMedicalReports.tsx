@@ -1,4 +1,3 @@
-import AppPaper from './AppPaper';
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 
 interface NoMedicalReportsProps {
@@ -9,7 +8,7 @@ const NoMedicalReports = ({ onRequestForReport }: NoMedicalReportsProps) => {
   const theme = useTheme();
 
   return (
-    <AppPaper>
+    <div>
       <Grid
         container
         direction={'column'}
@@ -33,7 +32,7 @@ const NoMedicalReports = ({ onRequestForReport }: NoMedicalReportsProps) => {
           </Box>
         </Grid>
       </Grid>
-    </AppPaper>
+    </div>
   );
 };
 
