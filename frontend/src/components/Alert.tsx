@@ -1,5 +1,5 @@
 import { Close } from '@mui/icons-material';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 interface AppAlertProps {
   message: string;
@@ -11,7 +11,6 @@ interface AppAlertProps {
 
 const Alert = ({
   message,
-  icon,
   severity = 'error',
   title,
   onClose,

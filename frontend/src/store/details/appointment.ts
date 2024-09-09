@@ -26,8 +26,7 @@ export const appointmentDetailSlice: StateCreator<
     },
     doctor: {
       _id: '',
-      firstName: '',
-      lastName: '',
+      name: '',
       age: NaN,
       sex: NaN,
       phone: '',

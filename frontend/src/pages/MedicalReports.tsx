@@ -1,4 +1,3 @@
-import AppPagination from '@/components/AppPagination';
 import AppTable from '@/components/AppTable';
 import AppTextInput from '@/components/AppTextInput';
 import LoadingIndicator from '@/components/LoadingIndicator';
@@ -103,7 +102,6 @@ const columns: Column<MedicalReport>[] = [
 const MedicalReports = () => {
   const store = useAppStore();
   const medicalReports = store.entities.medicalReports;
-  const currentDoctor = store.auth.doctor;
 
   console.log(medicalReports.data);
 

@@ -2,7 +2,6 @@ import { DoctorUpdateFormData } from '@/types';
 import Form from './form/Form';
 import { useSearchParams } from 'react-router-dom';
 import FormSubmitButton from './form/FormSubmitButton';
-import FormTextfield from './form/FormTextfield';
 import { useAppStore } from '@/store';
 import * as Yup from 'yup';
 import FormSelectInput from './form/FormSelectInput';

@@ -4,7 +4,7 @@ import FormSubmitButton from './form/FormSubmitButton';
 import FormSelectInput from './form/FormSelectInput';
 import * as Yup from 'yup';
 import { DoctorUpdateFormData, UserUpdateFormData } from '@/types';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useAppStore } from '@/store';
 import { getUserId } from '@/utils/auth';
 
@@ -33,15 +33,12 @@ const DoctorPersonalInfoForm = ({
   our community.`,
   onDone,
 }: PersonalInfoFormProps) => {
-  const [searchParams] = useSearchParams();
   const store = useAppStore();
   const getError = () => store.getError(store.auth.doctor.update.name);
   const location = useLocation();
 
   const handleDoctorUpdate = async (data: DoctorUpdateFormData) => {
     const userId = getUserId();
-
-    
 
     if (userId) {
       await store.auth.doctor.update(userId, data);

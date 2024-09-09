@@ -93,7 +93,11 @@ const ReportCard = ({ report }: ReportCardProps) => {
                 {getUserType() === 'patient' ? (
                   <div className="w-full md:w-auto">
                     <button
-                      className="btn btn-secondary btn-md text-white/90 btn-outline rounded-full animate-pulse hover:animate-none"
+                      className={`btn btn-secondary btn-md text-white/90 btn-outline rounded-full ${
+                        chatSessions.isPending
+                          ? 'animate-none'
+                          : 'animate-pulse'
+                      } hover:animate-none`}
                       onClick={handleStartChart}
                     >
                       <span>

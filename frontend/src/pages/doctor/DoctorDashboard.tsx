@@ -1,17 +1,10 @@
-import AppPagination from '@/components/AppPagination';
 import AppTable from '@/components/AppTable';
 import DashboardCard from '@/components/DashboardCard';
-import JSONToPDF from '@/components/JSONToPDF';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import { useAppStore } from '@/store';
 import { Appointment } from '@/types';
 import { getUserId } from '@/utils/auth';
-import {
-  Favorite,
-  HeartBroken,
-  InsertInvitation,
-  Person,
-} from '@mui/icons-material';
+import { Favorite, HeartBroken, InsertInvitation } from '@mui/icons-material';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 

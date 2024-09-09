@@ -1,16 +1,17 @@
 import { AppSelectInputProps } from '@/types';
 import AppSelectInput from '../AppSelectInput';
-import { useFormikContext } from 'formik';
+import { FormikProps, useFormikContext } from 'formik';
 
-interface FormTextSelectInputProps<T> extends AppSelectInputProps {
-  name: keyof T;
+interface FormTextSelectInputProps extends AppSelectInputProps {
+  name: string;
 }
 
-const FormSelectInput = <T extends {}>({
+const FormSelectInput = <T extends Record<string, unknown>>({
   name,
   ...rest
-}: FormTextSelectInputProps<T>) => {
-  const { setFieldValue, errors, touched } = useFormikContext<T>();
+}: FormTextSelectInputProps) => {
+  const { setFieldValue, errors, touched }: FormikProps<T> =
+    useFormikContext<T>();
 
   return (
     <AppSelectInput
