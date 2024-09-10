@@ -23,7 +23,7 @@ const MaintenanceScreen = () => {
         <div className="flex items-center container max-w-xs">
           <img className="h-12 w-auto" src={logo} alt="Heart AI Logo" />
           <p className="text-xs py-10 px-5">
-            Sorry, this site is being optimized for mobile views. Please try
+            Sorry, this site is being optimized for mobile screens. Please try
             viewing them on a larger screen.
           </p>
         </div>

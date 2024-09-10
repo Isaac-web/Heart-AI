@@ -6,8 +6,8 @@ import { MdOutlineSick } from 'react-icons/md';
 
 const NewLandingPage: React.FC = () => {
   return (
-    <div className="bg-white">
-      <div className="relative isolate px-6 pt-5 lg:px-8">
+    <div>
+      <div className="relative isolate px-6 pt-5 lg:px-8 min-h-screen">
         <div className="overlay absolute top-0 left-0 w-full h-full bg-black bg-opacity-55 backdrop-blur-md"></div>
         <video
           className="absolute inset-0 -z-10 h-full w-full object-cover object-center md:object-center"
