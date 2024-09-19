@@ -145,7 +145,7 @@ Run the following commands from your terminal:
 HeartAI represents a paradigm shift in predictive healthcare, empowering individuals to take control of their heart health through data-driven insights and expert guidance. With its user-friendly interface, robust architecture, and emphasis on privacy and security, HeartAI is poised to revolutionize the way we approach preventive healthcare in the digital age.
 
 # Contributors
-Samuel Berchie Opoku, Sven Dzeble, Moro Njie, Emeralda Kusi Yeboah, Faddal Ibrahim, Isaac kanyiti Takyi, Jeffrey Ofori Kwakye, Manu Adam Onyina, Isaac Asiamah, Abdul Razak Abubakari.
+Samuel Berchie Opoku, Sven Dzeble, Moro Njie, Emeralda Kusi Yeboah, Faddal Ibrahim, Isaac Takiyara Kanyiti, Jeffrey Ofori Kwakye, Manu Adam Onyina, Isaac Asiamah, Abdul Razak Abubakari.
 
 # Additional Information
 You can have a different view of our app through our text documenation
