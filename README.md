@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Heart-Disease-Prediction-Group-2
 A Chat Bot to Converse with Concerning Heart Disease Conditions
 =======
@@ -14,6 +13,16 @@ The HeartAI system is designed to inform users of their heart health, effectivel
 
 ## HeartAi Frontend
 The HeartAI Frontend is a user-friendly web application interface that allows users to interact with the HeartAI system. Below is an overview of its features, components, and technologies used. The doctor and the patients are the users in this case.
+
+### Credentials
+   * Default Credentials for Doctor:
+      * Email: doctor@gmail.com
+      * Password: password
+
+   * Default Credentials for Patient:
+      * Email: afia@gmail.com
+      * Password: password
+
 
 ### Features
 - **Certified Doctor Reports**: Medical reports are generated directly through the application, providing additional insights and recommendations from healthcare professionals.
@@ -62,7 +71,7 @@ The HeartAI Backend serves as the core infrastructure of the HeartAI system, han
 - **Patient's Portal**
   Patient signs up or signs in to be able to book for appointments from available doctors in system, view generated reports and also chat with bot concerning report.
 
-### Compomemts
+### Components
 -  **Header**: Displays the HeartAI logo and a "Login" button for access.
 - **Hero Section** : Welcomes users to the application and provides an overview of its purpose.
 - **Authentication Page** : Allows doctors to sign in after verification.
